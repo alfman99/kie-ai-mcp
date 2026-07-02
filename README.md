@@ -1,6 +1,6 @@
 # KIE.AI MCP Server
 
-Local stdio MCP server for KIE.AI. It is built from the official KIE documentation research bundle in `research/kie-docs` and exposes KIE media/task APIs as MCP tools for local agents.
+Local stdio MCP server for KIE.AI. It bundles docs-derived KIE endpoint/model catalogs and exposes KIE media/task APIs as MCP tools for local agents.
 
 If the Docker/MCP setup feels confusing, read [docs/HOW_IT_RUNS.md](docs/HOW_IT_RUNS.md). The short version: your MCP client starts a Docker container when it needs this server, keeps stdin open with `-i`, talks JSON-RPC to the Node process inside the container, and the container exits when the MCP session ends.
 
@@ -46,7 +46,7 @@ Manual `docker run` commands are mostly for testing. In daily use, your MCP clie
 - Product-specific helper dispatch for 4o Image, Flux Kontext, Runway/Aleph, Suno, and Veo3.1.
 - Local docs resources for the extracted OpenAPI catalog and Market model registry.
 
-V1 intentionally does not expose KIE chat/LLM proxy endpoints. Those are documented in the research bundle but overlap with model configuration in most agents and should be a separate phase.
+V1 intentionally does not expose KIE chat/LLM proxy endpoints. Those overlap with model configuration in most agents and should be a separate phase.
 
 ## Use It Like Higgsfield
 
@@ -415,13 +415,11 @@ For development before running `npm run build`, use:
 KIE_API_KEY="your-kie-api-key" npm run smoke:dev
 ```
 
-## Research Bundle
+## Bundled Catalogs
 
-The bundled implementation is based on official KIE docs crawled on 2026-07-02:
+The bundled local catalogs in `src/data/` are based on official KIE docs crawled on 2026-07-02:
 
 - 258 official docs pages.
 - 176 extracted OpenAPI operations.
 - 53 OpenAPI-declared paths.
 - 114 model-specific schemas for `POST /api/v1/jobs/createTask`.
-
-See `research/kie-docs/ANALYSIS.md` for the crawl summary and implementation notes.

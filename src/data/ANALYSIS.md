@@ -265,9 +265,9 @@ Recommended configuration:
 - `KIE_POLL_INTERVAL_MS` optional.
 - `KIE_POLL_TIMEOUT_MS` optional.
 
-## Open Questions Before Goal Compilation
+## Historical Product Decisions
 
-These choices define product intent and should be approved before writing `GOAL.md`:
+These choices shaped the first public release:
 
 1. Implementation language/runtime: TypeScript is recommended, but Python is also reasonable if your agent stack prefers it.
 2. First release scope: media/task APIs only, or include chat/LLM proxy endpoints too.

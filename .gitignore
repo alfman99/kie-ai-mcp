@@ -4,10 +4,6 @@ dist/
 .env.*
 !.env.example
 outputs/
-research/kie-docs/raw/
-ATTEMPTS.md
-CONTROL.md
-NOTES.md
 *.log
 *.tgz
 .DS_Store
