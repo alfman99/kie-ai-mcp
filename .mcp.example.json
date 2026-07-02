@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "kie-ai": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e",
+        "KIE_API_KEY",
+        "-e",
+        "KIE_API_BASE_URL",
+        "-e",
+        "KIE_UPLOAD_BASE_URL",
+        "-e",
+        "KIE_WEBHOOK_HMAC_KEY",
+        "-e",
+        "KIE_POLL_INTERVAL_MS",
+        "-e",
+        "KIE_POLL_TIMEOUT_MS",
+        "-e",
+        "KIE_ALLOW_LOCAL_FILE_UPLOADS",
+        "kie-ai-mcp-server:latest"
+      ],
+      "env": {
+        "KIE_API_KEY": "your-kie-api-key"
+      }
+    }
+  }
+}

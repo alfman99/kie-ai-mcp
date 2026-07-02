@@ -1,0 +1,65 @@
+{
+  "name": "kie-ai-mcp-server",
+  "version": "0.1.0",
+  "description": "Docker-ready local MCP server for creating images, videos, speech, and KIE.AI media tasks from agent chat.",
+  "type": "module",
+  "license": "MIT",
+  "author": "alfman99",
+  "homepage": "https://github.com/alfman99/kie-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alfman99/kie-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alfman99/kie-mcp/issues"
+  },
+  "keywords": [
+    "kie",
+    "kie-ai",
+    "mcp",
+    "model-context-protocol",
+    "image-generation",
+    "video-generation",
+    "text-to-speech",
+    "ai-media",
+    "claude",
+    "codex"
+  ],
+  "bin": {
+    "kie-ai-mcp": "dist/src/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "docs",
+    "src/data"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "start": "node dist/src/index.js",
+    "dev": "tsx src/index.ts",
+    "smoke": "node dist/scripts/smoke.js",
+    "smoke:dev": "tsx scripts/smoke.ts",
+    "docker:build": "docker build -t kie-ai-mcp-server:latest .",
+    "docker:run": "docker run --rm -i -e KIE_API_KEY -e KIE_API_BASE_URL -e KIE_UPLOAD_BASE_URL -e KIE_WEBHOOK_HMAC_KEY -e KIE_POLL_INTERVAL_MS -e KIE_POLL_TIMEOUT_MS -e KIE_ALLOW_LOCAL_FILE_UPLOADS kie-ai-mcp-server:latest",
+    "docker:smoke": "docker run --rm -e KIE_API_KEY kie-ai-mcp-server:latest npm run smoke",
+    "docker:mcp:test": "node docs/direct-docker-test-snippet.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.2",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}
