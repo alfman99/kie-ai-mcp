@@ -1,0 +1,90 @@
+{
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/mcpb/main/schemas/mcpb-manifest-v0.4.schema.json",
+  "manifest_version": "0.4",
+  "name": "kie-creator-for-claude",
+  "display_name": "KIE Creator for Claude",
+  "version": "0.2.0",
+  "description": "Create images, videos, edits, and voiceovers in Claude using flexible pay-as-you-go KIE credits.",
+  "long_description": "A lower-cost, Higgsfield-style creative workflow inside Claude. Describe what you want, attach reference media when needed, and let Claude create with KIE's image, video, and speech models.",
+  "author": {
+    "name": "alfman99",
+    "url": "https://github.com/alfman99"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alfman99/kie-mcp"
+  },
+  "homepage": "https://github.com/alfman99/kie-mcp#readme",
+  "documentation": "https://github.com/alfman99/kie-mcp#readme",
+  "support": "https://github.com/alfman99/kie-mcp/issues",
+  "icon": "icon.png",
+  "privacy_policies": [
+    "https://kie.ai/privacy-policy"
+  ],
+  "keywords": [
+    "content creation",
+    "image generation",
+    "video generation",
+    "voiceover",
+    "KIE AI",
+    "Higgsfield alternative"
+  ],
+  "license": "MIT",
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32"
+    ],
+    "runtimes": {
+      "node": ">=20"
+    }
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server/index.js"
+      ],
+      "env": {
+        "KIE_API_KEY": "${user_config.kie_api_key}",
+        "KIE_API_BASE_URL": "https://api.kie.ai",
+        "KIE_UPLOAD_BASE_URL": "https://kieai.redpandaai.co",
+        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true"
+      }
+    }
+  },
+  "user_config": {
+    "kie_api_key": {
+      "type": "string",
+      "title": "Your KIE API key",
+      "description": "Create or copy your key at https://kie.ai/api-key. Claude stores it securely on this device.",
+      "required": true,
+      "sensitive": true
+    }
+  },
+  "tools": [
+    {
+      "name": "kie_create_image",
+      "description": "Create or edit an image from a prompt and optional references."
+    },
+    {
+      "name": "kie_create_video",
+      "description": "Create a video from text, images, video, or audio references."
+    },
+    {
+      "name": "kie_create_speech",
+      "description": "Create a voiceover or narration."
+    },
+    {
+      "name": "kie_get_creation",
+      "description": "Wait for or check a submitted creation."
+    },
+    {
+      "name": "kie_upload_media",
+      "description": "Upload reference media directly through KIE's native upload service."
+    }
+  ],
+  "tools_generated": true
+}

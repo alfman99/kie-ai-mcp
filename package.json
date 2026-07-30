@@ -1,7 +1,7 @@
 {
   "name": "kie-ai-mcp-server",
-  "version": "0.1.0",
-  "description": "Docker-ready local MCP server for creating images, videos, speech, and KIE.AI media tasks from agent chat.",
+  "version": "0.2.0",
+  "description": "Higgsfield-style image, video, and voice creation in Claude using flexible KIE credits.",
   "type": "module",
   "license": "MIT",
   "author": "alfman99",
@@ -47,12 +47,10 @@
     "smoke:dev": "tsx scripts/smoke.ts",
     "mcp:doctor": "node dist/scripts/mcp-doctor.js",
     "mcp:doctor:live": "node dist/scripts/mcp-doctor.js --live",
+    "bundle:claude": "npm run build && node scripts/build-mcpb.mjs",
     "docs:check": "tsx scripts/kie-docs.ts check",
     "docs:update": "tsx scripts/kie-docs.ts update",
-    "docker:build": "docker build -t kie-ai-mcp-server:latest .",
-    "docker:run": "docker run --rm -i -e KIE_API_KEY -e KIE_API_BASE_URL -e KIE_UPLOAD_BASE_URL -e KIE_WEBHOOK_HMAC_KEY -e KIE_POLL_INTERVAL_MS -e KIE_POLL_TIMEOUT_MS -e KIE_ALLOW_LOCAL_FILE_UPLOADS kie-ai-mcp-server:latest",
-    "docker:smoke": "docker run --rm -e KIE_API_KEY kie-ai-mcp-server:latest npm run smoke",
-    "docker:mcp:test": "node docs/direct-docker-test-snippet.mjs"
+    "bundle:claude:info": "npx --yes @anthropic-ai/mcpb@2.1.2 info release/kie-creator-for-claude.mcpb"
   },
   "engines": {
     "node": ">=20"

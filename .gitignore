@@ -4,6 +4,7 @@ dist/
 .env.*
 !.env.example
 outputs/
+release/
 *.log
 *.tgz
 .DS_Store

@@ -1,6 +1,6 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { getDefaultEnvironment, StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 type JsonRecord = Record<string, unknown>;
@@ -73,12 +73,19 @@ async function processExited(pid: number): Promise<boolean> {
 
 async function main(): Promise<void> {
   const live = process.argv.includes("--live");
+  const entryFlag = process.argv.indexOf("--entry");
   if (live && !process.env.KIE_API_KEY) {
     throw new Error("KIE_API_KEY must be set before running the live MCP doctor.");
   }
+  if (entryFlag >= 0 && !process.argv[entryFlag + 1]) {
+    throw new Error("--entry requires an MCP server entry-point path.");
+  }
 
   const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
-  const serverEntry = join(repositoryRoot, "dist/src/index.js");
+  const serverEntry =
+    entryFlag >= 0
+      ? resolve(process.argv[entryFlag + 1])
+      : join(repositoryRoot, "dist/src/index.js");
   const transport = new StdioClientTransport({
     command: process.execPath,
     args: [serverEntry],
