@@ -27,4 +27,11 @@ KIE_API_KEY="your-kie-api-key" npm run docker:mcp:test
 
 ## Documentation Sources
 
-The bundled local catalogs are derived from the official KIE documentation. If KIE adds or changes models/endpoints, refresh the research bundle and regenerate `src/data/` before changing code assumptions.
+The bundled catalogs are generated only from `https://docs.kie.ai/llms.txt` and the official `docs.kie.ai` Markdown pages it lists.
+
+```bash
+npm run docs:check
+npm run docs:update
+```
+
+Review `src/data/docs_manifest.json` and the generated diff before changing code assumptions. Never hand-edit `src/data`, accept a partial crawl, or use third-party documentation as an API source. After a refresh, audit curated defaults in `src/server.ts` and product operations in `src/products.ts`, then run the normal test, typecheck, build, and package checks.

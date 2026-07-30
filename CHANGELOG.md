@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Added the `kie-ai-docs` official-documentation sync CLI and repo-scoped `$update-kie-docs` agent skill.
+- Added provenance hashes, freshness metadata, schema-conflict reporting, transactional snapshot replacement, and an optional validated `KIE_DOCS_DATA_DIR`.
+- Refreshed the bundled snapshot from `https://docs.kie.ai/llms.txt` to 244 pages, 210 OpenAPI operations, 78 paths, and 118 unique Market models.
+- Corrected the Suno voice-availability operation to the officially documented `POST` method.
+- Added updater rollback, origin, schema-invariant, package, MCP-resource, and curated-operation conformance coverage.
+
 ## 0.1.0 - 2026-07-02
 
 - Initial Docker-ready local MCP server for KIE.AI.

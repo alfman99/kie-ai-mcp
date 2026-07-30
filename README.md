@@ -1,6 +1,6 @@
 # KIE.AI MCP Server
 
-Local stdio MCP server for KIE.AI. It bundles docs-derived KIE endpoint/model catalogs and exposes KIE media/task APIs as MCP tools for local agents.
+Local stdio MCP server for KIE.AI. It bundles endpoint/model catalogs generated exclusively from the [official Kie documentation](https://docs.kie.ai/) and exposes KIE media/task APIs as MCP tools for local agents.
 
 If the Docker/MCP setup feels confusing, read [docs/HOW_IT_RUNS.md](docs/HOW_IT_RUNS.md). The short version: your MCP client starts a Docker container when it needs this server, keeps stdin open with `-i`, talks JSON-RPC to the Node process inside the container, and the container exits when the MCP session ends.
 
@@ -143,9 +143,47 @@ export KIE_WEBHOOK_HMAC_KEY="your-webhook-hmac-key"
 export KIE_POLL_INTERVAL_MS="5000"
 export KIE_POLL_TIMEOUT_MS="600000"
 export KIE_ALLOW_LOCAL_FILE_UPLOADS="false"
+export KIE_DOCS_DATA_DIR="/absolute/path/to/an/external/kie-docs-snapshot"
 ```
 
 Tools that only read local catalogs or verify webhooks with a supplied key work without `KIE_API_KEY`. Live KIE API tools fail clearly if the key is missing.
+
+`KIE_DOCS_DATA_DIR` is optional. When omitted, the server uses the reviewed snapshot bundled into the build. When set, the server validates and loads that external snapshot at process startup. Restart the MCP process after refreshing it; catalogs are not hot-loaded.
+
+## Keep the Kie Catalogs Current
+
+The updater discovers pages only through [Kie’s official `llms.txt`](https://docs.kie.ai/llms.txt), rejects non-`docs.kie.ai` redirects, records hashes and schema conflicts, and replaces the snapshot only after the complete crawl validates.
+
+From a source checkout:
+
+```bash
+npm run docs:check
+npm run docs:update
+npm test
+npm run typecheck
+npm run build
+```
+
+`docs:check` is read-only and exits non-zero when official documentation drift exists. `docs:update` writes the validated artifacts in `src/data/` transactionally. Rebuild the Docker image or restart the Node MCP after an update.
+
+The package also provides a portable CLI for an external snapshot:
+
+```bash
+kie-ai-docs check --output /absolute/path/to/kie-docs
+kie-ai-docs update --output /absolute/path/to/kie-docs
+```
+
+Start the MCP with `KIE_DOCS_DATA_DIR` pointing to that directory. For Docker, mount the host directory read-only and use its container path:
+
+```bash
+docker run --rm -i \
+  -e KIE_API_KEY \
+  -e KIE_DOCS_DATA_DIR=/data/kie-docs \
+  -v "/absolute/path/to/kie-docs:/data/kie-docs:ro" \
+  kie-ai-mcp-server:latest
+```
+
+The repo-scoped `$update-kie-docs` skill lives at `.agents/skills/update-kie-docs` and is discovered automatically by Codex or ChatGPT desktop when working in this checkout. It guides the agent through the official-source check, reviewed update, adapter audit, verification, and restart. Other MCP clients can use the same CLI without supporting skills.
 
 ## MCP Client Example
 
@@ -311,7 +349,7 @@ By default these tools wait for the final result. Set `waitForResult` to `false`
 ### Configuration and Local Catalogs
 
 - `kie_check_configuration`: reports configured base URLs and whether secrets are present without revealing them.
-- `kie_get_local_catalogs`: returns bundled catalog summaries and resource URIs.
+- `kie_get_local_catalogs`: returns snapshot provenance, hashes, schema corrections, catalog source, counts, and resource URIs.
 
 ### Common API
 
@@ -371,6 +409,7 @@ Example:
 
 ## Resources
 
+- `kie://docs/manifest`
 - `kie://docs/analysis`
 - `kie://docs/openapi-catalog`
 - `kie://docs/market-model-registry`
@@ -382,6 +421,7 @@ Example:
 npm run typecheck
 npm run build
 npm test
+npm run docs:check
 ```
 
 Tests use mocked HTTP and do not call KIE.
@@ -417,9 +457,11 @@ KIE_API_KEY="your-kie-api-key" npm run smoke:dev
 
 ## Bundled Catalogs
 
-The bundled local catalogs in `src/data/` are based on official KIE docs crawled on 2026-07-02:
+The bundled local catalogs in `src/data/` were generated on 2026-07-30 exclusively from the official Kie documentation:
 
-- 258 official docs pages.
-- 176 extracted OpenAPI operations.
-- 53 OpenAPI-declared paths.
-- 114 model-specific schemas for `POST /api/v1/jobs/createTask`.
+- 244 official English Markdown pages.
+- 210 OpenAPI operations.
+- 78 unique API paths.
+- 118 unique model schemas for `POST /api/v1/jobs/createTask`.
+
+Read `kie://docs/manifest` or call `kie_get_local_catalogs` for the exact timestamp, source index, hashes, and recorded official schema/example conflicts.
