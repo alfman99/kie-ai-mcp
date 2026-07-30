@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "generatedAt": "2026-07-30T12:34:01.850Z",
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-30T13:58:30.614Z",
   "sourceIndex": "https://docs.kie.ai/llms.txt",
   "sourceHost": "docs.kie.ai",
   "indexSha256": "7400ad9825cc4d9d94e5cb5fdbaec72241d04638170364a90594376b90be4b48",
@@ -12,9 +12,9 @@
   "marketModelCount": 118,
   "failures": 0,
   "artifactSha256": {
-    "openapi_endpoint_catalog": "e0b5fd5afef3f9ac29cac53e8961bcb1983a077a4a5eb252dd85851ed260bbb0",
-    "market_model_registry": "bc62cd541fbe158c3fddd34dea1086143257fa222dfd6fa50ad9a3839f1db642",
-    "endpoint_index": "a9d1531fb217aa2bf5ab19dc87b18d57b7536464c68428ad7fdab3ed38573dfc"
+    "openapi_endpoint_catalog": "caea7e4bb0012c7359636a13d1b1863dbe16157f8337554ed3c0d1b1a510a1e3",
+    "market_model_registry": "73c3827cff80ab69f077c16ba8c3fd8c27a66998360f558f1bf8e938242fb98f",
+    "endpoint_index": "fb152c4bb90e4c83c404f1792e0b4ce6cb0cdb7411ddf2acec98cfb4b5684191"
   },
   "schemaCorrections": [
     {
@@ -32,6 +32,33 @@
       ],
       "exampleModelValue": "kling/v2-5-turbo-image-to-video-pro",
       "reason": "The official request example conflicts with the model schema; the executable request example takes precedence."
+    }
+  ],
+  "endpointCorrections": [
+    {
+      "sourceUrl": "https://docs.kie.ai/file-upload-api/upload-file-base-64.md",
+      "path": "/api/file-base64-upload",
+      "schemaServers": [
+        "https://api.kie.ai"
+      ],
+      "executableServer": "https://kieai.redpandaai.co",
+      "reason": "The official executable endpoint and request example conflict with the OpenAPI servers list; the executable URL takes precedence."
+    },
+    {
+      "sourceUrl": "https://docs.kie.ai/file-upload-api/upload-file-stream.md",
+      "path": "/api/file-stream-upload",
+      "schemaServers": [],
+      "executableServer": "https://kieai.redpandaai.co",
+      "reason": "The official executable endpoint and request example conflict with the OpenAPI servers list; the executable URL takes precedence."
+    },
+    {
+      "sourceUrl": "https://docs.kie.ai/file-upload-api/upload-file-url.md",
+      "path": "/api/file-url-upload",
+      "schemaServers": [
+        "https://api.kie.ai"
+      ],
+      "executableServer": "https://kieai.redpandaai.co",
+      "reason": "The official executable endpoint and request example conflict with the OpenAPI servers list; the executable URL takes precedence."
     }
   ]
 }

@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { openAsBlob } from "node:fs";
 import { basename } from "node:path";
 import { KieApiError } from "./errors.js";
 import { requireApiKey } from "./config.js";
@@ -85,9 +85,9 @@ export class KieHttpClient {
   async uploadFileStream(args: { filePath: string; uploadPath: string; fileName?: string }): Promise<unknown> {
     const apiKey = requireApiKey(this.config);
     const url = joinUrl(this.config.uploadBaseUrl, "/api/file-stream-upload");
-    const bytes = await readFile(args.filePath);
+    const file = await openAsBlob(args.filePath);
     const form = new FormData();
-    form.set("file", new Blob([bytes]), args.fileName ?? basename(args.filePath));
+    form.set("file", file, args.fileName ?? basename(args.filePath));
     form.set("uploadPath", args.uploadPath);
     if (args.fileName) {
       form.set("fileName", args.fileName);
@@ -107,4 +107,3 @@ export class KieHttpClient {
     return payload;
   }
 }
-

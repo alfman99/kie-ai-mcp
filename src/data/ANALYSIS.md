@@ -4,7 +4,7 @@ This bundle was generated exclusively from the official KIE documentation index 
 
 ## Snapshot
 
-- Generated: 2026-07-30T12:34:01.850Z
+- Generated: 2026-07-30T13:58:30.614Z
 - Official English pages fetched: 244
 - Pages with OpenAPI specifications: 210
 - OpenAPI operations: 210
@@ -12,6 +12,7 @@ This bundle was generated exclusively from the official KIE documentation index 
 - Unified Market model schemas: 118
 - Fetch or parse failures: 0
 - Official schema/example conflicts resolved transparently: 2
+- Official endpoint/server conflicts resolved transparently: 3
 
 ## Trust Boundary
 

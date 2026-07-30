@@ -23,15 +23,16 @@ describe("MCP server integration", () => {
     servers.length = 0;
   });
 
-  async function connect() {
+  async function connect(fetchImpl?: typeof fetch) {
     const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
     const server = createKieMcpServer({
+      apiKey: fetchImpl ? "test-key" : undefined,
       apiBaseUrl: "https://api.test",
       uploadBaseUrl: "https://upload.test",
       pollIntervalMs: 1,
       pollTimeoutMs: 100,
       allowLocalFileUploads: false
-    });
+    }, fetchImpl);
     const client = new Client({ name: "test-client", version: "0.0.0" });
     servers.push(server);
     clients.push(client);
@@ -54,6 +55,7 @@ describe("MCP server integration", () => {
         "kie_get_local_catalogs",
         "kie_get_credits",
         "kie_get_download_url",
+        "kie_upload_media",
         "kie_upload_file_from_url",
         "kie_upload_file_base64",
         "kie_upload_file_stream",
@@ -87,6 +89,43 @@ describe("MCP server integration", () => {
     expect("text" in analysis.contents[0] ? analysis.contents[0].text : "").toContain("KIE.AI MCP Server Documentation Snapshot");
     const manifest = await client.readResource({ uri: "kie://docs/manifest" });
     expect("text" in manifest.contents[0] ? manifest.contents[0].text : "").toContain('"sourceIndex": "https://docs.kie.ai/llms.txt"');
+  });
+
+  it("routes friendly URL uploads directly through the configured KIE upload API", async () => {
+    const fetchImpl = vi.fn(async () =>
+      new Response(
+        JSON.stringify({
+          success: true,
+          code: 200,
+          msg: "File uploaded successfully",
+          data: { downloadUrl: "https://tempfile.redpandaai.co/test/image.png" }
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      )
+    ) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const result = await client.callTool({
+      name: "kie_upload_media",
+      arguments: {
+        sourceType: "url",
+        source: "https://example.com/image.png",
+        uploadPath: "agent-uploads",
+        fileName: "image.png"
+      }
+    });
+
+    expect(result.isError).not.toBe(true);
+    const [url, init] = vi.mocked(fetchImpl).mock.calls[0];
+    expect(String(url)).toBe("https://upload.test/api/file-url-upload");
+    expect(init?.method).toBe("POST");
+    expect(init?.body).toBe(
+      JSON.stringify({
+        fileUrl: "https://example.com/image.png",
+        uploadPath: "agent-uploads",
+        fileName: "image.png"
+      })
+    );
   });
 
   it("calls non-live catalog tools and returns clear missing-key errors for live tools", async () => {

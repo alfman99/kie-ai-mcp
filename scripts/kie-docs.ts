@@ -6,8 +6,14 @@ import { parse as parseYaml } from "yaml";
 
 export const KIE_DOCS_ORIGIN = "https://docs.kie.ai";
 export const KIE_DOCS_INDEX_URL = `${KIE_DOCS_ORIGIN}/llms.txt`;
+export const KIE_NATIVE_UPLOAD_ORIGIN = "https://kieai.redpandaai.co";
 
 const DATA_DIRECTORY = join(dirname(fileURLToPath(import.meta.url)), "../src/data");
+const KIE_NATIVE_UPLOAD_PATHS = new Set([
+  "/api/file-url-upload",
+  "/api/file-base64-upload",
+  "/api/file-stream-upload"
+]);
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete", "options", "head", "trace"] as const;
 const OUTPUT_FILES = [
   "docs_manifest.json",
@@ -55,6 +61,13 @@ export type DocsManifest = {
     exampleModelValue: string;
     reason: string;
   }>;
+  endpointCorrections: Array<{
+    sourceUrl: string;
+    path: string;
+    schemaServers: string[];
+    executableServer: string;
+    reason: string;
+  }>;
 };
 
 export type DocsArtifacts = {
@@ -100,6 +113,7 @@ type MarketModelRecord = {
 };
 
 type SchemaCorrection = DocsManifest["schemaCorrections"][number];
+type EndpointCorrection = DocsManifest["endpointCorrections"][number];
 
 type ParsedPage = FetchedDocPage & {
   spec?: JsonRecord;
@@ -254,6 +268,57 @@ function operationServers(spec: JsonRecord, pathItem: JsonRecord, operation: Jso
   return [];
 }
 
+function executableServersFromPage(page: ParsedPage, path: string): string[] {
+  if (
+    new URL(page.url).pathname.startsWith("/file-upload-api/") &&
+    KIE_NATIVE_UPLOAD_PATHS.has(path)
+  ) {
+    return [KIE_NATIVE_UPLOAD_ORIGIN];
+  }
+
+  const servers = new Set<string>();
+  const urlPattern = /https:\/\/[A-Za-z0-9.-]+\/[^\s'"`\\)>]+/g;
+  for (const match of page.body.matchAll(urlPattern)) {
+    try {
+      const url = new URL(match[0]);
+      if (
+        url.pathname === path &&
+        (url.hostname === "api.kie.ai" || url.hostname === "kieai.redpandaai.co")
+      ) {
+        servers.add(url.origin);
+      }
+    } catch {
+      // Ignore malformed prose examples. Parsed OpenAPI data remains available.
+    }
+  }
+  return [...servers];
+}
+
+function effectiveOperationServers(
+  page: ParsedPage,
+  path: string,
+  pathItem: JsonRecord,
+  operation: JsonRecord
+): { servers: string[]; correction?: EndpointCorrection } {
+  const schemaServers = operationServers(page.spec ?? {}, pathItem, operation);
+  const executableServers = executableServersFromPage(page, path);
+  if (executableServers.length !== 1 || schemaServers.includes(executableServers[0])) {
+    return { servers: schemaServers };
+  }
+
+  return {
+    servers: executableServers,
+    correction: {
+      sourceUrl: page.url,
+      path,
+      schemaServers,
+      executableServer: executableServers[0],
+      reason:
+        "The official executable endpoint and request example conflict with the OpenAPI servers list; the executable URL takes precedence."
+    }
+  };
+}
+
 function normalizeRequest(operation: JsonRecord): NormalizedEndpoint["request"] {
   const content = asRecord(asRecord(operation.requestBody).content);
   return Object.fromEntries(
@@ -286,7 +351,7 @@ function normalizeResponses(operation: JsonRecord): NormalizedEndpoint["response
   );
 }
 
-function normalizeEndpoints(page: ParsedPage): NormalizedEndpoint[] {
+function normalizeEndpoints(page: ParsedPage, corrections: EndpointCorrection[]): NormalizedEndpoint[] {
   if (!page.spec) {
     return [];
   }
@@ -299,11 +364,15 @@ function normalizeEndpoints(page: ParsedPage): NormalizedEndpoint[] {
         continue;
       }
       const operation = pathItem[method] as JsonRecord;
+      const effectiveServers = effectiveOperationServers(page, path, pathItem, operation);
+      if (effectiveServers.correction) {
+        corrections.push(effectiveServers.correction);
+      }
       endpoints.push({
         source_title: page.title,
         source_url: page.url,
         source_file: new URL(page.url).pathname,
-        servers: operationServers(page.spec, pathItem, operation),
+        servers: effectiveServers.servers,
         method: method.toUpperCase(),
         path,
         summary: asString(operation.summary) ?? null,
@@ -574,6 +643,7 @@ This bundle was generated exclusively from the official KIE documentation index 
 - Unified Market model schemas: ${manifest.marketModelCount}
 - Fetch or parse failures: ${manifest.failures}
 - Official schema/example conflicts resolved transparently: ${manifest.schemaCorrections.length}
+- Official endpoint/server conflicts resolved transparently: ${manifest.endpointCorrections.length}
 
 ## Trust Boundary
 
@@ -648,8 +718,9 @@ export function buildDocsArtifacts(args: {
   generatedAt: string;
 }): DocsArtifacts {
   const parsedPages = args.pages.map(parseOpenApiPage);
+  const endpointCorrections: EndpointCorrection[] = [];
   const endpoints = parsedPages
-    .flatMap(normalizeEndpoints)
+    .flatMap((page) => normalizeEndpoints(page, endpointCorrections))
     .sort((a, b) => a.path.localeCompare(b.path) || a.method.localeCompare(b.method) || a.source_url.localeCompare(b.source_url));
   const market = extractMarketModels(parsedPages);
   const marketModels = market.models;
@@ -677,7 +748,7 @@ export function buildDocsArtifacts(args: {
   const marketRegistryFile = jsonFile(marketRegistry);
   const endpointIndexFile = jsonFile(endpointIndex);
   const manifest: DocsManifest = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: args.generatedAt,
     sourceIndex: KIE_DOCS_INDEX_URL,
     sourceHost: "docs.kie.ai",
@@ -699,7 +770,8 @@ export function buildDocsArtifacts(args: {
       market_model_registry: sha256(marketRegistryFile),
       endpoint_index: sha256(endpointIndexFile)
     },
-    schemaCorrections: market.corrections
+    schemaCorrections: market.corrections,
+    endpointCorrections
   };
 
   return {

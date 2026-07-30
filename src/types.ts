@@ -76,6 +76,13 @@ export type DocsManifestRecord = {
     exampleModelValue: string;
     reason: string;
   }>;
+  endpointCorrections: Array<{
+    sourceUrl: string;
+    path: string;
+    schemaServers: string[];
+    executableServer: string;
+    reason: string;
+  }>;
 };
 
 export type ProductOperation = {

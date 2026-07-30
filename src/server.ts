@@ -18,6 +18,16 @@ type ToolResult = {
 };
 
 const JsonRecordSchema = z.record(z.string(), z.unknown());
+const UploadPathSchema = z
+  .string()
+  .min(1)
+  .refine(
+    (value) =>
+      !value.startsWith("/") &&
+      !value.endsWith("/") &&
+      value.split("/").every((segment) => segment.length > 0 && segment !== "." && segment !== ".."),
+    "Use a relative upload path without empty, current-directory, or parent-directory segments."
+  );
 
 function jsonResult(value: unknown): ToolResult {
   return {
@@ -481,13 +491,58 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
   );
 
   server.registerTool(
+    "kie_upload_media",
+    {
+      title: "Upload Media With KIE",
+      description:
+        "Upload one local file, public URL, or base64 payload through KIE's native temporary File Upload API. No third-party storage service is used.",
+      inputSchema: {
+        sourceType: z.enum(["local_file", "url", "base64"]),
+        source: z.string().min(1).describe("Absolute local path, public HTTP(S) URL, raw base64, or a base64 data URL."),
+        uploadPath: UploadPathSchema.default("agent-uploads"),
+        fileName: z.string().min(1).optional()
+      }
+    },
+    async ({ sourceType, source, uploadPath, fileName }) =>
+      safeTool(() => {
+        if (sourceType === "local_file") {
+          if (!config.allowLocalFileUploads) {
+            throw new Error("Local file uploads are disabled. Set KIE_ALLOW_LOCAL_FILE_UPLOADS=true to opt in.");
+          }
+          if (!source.startsWith("/")) {
+            throw new Error("Local media uploads require an absolute file path.");
+          }
+          return client.uploadFileStream({ filePath: source, uploadPath, fileName });
+        }
+        if (sourceType === "url") {
+          const fileUrl = new URL(source);
+          if (fileUrl.protocol !== "http:" && fileUrl.protocol !== "https:") {
+            throw new Error("URL media uploads require an HTTP or HTTPS source.");
+          }
+          return client.requestJson({
+            baseUrl: config.uploadBaseUrl,
+            method: "POST",
+            path: "/api/file-url-upload",
+            body: { fileUrl: source, uploadPath, fileName }
+          });
+        }
+        return client.requestJson({
+          baseUrl: config.uploadBaseUrl,
+          method: "POST",
+          path: "/api/file-base64-upload",
+          body: { base64Data: source, uploadPath, fileName }
+        });
+      })
+  );
+
+  server.registerTool(
     "kie_upload_file_from_url",
     {
       title: "Upload File From URL",
       description: "Ask KIE to download a remote URL into temporary upload storage.",
       inputSchema: {
         fileUrl: z.string().url(),
-        uploadPath: z.string().min(1),
+        uploadPath: UploadPathSchema,
         fileName: z.string().optional()
       }
     },
@@ -509,7 +564,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
       description: "Upload base64 file data into KIE temporary upload storage.",
       inputSchema: {
         base64Data: z.string().min(1),
-        uploadPath: z.string().min(1),
+        uploadPath: UploadPathSchema,
         fileName: z.string().optional()
       }
     },
@@ -532,7 +587,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
         "Upload a local file path to KIE temporary upload storage using multipart form data. Disabled by default for safety; set KIE_ALLOW_LOCAL_FILE_UPLOADS=true to opt in.",
       inputSchema: {
         filePath: z.string().min(1),
-        uploadPath: z.string().min(1),
+        uploadPath: UploadPathSchema,
         fileName: z.string().optional()
       }
     },

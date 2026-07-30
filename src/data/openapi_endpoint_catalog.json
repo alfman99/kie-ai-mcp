@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30T12:34:01.850Z",
+  "generated_at": "2026-07-30T13:58:30.614Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -7,7 +7,7 @@
       "source_url": "https://docs.kie.ai/file-upload-api/upload-file-base-64.md",
       "source_file": "/file-upload-api/upload-file-base-64.md",
       "servers": [
-        "https://api.kie.ai"
+        "https://kieai.redpandaai.co"
       ],
       "method": "POST",
       "path": "/api/file-base64-upload",
@@ -97,7 +97,9 @@
       "source_title": "File Stream Upload",
       "source_url": "https://docs.kie.ai/file-upload-api/upload-file-stream.md",
       "source_file": "/file-upload-api/upload-file-stream.md",
-      "servers": [],
+      "servers": [
+        "https://kieai.redpandaai.co"
+      ],
       "method": "POST",
       "path": "/api/file-stream-upload",
       "summary": "File Stream Upload",
@@ -113,7 +115,7 @@
       "source_url": "https://docs.kie.ai/file-upload-api/upload-file-url.md",
       "source_file": "/file-upload-api/upload-file-url.md",
       "servers": [
-        "https://api.kie.ai"
+        "https://kieai.redpandaai.co"
       ],
       "method": "POST",
       "path": "/api/file-url-upload",
@@ -37936,7 +37938,7 @@
         "operationId": "upload-file-base64",
         "source_url": "https://docs.kie.ai/file-upload-api/upload-file-base-64.md",
         "servers": [
-          "https://api.kie.ai"
+          "https://kieai.redpandaai.co"
         ]
       }
     ],
@@ -37946,7 +37948,9 @@
         "summary": "File Stream Upload",
         "operationId": null,
         "source_url": "https://docs.kie.ai/file-upload-api/upload-file-stream.md",
-        "servers": []
+        "servers": [
+          "https://kieai.redpandaai.co"
+        ]
       }
     ],
     "/api/file-url-upload": [
@@ -37956,7 +37960,7 @@
         "operationId": "upload-file-url",
         "source_url": "https://docs.kie.ai/file-upload-api/upload-file-url.md",
         "servers": [
-          "https://api.kie.ai"
+          "https://kieai.redpandaai.co"
         ]
       }
     ],

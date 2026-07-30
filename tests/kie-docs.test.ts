@@ -48,6 +48,26 @@ servers:
 \`\`\`
 `;
 
+const SAMPLE_UPLOAD_PAGE = `# URL File Upload
+
+\`\`\`yaml
+openapi: 3.0.1
+paths:
+  /api/file-url-upload:
+    post:
+      operationId: upload-file-url
+      responses:
+        "200":
+          description: success
+servers:
+  - url: https://api.kie.ai
+\`\`\`
+
+\`\`\`bash
+curl --location 'https://kieai.redpandaai.co/api/file-url-upload'
+\`\`\`
+`;
+
 describe("KIE documentation updater", () => {
   it("discovers only official English Markdown pages from llms.txt", () => {
     const entries = parseLlmsIndex(`
@@ -102,6 +122,32 @@ describe("KIE documentation updater", () => {
         generatedAt: "2026-07-30T00:00:00.000Z"
       }).files
     ).toEqual(artifacts.files);
+  });
+
+  it("prefers the official executable upload URL over a conflicting OpenAPI server", () => {
+    const artifacts = buildDocsArtifacts({
+      indexBody: "[Upload](https://docs.kie.ai/file-upload-api/upload-file-url.md)",
+      pages: [
+        {
+          title: "Upload",
+          url: "https://docs.kie.ai/file-upload-api/upload-file-url.md",
+          body: SAMPLE_UPLOAD_PAGE
+        }
+      ],
+      generatedAt: "2026-07-30T00:00:00.000Z"
+    });
+    const catalog = JSON.parse(artifacts.files["openapi_endpoint_catalog.json"]) as {
+      endpoints: Array<{ servers: string[] }>;
+    };
+
+    expect(catalog.endpoints[0].servers).toEqual(["https://kieai.redpandaai.co"]);
+    expect(artifacts.manifest.endpointCorrections).toEqual([
+      expect.objectContaining({
+        path: "/api/file-url-upload",
+        schemaServers: ["https://api.kie.ai"],
+        executableServer: "https://kieai.redpandaai.co"
+      })
+    ]);
   });
 
   it("rejects redirects away from the official KIE documentation host", async () => {

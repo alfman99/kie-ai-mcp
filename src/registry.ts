@@ -49,7 +49,7 @@ function assertOfficialSource(sourceUrl: string, context: string): void {
 function validateCatalogRegistry(registry: CatalogRegistry): CatalogRegistry {
   const manifest = registry.docsManifest;
   if (
-    manifest.schemaVersion !== 1 ||
+    manifest.schemaVersion !== 2 ||
     manifest.sourceIndex !== "https://docs.kie.ai/llms.txt" ||
     manifest.sourceHost !== "docs.kie.ai" ||
     manifest.failures !== 0
@@ -63,6 +63,9 @@ function validateCatalogRegistry(registry: CatalogRegistry): CatalogRegistry {
   }
   for (const correction of manifest.schemaCorrections) {
     assertOfficialSource(correction.sourceUrl, "Schema correction");
+  }
+  for (const correction of manifest.endpointCorrections) {
+    assertOfficialSource(correction.sourceUrl, "Endpoint correction");
   }
 
   const openapiEndpoints = Array.isArray(registry.openapiEndpointCatalog.endpoints)
