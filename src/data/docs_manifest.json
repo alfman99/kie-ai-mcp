@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-30T12:34:01.850Z",
+  "sourceIndex": "https://docs.kie.ai/llms.txt",
+  "sourceHost": "docs.kie.ai",
+  "indexSha256": "7400ad9825cc4d9d94e5cb5fdbaec72241d04638170364a90594376b90be4b48",
+  "contentSha256": "d42a5e6f1b212c609463f20403751ae07b507467f2794a3b30e6e31a174ef91f",
+  "pageCount": 244,
+  "openapiPageCount": 210,
+  "operationCount": 210,
+  "endpointPathCount": 78,
+  "marketModelCount": 118,
+  "failures": 0,
+  "artifactSha256": {
+    "openapi_endpoint_catalog": "e0b5fd5afef3f9ac29cac53e8961bcb1983a077a4a5eb252dd85851ed260bbb0",
+    "market_model_registry": "bc62cd541fbe158c3fddd34dea1086143257fa222dfd6fa50ad9a3839f1db642",
+    "endpoint_index": "a9d1531fb217aa2bf5ab19dc87b18d57b7536464c68428ad7fdab3ed38573dfc"
+  },
+  "schemaCorrections": [
+    {
+      "sourceUrl": "https://docs.kie.ai/market/qwen2/text-to-image.md",
+      "schemaModelValues": [
+        "qwen2/image-edit"
+      ],
+      "exampleModelValue": "qwen2/text-to-image",
+      "reason": "The official request example conflicts with the model schema; the executable request example takes precedence."
+    },
+    {
+      "sourceUrl": "https://docs.kie.ai/market/kling/v25-turbo-image-to-video-pro.md",
+      "schemaModelValues": [
+        "kling/v2-1-master-image-to-video"
+      ],
+      "exampleModelValue": "kling/v2-5-turbo-image-to-video-pro",
+      "reason": "The official request example conflicts with the model schema; the executable request example takes precedence."
+    }
+  ]
+}

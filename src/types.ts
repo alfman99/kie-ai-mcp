@@ -10,6 +10,7 @@ export type KieConfig = {
   pollIntervalMs: number;
   pollTimeoutMs: number;
   allowLocalFileUploads: boolean;
+  docsDataDir?: string;
 };
 
 export type KieApiEnvelope = {
@@ -49,6 +50,32 @@ export type MarketModelRecord = {
   input_fields: MarketModelField[];
   source_url: string;
   source_file: string;
+};
+
+export type DocsManifestRecord = {
+  schemaVersion: number;
+  generatedAt: string;
+  sourceIndex: string;
+  sourceHost: string;
+  indexSha256: string;
+  contentSha256: string;
+  pageCount: number;
+  openapiPageCount: number;
+  operationCount: number;
+  endpointPathCount: number;
+  marketModelCount: number;
+  failures: number;
+  artifactSha256: {
+    openapi_endpoint_catalog: string;
+    market_model_registry: string;
+    endpoint_index: string;
+  };
+  schemaCorrections: Array<{
+    sourceUrl: string;
+    schemaModelValues: string[];
+    exampleModelValue: string;
+    reason: string;
+  }>;
 };
 
 export type ProductOperation = {

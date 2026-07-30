@@ -35,7 +35,7 @@ export const productOperations: ProductOperation[] = [
   { family: "suno", operation: "voice_generate", method: "POST", path: "/api/v1/voice/generate", description: "Create a custom Suno Voice." },
   { family: "suno", operation: "voice_record_info", method: "GET", path: "/api/v1/voice/record-info", description: "Get custom Suno Voice records." },
   { family: "suno", operation: "voice_regenerate", method: "POST", path: "/api/v1/voice/regenerate", description: "Regenerate a Suno Voice phrase." },
-  { family: "suno", operation: "voice_check", method: "GET", path: "/api/v1/voice/check-voice", description: "Check Suno Voice availability." },
+  { family: "suno", operation: "voice_check", method: "POST", path: "/api/v1/voice/check-voice", description: "Check Suno Voice availability." },
   { family: "veo", operation: "generate", method: "POST", path: "/api/v1/veo/generate", description: "Create a Veo3.1 video task." },
   { family: "veo", operation: "get_details", method: "GET", path: "/api/v1/veo/record-info", description: "Get Veo3.1 task details." },
   { family: "veo", operation: "get_1080p", method: "GET", path: "/api/v1/veo/get-1080p-video", description: "Get a Veo3.1 1080p video." },
@@ -46,4 +46,3 @@ export const productOperations: ProductOperation[] = [
 export function findProductOperation(family: string, operation: string): ProductOperation | undefined {
   return productOperations.find((item) => item.family === family && item.operation === operation);
 }
-

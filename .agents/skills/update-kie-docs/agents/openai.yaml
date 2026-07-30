@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update Kie Docs"
+  short_description: "Refresh MCP catalogs from official Kie docs"
+  default_prompt: "Use $update-kie-docs to refresh this MCP from the latest official Kie documentation."

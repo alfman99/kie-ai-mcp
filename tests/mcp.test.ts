@@ -72,6 +72,7 @@ describe("MCP server integration", () => {
     expect(resources.resources.map((resource) => resource.uri)).toEqual(
       expect.arrayContaining([
         "kie://docs/analysis",
+        "kie://docs/manifest",
         "kie://docs/openapi-catalog",
         "kie://docs/market-model-registry",
         "kie://docs/endpoint-index"
@@ -83,7 +84,9 @@ describe("MCP server integration", () => {
       uri: "kie://docs/analysis",
       mimeType: "text/markdown"
     });
-    expect("text" in analysis.contents[0] ? analysis.contents[0].text : "").toContain("KIE.AI MCP Server Research Analysis");
+    expect("text" in analysis.contents[0] ? analysis.contents[0].text : "").toContain("KIE.AI MCP Server Documentation Snapshot");
+    const manifest = await client.readResource({ uri: "kie://docs/manifest" });
+    expect("text" in manifest.contents[0] ? manifest.contents[0].text : "").toContain('"sourceIndex": "https://docs.kie.ai/llms.txt"');
   });
 
   it("calls non-live catalog tools and returns clear missing-key errors for live tools", async () => {
@@ -95,6 +98,11 @@ describe("MCP server integration", () => {
     });
     const catalogText = firstTextContent(catalogResult);
     expect(catalogText).toContain("qwen2/text-to-image");
+
+    const snapshotResult = await client.callTool({ name: "kie_get_local_catalogs", arguments: {} });
+    const snapshotText = firstTextContent(snapshotResult);
+    expect(snapshotText).toContain('"sourceIndex": "https://docs.kie.ai/llms.txt"');
+    expect(snapshotText).toContain('"catalogSource": "bundled"');
 
     const configResult = await client.callTool({ name: "kie_check_configuration", arguments: {} });
     const configText = firstTextContent(configResult);

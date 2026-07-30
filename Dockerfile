@@ -20,10 +20,8 @@ WORKDIR /app
 COPY --from=build /app/package.json /app/package-lock.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
-COPY src/data ./src/data
 COPY README.md ./
 
 USER node
 
 CMD ["node", "dist/src/index.js"]
-

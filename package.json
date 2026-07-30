@@ -26,7 +26,8 @@
     "codex"
   ],
   "bin": {
-    "kie-ai-mcp": "dist/src/index.js"
+    "kie-ai-mcp": "dist/src/index.js",
+    "kie-ai-docs": "dist/scripts/kie-docs.js"
   },
   "files": [
     "dist",
@@ -34,16 +35,18 @@
     "LICENSE",
     "CHANGELOG.md",
     "docs",
-    "src/data"
+    ".agents/skills/update-kie-docs"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json && cp src/data/* dist/src/data/",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "start": "node dist/src/index.js",
     "dev": "tsx src/index.ts",
     "smoke": "node dist/scripts/smoke.js",
     "smoke:dev": "tsx scripts/smoke.ts",
+    "docs:check": "tsx scripts/kie-docs.ts check",
+    "docs:update": "tsx scripts/kie-docs.ts update",
     "docker:build": "docker build -t kie-ai-mcp-server:latest .",
     "docker:run": "docker run --rm -i -e KIE_API_KEY -e KIE_API_BASE_URL -e KIE_UPLOAD_BASE_URL -e KIE_WEBHOOK_HMAC_KEY -e KIE_POLL_INTERVAL_MS -e KIE_POLL_TIMEOUT_MS -e KIE_ALLOW_LOCAL_FILE_UPLOADS kie-ai-mcp-server:latest",
     "docker:smoke": "docker run --rm -e KIE_API_KEY kie-ai-mcp-server:latest npm run smoke",
@@ -54,6 +57,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.2",
+    "yaml": "^2.9.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

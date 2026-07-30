@@ -23,7 +23,8 @@ export function loadConfig(): KieConfig {
     webhookHmacKey: process.env.KIE_WEBHOOK_HMAC_KEY,
     pollIntervalMs: readPositiveInteger("KIE_POLL_INTERVAL_MS", DEFAULT_POLL_INTERVAL_MS),
     pollTimeoutMs: readPositiveInteger("KIE_POLL_TIMEOUT_MS", DEFAULT_POLL_TIMEOUT_MS),
-    allowLocalFileUploads: process.env.KIE_ALLOW_LOCAL_FILE_UPLOADS === "true"
+    allowLocalFileUploads: process.env.KIE_ALLOW_LOCAL_FILE_UPLOADS === "true",
+    docsDataDir: process.env.KIE_DOCS_DATA_DIR
   };
 }
 
