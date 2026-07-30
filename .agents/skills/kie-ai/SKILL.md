@@ -24,7 +24,7 @@ If MCP tools are unavailable, load [reference/install.md](reference/install.md) 
 - Do not add Cloudinary, S3, ImgBB, Supabase, Firebase, or another media intermediary.
 - Never reveal API keys, webhook secrets, private media URLs, or full base64 payloads.
 - Do not spend credits during installation, documentation checks, or connection diagnostics.
-- Close the MCP client after diagnostics. Stdio shutdown must terminate the child process and leave no server or container running.
+- Close the MCP client after diagnostics. Stdio shutdown must terminate the child process and leave no server running.
 - Do not hand-edit generated files under `src/data`.
 
 ## Commands

@@ -1,421 +1,164 @@
-# KIE.AI MCP Server
+# KIE Creator for Claude
 
-Local stdio MCP server for KIE.AI. It bundles endpoint/model catalogs generated exclusively from the [official Kie documentation](https://docs.kie.ai/) and exposes KIE media/task APIs as MCP tools for local agents.
+### Higgsfield-style image and video creation in Claude—without a Higgsfield subscription.
 
-For the process lifecycle and diagnostic flow, read [docs/HOW_IT_RUNS.md](docs/HOW_IT_RUNS.md). The short version: your MCP client starts the built Node command, talks JSON-RPC over stdio, and closes the process when the session ends.
+Tell Claude what you want to make. KIE Creator gives it the tools to generate images, edit with reference pictures, create videos, and produce voiceovers using your own KIE credits.
 
-## How It Runs
+No coding. No Docker. No configuration files.
 
-Yes: the MCP client spins it up, uses it, then turns it off.
+[Download KIE Creator for Claude](https://github.com/alfman99/kie-mcp/releases/latest/download/kie-creator-for-claude.mcpb)
 
-This server is a local stdio MCP server. It is not a web app, and it does not keep a background port open. Your agent starts it as a subprocess.
+## Why creators use it
 
-From a source checkout, that subprocess is:
+- **Create inside Claude.** Stay in the same conversation from idea to finished asset.
+- **Avoid another creative subscription.** The extension is free; you pay KIE only when you generate.
+- **Choose the right model for each job.** Use KIE's image, video, and audio model marketplace instead of being locked into one workflow.
+- **Use reference media.** Create from prompts, images, first and last frames, video, or audio.
+- **Keep the simple Higgsfield experience.** Describe the result and let Claude handle model selection, task submission, and waiting for the output.
+- **Connect directly to KIE.** Your key and media are not routed through our servers or an outside upload service.
 
-```bash
-node /absolute/path/to/kie-mcp/dist/src/index.js
-```
+KIE says its API pricing is typically 30%–50% below official model APIs, with larger discounts on some models. Prices change, so check [KIE's current pricing](https://kie.ai/pricing) before a large project. Purchased KIE credits do not expire under [KIE's current terms](https://kie.ai/terms-of-use).
 
-The lifecycle is:
+## Why use this instead of Higgsfield MCP?
 
-1. You configure your MCP client with the absolute Node entry point.
-2. The client starts the process and completes MCP initialization.
-3. The client sends tool calls through stdin/stdout.
-4. The server calls only KIE.AI endpoints over HTTPS when a live tool is used.
-5. When the client closes the session, stdin closes and the Node process exits.
+Higgsfield MCP is convenient, but its generations use Higgsfield plan credits. KIE Creator is for people who want the same conversational creation pattern with a different cost structure:
 
-There is no background daemon, listening port, storage service, or upload intermediary. Docker remains an optional packaging method, not a runtime requirement.
+- no recurring Higgsfield plan required;
+- pay-as-you-go KIE credits that do not expire under KIE's current terms;
+- freedom to choose a faster, cheaper, or higher-quality model for each job;
+- open-source tools you can inspect instead of a closed creative gateway;
+- direct KIE uploads with no extra media service in the middle.
 
-## What It Covers
+The trade-off is that this extension does not copy Higgsfield-only products such as Soul character training, its web creation library, or its complete studio interface. It focuses on the part creators want most inside Claude: generating and iterating on images, videos, edits, and voiceovers from a conversation.
 
-- Higgsfield-style creative tools: ask your agent to create an image, video, or voiceover with KIE and let the MCP server handle the KIE task call and polling.
-- Common utilities: credits and temporary download URLs.
-- Native KIE file uploads: one friendly media uploader plus URL, base64, and local file stream primitives.
-- Unified Market tasks: list models, inspect model schemas, create tasks, poll tasks, and wait for completion.
-- Webhook HMAC verification.
-- Product-specific helper dispatch for 4o Image, Flux Kontext, Runway/Aleph, Suno, and Veo3.1.
-- Local docs resources for the extracted OpenAPI catalog and Market model registry.
+## Install in about five minutes
 
-V1 intentionally does not expose KIE chat/LLM proxy endpoints. Those overlap with model configuration in most agents and should be a separate phase.
+### 1. Get a KIE key
 
-## Use It Like Higgsfield
+Create a KIE account, add credits, and open the [KIE API key page](https://kie.ai/api-key). Copy your key.
 
-After the MCP server is connected, the intended user experience is simple:
+Treat this key like a password. Do not post it in a chat, screenshot, or public document.
 
-```text
-Create a square image of a turtle using KIE.
-```
+### 2. Download the extension
 
-```text
-Create a 5 second 9:16 cinematic video of a perfume bottle rotating on black glass.
-```
+Download [`kie-creator-for-claude.mcpb`](https://github.com/alfman99/kie-mcp/releases/latest/download/kie-creator-for-claude.mcpb).
 
-```text
-Create a short energetic voiceover for this product launch script.
-```
+### 3. Add it to Claude Desktop
 
-The agent should use the friendly tools first:
+In Claude Desktop:
 
-- `kie_create_image`: create or edit images. Defaults to GPT Image 2.
-- `kie_create_video`: create text-to-video or image-to-video generations. Defaults to Seedance 2.0.
-- `kie_create_speech`: create voiceover or narration.
-- `kie_get_creation`: check or wait for any submitted creation task.
-- `kie_upload_media`: upload a local file, public URL, or base64 payload directly through KIE.
+1. Open **Settings → Extensions**.
+2. Open **Advanced settings**.
+3. Click **Install Extension…**
+4. Choose the `.mcpb` file you downloaded.
+5. Paste your KIE API key when Claude asks for it.
+6. Finish the installation and start a new chat.
 
-These tools hide the annoying parts:
+Claude stores the key as a protected secret on your device. You do not need to install Node, edit JSON, use Terminal, or keep another app running.
 
-- picking the correct KIE task endpoint,
-- formatting the KIE `input` object,
-- submitting the async task,
-- polling until KIE returns the result,
-- returning the task id and full response for follow-up.
+If you cannot find **Install Extension…**, update Claude Desktop first. Anthropic's official instructions are available in [Installing local MCP extensions](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop).
 
-The lower-level `kie_market_*` and `kie_product_*` tools are still available when you need exact control, but normal creative requests should start with the friendly tools above.
+## Start creating
 
-## Install
+Try one of these in a new Claude conversation:
 
-```bash
-git clone https://github.com/alfman99/kie-mcp.git
-cd kie-mcp
-npm install
-npm run build
-npm run mcp:doctor
-```
+> Create a premium square product photo of a matte black perfume bottle on wet stone. Use soft morning light and leave room for a headline.
 
-## Optional Docker Runtime
+> Turn this reference image into a five-second vertical ad. Slowly rotate the product on black glass and add subtle mist.
 
-Docker is supported when an isolated runtime is preferred. It is not required for Node or Codex setup.
+> Make three different hooks for this product, create a matching image for each one, and recommend the strongest concept.
 
-```bash
-docker build -t kie-ai-mcp-server:latest .
-```
+> Create an energetic voiceover for this 20-second launch script.
 
-Then your MCP client can start and stop containers from that image whenever it needs the server.
+You can also name a model:
 
-Run a live smoke test by passing your key at runtime:
+> Use Seedance 2.0 to turn this first frame into a 9:16 video.
 
-```bash
-docker run --rm -e KIE_API_KEY="your-kie-api-key" kie-ai-mcp-server:latest npm run smoke
-```
+If you do not name one, Claude can choose a sensible default.
 
-Run the MCP server over stdio:
+## What you can make
 
-```bash
-docker run --rm -i -e KIE_API_KEY="your-kie-api-key" kie-ai-mcp-server:latest
-```
+| You want | Ask Claude to… |
+|---|---|
+| Product images | Create polished studio, lifestyle, or advertising images |
+| Image edits | Change a background, style, composition, or product setting |
+| Short-form video | Make vertical ads, B-roll, product motion, or cinematic clips |
+| Reference-based video | Animate a first frame or use image, video, and audio references |
+| Voiceovers | Turn a script into speech or narration |
+| Variations | Generate multiple concepts and iterate in the same conversation |
 
-The `-i` flag is important. Local MCP servers communicate over stdio, so Docker must keep stdin open for the MCP client.
+## What it costs
 
-This command does not print a normal app UI. It waits for an MCP client to send JSON-RPC messages over stdin. That is correct.
+KIE Creator itself is free and open source.
 
-When you stop the command with `Ctrl+C`, or when an MCP client disconnects, the container stops. Because the command includes `--rm`, Docker cleans up that stopped container automatically.
+You still need:
 
-You can also use an environment file for manual smoke checks:
+- Claude Desktop and whatever Claude plan you normally use.
+- KIE credits for generations.
 
-```bash
-cp .env.example .env
-# edit .env and set KIE_API_KEY
-docker compose run --rm kie-ai-mcp npm run smoke
-```
+There is no KIE Creator subscription and no Higgsfield subscription required. Different models, durations, and resolutions use different amounts of KIE credit. Claude can check your remaining balance, and you can review every task and its credit use in your [KIE logs](https://kie.ai/logs).
 
-## Configuration
+No honest comparison can promise that every individual generation will always cost less than every Higgsfield plan or promotion. The savings proposition is straightforward: pay as you go, pick lower-cost models when they are good enough, and avoid paying for a separate Higgsfield subscription you may not fully use.
 
-Set environment variables in your MCP client config:
+## Privacy and safety
 
-```bash
-export KIE_API_KEY="your-kie-api-key"
-```
+- The extension runs locally inside Claude Desktop.
+- Claude stores your KIE key as a sensitive setting using your device's secure storage.
+- Creation requests go directly to `https://api.kie.ai`.
+- Reference files go directly to KIE's [official native upload service](https://docs.kie.ai/file-upload-api/quickstart).
+- There is no Cloudinary, S3, ImgBB, Firebase, Supabase, or other media middleman.
+- KIE currently retains generated media for 14 days, so download anything you want to keep.
 
-Optional:
+Only install extension files downloaded from this repository's official Releases page. Never send anyone your KIE API key.
 
-```bash
-export KIE_API_BASE_URL="https://api.kie.ai"
-export KIE_UPLOAD_BASE_URL="https://kieai.redpandaai.co"
-export KIE_WEBHOOK_HMAC_KEY="your-webhook-hmac-key"
-export KIE_POLL_INTERVAL_MS="3000"
-export KIE_POLL_TIMEOUT_MS="600000"
-export KIE_ALLOW_LOCAL_FILE_UPLOADS="false"
-export KIE_DOCS_DATA_DIR="/absolute/path/to/an/external/kie-docs-snapshot"
-```
+## Common questions
 
-Tools that only read local catalogs or verify webhooks with a supplied key work without `KIE_API_KEY`. Live KIE API tools fail clearly if the key is missing.
+### Is this Higgsfield?
 
-`KIE_DOCS_DATA_DIR` is optional. When omitted, the server uses the reviewed snapshot bundled into the build. When set, the server validates and loads that external snapshot at process startup. Restart the MCP process after refreshing it; catalogs are not hot-loaded.
+No. KIE Creator is an independent, open-source alternative that offers a similar “ask your agent to create” workflow. It is not affiliated with or endorsed by Higgsfield or KIE.
 
-## Keep the Kie Catalogs Current
+### Do I need Docker or Node?
 
-The updater discovers pages only through [Kie’s official `llms.txt`](https://docs.kie.ai/llms.txt), rejects non-`docs.kie.ai` redirects, records hashes plus schema/executable-endpoint conflicts, and replaces the snapshot only after the complete crawl validates.
+No. The Claude Desktop extension contains what it needs, and Claude supplies the runtime.
 
-From a source checkout:
+### Does it work in the Claude website?
 
-```bash
-npm run docs:check
-npm run docs:update
-npm test
-npm run typecheck
-npm run build
-```
+This version is designed for the Claude Desktop app because it runs locally and can work with reference files on your computer.
 
-`docs:check` is read-only and exits non-zero when official documentation drift exists. `docs:update` writes the validated artifacts in `src/data/` transactionally. Restart the Node MCP or rebuild an optional Docker image after an update.
+### Can it use an image I already have?
 
-The package also provides a portable CLI for an external snapshot:
+Yes. Attach the image to Claude or tell Claude where the file is saved, then describe how it should be used. Public image links also work.
 
-```bash
-kie-ai-docs check --output /absolute/path/to/kie-docs
-kie-ai-docs update --output /absolute/path/to/kie-docs
-```
+### Where do my creations go?
 
-Start the MCP with `KIE_DOCS_DATA_DIR` pointing to that directory. For Docker, mount the host directory read-only and use its container path:
+Claude returns the result supplied by KIE. Download finished media you want to keep; KIE's official documentation says generated files are retained for 14 days.
 
-```bash
-docker run --rm -i \
-  -e KIE_API_KEY \
-  -e KIE_DOCS_DATA_DIR=/data/kie-docs \
-  -v "/absolute/path/to/kie-docs:/data/kie-docs:ro" \
-  kie-ai-mcp-server:latest
-```
+### How do I update it?
 
-The Impeccable-style `$kie-ai` skill lives at `.agents/skills/kie-ai`. It routes `use`, `upload`, `status`, `doctor`, `install`, `check`, `update`, and `cleanup` workflows through focused references. Its `update` workflow includes a native Node maintenance script that checks official docs, updates only on drift, validates the complete MCP package, and restores the previous generated snapshot if validation fails. Other MCP clients can use the same CLI and MCP tools without supporting skills.
+Download the newest `.mcpb` file from [Releases](https://github.com/alfman99/kie-mcp/releases/latest) and install it over the existing extension. Extensions distributed through Anthropic's official directory can update automatically if this project is accepted there.
 
-## MCP Client Example
+### Something is not working
 
-### Recommended: Direct Node
+Check these three things first:
 
-Most local MCP clients start stdio servers by running a command and passing environment variables:
+1. Your KIE key is still valid.
+2. Your KIE account has enough credits.
+3. You restarted Claude Desktop after installing or updating the extension.
 
-```json
-{
-  "mcpServers": {
-    "kie-ai": {
-      "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
-      "env": {
-        "KIE_API_KEY": "your-kie-api-key",
-        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true"
-      }
-    }
-  }
-}
-```
+Then review the extension in **Settings → Extensions** or [report an issue](https://github.com/alfman99/kie-mcp/issues) without including your API key or private media.
 
-For Claude Code:
+## For developers and other agents
 
-```bash
-claude mcp add --transport stdio kie-ai \
-  --env KIE_API_KEY="$KIE_API_KEY" \
-  --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
-  -- node /absolute/path/to/kie-mcp/dist/src/index.js
-```
+The consumer README intentionally avoids build commands and protocol details.
 
-Secrets should be passed through the MCP client's environment configuration. Do not put real API keys in the repository, image, command arguments, or logs.
+- [Technical reference](docs/TECHNICAL_REFERENCE.md)
+- [How the local process works](docs/HOW_IT_RUNS.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)
+- [Official KIE documentation](https://docs.kie.ai/)
 
-### Codex Setup
+All API behavior and bundled model catalogs are derived exclusively from KIE's official documentation.
 
-Build the server, then add its absolute entry point to Codex:
+---
 
-```bash
-export KIE_API_KEY="your-kie-api-key"
-npm run build
-codex mcp add kie-ai \
-  --env KIE_API_KEY="$KIE_API_KEY" \
-  --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
-  -- node /absolute/path/to/kie-mcp/dist/src/index.js
-npm run mcp:doctor
-```
-
-Check the saved config with:
-
-```bash
-codex mcp get kie-ai
-```
-
-Fresh Codex threads/processes should load it automatically. Already-open threads may not hot-load newly added MCP servers; start a new thread or restart/reload Codex if the `kie-ai` tools are not visible.
-
-The saved config should use the built Node process:
-
-```text
-node /absolute/path/to/kie-mcp/dist/src/index.js
-```
-
-Codex masks configured environment values in `codex mcp get`. Do not store real keys in this repo.
-
-### Installed Binary
-
-After publishing or linking the package, you can also run the binary:
-
-```json
-{
-  "mcpServers": {
-    "kie-ai": {
-      "command": "kie-ai-mcp",
-      "env": {
-        "KIE_API_KEY": "your-kie-api-key"
-      }
-    }
-  }
-}
-```
-
-## Tools
-
-### Friendly Creation Tools
-
-- `kie_create_image`: create a KIE image from a prompt, or edit/reference images with `inputUrls`.
-- `kie_create_video`: create a KIE video from text, first/last frame, image references, video references, or audio references.
-- `kie_create_speech`: create narrated speech or voiceover from text.
-- `kie_get_creation`: check or wait for a KIE creation task.
-
-Example image request:
-
-```json
-{
-  "prompt": "A premium studio product photo of a matte black coffee grinder",
-  "aspectRatio": "1:1",
-  "resolution": "1K"
-}
-```
-
-Example video request:
-
-```json
-{
-  "prompt": "A 5 second cinematic shot of a glass skincare bottle floating through soft morning light",
-  "aspectRatio": "9:16",
-  "resolution": "720p",
-  "duration": 5,
-  "generateAudio": true
-}
-```
-
-By default these tools wait for the final result. Set `waitForResult` to `false` if you want to submit the task first and check later with `kie_get_creation`.
-
-### Configuration and Local Catalogs
-
-- `kie_check_configuration`: reports configured base URLs and whether secrets are present without revealing them.
-- `kie_get_local_catalogs`: returns snapshot provenance, hashes, schema corrections, catalog source, counts, and resource URIs.
-
-### Common API
-
-- `kie_get_credits`: `GET /api/v1/chat/credit`.
-- `kie_get_download_url`: `POST /api/v1/common/download-url`.
-
-### File Upload API
-
-- `kie_upload_media`: friendly router for exactly one `local_file`, `url`, or `base64` source.
-- `kie_upload_file_from_url`: `POST /api/file-url-upload`.
-- `kie_upload_file_base64`: `POST /api/file-base64-upload`.
-- `kie_upload_file_stream`: `POST /api/file-stream-upload`.
-
-Uploads go directly to KIE's officially documented native upload service at `https://kieai.redpandaai.co`. No third-party storage SDK or service is involved.
-
-Local stream uploads use Node's native file-backed `Blob` and multipart `FormData`, without buffering the complete media file in application memory. Local path access is disabled by default; set `KIE_ALLOW_LOCAL_FILE_UPLOADS=true` only when agents should upload files from that runtime.
-
-### Unified Market API
-
-- `kie_market_list_models`: lists local docs-derived model records.
-- `kie_market_get_model_schema`: returns one model schema record by model value.
-- `kie_market_create_task`: calls `POST /api/v1/jobs/createTask`.
-- `kie_market_get_task`: calls `GET /api/v1/jobs/recordInfo`.
-- `kie_market_wait_for_task`: polls `recordInfo` until terminal status or timeout.
-
-Known models are validated against the required fields, types, enums, limits, item counts, and URL formats extracted from the official docs registry. Undocumented fields are rejected by default; set `validateKnownModel` to `false` only as an explicit forward-compatibility escape hatch. Unknown models remain pass-through so newly added KIE models can still be used.
-
-### Webhooks
-
-- `kie_verify_webhook_signature`: verifies `base64(HMAC-SHA256(taskId + "." + timestamp, webhookHmacKey))`.
-
-The verifier supports both `taskId` and `task_id` callback shapes.
-
-### Product APIs
-
-- `kie_product_list_operations`: lists product-specific operations.
-- `kie_product_get_operation_schema`: returns the exact official endpoint schema and source URL.
-- `kie_product_api_call`: dispatches a supported operation for:
-  - `4o_image`
-  - `flux_kontext`
-  - `runway`
-  - `aleph`
-  - `suno`
-  - `veo`
-
-Product query and JSON body parameters are validated against the bundled official OpenAPI snapshot before a request is sent.
-
-Example:
-
-```json
-{
-  "family": "veo",
-  "operation": "generate",
-  "body": {
-    "prompt": "A cinematic shot of a glass sculpture in morning light",
-    "model": "veo3.1",
-    "generationType": "TEXT_2_VIDEO"
-  }
-}
-```
-
-## Resources
-
-- `kie://docs/manifest`
-- `kie://docs/analysis`
-- `kie://docs/openapi-catalog`
-- `kie://docs/market-model-registry`
-- `kie://docs/endpoint-index`
-
-## Development
-
-```bash
-npm run typecheck
-npm run build
-npm test
-npm run docs:check
-npm run mcp:doctor
-```
-
-Tests use mocked HTTP and do not call KIE.
-
-Live authentication check without media generation or credit consumption:
-
-```bash
-KIE_API_KEY="your-kie-api-key" npm run mcp:doctor:live
-```
-
-Docker checks:
-
-```bash
-npm run docker:build
-KIE_API_KEY="your-kie-api-key" npm run docker:smoke
-```
-
-Direct Docker MCP check:
-
-```bash
-KIE_API_KEY="your-kie-api-key" npm run docker:mcp:test
-```
-
-The script starts `docker run --rm -i ... kie-ai-mcp-server:latest`, connects with the MCP SDK over stdio, lists tools/resources, reads bundled docs, and calls the live `kie_get_credits` tool.
-
-Optional live smoke test:
-
-```bash
-KIE_API_KEY="your-kie-api-key" npm run smoke
-```
-
-Without `KIE_API_KEY`, the smoke script exits successfully after reporting that it skipped the live call.
-
-For development before running `npm run build`, use:
-
-```bash
-KIE_API_KEY="your-kie-api-key" npm run smoke:dev
-```
-
-## Bundled Catalogs
-
-The bundled local catalogs in `src/data/` were generated on 2026-07-30 exclusively from the official Kie documentation:
-
-- 244 official English Markdown pages.
-- 210 OpenAPI operations.
-- 78 unique API paths.
-- 119 unique model schemas for `POST /api/v1/jobs/createTask`.
-
-Read `kie://docs/manifest` or call `kie_get_local_catalogs` for the exact timestamp, source index, hashes, model-schema corrections, and executable-endpoint corrections.
+Higgsfield is a trademark of its respective owner. KIE Creator is an independent project and does not claim feature-for-feature parity with Higgsfield's full platform.

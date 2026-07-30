@@ -129,17 +129,6 @@ Configuration and local docs:
 
 Advanced Market, product, and utility tools remain available for exact API control.
 
-## Optional Docker Runtime
-
-Docker is optional. Use it when an isolated runtime is useful:
-
-```bash
-npm run docker:build
-docker run --rm -i -e KIE_API_KEY kie-ai-mcp-server:latest
-```
-
-`-i` keeps stdin open for MCP and `--rm` removes the container after shutdown. Docker Desktop must be running for this optional path. Direct Node does not require Docker.
-
 ## Cleanup
 
 Normal stdio shutdown leaves no server running. After a diagnostic:

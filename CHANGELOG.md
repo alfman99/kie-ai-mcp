@@ -1,7 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 - 2026-07-30
 
+- Added a one-file Claude Desktop extension with secure KIE key configuration and bundled runtime dependencies.
+- Repositioned the project as KIE Creator for Claude, a pay-as-you-go alternative to subscription-based creative MCPs.
+- Rewrote the README for non-technical creators and moved source installation, tools, configuration, and maintenance details to a technical reference.
+- Removed Docker, Docker Compose, Docker scripts, and container-specific documentation.
+- Added validated `.mcpb` release packaging and an automated tagged-release workflow.
 - Fixed `$kie-ai update` handling of the updater's intentional drift-detected exit status.
 - Refreshed the official snapshot for the latest Market schema changes, including `nsfw_checker` placement across Seedance, Bytedance, Wan, and Qwen2 models.
 - Added a deterministic `$kie-ai update` maintenance script with checkout discovery, no-op drift checks, full release validation, and generated-snapshot rollback on failure.
@@ -18,8 +23,8 @@
 
 ## 0.1.0 - 2026-07-02
 
-- Initial Docker-ready local MCP server for KIE.AI.
+- Initial local MCP server for KIE.AI.
 - Added friendly creation tools for image, video, speech, and task result polling.
 - Added raw KIE Market, product API, upload, credits, download URL, webhook verification, and local documentation tools.
 - Bundled docs-derived KIE endpoint and model catalogs from the official KIE documentation crawl.
-- Added Docker, Docker Compose, MCP client examples, tests, and direct Docker MCP smoke verification.
+- Added MCP client examples, tests, and direct stdio MCP smoke verification.

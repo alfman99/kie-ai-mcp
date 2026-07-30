@@ -9,12 +9,16 @@ This server expects secrets at runtime through environment variables:
 - `KIE_API_KEY`
 - `KIE_WEBHOOK_HMAC_KEY`
 
-Use `.env.example` as a template only.
+Use `.env.example` as a developer template only.
 
 ## Reporting Issues
 
 For security-sensitive reports, avoid posting live secrets or private media URLs in public issues. Open a minimal GitHub issue describing the affected area, or contact the repository owner through GitHub.
 
-## Runtime Notes
+## Claude Desktop extension
 
-The recommended Docker stdio setup runs one local container per MCP client session. The image does not contain API keys. Keys are passed into the container at runtime.
+The `.mcpb` manifest marks the KIE API key as sensitive. Claude Desktop stores sensitive extension settings using the operating system's secure credential storage and injects the key only when starting the local server.
+
+The extension enables local file uploads so Claude can use reference media. Install it only from the repository's official Releases page and allow it to access only media you intend to send to KIE.
+
+Requests and media are sent directly to KIE's official API and native upload endpoints. This project does not operate a proxy or media-storage service.

@@ -12,11 +12,10 @@ npm run build
 npm run mcp:doctor
 ```
 
-Docker checks:
+Claude Desktop extension:
 
 ```bash
-npm run docker:build
-KIE_API_KEY="your-kie-api-key" npm run docker:mcp:test
+npm run bundle:claude
 ```
 
 ## Pull Requests
