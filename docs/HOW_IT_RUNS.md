@@ -1,148 +1,112 @@
 # How This MCP Server Runs
 
-This project is a local MCP server for KIE.AI. It does not run as a normal website and it does not listen on a port.
+This project is a local KIE.AI MCP server. It does not listen on a port or keep a background daemon alive. An MCP client starts it as a child process and communicates over standard input and standard output.
 
-It runs as a command-line process that speaks MCP over standard input and standard output.
+## Direct Node Lifecycle
 
-## The Short Version
-
-An MCP client starts this command:
+Build once:
 
 ```bash
-docker run --rm -i \
-  -e KIE_API_KEY \
-  -e KIE_API_BASE_URL \
-  -e KIE_UPLOAD_BASE_URL \
-  -e KIE_WEBHOOK_HMAC_KEY \
-  -e KIE_POLL_INTERVAL_MS \
-  -e KIE_POLL_TIMEOUT_MS \
-  -e KIE_ALLOW_LOCAL_FILE_UPLOADS \
-  kie-ai-mcp-server:latest
+npm install
+npm run build
 ```
 
-Then the MCP client sends JSON-RPC messages into the container through stdin. The server replies through stdout.
+Register this absolute command in the MCP client:
 
-That is why the Docker command needs `-i`: it keeps stdin open.
+```bash
+node /absolute/path/to/kie-mcp/dist/src/index.js
+```
 
-## Mental Model
+The lifecycle is:
 
 ```text
-Codex / Claude / Cursor / other MCP client
+Codex / Claude / Cursor / another MCP client
         |
-        | starts a subprocess
+        | starts a child process and initializes MCP
         v
-docker run --rm -i ... kie-ai-mcp-server:latest
+node /absolute/path/to/dist/src/index.js
         |
-        | starts Node inside the container
+        | exposes tools and local docs resources
         v
-node dist/src/index.js
+KIE creation, upload, task, catalog, and utility tools
         |
-        | registers MCP tools
+        | live tools call KIE over HTTPS
         v
-kie_get_credits, kie_market_create_task, kie_market_get_task, ...
+KIE.AI APIs
         |
-        | when a tool is called
+        | client closes stdin
         v
-KIE.AI HTTPS API
+Node process exits
 ```
 
-The server is only alive while the MCP client keeps it open. There is no background daemon required.
-
-## What Docker Does Here
-
-Docker gives everyone the same runtime:
-
-- Node 20
-- production dependencies
-- compiled JavaScript in `dist/`
-- bundled KIE docs registry data
-
-The API key is not baked into the image. It is passed at runtime through environment variables.
+The server stores no media. It uses KIE's native upload endpoints and returns KIE's temporary upload URLs.
 
 ## What Codex Is Configured To Do
 
-This machine has a global Codex MCP entry named `kie-ai`.
-
-You can inspect it with:
+This machine has a global Codex MCP entry named `kie-ai`. Inspect it with:
 
 ```bash
 codex mcp get kie-ai
 ```
 
-It should show:
+Expected shape:
 
 ```text
 kie-ai
   enabled: true
   transport: stdio
-  command: docker
-  args: run --rm -i ... kie-ai-mcp-server:latest
+  command: node
+  args: /absolute/path/to/kie-mcp/dist/src/index.js
 ```
 
-Codex masks the configured environment values in its output.
+Codex masks configured environment values. Fresh tasks load the MCP automatically. An already-open task may require a new task or Codex reload after registration changes.
 
-Fresh Codex threads/processes load this MCP server automatically. Already-open threads may not hot-load newly added MCP servers; start a new thread or restart/reload Codex if the `kie-ai` tools do not appear.
+## Deterministic Doctor
 
-## Build The Image
-
-From the repo root:
+Run the complete no-credit lifecycle test:
 
 ```bash
-npm run docker:build
+npm run build
+npm run mcp:doctor
 ```
 
-Equivalent raw command:
+The doctor:
+
+1. Spawns the built server over stdio.
+2. Completes MCP initialization.
+3. Lists required tools and resources.
+4. Calls configuration and local-catalog tools.
+5. Closes the client and stdin transport.
+6. Confirms the child process exited.
+7. Fails on unexpected stderr or an orphan process.
+
+Verify the configured API key without generating media:
 
 ```bash
-docker build -t kie-ai-mcp-server:latest .
+KIE_API_KEY="your-kie-api-key" npm run mcp:doctor:live
 ```
 
-## Run A Live Smoke Test
+The live doctor calls only KIE's credit endpoint. It does not consume generation credits.
 
-```bash
-KIE_API_KEY="your-kie-api-key" npm run docker:smoke
-```
+## Native Media Uploads
 
-Expected success shape:
+`kie_upload_media` accepts exactly one source:
 
-```json
-{
-  "ok": true,
-  "credits": {
-    "code": 200,
-    "msg": "success",
-    "data": 7781
-  }
-}
-```
+- `local_file`: native multipart upload from an absolute local path.
+- `url`: KIE downloads a public HTTP or HTTPS URL.
+- `base64`: KIE receives raw base64 or a data URL.
 
-The credit number will vary.
+It routes directly to:
 
-## Run The MCP Server Manually
+- `POST https://kieai.redpandaai.co/api/file-stream-upload`
+- `POST https://kieai.redpandaai.co/api/file-url-upload`
+- `POST https://kieai.redpandaai.co/api/file-base64-upload`
 
-This starts the MCP server and waits for MCP messages:
+These are the native endpoints in the official [KIE File Upload API](https://docs.kie.ai/file-upload-api/quickstart). No Cloudinary, S3, ImgBB, Supabase, Firebase, or other media intermediary is used.
 
-```bash
-docker run --rm -i -e KIE_API_KEY="your-kie-api-key" kie-ai-mcp-server:latest
-```
+Local file access is disabled by default. Set `KIE_ALLOW_LOCAL_FILE_UPLOADS=true` only for an agent that should read local paths. The Node client uses a file-backed `Blob` and native `FormData`, so the application does not load the complete file into a separate memory buffer.
 
-You will not see a normal prompt. That is expected. It is waiting for an MCP client to speak JSON-RPC over stdin.
-
-Use `Ctrl+C` to stop it.
-
-## Direct MCP Test Through Docker
-
-This is the strongest test because it uses a real MCP client talking to the Docker container over stdio.
-
-Run it like this:
-
-```bash
-KIE_API_KEY="your-kie-api-key" npm run docker:mcp:test
-```
-
-The checked-in script is [direct-docker-test-snippet.mjs](direct-docker-test-snippet.mjs). It starts Docker, connects with the MCP SDK, lists tools/resources, reads `kie://docs/analysis`, and calls `kie_get_credits`.
-
-## Available Tool Groups
+## Tool Groups
 
 Friendly creation:
 
@@ -151,66 +115,44 @@ Friendly creation:
 - `kie_create_speech`
 - `kie_get_creation`
 
+Native upload:
+
+- `kie_upload_media`
+- `kie_upload_file_from_url`
+- `kie_upload_file_base64`
+- `kie_upload_file_stream`
+
 Configuration and local docs:
 
 - `kie_check_configuration`
 - `kie_get_local_catalogs`
 
-Common KIE API:
+Advanced Market, product, and utility tools remain available for exact API control.
 
-- `kie_get_credits`
-- `kie_get_download_url`
+## Optional Docker Runtime
 
-Uploads:
+Docker is optional. Use it when an isolated runtime is useful:
 
-- `kie_upload_file_from_url`
-- `kie_upload_file_base64`
-- `kie_upload_file_stream`
-
-Market tasks:
-
-- `kie_market_list_models`
-- `kie_market_get_model_schema`
-- `kie_market_create_task`
-- `kie_market_get_task`
-- `kie_market_wait_for_task`
-
-Webhooks:
-
-- `kie_verify_webhook_signature`
-
-Product helpers:
-
-- `kie_product_list_operations`
-- `kie_product_api_call`
-
-## Example: Generate An Image
-
-The generated turtle was created through:
-
-1. `kie_market_create_task`
-2. model: `gpt-image-2-text-to-image`
-3. input:
-
-```json
-{
-  "prompt": "A charming turtle, centered composition, detailed natural shell texture, gentle curious expression, clean studio lighting, subtle soft shadow, high quality image, no text, no watermark.",
-  "aspect_ratio": "1:1",
-  "resolution": "1K"
-}
+```bash
+npm run docker:build
+docker run --rm -i -e KIE_API_KEY kie-ai-mcp-server:latest
 ```
 
-4. Poll with `kie_market_get_task`.
-5. Download the result URL from `resultJson.resultUrls[0]`.
-6. Resize locally to 720x720 when an exact `720p` model option is not available.
+`-i` keeps stdin open for MCP and `--rm` removes the container after shutdown. Docker Desktop must be running for this optional path. Direct Node does not require Docker.
 
-The output files are in `outputs/`.
+## Cleanup
 
-## Important Notes
+Normal stdio shutdown leaves no server running. After a diagnostic:
 
-- Do not commit real API keys.
-- `.env` is ignored by git.
-- The Docker image does not contain the key.
-- MCP stdio servers need `-i` when run through Docker.
-- If Docker Desktop is not running, `docker build` or `docker run` will fail until the daemon starts.
-- KIE generation tasks are asynchronous. Creation returns a task id; final media appears later through polling or callbacks.
+```bash
+pgrep -af 'dist/src/index.js'
+```
+
+An empty result confirms no matching MCP child remains. Do not terminate unrelated Node processes. Temporary test directories are created under the operating system's temp directory and removed by the test suite.
+
+## Security
+
+- Keep real API keys out of the repository and command arguments.
+- Do not log base64 media, webhook secrets, or private temporary URLs.
+- Enable local file uploads only for trusted agents.
+- KIE generation is asynchronous. Preserve task IDs until the final result is retrieved.

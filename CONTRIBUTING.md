@@ -9,6 +9,7 @@ npm install
 npm run typecheck
 npm test
 npm run build
+npm run mcp:doctor
 ```
 
 Docker checks:

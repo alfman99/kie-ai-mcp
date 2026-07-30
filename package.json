@@ -35,7 +35,7 @@
     "LICENSE",
     "CHANGELOG.md",
     "docs",
-    ".agents/skills/update-kie-docs"
+    ".agents/skills/kie-ai"
   ],
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json && cp src/data/* dist/src/data/",
@@ -45,6 +45,8 @@
     "dev": "tsx src/index.ts",
     "smoke": "node dist/scripts/smoke.js",
     "smoke:dev": "tsx scripts/smoke.ts",
+    "mcp:doctor": "node dist/scripts/mcp-doctor.js",
+    "mcp:doctor:live": "node dist/scripts/mcp-doctor.js --live",
     "docs:check": "tsx scripts/kie-docs.ts check",
     "docs:update": "tsx scripts/kie-docs.ts update",
     "docker:build": "docker build -t kie-ai-mcp-server:latest .",

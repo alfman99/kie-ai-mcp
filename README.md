@@ -2,7 +2,7 @@
 
 Local stdio MCP server for KIE.AI. It bundles endpoint/model catalogs generated exclusively from the [official Kie documentation](https://docs.kie.ai/) and exposes KIE media/task APIs as MCP tools for local agents.
 
-If the Docker/MCP setup feels confusing, read [docs/HOW_IT_RUNS.md](docs/HOW_IT_RUNS.md). The short version: your MCP client starts a Docker container when it needs this server, keeps stdin open with `-i`, talks JSON-RPC to the Node process inside the container, and the container exits when the MCP session ends.
+For the process lifecycle and diagnostic flow, read [docs/HOW_IT_RUNS.md](docs/HOW_IT_RUNS.md). The short version: your MCP client starts the built Node command, talks JSON-RPC over stdio, and closes the process when the session ends.
 
 ## How It Runs
 
@@ -10,37 +10,27 @@ Yes: the MCP client spins it up, uses it, then turns it off.
 
 This server is a local stdio MCP server. It is not a web app, and it does not keep a background port open. Your agent starts it as a subprocess.
 
-With Docker, that subprocess is:
+From a source checkout, that subprocess is:
 
 ```bash
-docker run --rm -i -e KIE_API_KEY kie-ai-mcp-server:latest
+node /absolute/path/to/kie-mcp/dist/src/index.js
 ```
 
 The lifecycle is:
 
-1. You configure your MCP client with the Docker command.
-2. The MCP client starts the container when it opens the MCP server.
-3. The container starts `node dist/src/index.js`.
-4. The MCP client sends tool calls through stdin/stdout.
-5. The Node server calls KIE.AI over HTTPS when a live tool is used.
-6. When the MCP client closes the session, the process exits.
-7. Docker removes the stopped container because the command uses `--rm`.
+1. You configure your MCP client with the absolute Node entry point.
+2. The client starts the process and completes MCP initialization.
+3. The client sends tool calls through stdin/stdout.
+4. The server calls only KIE.AI endpoints over HTTPS when a live tool is used.
+5. When the client closes the session, stdin closes and the Node process exits.
 
-So there is no long-running service to manage manually. Docker is only providing a clean, repeatable runtime for the MCP process.
-
-Important flags:
-
-- `--rm`: remove the container after it exits.
-- `-i`: keep stdin open so the MCP client can talk to the server.
-- `-e KIE_API_KEY`: pass your KIE key at runtime without baking it into the image.
-
-Manual `docker run` commands are mostly for testing. In daily use, your MCP client runs this command for you.
+There is no background daemon, listening port, storage service, or upload intermediary. Docker remains an optional packaging method, not a runtime requirement.
 
 ## What It Covers
 
 - Higgsfield-style creative tools: ask your agent to create an image, video, or voiceover with KIE and let the MCP server handle the KIE task call and polling.
 - Common utilities: credits and temporary download URLs.
-- File uploads: URL upload, base64 upload, and local file stream upload.
+- Native KIE file uploads: one friendly media uploader plus URL, base64, and local file stream primitives.
 - Unified Market tasks: list models, inspect model schemas, create tasks, poll tasks, and wait for completion.
 - Webhook HMAC verification.
 - Product-specific helper dispatch for 4o Image, Flux Kontext, Runway/Aleph, Suno, and Veo3.1.
@@ -70,6 +60,7 @@ The agent should use the friendly tools first:
 - `kie_create_video`: create text-to-video or image-to-video generations. Defaults to Seedance 2.0.
 - `kie_create_speech`: create voiceover or narration.
 - `kie_get_creation`: check or wait for any submitted creation task.
+- `kie_upload_media`: upload a local file, public URL, or base64 payload directly through KIE.
 
 These tools hide the annoying parts:
 
@@ -88,11 +79,12 @@ git clone https://github.com/alfman99/kie-mcp.git
 cd kie-mcp
 npm install
 npm run build
+npm run mcp:doctor
 ```
 
-## Docker Quick Start
+## Optional Docker Runtime
 
-Docker is the recommended way to run this MCP server locally. You build the image once:
+Docker is supported when an isolated runtime is preferred. It is not required for Node or Codex setup.
 
 ```bash
 docker build -t kie-ai-mcp-server:latest .
@@ -152,7 +144,7 @@ Tools that only read local catalogs or verify webhooks with a supplied key work 
 
 ## Keep the Kie Catalogs Current
 
-The updater discovers pages only through [Kie’s official `llms.txt`](https://docs.kie.ai/llms.txt), rejects non-`docs.kie.ai` redirects, records hashes and schema conflicts, and replaces the snapshot only after the complete crawl validates.
+The updater discovers pages only through [Kie’s official `llms.txt`](https://docs.kie.ai/llms.txt), rejects non-`docs.kie.ai` redirects, records hashes plus schema/executable-endpoint conflicts, and replaces the snapshot only after the complete crawl validates.
 
 From a source checkout:
 
@@ -164,7 +156,7 @@ npm run typecheck
 npm run build
 ```
 
-`docs:check` is read-only and exits non-zero when official documentation drift exists. `docs:update` writes the validated artifacts in `src/data/` transactionally. Rebuild the Docker image or restart the Node MCP after an update.
+`docs:check` is read-only and exits non-zero when official documentation drift exists. `docs:update` writes the validated artifacts in `src/data/` transactionally. Restart the Node MCP or rebuild an optional Docker image after an update.
 
 The package also provides a portable CLI for an external snapshot:
 
@@ -183,85 +175,52 @@ docker run --rm -i \
   kie-ai-mcp-server:latest
 ```
 
-The repo-scoped `$update-kie-docs` skill lives at `.agents/skills/update-kie-docs` and is discovered automatically by Codex or ChatGPT desktop when working in this checkout. It guides the agent through the official-source check, reviewed update, adapter audit, verification, and restart. Other MCP clients can use the same CLI without supporting skills.
+The Impeccable-style `$kie-ai` skill lives at `.agents/skills/kie-ai`. It routes `use`, `upload`, `status`, `doctor`, `install`, `check`, `update`, and `cleanup` workflows through focused references. Other MCP clients can use the same CLI and MCP tools without supporting skills.
 
 ## MCP Client Example
 
-### Recommended: Docker
+### Recommended: Direct Node
 
-Most local MCP clients start stdio servers by running a command and passing environment variables. Use Docker so nobody needs a local Node install:
+Most local MCP clients start stdio servers by running a command and passing environment variables:
 
 ```json
 {
   "mcpServers": {
     "kie-ai": {
-      "command": "docker",
-      "args": [
-        "run",
-        "--rm",
-        "-i",
-        "-e",
-        "KIE_API_KEY",
-        "-e",
-        "KIE_API_BASE_URL",
-        "-e",
-        "KIE_UPLOAD_BASE_URL",
-        "-e",
-        "KIE_WEBHOOK_HMAC_KEY",
-        "-e",
-        "KIE_POLL_INTERVAL_MS",
-        "-e",
-        "KIE_POLL_TIMEOUT_MS",
-        "-e",
-        "KIE_ALLOW_LOCAL_FILE_UPLOADS",
-        "kie-ai-mcp-server:latest"
-      ],
+      "command": "node",
+      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
       "env": {
-        "KIE_API_KEY": "your-kie-api-key"
+        "KIE_API_KEY": "your-kie-api-key",
+        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true"
       }
     }
   }
 }
 ```
 
-For Claude Code, the equivalent command is:
+For Claude Code:
 
 ```bash
 claude mcp add --transport stdio kie-ai \
   --env KIE_API_KEY="$KIE_API_KEY" \
-  -- docker run --rm -i \
-    -e KIE_API_KEY \
-    -e KIE_API_BASE_URL \
-    -e KIE_UPLOAD_BASE_URL \
-    -e KIE_WEBHOOK_HMAC_KEY \
-    -e KIE_POLL_INTERVAL_MS \
-    -e KIE_POLL_TIMEOUT_MS \
-    -e KIE_ALLOW_LOCAL_FILE_UPLOADS \
-    kie-ai-mcp-server:latest
+  --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
+  -- node /absolute/path/to/kie-mcp/dist/src/index.js
 ```
 
-Secrets should be passed at runtime through the MCP client or shell environment. Do not put real API keys in the Docker image, Dockerfile, or committed config files.
+Secrets should be passed through the MCP client's environment configuration. Do not put real API keys in the repository, image, command arguments, or logs.
 
 ### Codex Setup
 
-Build the Docker image, then add the server to Codex:
+Build the server, then add its absolute entry point to Codex:
 
 ```bash
 export KIE_API_KEY="your-kie-api-key"
-npm run docker:build
+npm run build
 codex mcp add kie-ai \
   --env KIE_API_KEY="$KIE_API_KEY" \
-  --env KIE_API_BASE_URL="https://api.kie.ai" \
-  --env KIE_UPLOAD_BASE_URL="https://kieai.redpandaai.co" \
-  -- docker run --rm -i \
-    -e KIE_API_KEY \
-    -e KIE_API_BASE_URL \
-    -e KIE_UPLOAD_BASE_URL \
-    -e KIE_WEBHOOK_HMAC_KEY \
-    -e KIE_POLL_INTERVAL_MS \
-    -e KIE_POLL_TIMEOUT_MS \
-    -e KIE_ALLOW_LOCAL_FILE_UPLOADS \
-    kie-ai-mcp-server:latest
+  --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
+  -- node /absolute/path/to/kie-mcp/dist/src/index.js
+npm run mcp:doctor
 ```
 
 Check the saved config with:
@@ -272,31 +231,15 @@ codex mcp get kie-ai
 
 Fresh Codex threads/processes should load it automatically. Already-open threads may not hot-load newly added MCP servers; start a new thread or restart/reload Codex if the `kie-ai` tools are not visible.
 
-The saved config should use Docker:
+The saved config should use the built Node process:
 
 ```text
-docker run --rm -i ... kie-ai-mcp-server:latest
+node /absolute/path/to/kie-mcp/dist/src/index.js
 ```
 
 Codex masks configured environment values in `codex mcp get`. Do not store real keys in this repo.
 
-### Node Fallback
-
-Use the built server directly with any stdio MCP client:
-
-```json
-{
-  "mcpServers": {
-    "kie-ai": {
-      "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
-      "env": {
-        "KIE_API_KEY": "your-kie-api-key"
-      }
-    }
-  }
-}
-```
+### Installed Binary
 
 After publishing or linking the package, you can also run the binary:
 
@@ -358,13 +301,14 @@ By default these tools wait for the final result. Set `waitForResult` to `false`
 
 ### File Upload API
 
+- `kie_upload_media`: friendly router for exactly one `local_file`, `url`, or `base64` source.
 - `kie_upload_file_from_url`: `POST /api/file-url-upload`.
 - `kie_upload_file_base64`: `POST /api/file-base64-upload`.
 - `kie_upload_file_stream`: `POST /api/file-stream-upload`.
 
-Uploads use `KIE_UPLOAD_BASE_URL`, defaulting to `https://kieai.redpandaai.co`.
+Uploads go directly to KIE's officially documented native upload service at `https://kieai.redpandaai.co`. No third-party storage SDK or service is involved.
 
-`kie_upload_file_stream` reads a local file path from the machine running the MCP server. It is disabled by default for safety. Set `KIE_ALLOW_LOCAL_FILE_UPLOADS=true` only when you explicitly want agents to upload local files from that runtime.
+Local stream uploads use Node's native file-backed `Blob` and multipart `FormData`, without buffering the complete media file in application memory. Local path access is disabled by default; set `KIE_ALLOW_LOCAL_FILE_UPLOADS=true` only when agents should upload files from that runtime.
 
 ### Unified Market API
 
@@ -422,9 +366,16 @@ npm run typecheck
 npm run build
 npm test
 npm run docs:check
+npm run mcp:doctor
 ```
 
 Tests use mocked HTTP and do not call KIE.
+
+Live authentication check without media generation or credit consumption:
+
+```bash
+KIE_API_KEY="your-kie-api-key" npm run mcp:doctor:live
+```
 
 Docker checks:
 
@@ -464,4 +415,4 @@ The bundled local catalogs in `src/data/` were generated on 2026-07-30 exclusive
 - 78 unique API paths.
 - 118 unique model schemas for `POST /api/v1/jobs/createTask`.
 
-Read `kie://docs/manifest` or call `kie_get_local_catalogs` for the exact timestamp, source index, hashes, and recorded official schema/example conflicts.
+Read `kie://docs/manifest` or call `kie_get_local_catalogs` for the exact timestamp, source index, hashes, model-schema corrections, and executable-endpoint corrections.
