@@ -175,7 +175,7 @@ docker run --rm -i \
   kie-ai-mcp-server:latest
 ```
 
-The Impeccable-style `$kie-ai` skill lives at `.agents/skills/kie-ai`. It routes `use`, `upload`, `status`, `doctor`, `install`, `check`, `update`, and `cleanup` workflows through focused references. Other MCP clients can use the same CLI and MCP tools without supporting skills.
+The Impeccable-style `$kie-ai` skill lives at `.agents/skills/kie-ai`. It routes `use`, `upload`, `status`, `doctor`, `install`, `check`, `update`, and `cleanup` workflows through focused references. Its `update` workflow includes a native Node maintenance script that checks official docs, updates only on drift, validates the complete MCP package, and restores the previous generated snapshot if validation fails. Other MCP clients can use the same CLI and MCP tools without supporting skills.
 
 ## MCP Client Example
 

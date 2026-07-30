@@ -37,7 +37,7 @@ If MCP tools are unavailable, load [reference/install.md](reference/install.md) 
 | `doctor` | Diagnose | Exercise initialize, tools, resources, and shutdown | [reference/doctor.md](reference/doctor.md) |
 | `install` | Manage | Build and connect this MCP to the current agent | [reference/install.md](reference/install.md) |
 | `check` | Docs | Check official KIE documentation for drift | [reference/check.md](reference/check.md) |
-| `update` | Docs | Refresh reviewed catalogs from official KIE docs | [reference/update.md](reference/update.md) |
+| `update` | Docs | Safely refresh and validate catalogs from official KIE docs | [reference/update.md](reference/update.md) |
 | `cleanup` | Manage | Remove temporary diagnostics and stop orphan runtimes | [reference/cleanup.md](reference/cleanup.md) |
 
 ### Routing Rules

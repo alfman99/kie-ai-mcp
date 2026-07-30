@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added a deterministic `$kie-ai update` maintenance script with checkout discovery, no-op drift checks, full release validation, and generated-snapshot rollback on failure.
 - Added the `kie-ai-docs` official-documentation sync CLI and routed, repo-scoped `$kie-ai` agent skill.
 - Added provenance hashes, freshness metadata, schema-conflict reporting, transactional snapshot replacement, and an optional validated `KIE_DOCS_DATA_DIR`.
 - Added executable-endpoint correction records for the three native KIE upload APIs when stale OpenAPI server declarations conflict with official request URLs.

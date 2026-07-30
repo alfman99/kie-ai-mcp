@@ -1,4 +1,4 @@
 interface:
   display_name: "KIE.AI"
   short_description: "Create media and maintain the KIE MCP"
-  default_prompt: "Use $kie-ai to check this agent's KIE connection and complete my media request."
+  default_prompt: "Use $kie-ai to update this MCP from official KIE docs or complete my media request."
