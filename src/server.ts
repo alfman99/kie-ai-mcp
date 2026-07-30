@@ -6,7 +6,12 @@ import { z } from "zod";
 import { loadConfig, requireApiKey } from "./config.js";
 import { normalizeError } from "./errors.js";
 import { KieHttpClient } from "./http.js";
-import { findProductOperation, productOperations } from "./products.js";
+import {
+  findProductOperation,
+  getProductOperationSchema,
+  productOperations,
+  validateProductOperationInput
+} from "./products.js";
 import { findMarketModel, loadCatalogRegistry, summarizeMarketModel, validateMarketInput } from "./registry.js";
 import { getMarketTask, waitForMarketTask } from "./task.js";
 import type { KieConfig, MarketModelRecord } from "./types.js";
@@ -18,6 +23,10 @@ type ToolResult = {
 };
 
 const JsonRecordSchema = z.record(z.string(), z.unknown());
+const GptImage2ModelSchema = z.enum([
+  "gpt-image-2-text-to-image",
+  "gpt-image-2-image-to-image"
+]);
 const UploadPathSchema = z
   .string()
   .min(1)
@@ -211,6 +220,54 @@ async function createAndMaybeWaitForMarketTask(args: {
   };
 }
 
+function validateGptImage2Combination(model: string, input: Record<string, unknown>): void {
+  const inputUrls = Array.isArray(input.input_urls) ? input.input_urls : [];
+  if (model === "gpt-image-2-text-to-image" && inputUrls.length > 0) {
+    throw new Error("gpt-image-2-text-to-image does not accept inputUrls; use gpt-image-2-image-to-image.");
+  }
+  if (model === "gpt-image-2-image-to-image" && inputUrls.length === 0) {
+    throw new Error("gpt-image-2-image-to-image requires at least one inputUrls entry.");
+  }
+
+  const aspectRatio = input.aspect_ratio;
+  const resolution = input.resolution;
+  if (resolution === "4K" && aspectRatio === "1:1") {
+    throw new Error("GPT Image 2 does not support 4K output at a 1:1 aspect ratio.");
+  }
+  if (resolution !== "1K" && aspectRatio === "auto") {
+    throw new Error('GPT Image 2 only supports resolution "1K" when aspectRatio is "auto".');
+  }
+  if (
+    model === "gpt-image-2-text-to-image" &&
+    resolution !== "1K" &&
+    ["5:4", "4:5", "3:1", "1:3", "9:21"].includes(String(aspectRatio))
+  ) {
+    throw new Error(`GPT Image 2 text-to-image does not support ${String(aspectRatio)} at ${String(resolution)}.`);
+  }
+  if (
+    model === "gpt-image-2-image-to-image" &&
+    resolution !== "1K" &&
+    ["5:4", "4:5"].includes(String(aspectRatio))
+  ) {
+    throw new Error(`GPT Image 2 image-to-image only supports ${String(aspectRatio)} at 1K.`);
+  }
+}
+
+function validateSeedance2Combination(input: Record<string, unknown>): void {
+  const hasFrames = Boolean(input.first_frame_url || input.last_frame_url);
+  const hasReferences = ["reference_image_urls", "reference_video_urls", "reference_audio_urls"].some(
+    (field) => Array.isArray(input[field]) && input[field].length > 0
+  );
+  if (input.last_frame_url && !input.first_frame_url) {
+    throw new Error("Seedance 2 lastFrameUrl requires firstFrameUrl.");
+  }
+  if (hasFrames && hasReferences) {
+    throw new Error(
+      "Seedance 2 frame-based and multimodal-reference modes are mutually exclusive; use first/last frames or reference media, not both."
+    );
+  }
+}
+
 export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?: typeof fetch): McpServer {
   const client = makeClient(config, fetchImpl);
   const catalogs = loadCatalogRegistry(config.docsDataDir);
@@ -273,13 +330,20 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
       description:
         "Friendly image-generation tool for chat agents. Use this when the user asks to create, generate, render, or edit an image with KIE. Defaults to GPT Image 2 and can wait for the finished image result.",
       inputSchema: {
-        prompt: z.string().min(1).describe("Plain-language description of the image to create or edit."),
+        prompt: z.string().min(1).max(20000).describe("Plain-language description of the image to create or edit."),
         aspectRatio: z
           .enum(["auto", "1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "3:1", "1:3", "21:9", "9:21"])
           .default("1:1"),
         resolution: z.enum(["1K", "2K", "4K"]).default("1K"),
-        inputUrls: z.array(z.string().url()).optional().describe("Optional source image URLs for image-to-image/editing workflows."),
-        model: z.string().optional().describe("Optional exact KIE Market model. Defaults to GPT Image 2 text-to-image or image-to-image."),
+        inputUrls: z
+          .array(z.string().url())
+          .min(1)
+          .max(16)
+          .optional()
+          .describe("Optional source image URLs for GPT Image 2 image-to-image workflows."),
+        model: GptImage2ModelSchema.optional().describe(
+          "Optional GPT Image 2 mode. For other KIE models, use kie_market_create_task with that model's official schema."
+        ),
         callBackUrl: z.string().url().optional(),
         waitForResult: z.boolean().default(true).describe("When true, poll until KIE returns the final image result or timeout."),
         intervalMs: z.number().int().positive().max(60000).optional(),
@@ -297,6 +361,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
           resolution,
           ...additionalInput
         };
+        validateGptImage2Combination(selectedModel, input);
 
         return createAndMaybeWaitForMarketTask({
           client,
@@ -320,17 +385,20 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
       description:
         "Friendly video-generation tool for chat agents. Use this when the user asks to create, generate, render, animate, or turn an image into a video with KIE. Defaults to Seedance 2.0 and can wait for the finished video result.",
       inputSchema: {
-        prompt: z.string().min(1).describe("Plain-language description of the video, shot, motion, style, and subject."),
+        prompt: z.string().min(3).max(20000).describe("Plain-language description of the video, shot, motion, style, and subject."),
         aspectRatio: z.enum(["1:1", "4:3", "3:4", "16:9", "9:16", "21:9", "adaptive"]).default("16:9"),
         resolution: z.enum(["480p", "720p", "1080p", "4k"]).default("720p"),
-        duration: z.number().int().positive().max(15).default(5),
+        duration: z.number().int().min(4).max(15).default(5),
         generateAudio: z.boolean().default(true),
         firstFrameUrl: z.string().url().optional(),
         lastFrameUrl: z.string().url().optional(),
-        referenceImageUrls: z.array(z.string().url()).optional(),
-        referenceVideoUrls: z.array(z.string().url()).optional(),
-        referenceAudioUrls: z.array(z.string().url()).optional(),
-        model: z.string().default("bytedance/seedance-2").describe("Optional exact KIE Market video model."),
+        referenceImageUrls: z.array(z.string().url()).min(1).max(9).optional(),
+        referenceVideoUrls: z.array(z.string().url()).min(1).max(3).optional(),
+        referenceAudioUrls: z.array(z.string().url()).min(1).max(3).optional(),
+        model: z
+          .literal("bytedance/seedance-2")
+          .default("bytedance/seedance-2")
+          .describe("This friendly tool uses Seedance 2. For other models, use kie_market_create_task."),
         callBackUrl: z.string().url().optional(),
         waitForResult: z.boolean().default(true).describe("When true, poll until KIE returns the final video result or timeout."),
         intervalMs: z.number().int().positive().max(60000).optional(),
@@ -370,6 +438,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
           ...(referenceAudioUrls && referenceAudioUrls.length > 0 ? { reference_audio_urls: referenceAudioUrls } : {}),
           ...additionalInput
         };
+        validateSeedance2Combination(input);
 
         return createAndMaybeWaitForMarketTask({
           client,
@@ -393,11 +462,18 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
       description:
         "Friendly text-to-speech tool for chat agents. Use this when the user asks to create narration, voiceover, spoken audio, or speech with KIE.",
       inputSchema: {
-        text: z.string().min(1).describe("Text to turn into speech."),
-        voice: z.string().default("EkK5I93UQWFDigLMpZcX").describe("ElevenLabs/KIE voice ID or supported voice name."),
-        model: z.string().default("elevenlabs/text-to-speech-turbo-2-5"),
-        languageCode: z.string().optional(),
-        speed: z.number().positive().max(2).default(1),
+        text: z.string().min(1).max(5000).describe("Text to turn into speech."),
+        voice: z.string().default("EkK5I93UQWFDigLMpZcX").describe("Official KIE/ElevenLabs voice ID."),
+        model: z
+          .literal("elevenlabs/text-to-speech-turbo-2-5")
+          .default("elevenlabs/text-to-speech-turbo-2-5")
+          .describe("This friendly tool uses ElevenLabs Turbo 2.5. For other models, use kie_market_create_task."),
+        languageCode: z
+          .string()
+          .regex(/^[a-z]{2}$/)
+          .optional()
+          .describe("Optional lowercase ISO 639-1 language code supported by Turbo 2.5, such as en or es."),
+        speed: z.number().min(0.7).max(1.2).default(1),
         callBackUrl: z.string().url().optional(),
         waitForResult: z.boolean().default(true),
         intervalMs: z.number().int().positive().max(60000).optional(),
@@ -663,7 +739,10 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
         model: z.string().min(1),
         input: JsonRecordSchema.default({}),
         callBackUrl: z.string().url().optional(),
-        validateKnownModel: z.boolean().default(true)
+        validateKnownModel: z
+          .boolean()
+          .default(true)
+          .describe("Validate against the bundled official schema. Disable only for intentional forward compatibility.")
       }
     },
     async ({ model, input, callBackUrl, validateKnownModel }) =>
@@ -751,6 +830,27 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
   );
 
   server.registerTool(
+    "kie_product_get_operation_schema",
+    {
+      title: "Get KIE Product Operation Schema",
+      description:
+        "Return the complete official docs-derived endpoint schema and source URL for a supported product-specific operation.",
+      inputSchema: {
+        family: z.string().min(1),
+        operation: z.string().min(1)
+      }
+    },
+    async ({ family, operation }) =>
+      safeTool(() => {
+        const productOperation = findProductOperation(family, operation);
+        if (!productOperation) {
+          throw new Error(`Unknown product operation: ${family}/${operation}`);
+        }
+        return getProductOperationSchema(productOperation, openapiEndpointCatalog);
+      })
+  );
+
+  server.registerTool(
     "kie_product_api_call",
     {
       title: "Call KIE Product API",
@@ -768,6 +868,12 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
         if (!productOperation) {
           throw new Error(`Unknown product operation: ${family}/${operation}`);
         }
+        validateProductOperationInput({
+          productOperation,
+          query,
+          body,
+          catalog: openapiEndpointCatalog
+        });
 
         return client.requestJson({
           method: productOperation.method,

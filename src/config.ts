@@ -2,7 +2,7 @@ import type { KieConfig } from "./types.js";
 
 const DEFAULT_API_BASE_URL = "https://api.kie.ai";
 const DEFAULT_UPLOAD_BASE_URL = "https://kieai.redpandaai.co";
-const DEFAULT_POLL_INTERVAL_MS = 5000;
+const DEFAULT_POLL_INTERVAL_MS = 3000;
 const DEFAULT_POLL_TIMEOUT_MS = 10 * 60 * 1000;
 
 function readPositiveInteger(name: string, fallback: number): number {

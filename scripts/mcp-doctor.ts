@@ -11,7 +11,8 @@ const REQUIRED_TOOLS = [
   "kie_upload_media",
   "kie_create_image",
   "kie_create_video",
-  "kie_create_speech"
+  "kie_create_speech",
+  "kie_product_get_operation_schema"
 ] as const;
 
 const REQUIRED_RESOURCES = [

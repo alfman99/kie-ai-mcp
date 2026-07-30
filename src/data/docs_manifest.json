@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 2,
-  "generatedAt": "2026-07-30T13:58:30.614Z",
+  "schemaVersion": 3,
+  "generatedAt": "2026-07-30T14:56:59.833Z",
   "sourceIndex": "https://docs.kie.ai/llms.txt",
   "sourceHost": "docs.kie.ai",
   "indexSha256": "7400ad9825cc4d9d94e5cb5fdbaec72241d04638170364a90594376b90be4b48",
@@ -9,12 +9,12 @@
   "openapiPageCount": 210,
   "operationCount": 210,
   "endpointPathCount": 78,
-  "marketModelCount": 118,
+  "marketModelCount": 119,
   "failures": 0,
   "artifactSha256": {
-    "openapi_endpoint_catalog": "caea7e4bb0012c7359636a13d1b1863dbe16157f8337554ed3c0d1b1a510a1e3",
-    "market_model_registry": "73c3827cff80ab69f077c16ba8c3fd8c27a66998360f558f1bf8e938242fb98f",
-    "endpoint_index": "fb152c4bb90e4c83c404f1792e0b4ce6cb0cdb7411ddf2acec98cfb4b5684191"
+    "openapi_endpoint_catalog": "211b8e6989afdb1bf4d4f36318cfcbcec7ac4f04f77fdef650b69b21ab7229d0",
+    "market_model_registry": "2caa90e102bd7b37409c8df2b17db8979966e200b47d3a1372f7d9e91c7fa880",
+    "endpoint_index": "e96f93ac305d63afe6b84f0ad64693757684911e4eacc720af6a31508604c83a"
   },
   "schemaCorrections": [
     {
@@ -47,7 +47,9 @@
     {
       "sourceUrl": "https://docs.kie.ai/file-upload-api/upload-file-stream.md",
       "path": "/api/file-stream-upload",
-      "schemaServers": [],
+      "schemaServers": [
+        "https://api.kie.ai"
+      ],
       "executableServer": "https://kieai.redpandaai.co",
       "reason": "The official executable endpoint and request example conflict with the OpenAPI servers list; the executable URL takes precedence."
     },

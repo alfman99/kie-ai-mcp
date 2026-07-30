@@ -47,6 +47,8 @@ export async function waitForMarketTask(args: {
   timeoutMs: number;
 }): Promise<unknown> {
   const started = Date.now();
+  const maximumIntervalMs = Math.max(args.intervalMs, 30_000);
+  let nextIntervalMs = args.intervalMs;
 
   while (Date.now() - started <= args.timeoutMs) {
     const payload = await getMarketTask(args.client, args.taskId);
@@ -60,7 +62,12 @@ export async function waitForMarketTask(args: {
       return payload;
     }
 
-    await sleep(args.intervalMs);
+    const remainingMs = args.timeoutMs - (Date.now() - started);
+    if (remainingMs <= 0) {
+      break;
+    }
+    await sleep(Math.min(nextIntervalMs, remainingMs));
+    nextIntervalMs = Math.min(Math.ceil(nextIntervalMs * 1.5), maximumIntervalMs);
   }
 
   throw new Error(`Timed out waiting for KIE task ${args.taskId} after ${args.timeoutMs}ms.`);

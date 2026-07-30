@@ -1,4 +1,5 @@
-import type { ProductOperation } from "./types.js";
+import { validateJsonSchema } from "./json-schema.js";
+import type { JsonObject, ProductOperation } from "./types.js";
 
 export const productOperations: ProductOperation[] = [
   { family: "4o_image", operation: "generate", method: "POST", path: "/api/v1/gpt4o-image/generate", description: "Create a 4o Image generation task." },
@@ -45,4 +46,86 @@ export const productOperations: ProductOperation[] = [
 
 export function findProductOperation(family: string, operation: string): ProductOperation | undefined {
   return productOperations.find((item) => item.family === family && item.operation === operation);
+}
+
+function isRecord(value: unknown): value is JsonObject {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function officialEndpoints(catalog: JsonObject): JsonObject[] {
+  return Array.isArray(catalog.endpoints) ? catalog.endpoints.filter(isRecord) : [];
+}
+
+export function findOfficialProductEndpoint(
+  productOperation: ProductOperation,
+  catalog: JsonObject
+): JsonObject | undefined {
+  return officialEndpoints(catalog).find(
+    (endpoint) =>
+      String(endpoint.method).toUpperCase() === productOperation.method && endpoint.path === productOperation.path
+  );
+}
+
+export function getProductOperationSchema(productOperation: ProductOperation, catalog: JsonObject): JsonObject {
+  const endpoint = findOfficialProductEndpoint(productOperation, catalog);
+  if (!endpoint) {
+    throw new Error(
+      `Official schema missing for product operation ${productOperation.family}/${productOperation.operation}.`
+    );
+  }
+  return endpoint;
+}
+
+export function validateProductOperationInput(args: {
+  productOperation: ProductOperation;
+  query: JsonObject;
+  body: unknown;
+  catalog: JsonObject;
+}): void {
+  const endpoint = getProductOperationSchema(args.productOperation, args.catalog);
+  const parameters = Array.isArray(endpoint.parameters) ? endpoint.parameters.filter(isRecord) : [];
+  const queryParameters = parameters.filter((parameter) => parameter.in === "query");
+  const queryProperties = Object.fromEntries(
+    queryParameters
+      .filter((parameter) => typeof parameter.name === "string")
+      .map((parameter) => [String(parameter.name), parameter.schema])
+  );
+  const requiredQuery = queryParameters
+    .filter((parameter) => parameter.required === true && typeof parameter.name === "string")
+    .map((parameter) => String(parameter.name));
+  const errors = validateJsonSchema(
+    args.query,
+    {
+      type: "object",
+      properties: queryProperties,
+      required: requiredQuery
+    },
+    { path: "query", rejectUnknownProperties: true }
+  );
+
+  if (args.productOperation.method === "GET") {
+    if (args.body !== undefined) {
+      errors.push("body is not accepted for this GET operation");
+    }
+  } else {
+    const request = isRecord(endpoint.request) ? endpoint.request : {};
+    const jsonContent = Object.entries(request).find(
+      ([contentType]) => contentType === "application/json" || contentType.endsWith("+json")
+    );
+    const media = jsonContent && isRecord(jsonContent[1]) ? jsonContent[1] : undefined;
+    if (media?.schema) {
+      errors.push(
+        ...validateJsonSchema(args.body ?? {}, media.schema, {
+          path: "body",
+          rejectUnknownProperties: true
+        })
+      );
+    }
+  }
+
+  if (errors.length > 0) {
+    throw new Error(
+      `Invalid parameters for ${args.productOperation.family}/${args.productOperation.operation}: ${errors.join("; ")}`
+    );
+  }
 }

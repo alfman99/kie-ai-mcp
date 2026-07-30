@@ -14,5 +14,5 @@ Do not upload media when the selected KIE tool accepts the existing public URL d
 ## Escalation
 
 - Use `kie_market_create_task` for models not covered by friendly tools.
-- Use `kie_product_api_call` for documented product-specific APIs.
+- Use `kie_product_get_operation_schema` before `kie_product_api_call` for documented product-specific APIs. Product calls are validated against the bundled official schema before submission.
 - Never invent a model ID or request field. Inspect the local official-docs catalog.

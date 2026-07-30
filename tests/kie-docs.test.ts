@@ -18,6 +18,11 @@ paths:
     post:
       summary: Example Image Model
       operationId: example-image
+      description: >-
+        The official description may contain a nested example:
+          \`\`\`json
+          {"status":"ok"}
+          \`\`\`
       requestBody:
         content:
           application/json:
@@ -34,8 +39,17 @@ paths:
                   properties:
                     prompt:
                       type: string
+                      minLength: 3
+                      maxLength: 5000
                     " image_url ":
                       type: string
+                      format: uri
+                    references:
+                      type: array
+                      maxItems: 3
+                      items:
+                        type: string
+                        format: uri
             example:
               model: example/image
               input:
@@ -96,12 +110,31 @@ describe("KIE documentation updater", () => {
     });
     const registry = JSON.parse(artifacts.files["market_model_registry.json"]) as {
       count: number;
-      models: Array<{ model_values: string[]; input_fields: Array<{ name: string }> }>;
+      models: Array<{
+        model_values: string[];
+        input_fields: Array<{
+          name: string;
+          minLength: number | null;
+          maxLength: number | null;
+          maxItems: number | null;
+          itemType: string | null;
+          itemFormat: string | null;
+        }>;
+      }>;
     };
 
     expect(registry.count).toBe(1);
     expect(registry.models[0].model_values).toEqual(["example/image"]);
     expect(registry.models[0].input_fields.map((field) => field.name)).toContain("image_url");
+    expect(registry.models[0].input_fields.find((field) => field.name === "prompt")).toMatchObject({
+      minLength: 3,
+      maxLength: 5000
+    });
+    expect(registry.models[0].input_fields.find((field) => field.name === "references")).toMatchObject({
+      maxItems: 3,
+      itemType: "string",
+      itemFormat: "uri"
+    });
     expect(artifacts.manifest.schemaCorrections).toEqual([
       expect.objectContaining({
         sourceUrl: "https://docs.kie.ai/market/example.md",

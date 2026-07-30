@@ -132,7 +132,7 @@ Optional:
 export KIE_API_BASE_URL="https://api.kie.ai"
 export KIE_UPLOAD_BASE_URL="https://kieai.redpandaai.co"
 export KIE_WEBHOOK_HMAC_KEY="your-webhook-hmac-key"
-export KIE_POLL_INTERVAL_MS="5000"
+export KIE_POLL_INTERVAL_MS="3000"
 export KIE_POLL_TIMEOUT_MS="600000"
 export KIE_ALLOW_LOCAL_FILE_UPLOADS="false"
 export KIE_DOCS_DATA_DIR="/absolute/path/to/an/external/kie-docs-snapshot"
@@ -318,7 +318,7 @@ Local stream uploads use Node's native file-backed `Blob` and multipart `FormDat
 - `kie_market_get_task`: calls `GET /api/v1/jobs/recordInfo`.
 - `kie_market_wait_for_task`: polls `recordInfo` until terminal status or timeout.
 
-Known models are validated against required input fields from the extracted docs registry. Unknown models are allowed through so newly added KIE models can still be used.
+Known models are validated against the required fields, types, enums, limits, item counts, and URL formats extracted from the official docs registry. Undocumented fields are rejected by default; set `validateKnownModel` to `false` only as an explicit forward-compatibility escape hatch. Unknown models remain pass-through so newly added KIE models can still be used.
 
 ### Webhooks
 
@@ -329,6 +329,7 @@ The verifier supports both `taskId` and `task_id` callback shapes.
 ### Product APIs
 
 - `kie_product_list_operations`: lists product-specific operations.
+- `kie_product_get_operation_schema`: returns the exact official endpoint schema and source URL.
 - `kie_product_api_call`: dispatches a supported operation for:
   - `4o_image`
   - `flux_kontext`
@@ -336,6 +337,8 @@ The verifier supports both `taskId` and `task_id` callback shapes.
   - `aleph`
   - `suno`
   - `veo`
+
+Product query and JSON body parameters are validated against the bundled official OpenAPI snapshot before a request is sent.
 
 Example:
 
@@ -413,6 +416,6 @@ The bundled local catalogs in `src/data/` were generated on 2026-07-30 exclusive
 - 244 official English Markdown pages.
 - 210 OpenAPI operations.
 - 78 unique API paths.
-- 118 unique model schemas for `POST /api/v1/jobs/createTask`.
+- 119 unique model schemas for `POST /api/v1/jobs/createTask`.
 
 Read `kie://docs/manifest` or call `kie_get_local_catalogs` for the exact timestamp, source index, hashes, model-schema corrections, and executable-endpoint corrections.

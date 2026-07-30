@@ -99,6 +99,19 @@ type MarketModelField = {
   enum: unknown[] | null;
   default: unknown;
   description: string | null;
+  minimum: number | null;
+  maximum: number | null;
+  exclusiveMinimum: number | null;
+  exclusiveMaximum: number | null;
+  minLength: number | null;
+  maxLength: number | null;
+  pattern: string | null;
+  minItems: number | null;
+  maxItems: number | null;
+  uniqueItems: boolean | null;
+  itemType: string | null;
+  itemFormat: string | null;
+  itemEnum: unknown[] | null;
 };
 
 type MarketModelRecord = {
@@ -141,6 +154,14 @@ function asString(value: unknown): string | undefined {
 
 function asStringArray(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
+
+function asFiniteNumber(value: unknown): number | undefined {
+  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+}
+
+function asBoolean(value: unknown): boolean | undefined {
+  return typeof value === "boolean" ? value : undefined;
 }
 
 function sha256(value: string): string {
@@ -191,7 +212,7 @@ function extractTitle(body: string, fallback: string): string {
 }
 
 function extractOpenApiYaml(body: string): string | undefined {
-  const fences = body.matchAll(/```ya?ml[^\S\r\n]*\r?\n([\s\S]*?)```/gi);
+  const fences = body.matchAll(/^```ya?ml[^\S\r\n]*\r?\n([\s\S]*?)^```[^\S\r\n]*$/gim);
   for (const fence of fences) {
     const candidate = fence[1].trim();
     if (/^openapi\s*:/m.test(candidate)) {
@@ -467,6 +488,7 @@ function normalizeMarketModel(
       throw new Error(`Input field collision after trimming "${rawName}" in official schema: ${page.url}`);
     }
       const field = asRecord(resolveLocalRef(page.spec!, rawField));
+      const items = asRecord(resolveLocalRef(page.spec!, field.items));
       fieldsByName.set(name, {
         name,
         required: inputRequired.has(rawName) || inputRequired.has(name),
@@ -474,7 +496,20 @@ function normalizeMarketModel(
         format: asString(field.format) ?? null,
         enum: Array.isArray(field.enum) ? field.enum : null,
         default: field.default ?? null,
-        description: asString(field.description) ?? null
+        description: asString(field.description) ?? null,
+        minimum: asFiniteNumber(field.minimum) ?? null,
+        maximum: asFiniteNumber(field.maximum) ?? null,
+        exclusiveMinimum: asFiniteNumber(field.exclusiveMinimum) ?? null,
+        exclusiveMaximum: asFiniteNumber(field.exclusiveMaximum) ?? null,
+        minLength: asFiniteNumber(field.minLength) ?? null,
+        maxLength: asFiniteNumber(field.maxLength) ?? null,
+        pattern: asString(field.pattern) ?? null,
+        minItems: asFiniteNumber(field.minItems) ?? null,
+        maxItems: asFiniteNumber(field.maxItems) ?? null,
+        uniqueItems: asBoolean(field.uniqueItems) ?? null,
+        itemType: asString(items.type) ?? null,
+        itemFormat: asString(items.format) ?? null,
+        itemEnum: Array.isArray(items.enum) ? items.enum : null
       });
   }
   const fields = [...fieldsByName.values()]
@@ -748,7 +783,7 @@ export function buildDocsArtifacts(args: {
   const marketRegistryFile = jsonFile(marketRegistry);
   const endpointIndexFile = jsonFile(endpointIndex);
   const manifest: DocsManifest = {
-    schemaVersion: 2,
+    schemaVersion: 3,
     generatedAt: args.generatedAt,
     sourceIndex: KIE_DOCS_INDEX_URL,
     sourceHost: "docs.kie.ai",

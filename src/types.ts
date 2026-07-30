@@ -39,6 +39,19 @@ export type MarketModelField = {
   enum?: unknown[] | null;
   default?: unknown;
   description?: string | null;
+  minimum?: number | null;
+  maximum?: number | null;
+  exclusiveMinimum?: number | null;
+  exclusiveMaximum?: number | null;
+  minLength?: number | null;
+  maxLength?: number | null;
+  pattern?: string | null;
+  minItems?: number | null;
+  maxItems?: number | null;
+  uniqueItems?: boolean | null;
+  itemType?: string | null;
+  itemFormat?: string | null;
+  itemEnum?: unknown[] | null;
 };
 
 export type MarketModelRecord = {

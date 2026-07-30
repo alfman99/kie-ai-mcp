@@ -1,6 +1,6 @@
 # KIE.AI Market Model Registry
 
-Generated 2026-07-30T13:58:30.614Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
+Generated 2026-07-30T14:56:59.833Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
 
 | Model | Required input | Official source |
 | --- | --- | --- |
@@ -66,6 +66,7 @@ Generated 2026-07-30T13:58:30.614Z from official `docs.kie.ai` OpenAPI schemas f
 | `kling-2.6/motion-control` | `character_orientation`, `input_urls`, `mode`, `video_urls` | [Kling 2.6 motion-control](<https://docs.kie.ai/market/kling/motion-control.md>) |
 | `kling-2.6/text-to-video` | `aspect_ratio`, `duration`, `prompt`, `sound` | [Kling 2.6 Text to Video](<https://docs.kie.ai/market/kling/text-to-video.md>) |
 | `kling-3.0/motion-control` | `input_urls`, `video_urls` | [Kling-3.0 motion-control](<https://docs.kie.ai/market/kling/motion-control-v3.md>) |
+| `kling-3.0/video` | `aspect_ratio`, `duration`, `mode`, `multi_prompt`, `multi_shots`, `prompt`, `sound` | [Kling 3.0](<https://docs.kie.ai/market/kling/kling-3-0.md>) |
 | `kling/ai-avatar-pro` | `audio_url`, `image_url`, `prompt` | [Kling AI Avatar Pro](<https://docs.kie.ai/market/kling/ai-avatar-pro.md>) |
 | `kling/ai-avatar-standard` | `audio_url`, `image_url`, `prompt` | [Kling AI Avatar Standard](<https://docs.kie.ai/market/kling/ai-avatar-standard.md>) |
 | `kling/v2-1-master-image-to-video` | `image_url`, `prompt` | [Kling V2.1 Master Image to Video](<https://docs.kie.ai/market/kling/v2-1-master-image-to-video.md>) |

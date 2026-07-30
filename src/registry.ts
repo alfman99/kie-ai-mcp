@@ -49,7 +49,7 @@ function assertOfficialSource(sourceUrl: string, context: string): void {
 function validateCatalogRegistry(registry: CatalogRegistry): CatalogRegistry {
   const manifest = registry.docsManifest;
   if (
-    manifest.schemaVersion !== 2 ||
+    manifest.schemaVersion !== 3 ||
     manifest.sourceIndex !== "https://docs.kie.ai/llms.txt" ||
     manifest.sourceHost !== "docs.kie.ai" ||
     manifest.failures !== 0
@@ -193,12 +193,122 @@ export function validateMarketInput(
     return;
   }
 
+  const errors: string[] = [];
+  const fields = new Map(record.input_fields.map((field) => [field.name, field]));
   const missing = record.input_fields
     .filter((field) => field.required)
     .map((field) => field.name)
     .filter((fieldName) => input[fieldName] === undefined || input[fieldName] === null || input[fieldName] === "");
 
   if (missing.length > 0) {
-    throw new Error(`Missing required input field(s) for ${model}: ${missing.join(", ")}`);
+    errors.push(`missing required field(s): ${missing.join(", ")}`);
+  }
+
+  if (record.input_fields.length > 0) {
+    const unknown = Object.keys(input).filter((name) => !fields.has(name));
+    if (unknown.length > 0) {
+      errors.push(
+        `unknown field(s): ${unknown.join(", ")} (refresh the official catalog or set validateKnownModel=false for forward compatibility)`
+      );
+    }
+  }
+
+  for (const [name, value] of Object.entries(input)) {
+    const field = fields.get(name);
+    if (!field || value === undefined || value === null) {
+      continue;
+    }
+
+    const actualType = Array.isArray(value) ? "array" : typeof value;
+    const typeMatches =
+      !field.type ||
+      (field.type === "integer"
+        ? typeof value === "number" && Number.isInteger(value)
+        : field.type === "number"
+          ? typeof value === "number" && Number.isFinite(value)
+          : field.type === "object"
+            ? typeof value === "object" && !Array.isArray(value)
+            : actualType === field.type);
+    if (!typeMatches) {
+      errors.push(`${name} must be ${field.type}; received ${actualType}`);
+      continue;
+    }
+
+    if (field.enum && !field.enum.some((allowed) => Object.is(allowed, value))) {
+      errors.push(`${name} must be one of ${field.enum.map((item) => JSON.stringify(item)).join(", ")}`);
+    }
+
+    if (typeof value === "number") {
+      if (field.minimum != null && value < field.minimum) {
+        errors.push(`${name} must be at least ${field.minimum}`);
+      }
+      if (field.maximum != null && value > field.maximum) {
+        errors.push(`${name} must be at most ${field.maximum}`);
+      }
+      if (field.exclusiveMinimum != null && value <= field.exclusiveMinimum) {
+        errors.push(`${name} must be greater than ${field.exclusiveMinimum}`);
+      }
+      if (field.exclusiveMaximum != null && value >= field.exclusiveMaximum) {
+        errors.push(`${name} must be less than ${field.exclusiveMaximum}`);
+      }
+    }
+
+    if (typeof value === "string") {
+      if (field.minLength != null && value.length < field.minLength) {
+        errors.push(`${name} must contain at least ${field.minLength} character(s)`);
+      }
+      if (field.maxLength != null && value.length > field.maxLength) {
+        errors.push(`${name} must contain at most ${field.maxLength} character(s)`);
+      }
+      if (field.pattern) {
+        try {
+          if (!new RegExp(field.pattern).test(value)) {
+            errors.push(`${name} must match the official pattern ${field.pattern}`);
+          }
+        } catch {
+          // A malformed upstream pattern should not prevent use of the server.
+        }
+      }
+      if (field.format === "uri" && !isAbsoluteHttpUrl(value)) {
+        errors.push(`${name} must be an absolute HTTP(S) URL`);
+      }
+    }
+
+    if (Array.isArray(value)) {
+      if (field.minItems != null && value.length < field.minItems) {
+        errors.push(`${name} must contain at least ${field.minItems} item(s)`);
+      }
+      if (field.maxItems != null && value.length > field.maxItems) {
+        errors.push(`${name} must contain at most ${field.maxItems} item(s)`);
+      }
+      if (field.uniqueItems && new Set(value.map((item) => JSON.stringify(item))).size !== value.length) {
+        errors.push(`${name} must contain unique items`);
+      }
+      value.forEach((item, index) => {
+        const itemType = Array.isArray(item) ? "array" : typeof item;
+        if (field.itemType && itemType !== field.itemType) {
+          errors.push(`${name}[${index}] must be ${field.itemType}; received ${itemType}`);
+        }
+        if (field.itemEnum && !field.itemEnum.some((allowed) => Object.is(allowed, item))) {
+          errors.push(`${name}[${index}] is not an allowed value`);
+        }
+        if (field.itemFormat === "uri" && (typeof item !== "string" || !isAbsoluteHttpUrl(item))) {
+          errors.push(`${name}[${index}] must be an absolute HTTP(S) URL`);
+        }
+      });
+    }
+  }
+
+  if (errors.length > 0) {
+    throw new Error(`Invalid input for ${model}: ${errors.join("; ")}`);
+  }
+}
+
+function isAbsoluteHttpUrl(value: string): boolean {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
   }
 }
