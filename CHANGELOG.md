@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fixed `$kie-ai update` handling of the updater's intentional drift-detected exit status.
+- Refreshed the official snapshot for the latest Market schema changes, including `nsfw_checker` placement across Seedance, Bytedance, Wan, and Qwen2 models.
 - Added a deterministic `$kie-ai update` maintenance script with checkout discovery, no-op drift checks, full release validation, and generated-snapshot rollback on failure.
 - Added the `kie-ai-docs` official-documentation sync CLI and routed, repo-scoped `$kie-ai` agent skill.
 - Added provenance hashes, freshness metadata, schema-conflict reporting, transactional snapshot replacement, and an optional validated `KIE_DOCS_DATA_DIR`.

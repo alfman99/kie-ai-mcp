@@ -143,14 +143,18 @@ function run(command, args, cwd, options = {}) {
   if (result.error) {
     throw result.error;
   }
-  if (result.status !== 0) {
+  const allowedStatuses = options.allowedStatuses ?? [0];
+  if (!allowedStatuses.includes(result.status)) {
     throw new Error(`${command} ${args.join(" ")} exited with status ${result.status}.`);
   }
   return result.stdout ?? "";
 }
 
 function runDocsCommand(scriptName, cwd) {
-  const output = run(npmCommand, ["run", "--silent", scriptName], cwd, { capture: true }).trim();
+  const output = run(npmCommand, ["run", "--silent", scriptName], cwd, {
+    capture: true,
+    allowedStatuses: scriptName === "docs:check" ? [0, 1] : [0]
+  }).trim();
   try {
     return JSON.parse(output);
   } catch {
