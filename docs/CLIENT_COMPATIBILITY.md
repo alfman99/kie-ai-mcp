@@ -9,11 +9,21 @@ KIE Creator uses one MCP implementation across supported agents. The local serve
 | Claude Desktop | Supported and release-tested | Local stdio | Install the `.mcpb` extension |
 | Cursor IDE | Supported | Local stdio | Add the built server to global or project `mcp.json` |
 | Cursor Agent CLI | Supported | Local stdio | Uses the same Cursor `mcp.json` |
+| VS Code + GitHub Copilot | Compatible; vendor-documented stdio | Local stdio | Add it to user or workspace `mcp.json` |
+| JetBrains AI Assistant | Compatible; vendor-documented stdio | Local stdio | Add it in AI Assistant MCP settings |
+| Zed | Compatible; vendor-documented stdio | Local stdio | Add it as a local context server |
+| Cline | Compatible; vendor-documented stdio | Local stdio | Add it through the MCP Servers panel |
+| Roo Code | Compatible; vendor-documented stdio | Local stdio | Add it globally or in `.roo/mcp.json` |
+| Windsurf / legacy Cascade | Compatible; vendor-documented stdio | Local stdio | Add it to Cascade MCP settings |
+| Visual Studio + GitHub Copilot | Compatible; vendor-documented stdio | Local stdio | Add a custom MCP server in Agent mode |
 | Codex desktop and CLI | Supported and locally tested | Local stdio | Register with `codex mcp add` |
 | Browser-assisted work inside Codex | Supported | Codex runs KIE locally; its browser is a separate tool | Use the normal Codex registration |
+| Claude Code | Compatible; vendor-documented stdio | Local stdio | Register with `claude mcp add` |
 | ChatGPT in a web browser | Requires a hosted edition | Remote Streamable HTTP or HTTP/SSE | Not included in the local release |
 
 The browser inside Codex does not need its own KIE connection. Codex calls KIE through the local MCP and can use its browser separately in the same task.
+
+For beginner-friendly, app-by-app instructions, use [Install KIE Creator in Your App](INSTALL_OTHER_APPS.md). This page records the compatibility boundary and shared technical requirements.
 
 ## Shared safety requirement
 
@@ -68,6 +78,27 @@ cursor-agent mcp list-tools kie-ai
 Official Cursor reference: [Model Context Protocol](https://docs.cursor.com/context/model-context-protocol).
 
 On macOS, an app opened from the Dock may not inherit variables from a shell startup file. Start Cursor from a terminal where `KIE_API_KEY` is available, or provide it through your normal OS-level secret-management workflow.
+
+## Other local IDEs
+
+VS Code, JetBrains AI Assistant, Zed, Cline, Roo Code, Windsurf's legacy Cascade agent, Visual Studio, and Claude Code all support a local stdio command with arguments and environment variables. They can therefore launch the same built entry point:
+
+```text
+node /absolute/path/to/kie-mcp/dist/src/index.js
+```
+
+Their configuration wrappers and secret-input capabilities differ. The [app-by-app install guide](INSTALL_OTHER_APPS.md) provides verified menu paths and the correct JSON shape for each client.
+
+Official client references:
+
+- [VS Code MCP servers](https://code.visualstudio.com/docs/agent-customization/mcp-servers)
+- [JetBrains AI Assistant MCP](https://www.jetbrains.com/help/ai-assistant/mcp.html)
+- [Zed MCP](https://zed.dev/docs/ai/mcp)
+- [Cline MCP](https://docs.cline.bot/mcp/mcp-overview)
+- [Roo Code MCP](https://docs.roocode.com/features/mcp/using-mcp-in-roo)
+- [Windsurf / Cascade MCP](https://docs.devin.ai/desktop/cascade/mcp)
+- [Visual Studio MCP](https://learn.microsoft.com/en-us/visualstudio/ide/mcp-servers?view=visualstudio)
+- [Claude Code MCP](https://code.claude.com/docs/en/mcp)
 
 ## Codex desktop and CLI
 

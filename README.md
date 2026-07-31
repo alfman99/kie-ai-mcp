@@ -31,19 +31,34 @@ Higgsfield MCP is convenient, but its generations use Higgsfield plan credits. K
 
 The trade-off is that this extension does not copy Higgsfield-only products such as Soul character training, its web creation library, or its complete studio interface. It focuses on the part creators want most inside Claude: generating and iterating on images, videos, edits, and voiceovers from a conversation.
 
-## Install in about five minutes
+## Install in your app
 
-### 1. Get a KIE key
+Claude Desktop is the easiest path: no Node, Docker, Terminal, or configuration files.
+
+| You use | Installation |
+|---|---|
+| Claude Desktop | Follow the five-minute steps below |
+| Cursor | Use the included `.cursor/mcp.json` |
+| VS Code / GitHub Copilot | Add the local server with a protected key prompt |
+| JetBrains, Zed, Cline, Roo Code, Windsurf, or Visual Studio | Copy the ready configuration for your app |
+| Codex or Claude Code | Run one registration command |
+| ChatGPT in a browser | Requires a separately hosted edition; the local release cannot run there |
+
+For every app other than Claude Desktop, open the plain-English [install guide for other apps](docs/INSTALL_OTHER_APPS.md). It includes exact menu paths, copy/paste configuration, Windows examples, a verification prompt, and troubleshooting.
+
+### Claude Desktop: install in about five minutes
+
+#### 1. Get a KIE key
 
 Create a KIE account, add credits, and open the [KIE API key page](https://kie.ai/api-key). Copy your key.
 
 Treat this key like a password. Do not post it in a chat, screenshot, or public document.
 
-### 2. Download the extension
+#### 2. Download the extension
 
 Download [`kie-creator-for-claude.mcpb`](https://github.com/alfman99/kie-mcp/releases/latest/download/kie-creator-for-claude.mcpb).
 
-### 3. Add it to Claude Desktop
+#### 3. Add it to Claude Desktop
 
 In Claude Desktop:
 
@@ -128,7 +143,7 @@ This version is designed for the Claude Desktop app because it runs locally and 
 
 ### Does it work with Cursor, Codex, or ChatGPT?
 
-Yes for Cursor and Codex: both can run the same local MCP server and use the same KIE tools. Codex can combine those tools with its browser while researching or assembling content. These developer-oriented installations require Node.js and are covered in the [client compatibility guide](docs/CLIENT_COMPATIBILITY.md).
+Yes for Cursor and Codex: both can run the same local MCP server and use the same KIE tools. Codex can combine those tools with its browser while researching or assembling content. VS Code, JetBrains, Zed, Cline, Roo Code, Windsurf/Cascade, Visual Studio, and Claude Code can use it too. These installations require Node.js and are covered in the [step-by-step install guide](docs/INSTALL_OTHER_APPS.md).
 
 ChatGPT in a web browser cannot start a local MCP process on your computer. It requires a separately hosted HTTPS MCP endpoint or OpenAI's secure MCP tunnel. The current local release is not advertised as a ChatGPT web connector; see the compatibility guide for the exact boundary.
 
@@ -159,7 +174,8 @@ Then review the extension in **Settings → Extensions** or [report an issue](ht
 The consumer README intentionally avoids build commands and protocol details.
 
 - [Technical reference](docs/TECHNICAL_REFERENCE.md)
-- [Claude, Cursor, Codex, and ChatGPT compatibility](docs/CLIENT_COMPATIBILITY.md)
+- [Install in Cursor, VS Code, JetBrains, Zed, Cline, Roo Code, Windsurf, Visual Studio, Codex, or Claude Code](docs/INSTALL_OTHER_APPS.md)
+- [Client compatibility and transport boundaries](docs/CLIENT_COMPATIBILITY.md)
 - [How the local process works](docs/HOW_IT_RUNS.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security](SECURITY.md)
