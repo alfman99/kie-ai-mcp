@@ -1,0 +1,4 @@
+# Catalog hashes are byte-for-byte provenance checks. Keep generated artifacts
+# on LF across Windows, macOS, and Linux checkouts.
+src/data/*.json text eol=lf
+src/data/*.md text eol=lf
