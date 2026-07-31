@@ -2,7 +2,7 @@
 
 ## 0.2.1 - 2026-07-31
 
-- Added verified setup guidance for Claude Desktop, Cursor IDE and Agent CLI, Codex desktop and CLI, and browser-assisted Codex workflows.
+- Added focused setup guidance for Claude, ChatGPT/Codex, Cursor, VS Code/Copilot, and Windsurf.
 - Documented the separate remote HTTPS requirement for ChatGPT web instead of misrepresenting the local stdio release as browser-compatible.
 - Restricted local reference uploads to a required, user-selected media folder with canonical-path and symlink containment.
 - Replaced Unix-only build commands with a cross-platform Node build and added Windows CI coverage.
