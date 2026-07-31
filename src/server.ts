@@ -274,7 +274,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
   const { docsManifest, endpointMentionIndex, marketModels, openapiEndpointCatalog } = catalogs;
   const server = new McpServer({
     name: "kie-ai-mcp-server",
-    version: "0.1.0"
+    version: "0.2.1"
   });
 
   addDocsResource(
@@ -583,10 +583,9 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
       safeTool(() => {
         if (sourceType === "local_file") {
           if (!config.allowLocalFileUploads) {
-            throw new Error("Local file uploads are disabled. Set KIE_ALLOW_LOCAL_FILE_UPLOADS=true to opt in.");
-          }
-          if (!source.startsWith("/")) {
-            throw new Error("Local media uploads require an absolute file path.");
+            throw new Error(
+              "Local file uploads are disabled. Set KIE_ALLOW_LOCAL_FILE_UPLOADS=true and choose KIE_LOCAL_UPLOAD_ROOT to opt in."
+            );
           }
           return client.uploadFileStream({ filePath: source, uploadPath, fileName });
         }
@@ -660,7 +659,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
     {
       title: "Upload Local File Stream",
       description:
-        "Upload a local file path to KIE temporary upload storage using multipart form data. Disabled by default for safety; set KIE_ALLOW_LOCAL_FILE_UPLOADS=true to opt in.",
+        "Upload a local file inside KIE_LOCAL_UPLOAD_ROOT to KIE temporary storage using multipart form data. Disabled by default for safety.",
       inputSchema: {
         filePath: z.string().min(1),
         uploadPath: UploadPathSchema,
@@ -670,7 +669,9 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
     async ({ filePath, uploadPath, fileName }) =>
       safeTool(() => {
         if (!config.allowLocalFileUploads) {
-          throw new Error("Local file stream uploads are disabled. Set KIE_ALLOW_LOCAL_FILE_UPLOADS=true to opt in.");
+          throw new Error(
+            "Local file stream uploads are disabled. Set KIE_ALLOW_LOCAL_FILE_UPLOADS=true and choose KIE_LOCAL_UPLOAD_ROOT to opt in."
+          );
         }
         return client.uploadFileStream({ filePath, uploadPath, fileName });
       })
@@ -932,6 +933,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
         pollIntervalMs: config.pollIntervalMs,
         pollTimeoutMs: config.pollTimeoutMs,
         allowLocalFileUploads: config.allowLocalFileUploads,
+        hasLocalUploadRoot: Boolean(config.localUploadRoot),
         docsCatalogSource: catalogs.source,
         docsDataDir: catalogs.dataDirectory,
         docsGeneratedAt: docsManifest.generatedAt,

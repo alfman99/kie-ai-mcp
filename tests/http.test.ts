@@ -1,4 +1,5 @@
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
+import process from "node:process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -79,7 +80,7 @@ describe("KieHttpClient", () => {
     const fetchImpl = vi.fn(async () =>
       jsonResponse({ success: true, code: 200, msg: "File uploaded successfully", data: {} })
     ) as unknown as typeof fetch;
-    const client = new KieHttpClient(config, fetchImpl);
+    const client = new KieHttpClient({ ...config, localUploadRoot: directory }, fetchImpl);
 
     await client.uploadFileStream({
       filePath,
@@ -94,5 +95,51 @@ describe("KieHttpClient", () => {
     expect(body.get("uploadPath")).toBe("agent-uploads");
     expect(body.get("fileName")).toBe("source.png");
     expect((body.get("file") as File).name).toBe("source.png");
+  });
+
+  it("rejects local files outside the configured upload root before making a request", async () => {
+    const allowedDirectory = await mkdtemp(join(tmpdir(), "kie-allowed-"));
+    const outsideDirectory = await mkdtemp(join(tmpdir(), "kie-outside-"));
+    temporaryDirectories.push(allowedDirectory, outsideDirectory);
+    const outsideFile = join(outsideDirectory, "private.txt");
+    await writeFile(outsideFile, "not media");
+    const fetchImpl = vi.fn() as unknown as typeof fetch;
+    const client = new KieHttpClient({ ...config, localUploadRoot: allowedDirectory }, fetchImpl);
+
+    await expect(
+      client.uploadFileStream({ filePath: outsideFile, uploadPath: "agent-uploads" })
+    ).rejects.toThrow("limited to the configured KIE_LOCAL_UPLOAD_ROOT");
+    expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
+  it("requires an absolute configured upload root", async () => {
+    const directory = await mkdtemp(join(tmpdir(), "kie-upload-"));
+    temporaryDirectories.push(directory);
+    const filePath = join(directory, "image.png");
+    await writeFile(filePath, Buffer.from([137, 80, 78, 71]));
+    const fetchImpl = vi.fn() as unknown as typeof fetch;
+    const client = new KieHttpClient({ ...config, localUploadRoot: "relative/media" }, fetchImpl);
+
+    await expect(
+      client.uploadFileStream({ filePath, uploadPath: "agent-uploads" })
+    ).rejects.toThrow("must be an absolute directory path");
+    expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
+  it.skipIf(process.platform === "win32")("rejects symlinks that escape the configured upload root", async () => {
+    const allowedDirectory = await mkdtemp(join(tmpdir(), "kie-allowed-"));
+    const outsideDirectory = await mkdtemp(join(tmpdir(), "kie-outside-"));
+    temporaryDirectories.push(allowedDirectory, outsideDirectory);
+    const outsideFile = join(outsideDirectory, "private.txt");
+    const linkedFile = join(allowedDirectory, "reference.png");
+    await writeFile(outsideFile, "not media");
+    await symlink(outsideFile, linkedFile);
+    const fetchImpl = vi.fn() as unknown as typeof fetch;
+    const client = new KieHttpClient({ ...config, localUploadRoot: allowedDirectory }, fetchImpl);
+
+    await expect(
+      client.uploadFileStream({ filePath: linkedFile, uploadPath: "agent-uploads" })
+    ).rejects.toThrow("limited to the configured KIE_LOCAL_UPLOAD_ROOT");
+    expect(fetchImpl).not.toHaveBeenCalled();
   });
 });

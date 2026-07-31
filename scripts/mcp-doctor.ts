@@ -49,6 +49,7 @@ function inheritedKieEnvironment(): Record<string, string> {
     "KIE_POLL_INTERVAL_MS",
     "KIE_POLL_TIMEOUT_MS",
     "KIE_ALLOW_LOCAL_FILE_UPLOADS",
+    "KIE_LOCAL_UPLOAD_ROOT",
     "KIE_DOCS_DATA_DIR"
   ]) {
     const value = process.env[name];
@@ -97,7 +98,7 @@ async function main(): Promise<void> {
   transport.stderr?.on("data", (chunk) => {
     stderr += String(chunk);
   });
-  const client = new Client({ name: "kie-ai-mcp-doctor", version: "0.1.0" });
+  const client = new Client({ name: "kie-ai-mcp-doctor", version: "0.2.1" });
   let childPid: number | null = null;
   let result: JsonRecord | undefined;
 
@@ -161,6 +162,7 @@ async function main(): Promise<void> {
       apiBaseUrl: configuration.apiBaseUrl,
       nativeUploadBaseUrl: configuration.uploadBaseUrl,
       localFileUploadsEnabled: configuration.allowLocalFileUploads,
+      localUploadRootConfigured: configuration.hasLocalUploadRoot,
       liveAuthentication: live ? "verified" : "not-requested"
     };
   } finally {

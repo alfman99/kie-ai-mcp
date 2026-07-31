@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.1 - 2026-07-31
+
+- Added verified setup guidance for Claude Desktop, Cursor IDE and Agent CLI, Codex desktop and CLI, and browser-assisted Codex workflows.
+- Documented the separate remote HTTPS requirement for ChatGPT web instead of misrepresenting the local stdio release as browser-compatible.
+- Restricted local reference uploads to a required, user-selected media folder with canonical-path and symlink containment.
+- Replaced Unix-only build commands with a cross-platform Node build and added Windows CI coverage.
+- Added release tag/version validation and a SHA-256 checksum asset.
+- Aligned the MCP protocol version with the package and extension release version.
+- Refreshed the official KIE snapshot for current safety-checker fields across Bytedance, Hailuo, Qwen2, and Z-Image schemas.
+
 ## 0.2.0 - 2026-07-30
 
 - Added a one-file Claude Desktop extension with secure KIE key configuration and bundled runtime dependencies.

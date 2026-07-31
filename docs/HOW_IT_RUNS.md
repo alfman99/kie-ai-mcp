@@ -104,7 +104,7 @@ It routes directly to:
 
 These are the native endpoints in the official [KIE File Upload API](https://docs.kie.ai/file-upload-api/quickstart). No Cloudinary, S3, ImgBB, Supabase, Firebase, or other media intermediary is used.
 
-Local file access is disabled by default. Set `KIE_ALLOW_LOCAL_FILE_UPLOADS=true` only for an agent that should read local paths. The Node client uses a file-backed `Blob` and native `FormData`, so the application does not load the complete file into a separate memory buffer.
+Local file access is disabled by default. To enable it, set `KIE_ALLOW_LOCAL_FILE_UPLOADS=true` and set `KIE_LOCAL_UPLOAD_ROOT` to one absolute folder containing only intended reference media. The server resolves real paths before upload and rejects traversal or symlink escapes. The Node client uses a file-backed `Blob` and native `FormData`, so the application does not load the complete file into a separate memory buffer.
 
 ## Tool Groups
 
@@ -144,4 +144,5 @@ An empty result confirms no matching MCP child remains. Do not terminate unrelat
 - Keep real API keys out of the repository and command arguments.
 - Do not log base64 media, webhook secrets, or private temporary URLs.
 - Enable local file uploads only for trusted agents.
+- Restrict local uploads to a dedicated `KIE_LOCAL_UPLOAD_ROOT`; never point it at a home directory, repository root, or drive root.
 - KIE generation is asynchronous. Preserve task IDs until the final result is retrieved.

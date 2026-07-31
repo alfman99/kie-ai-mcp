@@ -3,7 +3,7 @@
   "manifest_version": "0.4",
   "name": "kie-creator-for-claude",
   "display_name": "KIE Creator for Claude",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Create images, videos, edits, and voiceovers in Claude using flexible pay-as-you-go KIE credits.",
   "long_description": "A lower-cost, Higgsfield-style creative workflow inside Claude. Describe what you want, attach reference media when needed, and let Claude create with KIE's image, video, and speech models.",
   "author": {
@@ -51,7 +51,8 @@
         "KIE_API_KEY": "${user_config.kie_api_key}",
         "KIE_API_BASE_URL": "https://api.kie.ai",
         "KIE_UPLOAD_BASE_URL": "https://kieai.redpandaai.co",
-        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true"
+        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
+        "KIE_LOCAL_UPLOAD_ROOT": "${user_config.media_directory}"
       }
     }
   },
@@ -62,6 +63,12 @@
       "description": "Create or copy your key at https://kie.ai/api-key. Claude stores it securely on this device.",
       "required": true,
       "sensitive": true
+    },
+    "media_directory": {
+      "type": "directory",
+      "title": "Reference media folder",
+      "description": "Choose one folder containing only the images, videos, and audio you want your AI agent to be able to send to KIE.",
+      "required": true
     }
   },
   "tools": [

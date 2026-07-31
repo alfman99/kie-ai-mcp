@@ -34,11 +34,15 @@ jobs:
       - name: Build Claude Desktop extension
         run: npm run bundle:claude
 
+      - name: Create checksum
+        run: sha256sum release/kie-creator-for-claude.mcpb > release/SHA256SUMS
+
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: >
           gh release create "${GITHUB_REF_NAME}"
           release/kie-creator-for-claude.mcpb
+          release/SHA256SUMS
           --title "KIE Creator for Claude ${GITHUB_REF_NAME}"
           --generate-notes

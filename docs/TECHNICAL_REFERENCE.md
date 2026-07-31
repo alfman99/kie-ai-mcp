@@ -40,7 +40,8 @@ Generic configuration:
       "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
       "env": {
         "KIE_API_KEY": "your-kie-api-key",
-        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true"
+        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
+        "KIE_LOCAL_UPLOAD_ROOT": "/absolute/path/to/your/kie-media"
       }
     }
   }
@@ -55,6 +56,7 @@ Never commit a real key or place it in logs. Prefer the client's secret-backed e
 claude mcp add --transport stdio kie-ai \
   --env KIE_API_KEY="$KIE_API_KEY" \
   --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
+  --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/your/kie-media" \
   -- node /absolute/path/to/kie-mcp/dist/src/index.js
 ```
 
@@ -64,6 +66,7 @@ claude mcp add --transport stdio kie-ai \
 codex mcp add kie-ai \
   --env KIE_API_KEY="$KIE_API_KEY" \
   --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
+  --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/your/kie-media" \
   -- node /absolute/path/to/kie-mcp/dist/src/index.js
 ```
 
@@ -88,6 +91,7 @@ The bundle contains the built JavaScript server and production dependencies. Its
 - requests the KIE API key through a required sensitive field;
 - uses Claude's included Node runtime;
 - enables local file uploads for reference-media workflows;
+- requires a user-selected reference-media folder and enforces real-path containment;
 - fixes the API and upload base URLs to KIE's official endpoints.
 
 The bundle is validated and inspected with the official MCPB tool before the build succeeds.
@@ -99,7 +103,8 @@ The bundle is validated and inspected with the official MCPB tool before the bui
 | `KIE_API_KEY` | Live tools | — | KIE bearer token |
 | `KIE_API_BASE_URL` | No | `https://api.kie.ai` | Official KIE API base |
 | `KIE_UPLOAD_BASE_URL` | No | `https://kieai.redpandaai.co` | Official KIE upload base |
-| `KIE_ALLOW_LOCAL_FILE_UPLOADS` | No | `false` | Allow tools to read absolute local paths |
+| `KIE_ALLOW_LOCAL_FILE_UPLOADS` | No | `false` | Enable reads from the restricted local media folder |
+| `KIE_LOCAL_UPLOAD_ROOT` | With local uploads | — | Restrict local reads to one absolute media folder |
 | `KIE_POLL_INTERVAL_MS` | No | `3000` | Async-task polling interval |
 | `KIE_POLL_TIMEOUT_MS` | No | `600000` | Async-task polling timeout |
 | `KIE_WEBHOOK_HMAC_KEY` | No | — | Default webhook verification key |
@@ -129,7 +134,9 @@ Uploads go directly to KIE's officially documented native service:
 
 There is no third-party storage SDK or upload intermediary.
 
-Local stream uploads use a file-backed `Blob` plus native `FormData`, without reading the complete file into a second application buffer. Local path access is disabled by default in source installations.
+Local stream uploads use a file-backed `Blob` plus native `FormData`, without reading the complete file into a second application buffer. Local path access is disabled by default in source installations. When enabled, the server resolves real paths and rejects files, traversal, and symlinks outside `KIE_LOCAL_UPLOAD_ROOT`.
+
+For verified client-specific setup, see [Client Compatibility](CLIENT_COMPATIBILITY.md).
 
 ## Tool inventory
 

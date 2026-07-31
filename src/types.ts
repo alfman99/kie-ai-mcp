@@ -10,6 +10,7 @@ export type KieConfig = {
   pollIntervalMs: number;
   pollTimeoutMs: number;
   allowLocalFileUploads: boolean;
+  localUploadRoot?: string;
   docsDataDir?: string;
 };
 

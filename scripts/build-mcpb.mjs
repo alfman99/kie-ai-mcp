@@ -15,6 +15,15 @@ if (packageJson.version !== manifest.version) {
   );
 }
 
+if (
+  process.env.GITHUB_REF_TYPE === "tag" &&
+  process.env.GITHUB_REF_NAME !== `v${packageJson.version}`
+) {
+  throw new Error(
+    `Release tag ${process.env.GITHUB_REF_NAME ?? "(missing)"} does not match package version v${packageJson.version}.`
+  );
+}
+
 const builtEntryPoint = path.join(repositoryRoot, "dist", "src", "index.js");
 await readFile(builtEntryPoint);
 
@@ -132,8 +141,9 @@ try {
   await copyFile(path.join(repositoryRoot, "package-lock.json"), path.join(bundleRoot, "package-lock.json"));
   await copyFile(path.join(repositoryRoot, "LICENSE"), path.join(bundleRoot, "LICENSE"));
 
+  const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
   run(
-    "npm",
+    npmCommand,
     ["ci", "--omit=dev", "--ignore-scripts", "--no-audit", "--no-fund"],
     bundleRoot
   );
@@ -169,7 +179,8 @@ try {
       KIE_API_KEY: "bundle-validation-placeholder",
       KIE_API_BASE_URL: "https://api.kie.ai",
       KIE_UPLOAD_BASE_URL: "https://kieai.redpandaai.co",
-      KIE_ALLOW_LOCAL_FILE_UPLOADS: "true"
+      KIE_ALLOW_LOCAL_FILE_UPLOADS: "true",
+      KIE_LOCAL_UPLOAD_ROOT: temporaryRoot
     }
   );
 

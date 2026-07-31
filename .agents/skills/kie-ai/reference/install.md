@@ -25,9 +25,19 @@ node /absolute/path/to/dist/src/index.js
 ```
 
 4. Preserve the user's existing `KIE_API_KEY` in the agent's secret-backed MCP environment.
-5. Set `KIE_ALLOW_LOCAL_FILE_UPLOADS=true` only when the user explicitly wants the agent to read and upload local paths.
+5. Set `KIE_ALLOW_LOCAL_FILE_UPLOADS=true` only when the user explicitly wants local uploads, and set `KIE_LOCAL_UPLOAD_ROOT` to one absolute folder containing only intended media.
 6. Run `npm run mcp:doctor`.
 7. Verify the saved registration with the agent's native MCP configuration command.
 8. Start a fresh task or reload the agent if the current task cannot hot-load MCP changes.
 
 Never place an API key in the repository, command arguments, logs, bundle contents, or skill files.
+
+## Client routing
+
+- Claude Desktop: use the `.mcpb` release.
+- Cursor IDE or Agent CLI: use a global or project `.cursor/mcp.json` stdio entry.
+- Codex desktop or CLI: use `codex mcp add` with the built stdio entry point.
+- Codex browser-assisted work: use the normal Codex MCP registration; the browser is a separate Codex tool.
+- ChatGPT web: do not claim the local stdio server is compatible. It requires a hosted or securely tunneled remote MCP endpoint with per-user authentication.
+
+Use the repository's `docs/CLIENT_COMPATIBILITY.md` for the complete configuration and verification matrix.

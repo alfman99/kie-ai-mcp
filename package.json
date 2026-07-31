@@ -1,7 +1,7 @@
 {
   "name": "kie-ai-mcp-server",
-  "version": "0.2.0",
-  "description": "Higgsfield-style image, video, and voice creation in Claude using flexible KIE credits.",
+  "version": "0.2.1",
+  "description": "Higgsfield-style image, video, and voice creation in Claude, Cursor, and Codex using flexible KIE credits.",
   "type": "module",
   "license": "MIT",
   "author": "alfman99",
@@ -23,6 +23,7 @@
     "text-to-speech",
     "ai-media",
     "claude",
+    "cursor",
     "codex"
   ],
   "bin": {
@@ -38,7 +39,7 @@
     ".agents/skills/kie-ai"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json && cp src/data/* dist/src/data/",
+    "build": "node scripts/build.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "start": "node dist/src/index.js",

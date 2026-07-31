@@ -4,7 +4,7 @@
 
 Tell Claude what you want to make. KIE Creator gives it the tools to generate images, edit with reference pictures, create videos, and produce voiceovers using your own KIE credits.
 
-No coding. No Docker. No configuration files.
+For Claude Desktop: no coding, no Docker, and no configuration files.
 
 [Download KIE Creator for Claude](https://github.com/alfman99/kie-mcp/releases/latest/download/kie-creator-for-claude.mcpb)
 
@@ -52,9 +52,10 @@ In Claude Desktop:
 3. Click **Install Extension…**
 4. Choose the `.mcpb` file you downloaded.
 5. Paste your KIE API key when Claude asks for it.
-6. Finish the installation and start a new chat.
+6. Choose a dedicated folder for reference media. Put only files you are comfortable sending to KIE in that folder.
+7. Finish the installation and start a new chat.
 
-Claude stores the key as a protected secret on your device. You do not need to install Node, edit JSON, use Terminal, or keep another app running.
+Claude stores the key as a protected secret on your device. The extension can read only the reference-media folder you chose, and the server blocks paths and symlinks that escape it. You do not need to install Node, edit JSON, use Terminal, or keep another app running.
 
 If you cannot find **Install Extension…**, update Claude Desktop first. Anthropic's official instructions are available in [Installing local MCP extensions](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop).
 
@@ -125,9 +126,15 @@ No. The Claude Desktop extension contains what it needs, and Claude supplies the
 
 This version is designed for the Claude Desktop app because it runs locally and can work with reference files on your computer.
 
+### Does it work with Cursor, Codex, or ChatGPT?
+
+Yes for Cursor and Codex: both can run the same local MCP server and use the same KIE tools. Codex can combine those tools with its browser while researching or assembling content. These developer-oriented installations require Node.js and are covered in the [client compatibility guide](docs/CLIENT_COMPATIBILITY.md).
+
+ChatGPT in a web browser cannot start a local MCP process on your computer. It requires a separately hosted HTTPS MCP endpoint or OpenAI's secure MCP tunnel. The current local release is not advertised as a ChatGPT web connector; see the compatibility guide for the exact boundary.
+
 ### Can it use an image I already have?
 
-Yes. Attach the image to Claude or tell Claude where the file is saved, then describe how it should be used. Public image links also work.
+Yes. Place the image in the reference-media folder you selected during installation, then attach it or tell Claude its path and describe how it should be used. Public image links also work.
 
 ### Where do my creations go?
 
@@ -152,6 +159,7 @@ Then review the extension in **Settings → Extensions** or [report an issue](ht
 The consumer README intentionally avoids build commands and protocol details.
 
 - [Technical reference](docs/TECHNICAL_REFERENCE.md)
+- [Claude, Cursor, Codex, and ChatGPT compatibility](docs/CLIENT_COMPATIBILITY.md)
 - [How the local process works](docs/HOW_IT_RUNS.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security](SECURITY.md)

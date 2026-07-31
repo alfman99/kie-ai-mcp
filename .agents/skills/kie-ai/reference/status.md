@@ -6,6 +6,7 @@
    - an API key is present for live tools;
    - API base URL is `https://api.kie.ai`;
    - native upload base URL is `https://kieai.redpandaai.co`;
+   - `hasLocalUploadRoot` is true whenever local file uploads are enabled;
    - the catalog source is bundled or an explicitly configured external snapshot;
    - manifest failures equal zero;
    - page, operation, and model counts are nonzero.

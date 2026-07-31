@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "kie-ai": {
+      "command": "node",
+      "args": ["${workspaceFolder}/dist/src/index.js"],
+      "env": {
+        "KIE_API_KEY": "${env:KIE_API_KEY}",
+        "KIE_API_BASE_URL": "https://api.kie.ai",
+        "KIE_UPLOAD_BASE_URL": "https://kieai.redpandaai.co",
+        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
+        "KIE_LOCAL_UPLOAD_ROOT": "${userHome}/KIE Media"
+      }
+    }
+  }
+}

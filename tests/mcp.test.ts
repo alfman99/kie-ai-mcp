@@ -147,6 +147,7 @@ describe("MCP server integration", () => {
     const configResult = await client.callTool({ name: "kie_check_configuration", arguments: {} });
     const configText = firstTextContent(configResult);
     expect(configText).toContain('"hasApiKey": false');
+    expect(configText).toContain('"hasLocalUploadRoot": false');
 
     const creditsResult = await client.callTool({ name: "kie_get_credits", arguments: {} });
     expect(creditsResult.isError).toBe(true);

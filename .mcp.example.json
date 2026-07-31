@@ -5,7 +5,8 @@
       "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
       "env": {
         "KIE_API_KEY": "your-kie-api-key",
-        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true"
+        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
+        "KIE_LOCAL_UPLOAD_ROOT": "/absolute/path/to/your/kie-media"
       }
     }
   }

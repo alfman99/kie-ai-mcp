@@ -19,6 +19,6 @@ For security-sensitive reports, avoid posting live secrets or private media URLs
 
 The `.mcpb` manifest marks the KIE API key as sensitive. Claude Desktop stores sensitive extension settings using the operating system's secure credential storage and injects the key only when starting the local server.
 
-The extension enables local file uploads so Claude can use reference media. Install it only from the repository's official Releases page and allow it to access only media you intend to send to KIE.
+The extension enables local file uploads so Claude can use reference media, but requires a dedicated media folder. The server canonicalizes both the configured folder and requested file, then rejects traversal and symlinks outside that folder. Do not select a home directory, repository root, or drive root.
 
 Requests and media are sent directly to KIE's official API and native upload endpoints. This project does not operate a proxy or media-storage service.

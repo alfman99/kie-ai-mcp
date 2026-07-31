@@ -24,6 +24,7 @@ export function loadConfig(): KieConfig {
     pollIntervalMs: readPositiveInteger("KIE_POLL_INTERVAL_MS", DEFAULT_POLL_INTERVAL_MS),
     pollTimeoutMs: readPositiveInteger("KIE_POLL_TIMEOUT_MS", DEFAULT_POLL_TIMEOUT_MS),
     allowLocalFileUploads: process.env.KIE_ALLOW_LOCAL_FILE_UPLOADS === "true",
+    localUploadRoot: process.env.KIE_LOCAL_UPLOAD_ROOT?.trim() || undefined,
     docsDataDir: process.env.KIE_DOCS_DATA_DIR
   };
 }
