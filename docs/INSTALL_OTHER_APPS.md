@@ -1,114 +1,101 @@
-# Install KIE Creator in Your App
+# Install KIE Creator in the Top AI Apps
 
-KIE Creator works anywhere that can run a local MCP server. Claude Desktop has the easiest no-code installation. Other apps use the same local server and the same KIE account; only the screen where you add it changes.
+KIE Creator focuses on five mainstream AI products:
 
-## Pick your app
+1. Claude
+2. ChatGPT / Codex
+3. Cursor
+4. VS Code / GitHub Copilot
+5. Windsurf
 
-| App | Difficulty | Start here |
-|---|---:|---|
-| Claude Desktop | Easiest—no Node or Terminal | [Claude Desktop](#claude-desktop) |
-| Cursor | Easy if this repository is already open | [Cursor](#cursor) |
-| Visual Studio Code + GitHub Copilot | Easy, with a protected key prompt | [VS Code](#vs-code-with-github-copilot) |
-| JetBrains AI Assistant | Copy and paste in Settings | [JetBrains](#jetbrains-ai-assistant) |
-| Zed | Copy and paste in Settings | [Zed](#zed) |
-| Cline | Copy and paste in the MCP panel | [Cline](#cline) |
-| Roo Code | Copy and paste in the MCP panel | [Roo Code](#roo-code) |
-| Windsurf / legacy Cascade | Copy and paste in MCP settings | [Windsurf / Cascade](#windsurf--cascade) |
-| Visual Studio on Windows | Add through the Copilot tool picker | [Visual Studio](#visual-studio-on-windows) |
-| Codex desktop or CLI | One terminal command | [Codex](#codex-desktop-and-cli) |
-| Claude Code | One terminal command | [Claude Code](#claude-code) |
-| ChatGPT website | Needs a hosted edition; local install is not supported | [ChatGPT](#chatgpt-in-a-web-browser) |
+All five use the same KIE account and the same direct connection to KIE. Claude Desktop has the simplest no-code installation.
 
-## What every local IDE needs
+## Choose your app
 
-Skip this section if you are installing the Claude Desktop extension.
+| App | What to use |
+|---|---|
+| Claude | Install the `.mcpb` in Claude Desktop, or register the server in Claude Code |
+| ChatGPT / Codex | Use Codex desktop or CLI for the local server; ChatGPT web needs a future hosted edition |
+| Cursor | Use the included `.cursor/mcp.json` |
+| VS Code / Copilot | Add the server through VS Code's MCP settings |
+| Windsurf | Add the server through Cascade MCP settings |
 
-You need:
+## Claude
 
-- [Node.js 20 or newer](https://nodejs.org/en/download);
-- a local copy of this repository;
-- a KIE API key from [KIE's API key page](https://kie.ai/api-key);
-- one dedicated folder for media you want the agent to be able to upload.
+### Claude Desktop—recommended for most people
 
-To get the repository, open the [KIE Creator GitHub page](https://github.com/alfman99/kie-mcp), select **Code → Download ZIP**, and unzip it. Developers can instead run:
-
-```bash
-git clone https://github.com/alfman99/kie-mcp.git
-```
-
-Open Terminal on macOS/Linux or PowerShell on Windows, move into the downloaded repository, and run:
-
-```bash
-npm ci
-npm run build
-npm run mcp:doctor
-```
-
-The last command performs a no-credit local MCP health check. A successful run ends with `MCP doctor passed`.
-
-Create a folder named `KIE Media` somewhere easy to find. The server can upload local files only from that folder. It rejects relative paths, path escapes, and symlinks that lead outside it.
-
-You will use these values in your app:
-
-| Setting | macOS/Linux example | Windows example |
-|---|---|---|
-| Server file | `/Users/YOU/kie-mcp/dist/src/index.js` | `C:/Users/YOU/kie-mcp/dist/src/index.js` |
-| Media folder | `/Users/YOU/KIE Media` | `C:/Users/YOU/KIE Media` |
-| API key | Your private KIE key | Your private KIE key |
-
-Use forward slashes in Windows JSON paths. Replace `YOU` and `kie-mcp` with the real location on your computer.
-
-For terminal-based installers, load the key into only the current terminal without putting it in shell history.
-
-On macOS/Linux:
-
-```bash
-read -s KIE_API_KEY
-export KIE_API_KEY
-```
-
-Paste the key and press Enter when the terminal waits; the key remains hidden.
-
-On Windows PowerShell:
-
-```powershell
-$secureKieKey = Read-Host "Paste your KIE API key" -AsSecureString
-$env:KIE_API_KEY = [System.Net.NetworkCredential]::new("", $secureKieKey).Password
-```
-
-Closing that terminal clears this temporary environment value.
-
-### Let your agent install it
-
-If Terminal and JSON are unfamiliar, paste this into your coding agent while this repository is open:
-
-> Install this KIE Creator MCP server for the app I am currently using. Follow `docs/INSTALL_OTHER_APPS.md`, run the no-credit doctor, use an absolute path to `dist/src/index.js`, and create a dedicated `KIE Media` folder. Ask me to enter my KIE API key through the safest secret input the app supports. Never print, commit, or repeat my key.
-
-## Claude Desktop
-
-This is the recommended path for nontechnical creators.
+You do not need Node, Docker, Git, Terminal, or a configuration file.
 
 1. Get a KIE key from [kie.ai/api-key](https://kie.ai/api-key).
 2. Download [`kie-creator-for-claude.mcpb`](https://github.com/alfman99/kie-mcp/releases/latest/download/kie-creator-for-claude.mcpb).
-3. In Claude Desktop, open **Settings → Extensions → Advanced settings → Install Extension…**
+3. Open **Claude Desktop → Settings → Extensions → Advanced settings → Install Extension…**
 4. Choose the downloaded file.
 5. Paste your KIE key when Claude asks.
-6. Choose your dedicated `KIE Media` folder.
+6. Choose a dedicated `KIE Media` folder.
 7. Start a new conversation.
 
-Claude stores the key as a sensitive extension setting. You do not need Node, Docker, Git, a config file, or a separately running server. See Anthropic's [official local extension guide](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop).
+Claude stores the key as a sensitive extension setting. See Anthropic's [official local extension guide](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop).
+
+### Claude Code
+
+First complete the [one-time source setup](#one-time-source-setup), then run:
+
+```bash
+claude mcp add \
+  --scope user \
+  --env KIE_API_KEY="$KIE_API_KEY" \
+  --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
+  --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/KIE Media" \
+  --transport stdio \
+  kie-ai \
+  -- node /absolute/path/to/kie-mcp/dist/src/index.js
+```
+
+Check the connection with `claude mcp list`. Inside Claude Code, `/mcp` opens the server status panel.
+
+Official reference: [Claude Code MCP](https://code.claude.com/docs/en/mcp).
+
+## ChatGPT / Codex
+
+### Codex desktop and CLI
+
+Codex desktop and the Codex CLI share the same MCP registration. Complete the [one-time source setup](#one-time-source-setup), then run:
+
+```bash
+codex mcp add kie-ai \
+  --env KIE_API_KEY="$KIE_API_KEY" \
+  --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
+  --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/KIE Media" \
+  -- node /absolute/path/to/kie-mcp/dist/src/index.js
+```
+
+Check it with `codex mcp get kie-ai`, then start a fresh Codex task.
+
+Codex can use KIE Creator and its browser in the same task. The browser is a separate tool and does not need another KIE connection.
+
+Official reference: [Codex MCP](https://developers.openai.com/codex/mcp/).
+
+### ChatGPT website
+
+The current release cannot be installed directly in `chatgpt.com`. ChatGPT's website cannot start a private local stdio process on your computer.
+
+ChatGPT requires a separately hosted HTTPS MCP endpoint or OpenAI's Secure MCP Tunnel. That edition is not included yet because it needs per-user authentication, isolated KIE keys, secure attachment handling, monitoring, and a privacy policy.
+
+Use Codex desktop for the current local version.
+
+Official references: [MCP and Connectors](https://developers.openai.com/api/docs/guides/tools-connectors-mcp) and [Secure MCP Tunnel](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels).
 
 ## Cursor
 
 This repository already includes `.cursor/mcp.json`.
 
-1. Complete [the shared local setup](#what-every-local-ide-needs).
-2. Make `KIE_API_KEY` available as an environment variable on your computer.
-3. Create `~/KIE Media`, or edit `.cursor/mcp.json` to use another dedicated folder.
-4. Open this repository in Cursor and restart Cursor.
+1. Complete the [one-time source setup](#one-time-source-setup).
+2. Create `~/KIE Media`.
+3. Make `KIE_API_KEY` available to Cursor.
+4. Open this repository in Cursor and restart it.
 5. Open **Settings → MCP** and enable `kie-ai`.
 
-For a global installation, open `~/.cursor/mcp.json` and add:
+For a global installation, add this to `~/.cursor/mcp.json` and replace both paths:
 
 ```json
 {
@@ -126,15 +113,17 @@ For a global installation, open `~/.cursor/mcp.json` and add:
 }
 ```
 
-Cursor Agent uses the same configuration. Check it with `cursor-agent mcp list-tools kie-ai`. See Cursor's [official MCP guide](https://docs.cursor.com/context/model-context-protocol).
+Cursor Agent uses the same configuration. Check it with `cursor-agent mcp list-tools kie-ai`.
 
-## VS Code with GitHub Copilot
+Official reference: [Cursor MCP](https://docs.cursor.com/context/model-context-protocol).
 
-VS Code can ask for the key once and store it securely.
+## VS Code / GitHub Copilot
 
-1. Complete [the shared local setup](#what-every-local-ide-needs).
+VS Code can ask for the KIE key once and store it securely.
+
+1. Complete the [one-time source setup](#one-time-source-setup).
 2. Open the Command Palette and run **MCP: Open User Configuration**.
-3. Add the following, replacing both paths:
+3. Paste the following and replace both paths:
 
 ```json
 {
@@ -161,99 +150,22 @@ VS Code can ask for the key once and store it securely.
 }
 ```
 
-4. Save the file.
-5. Accept the trust prompt after reviewing the command and path.
-6. Open Copilot Chat in **Agent** mode, select **Configure Tools**, and enable the KIE tools.
+4. Save the file and accept the trust prompt after reviewing the command.
+5. Open Copilot Chat in **Agent** mode.
+6. Select **Configure Tools** and enable the KIE tools.
 
-VS Code uses `servers`, not `mcpServers`. Use **MCP: List Servers** to restart the server or show its output. See Microsoft's official [MCP setup guide](https://code.visualstudio.com/docs/agent-customization/mcp-servers) and [configuration reference](https://code.visualstudio.com/docs/agents/reference/mcp-configuration).
+VS Code uses `servers`, not `mcpServers`. Use **MCP: List Servers** to restart it or view its output.
 
-## JetBrains AI Assistant
+Official references: [VS Code MCP setup](https://code.visualstudio.com/docs/agent-customization/mcp-servers) and [MCP configuration](https://code.visualstudio.com/docs/agents/reference/mcp-configuration).
 
-These steps cover IntelliJ IDEA, PyCharm, WebStorm, PhpStorm, Rider, and the other JetBrains IDEs with AI Assistant.
+## Windsurf
 
-1. Complete [the shared local setup](#what-every-local-ide-needs).
-2. Open **Settings → Tools → AI Assistant → Model Context Protocol (MCP)**.
-3. Click **Add** and choose **STDIO**.
-4. Paste the configuration below and replace the key and both paths:
+These instructions apply to Windsurf's legacy Cascade agent. Devin Desktop now uses the Devin Local agent by default, which has separate configuration.
 
-```json
-{
-  "mcpServers": {
-    "kie-ai": {
-      "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
-      "env": {
-        "KIE_API_KEY": "PASTE_YOUR_PRIVATE_KIE_KEY_HERE",
-        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
-        "KIE_LOCAL_UPLOAD_ROOT": "/absolute/path/to/KIE Media"
-      }
-    }
-  }
-}
-```
-
-5. Choose **Global** if you want KIE Creator in every project, or **Project** for only the current one.
-6. Click **OK → Apply** and confirm the status is connected.
-
-Keep this configuration private because it contains your key. JetBrains can also import an existing Claude Desktop configuration. See JetBrains' [official MCP guide](https://www.jetbrains.com/help/ai-assistant/mcp.html).
-
-## Zed
-
-1. Complete [the shared local setup](#what-every-local-ide-needs).
-2. Open **Settings → AI → MCP Servers → Add Server → Add Local Server**.
-3. Add this server to the settings file, replacing the key and both paths:
-
-```json
-{
-  "context_servers": {
-    "kie-ai": {
-      "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
-      "env": {
-        "KIE_API_KEY": "PASTE_YOUR_PRIVATE_KIE_KEY_HERE",
-        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
-        "KIE_LOCAL_UPLOAD_ROOT": "/absolute/path/to/KIE Media"
-      }
-    }
-  }
-}
-```
-
-4. Return to **Settings → AI → MCP Servers**. A green dot with “Server is active” confirms the connection.
-
-Keep the settings file private because it contains your key. Zed also forwards configured MCP servers to supported external agents. See Zed's [official MCP guide](https://zed.dev/docs/ai/mcp).
-
-## Cline
-
-The same setup works in Cline for VS Code and JetBrains.
-
-1. Complete [the shared local setup](#what-every-local-ide-needs).
-2. In the Cline panel, click the **MCP Servers** icon.
-3. Open **Configure → Configure MCP Servers**.
-4. Add the [standard `mcpServers` configuration](#standard-mcpservers-configuration).
-5. Save, confirm `kie-ai` is enabled, and check that its tools appear.
-
-Cline CLI users can edit `~/.cline/mcp.json` or run `cline mcp`. See Cline's [official MCP guide](https://docs.cline.bot/mcp/mcp-overview).
-
-## Roo Code
-
-1. Complete [the shared local setup](#what-every-local-ide-needs).
-2. Click the MCP icon in the Roo Code panel.
-3. Choose **Edit Global MCP** for every project, or **Edit Project MCP** for `.roo/mcp.json`.
-4. Add the [standard `mcpServers` configuration](#standard-mcpservers-configuration).
-5. Save and make sure **Enable MCP Servers** is on.
-6. Restart `kie-ai` from the same panel if it does not connect immediately.
-
-Keep automatic approval off until you understand which tools you want to run without confirmation. See Roo Code's [official MCP guide](https://docs.roocode.com/features/mcp/using-mcp-in-roo).
-
-## Windsurf / Cascade
-
-These instructions are for the legacy Cascade agent. Devin Desktop now opens the Devin Local agent by default, and that newer agent uses separate Devin CLI configuration.
-
-1. Complete [the shared local setup](#what-every-local-ide-needs).
+1. Complete the [one-time source setup](#one-time-source-setup).
 2. Open the **MCPs** icon in Cascade, or **Devin Settings → Cascade → MCP Servers**.
-3. Open the raw configuration at `~/.codeium/windsurf/mcp_config.json`.
-4. Add:
+3. Open `~/.codeium/windsurf/mcp_config.json`.
+4. Add the following and replace both paths:
 
 ```json
 {
@@ -271,109 +183,81 @@ These instructions are for the legacy Cascade agent. Devin Desktop now opens the
 }
 ```
 
-5. Save, open `kie-ai` in the MCP panel, and enable the tools you want.
+5. Save the file, open `kie-ai` in the MCP panel, and enable its tools.
 
-Cascade supports `${env:KIE_API_KEY}` interpolation so the key does not need to live in the JSON file. KIE Creator exposes fewer than Cascade's 100-tool limit. See the current [official Cascade MCP guide](https://docs.devin.ai/desktop/cascade/mcp).
+Official reference: [Windsurf / Cascade MCP](https://docs.devin.ai/desktop/cascade/mcp).
 
-## Visual Studio on Windows
+## One-time source setup
 
-1. Complete [the shared local setup](#what-every-local-ide-needs).
-2. Open Copilot Chat and switch to **Agent** mode.
-3. Select **Tools → + → Add custom MCP server**.
-4. Name it `kie-ai`, choose `stdio`, set the command to `node`, and set the argument to `C:/absolute/path/to/kie-mcp/dist/src/index.js`.
-5. Add the three environment values shown in the [standard configuration](#standard-mcpservers-configuration), using a Windows media path such as `C:/Users/YOU/KIE Media`.
-6. Save, then manually enable the KIE tools in the tool picker; Visual Studio disables newly discovered MCP tools by default.
+Skip this section when using the Claude Desktop `.mcpb`.
 
-Visual Studio can also discover `.mcp.json`, `.vscode/mcp.json`, and `.cursor/mcp.json` files in a solution. See Microsoft's [official Visual Studio MCP guide](https://learn.microsoft.com/en-us/visualstudio/ide/mcp-servers?view=visualstudio).
+You need:
 
-## Codex desktop and CLI
+- [Node.js 20 or newer](https://nodejs.org/en/download);
+- a local copy of this repository;
+- a KIE API key from [kie.ai/api-key](https://kie.ai/api-key);
+- one dedicated `KIE Media` folder.
 
-Codex desktop and the Codex CLI share the same MCP registration.
+Download the repository from **GitHub → Code → Download ZIP**, unzip it, and open Terminal or PowerShell inside the folder. Developers can use `git clone` instead.
 
-1. Complete [the shared local setup](#what-every-local-ide-needs).
-2. Run:
+Run:
 
 ```bash
-codex mcp add kie-ai \
-  --env KIE_API_KEY="$KIE_API_KEY" \
-  --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
-  --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/KIE Media" \
-  -- node /absolute/path/to/kie-mcp/dist/src/index.js
+npm ci
+npm run build
+npm run mcp:doctor
 ```
 
-3. Check it with `codex mcp get kie-ai`.
-4. Start a fresh Codex task so the new tools load.
+The last command is a no-credit local health check. A successful run ends with `MCP doctor passed`.
 
-Codex can use KIE Creator and its browser in the same task. The browser is separate; it does not need another KIE connection. See OpenAI's [official Codex MCP guide](https://developers.openai.com/codex/mcp/).
+Use these path formats:
 
-## Claude Code
+| | macOS/Linux | Windows |
+|---|---|---|
+| Server | `/Users/YOU/kie-mcp/dist/src/index.js` | `C:/Users/YOU/kie-mcp/dist/src/index.js` |
+| Media | `/Users/YOU/KIE Media` | `C:/Users/YOU/KIE Media` |
 
-1. Complete [the shared local setup](#what-every-local-ide-needs).
-2. Run:
+Use forward slashes in Windows JSON paths.
+
+For terminal installers, load the key without putting it in shell history.
+
+macOS/Linux:
 
 ```bash
-claude mcp add \
-  --scope user \
-  --env KIE_API_KEY="$KIE_API_KEY" \
-  --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
-  --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/KIE Media" \
-  --transport stdio \
-  kie-ai \
-  -- node /absolute/path/to/kie-mcp/dist/src/index.js
+read -s KIE_API_KEY
+export KIE_API_KEY
 ```
 
-3. Run `claude mcp list` and confirm `kie-ai` says **Connected**.
-4. Inside Claude Code, `/mcp` opens the server status panel.
+Windows PowerShell:
 
-See Anthropic's [official Claude Code MCP guide](https://code.claude.com/docs/en/mcp).
-
-## Standard `mcpServers` configuration
-
-Cursor, JetBrains AI Assistant, Cline, Roo Code, and legacy Cascade all accept this basic shape. Some of those apps can replace the key with an environment variable; their sections above show the safest documented option.
-
-```json
-{
-  "mcpServers": {
-    "kie-ai": {
-      "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
-      "env": {
-        "KIE_API_KEY": "PASTE_YOUR_PRIVATE_KIE_KEY_HERE",
-        "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
-        "KIE_LOCAL_UPLOAD_ROOT": "/absolute/path/to/KIE Media"
-      }
-    }
-  }
-}
+```powershell
+$secureKieKey = Read-Host "Paste your KIE API key" -AsSecureString
+$env:KIE_API_KEY = [System.Net.NetworkCredential]::new("", $secureKieKey).Password
 ```
 
-Never commit or share a file after pasting your real key into it.
+### Let the agent install it
+
+Paste this into Claude Code, Codex, Cursor, VS Code, or Windsurf while the repository is open:
+
+> Install this KIE Creator MCP server in the app I am currently using. Follow `docs/INSTALL_OTHER_APPS.md`, run the no-credit doctor, use an absolute path to `dist/src/index.js`, and create a dedicated `KIE Media` folder. Ask me to enter my KIE API key through the safest secret input the app supports. Never print, commit, or repeat my key.
 
 ## Confirm it works
 
-Start a new chat in your chosen app and paste:
+Start a fresh chat and paste:
 
-> Use `kie_check_configuration`. Tell me whether KIE Creator is ready, but do not show or repeat any secret values. Do not generate media yet.
+> Use `kie_check_configuration`. Tell me whether KIE Creator is ready, but do not show or repeat secret values. Do not generate media yet.
 
-A ready setup reports:
+A ready setup reports the official KIE API, KIE's native upload service, and the dedicated local media folder.
 
-- the API key is configured;
-- the official KIE API base is `https://api.kie.ai`;
-- the native KIE upload base is `https://kieai.redpandaai.co`;
-- local file upload is enabled;
-- the dedicated media folder is configured.
+Then, when you are ready to spend a small number of KIE credits:
 
-Then try a real creation:
+> Use a low-cost image model to create a simple square test image. Tell me the model and estimated credit use before submitting it.
 
-> Use a low-cost image model to create a simple square test image. Tell me the model and estimated credit use before you submit it.
+## Update
 
-Generation spends KIE credits. Configuration checks, model discovery, task status checks, and the local doctor do not submit a generation.
+Claude Desktop users can install the newest `.mcpb` from [Releases](https://github.com/alfman99/kie-mcp/releases/latest) over the existing extension.
 
-## Update it later
-
-Claude Desktop users can download the newest `.mcpb` from [Releases](https://github.com/alfman99/kie-mcp/releases/latest) and install it over the existing extension.
-
-Source installations can update from the repository folder:
+Git-based source installations can run:
 
 ```bash
 git pull --ff-only
@@ -382,40 +266,26 @@ npm run build
 npm run mcp:doctor
 ```
 
-Restart the IDE or its MCP server after updating.
-
-If you installed from a ZIP instead of Git, download the newest ZIP, replace the old source folder, and run the three `npm` commands again.
+ZIP users can download the newest ZIP and repeat the three `npm` commands. Restart the app or MCP server afterward.
 
 ## Troubleshooting
 
 | Problem | Fix |
 |---|---|
-| `node` is not found | Install Node.js 20+, restart the app, or replace `node` with the absolute Node executable path. |
-| The server file is missing | Run `npm run build` and confirm `dist/src/index.js` exists. |
-| The server connects but KIE is not ready | Re-enter `KIE_API_KEY`, then restart the MCP server. |
-| Local reference upload is blocked | Put the file inside the exact `KIE_LOCAL_UPLOAD_ROOT`; do not use a symlink to another folder. |
-| No KIE tools appear | Enable the server and tools, restart them from the app's MCP panel, then start a new chat. |
-| Tools look out of date | Restart the MCP server or fully quit and reopen the app. |
-| A GUI app cannot see `KIE_API_KEY` | Use the app's protected secret prompt, launch it from a terminal that has the variable, or use a private local config entry. |
-| Windows JSON paths fail | Use forward slashes, for example `C:/Users/Alex/KIE Media`. |
+| `node` is not found | Install Node.js 20+, restart the app, or use the absolute Node executable path. |
+| `dist/src/index.js` is missing | Run `npm run build`. |
+| KIE is not ready | Re-enter `KIE_API_KEY` and restart the MCP server. |
+| A reference file is blocked | Put it inside the exact `KIE_LOCAL_UPLOAD_ROOT`; do not use a symlink outside it. |
+| No KIE tools appear | Enable the server and tools, restart them, and start a fresh chat. |
+| Windows paths fail | Use forward slashes, such as `C:/Users/Alex/KIE Media`. |
 
-Do not send logs containing your API key. If you accidentally expose it, revoke it on [KIE's API key page](https://kie.ai/api-key) and create a new one.
+Never share logs or configuration containing your KIE key. Revoke exposed keys at [kie.ai/api-key](https://kie.ai/api-key).
 
-## ChatGPT in a web browser
-
-The local release uses stdio: your app starts a private process on your computer, and no port is opened. `chatgpt.com` cannot start that local process.
-
-ChatGPT connectors require a reachable remote MCP endpoint using Streamable HTTP or HTTP/SSE. A private deployment can use OpenAI's Secure MCP Tunnel where available. That hosted edition needs per-user authentication, isolated KIE credentials, safe attachment handling, monitoring, and a public privacy policy; it is not included in this local release.
-
-Codex desktop is supported and can use its browser alongside the local KIE MCP. ChatGPT's website is a different product boundary. See OpenAI's official [MCP and Connectors guide](https://developers.openai.com/api/docs/guides/tools-connectors-mcp) and [Secure MCP Tunnel guide](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels).
-
-## Data path
-
-Every supported local app uses the same direct path:
+## Direct KIE connection
 
 ```text
-Your app → local KIE Creator MCP → official KIE API
-                                ↳ native KIE upload service
+Your AI app → local KIE Creator MCP → official KIE API
+                                    ↳ native KIE upload service
 ```
 
-No Docker service, public port, Cloudinary, S3, ImgBB, Firebase, Supabase, or other media middleman is involved. KIE behavior and parameters are maintained against [KIE's official documentation](https://docs.kie.ai/), including its [native file upload API](https://docs.kie.ai/file-upload-api/quickstart).
+There is no Docker service, public port, Cloudinary, S3, ImgBB, Firebase, Supabase, or other media middleman. KIE behavior and parameters come only from [KIE's official documentation](https://docs.kie.ai/), including the [native file upload API](https://docs.kie.ai/file-upload-api/quickstart).

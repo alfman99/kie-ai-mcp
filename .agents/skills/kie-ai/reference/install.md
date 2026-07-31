@@ -34,18 +34,10 @@ Never place an API key in the repository, command arguments, logs, bundle conten
 
 ## Client routing
 
-- Claude Desktop: use the `.mcpb` release.
-- Cursor IDE or Agent CLI: use a global or project `.cursor/mcp.json` stdio entry.
+- Claude: use the `.mcpb` release for Desktop or `claude mcp add --transport stdio` for Claude Code.
+- ChatGPT / Codex: use `codex mcp add` for the current local release; ChatGPT web requires a hosted or securely tunneled remote endpoint with per-user authentication. Codex's browser is a separate tool.
+- Cursor: use a global or project `.cursor/mcp.json` stdio entry; Cursor Agent uses the same configuration.
 - VS Code + GitHub Copilot: use user or workspace `mcp.json`; prefer a password input variable for the KIE key.
-- JetBrains AI Assistant: add a global or project STDIO server in **Settings → Tools → AI Assistant → Model Context Protocol (MCP)**.
-- Zed: add a local server in **Settings → AI → MCP Servers** using the `context_servers` shape.
-- Cline: use the MCP Servers panel or `~/.cline/mcp.json`.
-- Roo Code: use global MCP settings or project `.roo/mcp.json`.
-- Windsurf / legacy Cascade: use `~/.codeium/windsurf/mcp_config.json`; do not confuse this with the newer Devin Local agent's separate configuration.
-- Visual Studio: add a custom stdio MCP server from the Copilot Agent tool picker.
-- Codex desktop or CLI: use `codex mcp add` with the built stdio entry point.
-- Codex browser-assisted work: use the normal Codex MCP registration; the browser is a separate Codex tool.
-- Claude Code: use `claude mcp add --transport stdio` with the built entry point.
-- ChatGPT web: do not claim the local stdio server is compatible. It requires a hosted or securely tunneled remote MCP endpoint with per-user authentication.
+- Windsurf: use legacy Cascade's `~/.codeium/windsurf/mcp_config.json`; the newer Devin Local agent has separate configuration.
 
 Use the repository's `docs/INSTALL_OTHER_APPS.md` for app-specific copy/paste instructions and `docs/CLIENT_COMPATIBILITY.md` for the transport and support matrix.

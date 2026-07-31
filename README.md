@@ -38,13 +38,12 @@ Claude Desktop is the easiest path: no Node, Docker, Terminal, or configuration 
 | You use | Installation |
 |---|---|
 | Claude Desktop | Follow the five-minute steps below |
+| ChatGPT / Codex | Use Codex desktop or CLI; ChatGPT web requires a hosted edition |
 | Cursor | Use the included `.cursor/mcp.json` |
 | VS Code / GitHub Copilot | Add the local server with a protected key prompt |
-| JetBrains, Zed, Cline, Roo Code, Windsurf, or Visual Studio | Copy the ready configuration for your app |
-| Codex or Claude Code | Run one registration command |
-| ChatGPT in a browser | Requires a separately hosted edition; the local release cannot run there |
+| Windsurf | Add the local server through Cascade MCP settings |
 
-For every app other than Claude Desktop, open the plain-English [install guide for other apps](docs/INSTALL_OTHER_APPS.md). It includes exact menu paths, copy/paste configuration, Windows examples, a verification prompt, and troubleshooting.
+For Claude Code and every app other than Claude Desktop, open the plain-English [top-five app install guide](docs/INSTALL_OTHER_APPS.md). It includes exact menu paths, copy/paste configuration, Windows examples, a verification prompt, and troubleshooting.
 
 ### Claude Desktop: install in about five minutes
 
@@ -141,11 +140,11 @@ No. The Claude Desktop extension contains what it needs, and Claude supplies the
 
 This version is designed for the Claude Desktop app because it runs locally and can work with reference files on your computer.
 
-### Does it work with Cursor, Codex, or ChatGPT?
+### Which AI apps does it support?
 
-Yes for Cursor and Codex: both can run the same local MCP server and use the same KIE tools. Codex can combine those tools with its browser while researching or assembling content. VS Code, JetBrains, Zed, Cline, Roo Code, Windsurf/Cascade, Visual Studio, and Claude Code can use it too. These installations require Node.js and are covered in the [step-by-step install guide](docs/INSTALL_OTHER_APPS.md).
+KIE Creator focuses on Claude, ChatGPT/Codex, Cursor, VS Code/Copilot, and Windsurf. Claude Desktop is the no-code path. Claude Code, Codex, Cursor, VS Code, and Windsurf can run the same local server; these installations require Node.js and are covered in the [top-five app install guide](docs/INSTALL_OTHER_APPS.md).
 
-ChatGPT in a web browser cannot start a local MCP process on your computer. It requires a separately hosted HTTPS MCP endpoint or OpenAI's secure MCP tunnel. The current local release is not advertised as a ChatGPT web connector; see the compatibility guide for the exact boundary.
+ChatGPT in a web browser cannot start a local MCP process on your computer. It requires a separately hosted HTTPS MCP endpoint or OpenAI's secure MCP tunnel. For the current local release, use Codex desktop.
 
 ### Can it use an image I already have?
 
@@ -174,7 +173,7 @@ Then review the extension in **Settings → Extensions** or [report an issue](ht
 The consumer README intentionally avoids build commands and protocol details.
 
 - [Technical reference](docs/TECHNICAL_REFERENCE.md)
-- [Install in Cursor, VS Code, JetBrains, Zed, Cline, Roo Code, Windsurf, Visual Studio, Codex, or Claude Code](docs/INSTALL_OTHER_APPS.md)
+- [Install in Claude, ChatGPT/Codex, Cursor, VS Code, or Windsurf](docs/INSTALL_OTHER_APPS.md)
 - [Client compatibility and transport boundaries](docs/CLIENT_COMPATIBILITY.md)
 - [How the local process works](docs/HOW_IT_RUNS.md)
 - [Contributing](CONTRIBUTING.md)
