@@ -106,6 +106,7 @@ function run(command, args, cwd, extraEnvironment = {}) {
   const result = spawnSync(command, args, {
     cwd,
     encoding: "utf8",
+    shell: process.platform === "win32" && command.endsWith(".cmd"),
     env: {
       ...process.env,
       ...extraEnvironment

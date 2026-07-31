@@ -5,12 +5,11 @@ import { fileURLToPath } from "node:url";
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distRoot = path.join(repositoryRoot, "dist");
-const tscCommand = process.platform === "win32" ? "tsc.cmd" : "tsc";
-const tscPath = path.join(repositoryRoot, "node_modules", ".bin", tscCommand);
+const tscPath = path.join(repositoryRoot, "node_modules", "typescript", "bin", "tsc");
 
 await rm(distRoot, { recursive: true, force: true });
 
-const result = spawnSync(tscPath, ["-p", "tsconfig.build.json"], {
+const result = spawnSync(process.execPath, [tscPath, "-p", "tsconfig.build.json"], {
   cwd: repositoryRoot,
   encoding: "utf8",
   stdio: "inherit"
