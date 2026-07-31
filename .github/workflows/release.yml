@@ -35,7 +35,8 @@ jobs:
         run: npm run bundle:claude
 
       - name: Create checksum
-        run: sha256sum release/kie-creator-for-claude.mcpb > release/SHA256SUMS
+        working-directory: release
+        run: sha256sum kie-creator-for-claude.mcpb > SHA256SUMS
 
       - name: Create GitHub release
         env:
