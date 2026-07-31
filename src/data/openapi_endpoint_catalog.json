@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30T15:15:26.984Z",
+  "generated_at": "2026-07-31T07:08:46.605Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -591,7 +591,10 @@
             "x-apidog-orders": [
               "url"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "url"
+            ],
+            "x--ignore-properties": []
           },
           "example": "{\n  \"url\": \"https://tempfile.aiquickdraw.com/path/to/image.jpg\" // 图片url（必填）\n}",
           "examples": null
@@ -2526,7 +2529,11 @@
                   "taskId",
                   "audioId"
                 ],
-                "x-apidog-ignore-properties": [],
+                "x--orders": [
+                  "taskId",
+                  "audioId"
+                ],
+                "x--ignore-properties": [],
                 "type": "object"
               },
               {
@@ -2610,7 +2617,11 @@
                   "uploadUrl",
                   "model"
                 ],
-                "x-apidog-ignore-properties": [],
+                "x--orders": [
+                  "uploadUrl",
+                  "model"
+                ],
+                "x--ignore-properties": [],
                 "type": "object"
               }
             ],
@@ -2685,7 +2696,17 @@
               "fullLyrics",
               "callBackUrl"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "prompt",
+              "tags",
+              "title",
+              "negativeTags",
+              "infillStartS",
+              "infillEndS",
+              "fullLyrics",
+              "callBackUrl"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "taskId": "2fac****9f72",
@@ -6720,10 +6741,6 @@
                     "examples": [
                       true
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -6744,9 +6761,16 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "aspect_ratio",
+                  "resolution",
+                  "duration",
+                  "camera_fixed",
+                  "seed",
+                  "enable_safety_checker"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -6754,7 +6778,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "bytedance/v1-lite-text-to-video",
@@ -7285,10 +7314,6 @@
                     "examples": [
                       true
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -7309,9 +7334,16 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "aspect_ratio",
+                  "resolution",
+                  "duration",
+                  "camera_fixed",
+                  "seed",
+                  "enable_safety_checker"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -7319,7 +7351,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "bytedance/v1-pro-text-to-video",
@@ -11113,7 +11150,13 @@
                   "aspect_ratio",
                   "seed"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "negative_prompt",
+                  "aspect_ratio",
+                  "seed"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -11121,7 +11164,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "google/imagen4-fast",
@@ -14960,10 +15008,6 @@
                     "examples": [
                       true
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -14979,9 +15023,11 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "prompt_optimizer"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -14989,7 +15035,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "hailuo/02-text-to-video-pro",
@@ -15107,10 +15158,6 @@
                     "examples": [
                       true
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -15127,9 +15174,12 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "duration",
+                  "prompt_optimizer"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -15137,7 +15187,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "hailuo/02-text-to-video-standard",
@@ -23957,6 +24012,10 @@
                     "examples": [
                       "png"
                     ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -23974,13 +24033,9 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x--orders": [
-                  "prompt",
-                  "image_size",
-                  "seed",
-                  "output_format"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": [
+                  "nsfw_checker"
+                ]
               }
             },
             "x-apidog-orders": [
@@ -23988,12 +24043,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "qwen2/text-to-image",
@@ -30418,10 +30468,6 @@
                     "examples": [
                       "1:1"
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -30438,9 +30484,11 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "aspect_ratio"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -30448,7 +30496,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "z-image",
@@ -33758,7 +33811,12 @@
               "audioId",
               "callBackUrl"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "taskId",
+              "audioId",
+              "callBackUrl"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "taskId": "5c79****be8e",

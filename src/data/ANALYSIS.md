@@ -4,7 +4,7 @@ This bundle was generated exclusively from the official KIE documentation index 
 
 ## Snapshot
 
-- Generated: 2026-07-30T15:15:26.984Z
+- Generated: 2026-07-31T07:08:46.605Z
 - Official English pages fetched: 244
 - Pages with OpenAPI specifications: 210
 - OpenAPI operations: 210
