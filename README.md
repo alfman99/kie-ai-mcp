@@ -87,7 +87,7 @@ Try one of these in a new Claude conversation:
 
 You can also name a model:
 
-> Use Seedance 2.0 to turn this first frame into a 9:16 video.
+> Use Seedance 2.5 to turn this first frame into a 9:16 video.
 
 If you do not name one, Claude can choose a sensible default.
 

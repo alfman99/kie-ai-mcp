@@ -117,7 +117,7 @@ External catalogs are validated at startup and are not hot-loaded. Restart the M
 ## Friendly creation tools
 
 - `kie_create_image`: create an image or edit from reference URLs.
-- `kie_create_video`: create video from text, frames, image references, video references, or audio references.
+- `kie_create_video`: create Seedance 2.0 or 2.5 video from text, frames, image references, video references, or audio references.
 - `kie_create_speech`: create narration or voiceover.
 - `kie_get_creation`: retrieve or wait for a submitted creation.
 - `kie_upload_media`: upload one local file, public URL, or base64 source through KIE.

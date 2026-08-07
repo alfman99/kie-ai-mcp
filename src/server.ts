@@ -27,6 +27,10 @@ const GptImage2ModelSchema = z.enum([
   "gpt-image-2-text-to-image",
   "gpt-image-2-image-to-image"
 ]);
+const SeedanceVideoModelSchema = z.enum([
+  "bytedance/seedance-2",
+  "bytedance/seedance-2-5"
+]);
 const UploadPathSchema = z
   .string()
   .min(1)
@@ -253,18 +257,49 @@ function validateGptImage2Combination(model: string, input: Record<string, unkno
   }
 }
 
-function validateSeedance2Combination(input: Record<string, unknown>): void {
+function validateSeedanceCombination(model: string, input: Record<string, unknown>): void {
+  const label = model === "bytedance/seedance-2-5" ? "Seedance 2.5" : "Seedance 2";
   const hasFrames = Boolean(input.first_frame_url || input.last_frame_url);
   const hasReferences = ["reference_image_urls", "reference_video_urls", "reference_audio_urls"].some(
     (field) => Array.isArray(input[field]) && input[field].length > 0
   );
   if (input.last_frame_url && !input.first_frame_url) {
-    throw new Error("Seedance 2 lastFrameUrl requires firstFrameUrl.");
+    throw new Error(`${label} lastFrameUrl requires firstFrameUrl.`);
   }
   if (hasFrames && hasReferences) {
     throw new Error(
-      "Seedance 2 frame-based and multimodal-reference modes are mutually exclusive; use first/last frames or reference media, not both."
+      `${label} frame-based and multimodal-reference modes are mutually exclusive; use first/last frames or reference media, not both.`
     );
+  }
+
+  const duration = Number(input.duration);
+  const resolution = String(input.resolution);
+  const prompt = String(input.prompt ?? "");
+  const referenceImages = Array.isArray(input.reference_image_urls) ? input.reference_image_urls.length : 0;
+  const referenceVideos = Array.isArray(input.reference_video_urls) ? input.reference_video_urls.length : 0;
+  const referenceAudio = Array.isArray(input.reference_audio_urls) ? input.reference_audio_urls.length : 0;
+
+  if (model === "bytedance/seedance-2-5") {
+    if (prompt.length > 5000) {
+      throw new Error("Seedance 2.5 prompt must be at most 5000 characters.");
+    }
+    if (!["480p", "720p"].includes(resolution)) {
+      throw new Error("Seedance 2.5 resolution must be 480p or 720p.");
+    }
+    if (duration !== -1 && (duration < 4 || duration > 30)) {
+      throw new Error("Seedance 2.5 duration must be -1 (automatic) or between 4 and 30 seconds.");
+    }
+    return;
+  }
+
+  if (duration === -1 || duration > 15) {
+    throw new Error("Seedance 2 duration must be between 4 and 15 seconds.");
+  }
+  if (input.output_format !== undefined) {
+    throw new Error("Seedance 2 does not accept outputFormat; use Seedance 2.5 for mp4 or mov selection.");
+  }
+  if (referenceImages > 9 || referenceVideos > 3 || referenceAudio > 3) {
+    throw new Error("Seedance 2 accepts at most 9 reference images, 3 reference videos, and 3 reference audios.");
   }
 }
 
@@ -383,22 +418,25 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
     {
       title: "Create Video With KIE",
       description:
-        "Friendly video-generation tool for chat agents. Use this when the user asks to create, generate, render, animate, or turn an image into a video with KIE. Defaults to Seedance 2.0 and can wait for the finished video result.",
+        "Friendly video-generation tool for chat agents. Use this when the user asks to create, generate, render, animate, or turn an image into a video with KIE. Supports Seedance 2.0 and 2.5, defaults to 2.0, and can wait for the finished video result.",
       inputSchema: {
         prompt: z.string().min(3).max(20000).describe("Plain-language description of the video, shot, motion, style, and subject."),
         aspectRatio: z.enum(["1:1", "4:3", "3:4", "16:9", "9:16", "21:9", "adaptive"]).default("16:9"),
         resolution: z.enum(["480p", "720p", "1080p", "4k"]).default("720p"),
-        duration: z.number().int().min(4).max(15).default(5),
+        duration: z
+          .union([z.literal(-1), z.number().int().min(4).max(30)])
+          .default(5)
+          .describe("Seedance 2: 4-15 seconds. Seedance 2.5: -1 for automatic duration or 4-30 seconds."),
         generateAudio: z.boolean().default(true),
         firstFrameUrl: z.string().url().optional(),
         lastFrameUrl: z.string().url().optional(),
-        referenceImageUrls: z.array(z.string().url()).min(1).max(9).optional(),
-        referenceVideoUrls: z.array(z.string().url()).min(1).max(3).optional(),
-        referenceAudioUrls: z.array(z.string().url()).min(1).max(3).optional(),
-        model: z
-          .literal("bytedance/seedance-2")
+        referenceImageUrls: z.array(z.string().url()).min(1).max(30).optional(),
+        referenceVideoUrls: z.array(z.string().url()).min(1).max(10).optional(),
+        referenceAudioUrls: z.array(z.string().url()).min(1).max(10).optional(),
+        outputFormat: z.enum(["mp4", "mov"]).optional().describe("Seedance 2.5 only."),
+        model: SeedanceVideoModelSchema
           .default("bytedance/seedance-2")
-          .describe("This friendly tool uses Seedance 2. For other models, use kie_market_create_task."),
+          .describe("Use Seedance 2.0 or 2.5. For other models, use kie_market_create_task."),
         callBackUrl: z.string().url().optional(),
         waitForResult: z.boolean().default(true).describe("When true, poll until KIE returns the final video result or timeout."),
         intervalMs: z.number().int().positive().max(60000).optional(),
@@ -417,6 +455,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
       referenceImageUrls,
       referenceVideoUrls,
       referenceAudioUrls,
+      outputFormat,
       model,
       callBackUrl,
       waitForResult,
@@ -436,9 +475,10 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
           ...(referenceImageUrls && referenceImageUrls.length > 0 ? { reference_image_urls: referenceImageUrls } : {}),
           ...(referenceVideoUrls && referenceVideoUrls.length > 0 ? { reference_video_urls: referenceVideoUrls } : {}),
           ...(referenceAudioUrls && referenceAudioUrls.length > 0 ? { reference_audio_urls: referenceAudioUrls } : {}),
+          ...(outputFormat ? { output_format: outputFormat } : {}),
           ...additionalInput
         };
-        validateSeedance2Combination(input);
+        validateSeedanceCombination(model, input);
 
         return createAndMaybeWaitForMarketTask({
           client,

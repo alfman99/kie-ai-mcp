@@ -239,6 +239,18 @@ describe("MCP server integration", () => {
     expect(videoResult.isError).toBe(true);
     expect(firstTextContent(videoResult)).toContain("mutually exclusive");
 
+    const seedance25Result = await client.callTool({
+      name: "kie_create_video",
+      arguments: {
+        model: "bytedance/seedance-2-5",
+        prompt: "A bird takes flight",
+        resolution: "1080p",
+        waitForResult: false
+      }
+    });
+    expect(seedance25Result.isError).toBe(true);
+    expect(firstTextContent(seedance25Result)).toContain("resolution must be 480p or 720p");
+
     const speechResult = await client.callTool({
       name: "kie_create_speech",
       arguments: {
@@ -307,6 +319,43 @@ describe("MCP server integration", () => {
         language_code: "en",
         stability: 0.6,
         timestamps: true
+      }
+    });
+  });
+
+  it("supports Seedance 2.5 through the friendly video tool with its official limits", async () => {
+    const fetchImpl = vi.fn(async () =>
+      new Response(JSON.stringify({ code: 200, msg: "success", data: { taskId: "task_25" } }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      })
+    ) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const result = await client.callTool({
+      name: "kie_create_video",
+      arguments: {
+        model: "bytedance/seedance-2-5",
+        prompt: "A cinematic product reveal",
+        duration: 30,
+        resolution: "720p",
+        outputFormat: "mov",
+        referenceImageUrls: ["https://example.com/reference.png"],
+        waitForResult: false
+      }
+    });
+
+    expect(result.isError).not.toBe(true);
+    expect(JSON.parse(String(vi.mocked(fetchImpl).mock.calls[0][1]?.body))).toEqual({
+      model: "bytedance/seedance-2-5",
+      input: {
+        prompt: "A cinematic product reveal",
+        aspect_ratio: "16:9",
+        resolution: "720p",
+        duration: 30,
+        generate_audio: true,
+        reference_image_urls: ["https://example.com/reference.png"],
+        output_format: "mov"
       }
     });
   });
