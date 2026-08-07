@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.2 - 2026-08-07
 
 - Refreshed the official KIE documentation snapshot from 244 to 254 pages, 210 to 220 OpenAPI operations, and 119 to 128 Market models.
 - Added nine newly documented models across Seedance 2.5, MiniMax H3, Qwen3, and Seedream 5 Pro Layer Decomposition.
