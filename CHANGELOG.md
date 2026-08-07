@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3 - 2026-08-07
+
+- Updated transitive `fast-uri`, `hono`, and `ip-address` dependencies to patched releases, resolving five Dependabot advisories covering host confusion, SSRF/trust-boundary bypasses, and CORS middleware ReDoS.
+
 ## 0.2.2 - 2026-08-07
 
 - Refreshed the official KIE documentation snapshot from 244 to 254 pages, 210 to 220 OpenAPI operations, and 119 to 128 Market models.

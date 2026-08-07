@@ -3,7 +3,7 @@
   "manifest_version": "0.4",
   "name": "kie-creator-for-claude",
   "display_name": "KIE Creator for Claude",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Create images, videos, edits, and voiceovers in Claude using flexible pay-as-you-go KIE credits.",
   "long_description": "A lower-cost, Higgsfield-style creative workflow inside Claude. Describe what you want, attach reference media when needed, and let Claude create with KIE's image, video, and speech models.",
   "author": {
