@@ -1,6 +1,6 @@
 # KIE.AI Documentation Endpoint Index
 
-Generated 2026-07-31T07:08:46.605Z exclusively from official `docs.kie.ai` pages.
+Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages.
 
 ## `/api/4k-callback`
 
@@ -8,9 +8,11 @@ Generated 2026-07-31T07:08:46.605Z exclusively from official `docs.kie.ai` pages
 
 ## `/api/callback`
 
+- Mention: [Seedream 5.0 Pro 图层分离](<https://docs.kie.ai/41313512e0.md>)
 - Mention: [PixVerse V6 Reference-to-video/参考图生成](<https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md>)
 - Mention: [Gemini 2.5 Pro Text to Speech](<https://docs.kie.ai/google/gemini-2-5-pro-tts.md>)
 - Mention: [Bytedance Seedance 1.5 Pro](<https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md>)
+- Mention: [Bytedance Seedance 2.5](<https://docs.kie.ai/market/bytedance/seedance-2-5.md>)
 - Mention: [Bytedance Seedance 2.0 Fast](<https://docs.kie.ai/market/bytedance/seedance-2-fast.md>)
 - Mention: [Bytedance Seedance 2.0 Mini](<https://docs.kie.ai/market/bytedance/seedance-2-mini.md>)
 - Mention: [Bytedance Seedance 2.0](<https://docs.kie.ai/market/bytedance/seedance-2.md>)
@@ -93,6 +95,10 @@ Generated 2026-07-31T07:08:46.605Z exclusively from official `docs.kie.ai` pages
 - Mention: [Qwen - Text to Image](<https://docs.kie.ai/market/qwen/text-to-image.md>)
 - Mention: [Qwen2 - Image Edit](<https://docs.kie.ai/market/qwen2/image-edit.md>)
 - Mention: [Qwen2 - Text To Image](<https://docs.kie.ai/market/qwen2/text-to-image.md>)
+- Mention: [Qwen3 Pro Image to Image](<https://docs.kie.ai/market/qwen3-pro/image-to-image.md>)
+- Mention: [Qwen3 Pro Text to Image](<https://docs.kie.ai/market/qwen3-pro/text-to-image.md>)
+- Mention: [Qwen3 Image to Image](<https://docs.kie.ai/market/qwen3/image-to-image.md>)
+- Mention: [Qwen3 Text to Image](<https://docs.kie.ai/market/qwen3/text-to-image.md>)
 - Mention: [Recraft - Crisp Upscale](<https://docs.kie.ai/market/recraft/crisp-upscale.md>)
 - Mention: [Recraft - Remove Background](<https://docs.kie.ai/market/recraft/remove-background.md>)
 - Mention: [Seedream5.0 Lite - Image to Image](<https://docs.kie.ai/market/seedream-5-lite-image-to-image.md>)
@@ -100,6 +106,7 @@ Generated 2026-07-31T07:08:46.605Z exclusively from official `docs.kie.ai` pages
 - Mention: [Seedream4.5 - Text to Image](<https://docs.kie.ai/market/seedream/4-5-text-to-image.md>)
 - Mention: [Seedream5.0 Lite - Text to Image](<https://docs.kie.ai/market/seedream/5-lite-text-to-image.md>)
 - Mention: [Seedream5.0 Pro - Image to Image](<https://docs.kie.ai/market/seedream/5-pro-image-to-image.md>)
+- Mention: [Seedream 5.0 Pro -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md>)
 - Mention: [Seedream5.0 Pro - Text to Image](<https://docs.kie.ai/market/seedream/5-pro-text-to-image.md>)
 - Mention: [Seedream4.0 - Edit](<https://docs.kie.ai/market/seedream/seedream-v4-edit.md>)
 - Mention: [Seedream4.0 - Text to Image](<https://docs.kie.ai/market/seedream/seedream-v4-text-to-image.md>)
@@ -257,9 +264,11 @@ Generated 2026-07-31T07:08:46.605Z exclusively from official `docs.kie.ai` pages
 - POST: [HappyHorse 1.1 图生视频](<https://docs.kie.ai/38308980e0.md>)
 - POST: [HappyHorse 1.1 文生视频](<https://docs.kie.ai/38309290e0.md>)
 - POST: [HappyHorse 1.1 参考图生成视频](<https://docs.kie.ai/38309489e0.md>)
+- POST: [Seedream 5.0 Pro 图层分离](<https://docs.kie.ai/41313512e0.md>)
 - POST: [PixVerse V6 Reference-to-video/参考图生成](<https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md>)
 - POST: [Gemini 2.5 Pro Text to Speech](<https://docs.kie.ai/google/gemini-2-5-pro-tts.md>)
 - POST: [Bytedance Seedance 1.5 Pro](<https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md>)
+- POST: [Bytedance Seedance 2.5](<https://docs.kie.ai/market/bytedance/seedance-2-5.md>)
 - POST: [Bytedance Seedance 2.0 Fast](<https://docs.kie.ai/market/bytedance/seedance-2-fast.md>)
 - POST: [Bytedance Seedance 2.0 Mini](<https://docs.kie.ai/market/bytedance/seedance-2-mini.md>)
 - POST: [Bytedance Seedance 2.0](<https://docs.kie.ai/market/bytedance/seedance-2.md>)
@@ -332,6 +341,9 @@ Generated 2026-07-31T07:08:46.605Z exclusively from official `docs.kie.ai` pages
 - POST: [Kling - V2.5 Turbo Text to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-text-to-video-pro.md>)
 - POST: [Kling - V3 Turbo Image to Video](<https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md>)
 - POST: [Kling - V3 Turbo Text to Video](<https://docs.kie.ai/market/kling/v3-turbo-text-to-video.md>)
+- POST: [MiniMax H3 Image-to-Video](<https://docs.kie.ai/market/minimax-h3/image-to-video.md>)
+- POST: [MiniMax H3 Reference-to-Video](<https://docs.kie.ai/market/minimax-h3/reference-to-video.md>)
+- POST: [MiniMax H3 Text-to-Video](<https://docs.kie.ai/market/minimax-h3/text-to-video.md>)
 - POST: [Omnihuman 1.5](<https://docs.kie.ai/market/omnihuman-1-5.md>)
 - POST: [Omnihuman 1.5 Human Identification](<https://docs.kie.ai/market/omnihuman-1-5/human-identification.md>)
 - POST: [OmniHuman 1.5 Subject Detection](<https://docs.kie.ai/market/omnihuman-1-5/subject-detection.md>)
@@ -345,6 +357,10 @@ Generated 2026-07-31T07:08:46.605Z exclusively from official `docs.kie.ai` pages
 - POST: [Qwen - Text to Image](<https://docs.kie.ai/market/qwen/text-to-image.md>)
 - POST: [Qwen2 - Image Edit](<https://docs.kie.ai/market/qwen2/image-edit.md>)
 - POST: [Qwen2 - Text To Image](<https://docs.kie.ai/market/qwen2/text-to-image.md>)
+- POST: [Qwen3 Pro Image to Image](<https://docs.kie.ai/market/qwen3-pro/image-to-image.md>)
+- POST: [Qwen3 Pro Text to Image](<https://docs.kie.ai/market/qwen3-pro/text-to-image.md>)
+- POST: [Qwen3 Image to Image](<https://docs.kie.ai/market/qwen3/image-to-image.md>)
+- POST: [Qwen3 Text to Image](<https://docs.kie.ai/market/qwen3/text-to-image.md>)
 - POST: [Recraft - Crisp Upscale](<https://docs.kie.ai/market/recraft/crisp-upscale.md>)
 - POST: [Recraft - Remove Background](<https://docs.kie.ai/market/recraft/remove-background.md>)
 - POST: [Seedream5.0 Lite - Image to Image](<https://docs.kie.ai/market/seedream-5-lite-image-to-image.md>)
@@ -352,6 +368,7 @@ Generated 2026-07-31T07:08:46.605Z exclusively from official `docs.kie.ai` pages
 - POST: [Seedream4.5 - Text to Image](<https://docs.kie.ai/market/seedream/4-5-text-to-image.md>)
 - POST: [Seedream5.0 Lite - Text to Image](<https://docs.kie.ai/market/seedream/5-lite-text-to-image.md>)
 - POST: [Seedream5.0 Pro - Image to Image](<https://docs.kie.ai/market/seedream/5-pro-image-to-image.md>)
+- POST: [Seedream 5.0 Pro -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md>)
 - POST: [Seedream5.0 Pro - Text to Image](<https://docs.kie.ai/market/seedream/5-pro-text-to-image.md>)
 - POST: [Seedream4.0 - Edit](<https://docs.kie.ai/market/seedream/seedream-v4-edit.md>)
 - POST: [Seedream4.0 - Text to Image](<https://docs.kie.ai/market/seedream/seedream-v4-text-to-image.md>)
@@ -423,9 +440,6 @@ Generated 2026-07-31T07:08:46.605Z exclusively from official `docs.kie.ai` pages
 
 ## `/api/v1/responses`
 
-- Mention: [GPT 5.6 Luna](<https://docs.kie.ai/market/chat/gpt-5-6-luna.md>)
-- Mention: [GPT 5.6 Sol](<https://docs.kie.ai/market/chat/gpt-5-6-sol.md>)
-- Mention: [GPT 5.6 Terra](<https://docs.kie.ai/market/chat/gpt-5-6-terra.md>)
 - POST: [GPT Codex](<https://docs.kie.ai/market/codex/gpt-codex.md>)
 
 ## `/api/v1/runway`

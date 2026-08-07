@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31T07:08:46.605Z",
+  "generated_at": "2026-08-07T12:10:26.196Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -8,6 +8,13 @@
       "title": "Get 4K Video Callbacks",
       "url": "https://docs.kie.ai/veo3-api/get-veo-3-4k-video-callbacks.md",
       "file": "/veo3-api/get-veo-3-4k-video-callbacks.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Seedream 5.0 Pro 图层分离",
+      "url": "https://docs.kie.ai/41313512e0.md",
+      "file": "/41313512e0.md"
     },
     {
       "method": "",
@@ -29,6 +36,13 @@
       "title": "Bytedance Seedance 1.5 Pro",
       "url": "https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md",
       "file": "/market/bytedance/seedance-1-5-pro.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Bytedance Seedance 2.5",
+      "url": "https://docs.kie.ai/market/bytedance/seedance-2-5.md",
+      "file": "/market/bytedance/seedance-2-5.md"
     },
     {
       "method": "",
@@ -607,6 +621,34 @@
     {
       "method": "",
       "path": "/api/callback",
+      "title": "Qwen3 Pro Image to Image",
+      "url": "https://docs.kie.ai/market/qwen3-pro/image-to-image.md",
+      "file": "/market/qwen3-pro/image-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Qwen3 Pro Text to Image",
+      "url": "https://docs.kie.ai/market/qwen3-pro/text-to-image.md",
+      "file": "/market/qwen3-pro/text-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Qwen3 Image to Image",
+      "url": "https://docs.kie.ai/market/qwen3/image-to-image.md",
+      "file": "/market/qwen3/image-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Qwen3 Text to Image",
+      "url": "https://docs.kie.ai/market/qwen3/text-to-image.md",
+      "file": "/market/qwen3/text-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
       "title": "Recraft - Crisp Upscale",
       "url": "https://docs.kie.ai/market/recraft/crisp-upscale.md",
       "file": "/market/recraft/crisp-upscale.md"
@@ -652,6 +694,13 @@
       "title": "Seedream5.0 Pro - Image to Image",
       "url": "https://docs.kie.ai/market/seedream/5-pro-image-to-image.md",
       "file": "/market/seedream/5-pro-image-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Seedream 5.0 Pro -  Layer Decomposition",
+      "url": "https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md",
+      "file": "/market/seedream/5-pro-layer-decomposition.md"
     },
     {
       "method": "",
@@ -1167,6 +1216,13 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "Seedream 5.0 Pro 图层分离",
+      "url": "https://docs.kie.ai/41313512e0.md",
+      "file": "/41313512e0.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "PixVerse V6 Reference-to-video/参考图生成",
       "url": "https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md",
       "file": "/cnmarket/pixverse/reference-to-video.md"
@@ -1184,6 +1240,13 @@
       "title": "Bytedance Seedance 1.5 Pro",
       "url": "https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md",
       "file": "/market/bytedance/seedance-1-5-pro.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Bytedance Seedance 2.5",
+      "url": "https://docs.kie.ai/market/bytedance/seedance-2-5.md",
+      "file": "/market/bytedance/seedance-2-5.md"
     },
     {
       "method": "POST",
@@ -1692,6 +1755,27 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "MiniMax H3 Image-to-Video",
+      "url": "https://docs.kie.ai/market/minimax-h3/image-to-video.md",
+      "file": "/market/minimax-h3/image-to-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "MiniMax H3 Reference-to-Video",
+      "url": "https://docs.kie.ai/market/minimax-h3/reference-to-video.md",
+      "file": "/market/minimax-h3/reference-to-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "MiniMax H3 Text-to-Video",
+      "url": "https://docs.kie.ai/market/minimax-h3/text-to-video.md",
+      "file": "/market/minimax-h3/text-to-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "Omnihuman 1.5",
       "url": "https://docs.kie.ai/market/omnihuman-1-5.md",
       "file": "/market/omnihuman-1-5.md"
@@ -1783,6 +1867,34 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "Qwen3 Pro Image to Image",
+      "url": "https://docs.kie.ai/market/qwen3-pro/image-to-image.md",
+      "file": "/market/qwen3-pro/image-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Qwen3 Pro Text to Image",
+      "url": "https://docs.kie.ai/market/qwen3-pro/text-to-image.md",
+      "file": "/market/qwen3-pro/text-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Qwen3 Image to Image",
+      "url": "https://docs.kie.ai/market/qwen3/image-to-image.md",
+      "file": "/market/qwen3/image-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Qwen3 Text to Image",
+      "url": "https://docs.kie.ai/market/qwen3/text-to-image.md",
+      "file": "/market/qwen3/text-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "Recraft - Crisp Upscale",
       "url": "https://docs.kie.ai/market/recraft/crisp-upscale.md",
       "file": "/market/recraft/crisp-upscale.md"
@@ -1828,6 +1940,13 @@
       "title": "Seedream5.0 Pro - Image to Image",
       "url": "https://docs.kie.ai/market/seedream/5-pro-image-to-image.md",
       "file": "/market/seedream/5-pro-image-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Seedream 5.0 Pro -  Layer Decomposition",
+      "url": "https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md",
+      "file": "/market/seedream/5-pro-layer-decomposition.md"
     },
     {
       "method": "POST",
@@ -2094,27 +2213,6 @@
       "title": "Gemini Omni Character",
       "url": "https://docs.kie.ai/market/gemini-omni-character.md",
       "file": "/market/gemini-omni-character.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/responses",
-      "title": "GPT 5.6 Luna",
-      "url": "https://docs.kie.ai/market/chat/gpt-5-6-luna.md",
-      "file": "/market/chat/gpt-5-6-luna.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/responses",
-      "title": "GPT 5.6 Sol",
-      "url": "https://docs.kie.ai/market/chat/gpt-5-6-sol.md",
-      "file": "/market/chat/gpt-5-6-sol.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/responses",
-      "title": "GPT 5.6 Terra",
-      "url": "https://docs.kie.ai/market/chat/gpt-5-6-terra.md",
-      "file": "/market/chat/gpt-5-6-terra.md"
     },
     {
       "method": "POST",
@@ -2593,6 +2691,13 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "Seedream 5.0 Pro 图层分离",
+        "url": "https://docs.kie.ai/41313512e0.md",
+        "file": "/41313512e0.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "PixVerse V6 Reference-to-video/参考图生成",
         "url": "https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md",
         "file": "/cnmarket/pixverse/reference-to-video.md"
@@ -2610,6 +2715,13 @@
         "title": "Bytedance Seedance 1.5 Pro",
         "url": "https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md",
         "file": "/market/bytedance/seedance-1-5-pro.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Bytedance Seedance 2.5",
+        "url": "https://docs.kie.ai/market/bytedance/seedance-2-5.md",
+        "file": "/market/bytedance/seedance-2-5.md"
       },
       {
         "method": "",
@@ -3188,6 +3300,34 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "Qwen3 Pro Image to Image",
+        "url": "https://docs.kie.ai/market/qwen3-pro/image-to-image.md",
+        "file": "/market/qwen3-pro/image-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Qwen3 Pro Text to Image",
+        "url": "https://docs.kie.ai/market/qwen3-pro/text-to-image.md",
+        "file": "/market/qwen3-pro/text-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Qwen3 Image to Image",
+        "url": "https://docs.kie.ai/market/qwen3/image-to-image.md",
+        "file": "/market/qwen3/image-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Qwen3 Text to Image",
+        "url": "https://docs.kie.ai/market/qwen3/text-to-image.md",
+        "file": "/market/qwen3/text-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "Recraft - Crisp Upscale",
         "url": "https://docs.kie.ai/market/recraft/crisp-upscale.md",
         "file": "/market/recraft/crisp-upscale.md"
@@ -3233,6 +3373,13 @@
         "title": "Seedream5.0 Pro - Image to Image",
         "url": "https://docs.kie.ai/market/seedream/5-pro-image-to-image.md",
         "file": "/market/seedream/5-pro-image-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Seedream 5.0 Pro -  Layer Decomposition",
+        "url": "https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md",
+        "file": "/market/seedream/5-pro-layer-decomposition.md"
       },
       {
         "method": "",
@@ -3804,6 +3951,13 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "Seedream 5.0 Pro 图层分离",
+        "url": "https://docs.kie.ai/41313512e0.md",
+        "file": "/41313512e0.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "PixVerse V6 Reference-to-video/参考图生成",
         "url": "https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md",
         "file": "/cnmarket/pixverse/reference-to-video.md"
@@ -3821,6 +3975,13 @@
         "title": "Bytedance Seedance 1.5 Pro",
         "url": "https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md",
         "file": "/market/bytedance/seedance-1-5-pro.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Bytedance Seedance 2.5",
+        "url": "https://docs.kie.ai/market/bytedance/seedance-2-5.md",
+        "file": "/market/bytedance/seedance-2-5.md"
       },
       {
         "method": "POST",
@@ -4329,6 +4490,27 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "MiniMax H3 Image-to-Video",
+        "url": "https://docs.kie.ai/market/minimax-h3/image-to-video.md",
+        "file": "/market/minimax-h3/image-to-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "MiniMax H3 Reference-to-Video",
+        "url": "https://docs.kie.ai/market/minimax-h3/reference-to-video.md",
+        "file": "/market/minimax-h3/reference-to-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "MiniMax H3 Text-to-Video",
+        "url": "https://docs.kie.ai/market/minimax-h3/text-to-video.md",
+        "file": "/market/minimax-h3/text-to-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "Omnihuman 1.5",
         "url": "https://docs.kie.ai/market/omnihuman-1-5.md",
         "file": "/market/omnihuman-1-5.md"
@@ -4420,6 +4602,34 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "Qwen3 Pro Image to Image",
+        "url": "https://docs.kie.ai/market/qwen3-pro/image-to-image.md",
+        "file": "/market/qwen3-pro/image-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Qwen3 Pro Text to Image",
+        "url": "https://docs.kie.ai/market/qwen3-pro/text-to-image.md",
+        "file": "/market/qwen3-pro/text-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Qwen3 Image to Image",
+        "url": "https://docs.kie.ai/market/qwen3/image-to-image.md",
+        "file": "/market/qwen3/image-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Qwen3 Text to Image",
+        "url": "https://docs.kie.ai/market/qwen3/text-to-image.md",
+        "file": "/market/qwen3/text-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "Recraft - Crisp Upscale",
         "url": "https://docs.kie.ai/market/recraft/crisp-upscale.md",
         "file": "/market/recraft/crisp-upscale.md"
@@ -4465,6 +4675,13 @@
         "title": "Seedream5.0 Pro - Image to Image",
         "url": "https://docs.kie.ai/market/seedream/5-pro-image-to-image.md",
         "file": "/market/seedream/5-pro-image-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Seedream 5.0 Pro -  Layer Decomposition",
+        "url": "https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md",
+        "file": "/market/seedream/5-pro-layer-decomposition.md"
       },
       {
         "method": "POST",
@@ -4754,27 +4971,6 @@
       }
     ],
     "/api/v1/responses": [
-      {
-        "method": "",
-        "path": "/api/v1/responses",
-        "title": "GPT 5.6 Luna",
-        "url": "https://docs.kie.ai/market/chat/gpt-5-6-luna.md",
-        "file": "/market/chat/gpt-5-6-luna.md"
-      },
-      {
-        "method": "",
-        "path": "/api/v1/responses",
-        "title": "GPT 5.6 Sol",
-        "url": "https://docs.kie.ai/market/chat/gpt-5-6-sol.md",
-        "file": "/market/chat/gpt-5-6-sol.md"
-      },
-      {
-        "method": "",
-        "path": "/api/v1/responses",
-        "title": "GPT 5.6 Terra",
-        "url": "https://docs.kie.ai/market/chat/gpt-5-6-terra.md",
-        "file": "/market/chat/gpt-5-6-terra.md"
-      },
       {
         "method": "POST",
         "path": "/api/v1/responses",

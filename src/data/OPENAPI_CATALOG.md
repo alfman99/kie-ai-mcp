@@ -1,6 +1,6 @@
 # KIE.AI OpenAPI Catalog
 
-Generated 2026-07-31T07:08:46.605Z from official `docs.kie.ai` Markdown pages.
+Generated 2026-08-07T12:10:26.196Z from official `docs.kie.ai` Markdown pages.
 
 | Method | Path | Operation ID | Official source |
 | --- | --- | --- | --- |
@@ -31,9 +31,11 @@ Generated 2026-07-31T07:08:46.605Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | playground_252 | [HappyHorse 1.1 图生视频](<https://docs.kie.ai/38308980e0.md>) |
 | POST | `/api/v1/jobs/createTask` | playground_253 | [HappyHorse 1.1 文生视频](<https://docs.kie.ai/38309290e0.md>) |
 | POST | `/api/v1/jobs/createTask` | playground_254 | [HappyHorse 1.1 参考图生成视频](<https://docs.kie.ai/38309489e0.md>) |
+| POST | `/api/v1/jobs/createTask` | seedream/5-pro-layer-decomposition | [Seedream 5.0 Pro 图层分离](<https://docs.kie.ai/41313512e0.md>) |
 | POST | `/api/v1/jobs/createTask` | pixverse-v6-fusion-reference-to-video | [PixVerse V6 Reference-to-video/参考图生成](<https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | gemini-2-5-pro-tts | [Gemini 2.5 Pro Text to Speech](<https://docs.kie.ai/google/gemini-2-5-pro-tts.md>) |
 | POST | `/api/v1/jobs/createTask` | bytedance-seedance-1-5-pro | [Bytedance Seedance 1.5 Pro](<https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md>) |
+| POST | `/api/v1/jobs/createTask` | bytedance-seedance-2-5 | [Bytedance Seedance 2.5](<https://docs.kie.ai/market/bytedance/seedance-2-5.md>) |
 | POST | `/api/v1/jobs/createTask` | bytedance-seedance-2-fast | [Bytedance Seedance 2.0 Fast](<https://docs.kie.ai/market/bytedance/seedance-2-fast.md>) |
 | POST | `/api/v1/jobs/createTask` | bytedance-seedance-2-mini | [Bytedance Seedance 2.0 Mini](<https://docs.kie.ai/market/bytedance/seedance-2-mini.md>) |
 | POST | `/api/v1/jobs/createTask` | bytedance-seedance-2 | [Bytedance Seedance 2.0](<https://docs.kie.ai/market/bytedance/seedance-2.md>) |
@@ -106,6 +108,9 @@ Generated 2026-07-31T07:08:46.605Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | kling-v2-5-turbo-text-to-video-pro | [Kling - V2.5 Turbo Text to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-text-to-video-pro.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v3-turbo-image-to-video | [Kling - V3 Turbo Image to Video](<https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v3-turbo-text-to-video | [Kling - V3 Turbo Text to Video](<https://docs.kie.ai/market/kling/v3-turbo-text-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | minimax-h3-image-to-video | [MiniMax H3 Image-to-Video](<https://docs.kie.ai/market/minimax-h3/image-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | minimax-h3-reference-to-video | [MiniMax H3 Reference-to-Video](<https://docs.kie.ai/market/minimax-h3/reference-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | minimax-h3-text-to-video | [MiniMax H3 Text-to-Video](<https://docs.kie.ai/market/minimax-h3/text-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | omnihuman-1-5 | [Omnihuman 1.5](<https://docs.kie.ai/market/omnihuman-1-5.md>) |
 | POST | `/api/v1/jobs/createTask` | omnihuman-1-5-human-identification | [Omnihuman 1.5 Human Identification](<https://docs.kie.ai/market/omnihuman-1-5/human-identification.md>) |
 | POST | `/api/v1/jobs/createTask` | omnihuman-1-5-subject-detection | [OmniHuman 1.5 Subject Detection](<https://docs.kie.ai/market/omnihuman-1-5/subject-detection.md>) |
@@ -119,6 +124,10 @@ Generated 2026-07-31T07:08:46.605Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | qwen-text-to-image | [Qwen - Text to Image](<https://docs.kie.ai/market/qwen/text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | qwen2-image-edit | [Qwen2 - Image Edit](<https://docs.kie.ai/market/qwen2/image-edit.md>) |
 | POST | `/api/v1/jobs/createTask` | qwen2-text-to-image | [Qwen2 - Text To Image](<https://docs.kie.ai/market/qwen2/text-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | qwen3-pro-image-to-image | [Qwen3 Pro Image to Image](<https://docs.kie.ai/market/qwen3-pro/image-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | qwen3-pro-text-to-image | [Qwen3 Pro Text to Image](<https://docs.kie.ai/market/qwen3-pro/text-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | qwen3-image-to-image | [Qwen3 Image to Image](<https://docs.kie.ai/market/qwen3/image-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | qwen3-text-to-image | [Qwen3 Text to Image](<https://docs.kie.ai/market/qwen3/text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | recraft-crisp-upscale | [Recraft - Crisp Upscale](<https://docs.kie.ai/market/recraft/crisp-upscale.md>) |
 | POST | `/api/v1/jobs/createTask` | recraft-remove-background | [Recraft - Remove Background](<https://docs.kie.ai/market/recraft/remove-background.md>) |
 | POST | `/api/v1/jobs/createTask` | seedream-5-lite-image-to-image | [Seedream5.0 Lite - Image to Image](<https://docs.kie.ai/market/seedream-5-lite-image-to-image.md>) |
@@ -126,6 +135,7 @@ Generated 2026-07-31T07:08:46.605Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | seedream-4-5-text-to-image | [Seedream4.5 - Text to Image](<https://docs.kie.ai/market/seedream/4-5-text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | seedream-5-lite-text-to-image | [Seedream5.0 Lite - Text to Image](<https://docs.kie.ai/market/seedream/5-lite-text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | seedream-5-pro-image-to-image | [Seedream5.0 Pro - Image to Image](<https://docs.kie.ai/market/seedream/5-pro-image-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | seedream-5-pro-layer-decomposition | [Seedream 5.0 Pro -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md>) |
 | POST | `/api/v1/jobs/createTask` | seedream-5-pro-text-to-image | [Seedream5.0 Pro - Text to Image](<https://docs.kie.ai/market/seedream/5-pro-text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | bytedance-seedream-v4-edit | [Seedream4.0 - Edit](<https://docs.kie.ai/market/seedream/seedream-v4-edit.md>) |
 | POST | `/api/v1/jobs/createTask` | bytedance-seedream-v4-text-to-image | [Seedream4.0 - Text to Image](<https://docs.kie.ai/market/seedream/seedream-v4-text-to-image.md>) |

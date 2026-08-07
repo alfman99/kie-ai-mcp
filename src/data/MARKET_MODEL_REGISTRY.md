@@ -1,11 +1,12 @@
 # KIE.AI Market Model Registry
 
-Generated 2026-07-31T07:08:46.605Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
+Generated 2026-08-07T12:10:26.196Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
 
 | Model | Required input | Official source |
 | --- | --- | --- |
 | `bytedance/seedance-1.5-pro` | `aspect_ratio`, `duration`, `prompt` | [Bytedance Seedance 1.5 Pro](<https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md>) |
 | `bytedance/seedance-2` |  | [Bytedance Seedance 2.0](<https://docs.kie.ai/market/bytedance/seedance-2.md>) |
+| `bytedance/seedance-2-5` |  | [Bytedance Seedance 2.5](<https://docs.kie.ai/market/bytedance/seedance-2-5.md>) |
 | `bytedance/seedance-2-fast` |  | [Bytedance Seedance 2.0 Fast](<https://docs.kie.ai/market/bytedance/seedance-2-fast.md>) |
 | `bytedance/seedance-2-mini` |  | [Bytedance Seedance 2.0 Mini](<https://docs.kie.ai/market/bytedance/seedance-2-mini.md>) |
 | `bytedance/seedream` | `prompt` | [Seedream3.0 - Text to Image](<https://docs.kie.ai/market/seedream/seedream.md>) |
@@ -77,6 +78,9 @@ Generated 2026-07-31T07:08:46.605Z from official `docs.kie.ai` OpenAPI schemas f
 | `kling/v2-5-turbo-text-to-video-pro` | `prompt` | [Kling - V2.5 Turbo Text to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-text-to-video-pro.md>) |
 | `kling/v3-turbo-image-to-video` | `duration`, `image_urls`, `prompt`, `resolution` | [Kling - V3 Turbo Image to Video](<https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md>) |
 | `kling/v3-turbo-text-to-video` | `aspect_ratio`, `duration`, `prompt`, `resolution` | [Kling - V3 Turbo Text to Video](<https://docs.kie.ai/market/kling/v3-turbo-text-to-video.md>) |
+| `minimax-h3/image-to-video` | `duration`, `prompt` | [MiniMax H3 Image-to-Video](<https://docs.kie.ai/market/minimax-h3/image-to-video.md>) |
+| `minimax-h3/reference-to-video` | `duration`, `prompt` | [MiniMax H3 Reference-to-Video](<https://docs.kie.ai/market/minimax-h3/reference-to-video.md>) |
+| `minimax-h3/text-to-video` | `aspect_ratio`, `duration`, `prompt` | [MiniMax H3 Text-to-Video](<https://docs.kie.ai/market/minimax-h3/text-to-video.md>) |
 | `nano-banana-2` | `prompt` | [Google - Nano Banana 2](<https://docs.kie.ai/market/google/nanobanana2.md>) |
 | `nano-banana-2-lite` | `aspect_ratio`, `prompt` | [Google - Nano Banana 2 Lite](<https://docs.kie.ai/market/google/nano-banana-2-lite.md>) |
 | `nano-banana-pro` | `prompt` | [Google - Nano Banana Pro](<https://docs.kie.ai/market/google/pro-image-to-image.md>) |
@@ -93,6 +97,10 @@ Generated 2026-07-31T07:08:46.605Z from official `docs.kie.ai` OpenAPI schemas f
 | `qwen/text-to-image` | `prompt` | [Qwen - Text to Image](<https://docs.kie.ai/market/qwen/text-to-image.md>) |
 | `qwen2/image-edit` | `image_url`, `prompt` | [Qwen2 - Image Edit](<https://docs.kie.ai/market/qwen2/image-edit.md>) |
 | `qwen2/text-to-image` | `prompt` | [Qwen2 - Text To Image](<https://docs.kie.ai/market/qwen2/text-to-image.md>) |
+| `qwen3/image-to-image` | `image_urls`, `prompt` | [Qwen3 Image to Image](<https://docs.kie.ai/market/qwen3/image-to-image.md>) |
+| `qwen3/pro-image-to-image` | `image_urls`, `prompt` | [Qwen3 Pro Image to Image](<https://docs.kie.ai/market/qwen3-pro/image-to-image.md>) |
+| `qwen3/pro-text-to-image` | `prompt` | [Qwen3 Pro Text to Image](<https://docs.kie.ai/market/qwen3-pro/text-to-image.md>) |
+| `qwen3/text-to-image` | `prompt` | [Qwen3 Text to Image](<https://docs.kie.ai/market/qwen3/text-to-image.md>) |
 | `recraft/crisp-upscale` | `image` | [Recraft - Crisp Upscale](<https://docs.kie.ai/market/recraft/crisp-upscale.md>) |
 | `recraft/remove-background` | `image` | [Recraft - Remove Background](<https://docs.kie.ai/market/recraft/remove-background.md>) |
 | `seedream/4.5-edit` | `aspect_ratio`, `image_urls`, `prompt`, `quality` | [Seedream4.5 - Edit](<https://docs.kie.ai/market/seedream/4-5-edit.md>) |
@@ -100,6 +108,7 @@ Generated 2026-07-31T07:08:46.605Z from official `docs.kie.ai` OpenAPI schemas f
 | `seedream/5-lite-image-to-image` | `aspect_ratio`, `image_urls`, `prompt`, `quality` | [Seedream5.0 Lite - Image to Image](<https://docs.kie.ai/market/seedream-5-lite-image-to-image.md>) |
 | `seedream/5-lite-text-to-image` | `aspect_ratio`, `prompt`, `quality` | [Seedream5.0 Lite - Text to Image](<https://docs.kie.ai/market/seedream/5-lite-text-to-image.md>) |
 | `seedream/5-pro-image-to-image` | `aspect_ratio`, `image_urls`, `prompt`, `quality` | [Seedream5.0 Pro - Image to Image](<https://docs.kie.ai/market/seedream/5-pro-image-to-image.md>) |
+| `seedream/5-pro-layer-decomposition` | `image_url` | [Seedream 5.0 Pro -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md>) |
 | `seedream/5-pro-text-to-image` | `aspect_ratio`, `prompt`, `quality` | [Seedream5.0 Pro - Text to Image](<https://docs.kie.ai/market/seedream/5-pro-text-to-image.md>) |
 | `topaz/image-upscale` | `image_url`, `upscale_factor` | [Topaz - Image Upscale](<https://docs.kie.ai/market/topaz/image-upscale.md>) |
 | `topaz/video-upscale` | `video_url` | [Topaz - Video Upscale](<https://docs.kie.ai/market/topaz/video-upscale.md>) |

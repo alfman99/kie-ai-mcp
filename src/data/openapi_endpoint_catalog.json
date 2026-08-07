@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31T07:08:46.605Z",
+  "generated_at": "2026-08-07T12:10:26.196Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -591,10 +591,7 @@
             "x-apidog-orders": [
               "url"
             ],
-            "x--orders": [
-              "url"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": "{\n  \"url\": \"https://tempfile.aiquickdraw.com/path/to/image.jpg\" // 图片url（必填）\n}",
           "examples": null
@@ -2529,11 +2526,7 @@
                   "taskId",
                   "audioId"
                 ],
-                "x--orders": [
-                  "taskId",
-                  "audioId"
-                ],
-                "x--ignore-properties": [],
+                "x-apidog-ignore-properties": [],
                 "type": "object"
               },
               {
@@ -2617,11 +2610,7 @@
                   "uploadUrl",
                   "model"
                 ],
-                "x--orders": [
-                  "uploadUrl",
-                  "model"
-                ],
-                "x--ignore-properties": [],
+                "x-apidog-ignore-properties": [],
                 "type": "object"
               }
             ],
@@ -2696,17 +2685,7 @@
               "fullLyrics",
               "callBackUrl"
             ],
-            "x--orders": [
-              "prompt",
-              "tags",
-              "title",
-              "negativeTags",
-              "infillStartS",
-              "infillEndS",
-              "fullLyrics",
-              "callBackUrl"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "taskId": "2fac****9f72",
@@ -4431,6 +4410,200 @@
       ]
     },
     {
+      "source_title": "Seedream 5.0 Pro 图层分离",
+      "source_url": "https://docs.kie.ai/41313512e0.md",
+      "source_file": "/41313512e0.md",
+      "servers": [
+        "https://api.kie.ai"
+      ],
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "summary": "Seedream 5.0 Pro 图层分离",
+      "operationId": "seedream/5-pro-layer-decomposition",
+      "tags": [
+        "docs/zh-CN/Market/Image    Models/Seedream"
+      ],
+      "parameters": [],
+      "request": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "model",
+              "input"
+            ],
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "用于执行图层拆分任务的模型名称。必填字段。\n\n- 此端点必须使用 `seedream/5-pro-layer-decomposition`",
+                "enum": [
+                  "seedream/5-pro-layer-decomposition"
+                ],
+                "default": "seedream/5-pro-layer-decomposition",
+                "examples": [
+                  "seedream/5-pro-layer-decomposition"
+                ],
+                "x-apidog-enum": [
+                  {
+                    "value": "seedream/5-pro-layer-decomposition",
+                    "name": "",
+                    "description": ""
+                  }
+                ]
+              },
+              "callBackUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "接收任务完成通知的回调 URL。可选，但建议在生产环境中使用。\n\n- 任务完成后，系统将向此 URL 发送 POST 请求\n- 回调内容包含任务状态、生成结果 URL 和任务信息\n- 也可以通过获取任务详情接口主动查询任务状态\n- 回调签名校验方式请参考 [Webhook 校验指南](/cn/common-api/webhook-verification)",
+                "examples": [
+                  "https://your-domain.com/api/callback"
+                ]
+              },
+              "input": {
+                "type": "object",
+                "description": "图层拆分任务的输入参数",
+                "required": [
+                  "image_url"
+                ],
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "可选的图层拆分提示词。\n\n- 传入提示词时，模型根据提示词拆分指定元素\n- 不传提示词时，模型自动识别图片中的主要元素\n- 支持使用 `<bbox>x1 y1 x2 y2</bbox>` 精确指定元素位置，推荐使用 0–1000 范围的归一化坐标",
+                    "examples": [
+                      "将标题文字 <bbox>179 58 809 197</bbox> 和鹦鹉 <bbox>330 274 641 991</bbox> 拆分为独立图层"
+                    ],
+                    "minLength": 0,
+                    "maxLength": 5000
+                  },
+                  "image_url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "需要进行图层拆分的源图片 URL。\n\n- 必须且只能上传 1 张图片\n- 支持 PNG、JPEG、WebP、BMP、TIFF、GIF\n- 不支持 HEIC、HEIF\n- 图片大小不超过 30 MB\n- 总像素范围为 262,144–36,000,000\n- 宽高比范围为 1:16–16:1",
+                    "examples": [
+                      "https://example.com/seedream-layer-input.png"
+                    ]
+                  },
+                  "size": {
+                    "type": "string",
+                    "description": "输出图片的分辨率档位。底图保持输入图片的宽高比，各拆分图层保持对应元素在原图中的宽高比。\n\n- `auto`：根据输入图片尺寸自动选择\n- `1K`：1K 分辨率档位\n- `1.5K`：1.5K 分辨率档位\n- `2K`：2K 分辨率档位",
+                    "enum": [
+                      "auto",
+                      "1K",
+                      "1.5K",
+                      "2K"
+                    ],
+                    "default": "auto",
+                    "examples": [
+                      "2K"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "auto",
+                        "name": "",
+                        "description": "根据输入图片自动选择输出尺寸"
+                      },
+                      {
+                        "value": "1K",
+                        "name": "",
+                        "description": "1K 分辨率档位"
+                      },
+                      {
+                        "value": "1.5K",
+                        "name": "",
+                        "description": "1.5K 分辨率档位"
+                      },
+                      {
+                        "value": "2K",
+                        "name": "",
+                        "description": "2K 分辨率档位"
+                      }
+                    ]
+                  },
+                  "output_format": {
+                    "type": "string",
+                    "description": "底图的输出格式。该参数仅控制底图格式，所有拆分图层固定输出为 PNG。",
+                    "enum": [
+                      "png",
+                      "jpeg"
+                    ],
+                    "default": "jpeg",
+                    "examples": [
+                      "jpeg"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "png",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "jpeg",
+                        "name": "",
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                "x-apidog-orders": [
+                  "prompt",
+                  "image_url",
+                  "size",
+                  "output_format"
+                ],
+                "x-apidog-ignore-properties": []
+              }
+            },
+            "x-apidog-orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x-apidog-ignore-properties": []
+          },
+          "example": null,
+          "examples": {}
+        }
+      },
+      "responses": {
+        "200": {
+          "description": null,
+          "content_types": [
+            "application/json"
+          ]
+        },
+        "500": {
+          "description": "request failed",
+          "content_types": [
+            "application/json"
+          ]
+        }
+      },
+      "security": [
+        {
+          "BearerAuth": [],
+          "x-apidog": {
+            "schemeGroups": [
+              {
+                "id": "kn8M4YUlc5i0A0179ezwx",
+                "schemeIds": [
+                  "BearerAuth"
+                ]
+              }
+            ],
+            "required": true,
+            "use": {
+              "id": "kn8M4YUlc5i0A0179ezwx"
+            },
+            "scopes": {
+              "kn8M4YUlc5i0A0179ezwx": {
+                "BearerAuth": []
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       "source_title": "PixVerse V6 Reference-to-video/参考图生成",
       "source_url": "https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md",
       "source_file": "/cnmarket/pixverse/reference-to-video.md",
@@ -5155,7 +5328,8 @@
                       ],
                       "required": [
                         "speaker_id",
-                        "voice_name"
+                        "voice_name",
+                        "accent"
                       ],
                       "x-apidog-ignore-properties": []
                     }
@@ -5471,6 +5645,310 @@
               "nsfw_checker": false
             }
           },
+          "examples": null
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Request successful",
+          "content_types": [
+            "application/json"
+          ]
+        }
+      },
+      "security": [
+        {
+          "BearerAuth": [],
+          "x-apidog": {
+            "schemeGroups": [
+              {
+                "id": "kn8M4YUlc5i0A0179ezwx",
+                "schemeIds": [
+                  "BearerAuth"
+                ]
+              }
+            ],
+            "required": true,
+            "use": {
+              "id": "kn8M4YUlc5i0A0179ezwx"
+            },
+            "scopes": {
+              "kn8M4YUlc5i0A0179ezwx": {
+                "BearerAuth": []
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_title": "Bytedance Seedance 2.5",
+      "source_url": "https://docs.kie.ai/market/bytedance/seedance-2-5.md",
+      "source_file": "/market/bytedance/seedance-2-5.md",
+      "servers": [
+        "https://api.kie.ai"
+      ],
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "summary": "Bytedance Seedance 2.5",
+      "operationId": "bytedance-seedance-2-5",
+      "tags": [
+        "docs/en/Market/Video Models/Bytedance"
+      ],
+      "parameters": [],
+      "request": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "model",
+              "input"
+            ],
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "The model name to use for generation. Required field.\n\n- Must be `bytedance/seedance-2-5` for this endpoint",
+                "enum": [
+                  "bytedance/seedance-2-5"
+                ],
+                "default": "bytedance/seedance-2-5",
+                "x-apidog-enum": [
+                  {
+                    "value": "bytedance/seedance-2-5",
+                    "name": "",
+                    "description": ""
+                  }
+                ],
+                "examples": [
+                  "bytedance/seedance-2-5"
+                ]
+              },
+              "callBackUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL to receive generation task completion updates. Optional but recommended for production use.\n\n- System will POST task status and results to this URL when generation completes\n- Callback includes generated content URLs and task information\n- Your callback endpoint should accept POST requests with JSON payload containing results\n- Alternatively, use the Get Task Details endpoint to poll task status\n- To ensure callback security, see [Webhook Verification Guide](/common-api/webhook-verification) for signature verification implementation",
+                "examples": [
+                  "https://your-domain.com/api/callback"
+                ]
+              },
+              "input": {
+                "type": "object",
+                "description": "Input parameters for the generation task",
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "The text prompt used to generate the video.. ( Max length: 5000 characters)",
+                    "maxLength": 5000,
+                    "examples": [
+                      "A serene beach at sunset with waves gently crashing on the shore, palm trees swaying in the breeze, and seagulls flying across the orange sky"
+                    ]
+                  },
+                  "first_frame_url": {
+                    "type": "string",
+                    "description": "First frame image url or asset://{assetId} \n(for example: asset://asset-20260404242101-76djj)\nCannot be used simultaneously with reference_image_urls, reference_video_urls, or reference_audio_urls."
+                  },
+                  "last_frame_url": {
+                    "type": "string",
+                    "description": "End frame image url or asset://{assetId} \n(for example: asset://asset-20260404242101-76djj)\nlast_frame_url cannot be passed alone; first_frame_url must be provided together with it."
+                  },
+                  "reference_image_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Enter a list of image URLs or asset://{assetId} (for example: asset://asset-20260404242101-76djj).\nSingle image requirements:\nFormat: jpeg, png, webp, bmp, tiff, gif.\nAspect ratio (width/height): (0.4, 2.5)\nWidth and height (px): (300, 6000)\nSize: Single image less than 30 MB.\nMaximum number of files: The sum of the number of frames at the beginning and end must not exceed 30.\nMutually exclusive with the first/last-frame scenario;",
+                    "maxItems": 30,
+                    "examples": [
+                      [
+                        "https://file.aiquickdraw.com/custom-page/akr/section-images/example1.png"
+                      ]
+                    ]
+                  },
+                  "reference_video_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Enter a list of video URLs or asset://{assetId} (for example: asset://asset-20260404242101-76djj) .\nSingle video requirements:\nVideo format: mp4, mov.\nResolution: 480p, 720p\nDimensions:\nAspect ratio (width/height): [0.4, 2.5]\nWidth/height (px): [300, 6000]\nTotal pixels: [640×640=409600, 834×1112=927408], i.e., the product of width and height must meet the range requirement of [409600, 927408].\nSize: Single video not exceeding 200 MB.\nFrame rate (FPS): [24, 60]\nSingle video duration: [2, 30] seconds; \nMutually exclusive with the first/last-frame scenario; Total duration of reference videos must not exceed 30 seconds.",
+                    "maxItems": 10
+                  },
+                  "reference_audio_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Enter a list of audio URLs or asset://{assetId} (for example: asset://asset-20260404242101-76djj) .\nSingle audio requirements:\nFormat: wav, mp3\nSize: Single audio file size not exceeding 15 MB.\nSingle audio duration: [2, 30] seconds; \nMutually exclusive with the first/last-frame scenario; Total duration of reference videos must not exceed 30 seconds.",
+                    "maxItems": 10
+                  },
+                  "return_last_frame": {
+                    "type": "boolean",
+                    "description": "Whether to return the last frame of the video. When draft=true, this parameter cannot be set to true.",
+                    "default": false
+                  },
+                  "generate_audio": {
+                    "description": "Whether to generate audio for the video.\n\n- **true**: Generate with audio (higher cost)\n- **false**: Generate without audio\n\nNote: Enabling audio will increase the generation cost",
+                    "type": "boolean",
+                    "default": true,
+                    "examples": [
+                      false
+                    ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "description": "Video resolution - 480p for faster generation, 720p for balance.",
+                    "enum": [
+                      "480p",
+                      "720p"
+                    ],
+                    "default": "720p",
+                    "examples": [
+                      "720p"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "480p",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "720p",
+                        "name": "",
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "aspect_ratio": {
+                    "type": "string",
+                    "description": "Video aspect ratio configuration. ",
+                    "enum": [
+                      "1:1",
+                      "4:3",
+                      "3:4",
+                      "16:9",
+                      "9:16",
+                      "21:9",
+                      "adaptive"
+                    ],
+                    "default": "adaptive",
+                    "x-apidog-enum": [
+                      {
+                        "value": "1:1",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "4:3",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "3:4",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "16:9",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "9:16",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "21:9",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "adaptive",
+                        "name": "",
+                        "description": ""
+                      }
+                    ],
+                    "examples": [
+                      "adaptive"
+                    ]
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "Video duration in 4-30 seconds.\nSpecial values -1:\n Pass -1 for automatic duration selection — the model picks a suitable duration itself (for video-editing tasks, it matches the input video's length; for other task types, it selects within the valid range), instead of you specifying an exact value.",
+                    "default": 5,
+                    "examples": [
+                      5
+                    ]
+                  },
+                  "output_format": {
+                    "type": "string",
+                    "description": "Video output format.",
+                    "enum": [
+                      "mp4",
+                      "mov"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "mp4",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "mov",
+                        "name": "",
+                        "description": ""
+                      }
+                    ],
+                    "default": "mp4",
+                    "examples": [
+                      "mp4"
+                    ]
+                  },
+                  "web_search": {
+                    "type": "boolean",
+                    "description": "Enable online search?"
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
+                  }
+                },
+                "x-apidog-orders": [
+                  "prompt",
+                  "first_frame_url",
+                  "last_frame_url",
+                  "reference_image_urls",
+                  "reference_video_urls",
+                  "reference_audio_urls",
+                  "return_last_frame",
+                  "generate_audio",
+                  "resolution",
+                  "aspect_ratio",
+                  "duration",
+                  "output_format",
+                  "web_search",
+                  "01KWKMN7PBRAKVAWC9BZ3PW3YJ"
+                ],
+                "x-apidog-refs": {
+                  "01KWKMN7PBRAKVAWC9BZ3PW3YJ": {
+                    "$ref": "#/components/schemas/nsfw_checker"
+                  }
+                },
+                "x-apidog-ignore-properties": [
+                  "nsfw_checker"
+                ]
+              }
+            },
+            "x-apidog-orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x-apidog-ignore-properties": []
+          },
+          "example": "{\n    \"model\": \"bytedance/seedance-2-5\",\n    \"callBackUrl\": \"https://your-domain.com/api/callback\",\n    \"input\": {\n        \"prompt\": \"A serene beach at sunset with waves gently crashing on the shore, palm trees swaying in the breeze, and seagulls flying across the orange sky\",\n        \"reference_image_urls\": [\n            \"https://templateb.aiquickdraw.com/custom-page/akr/section-images/example1.png\"\n        ],\n        \"reference_video_urls\": [\n            \"https://templateb.aiquickdraw.com/custom-page/akr/section-images/example1.mp4\"\n        ],\n        \"reference_audio_urls\": [\n            \"https://templateb.aiquickdraw.com/custom-page/akr/section-images/example1.mp3\"\n        ],\n        \"return_last_frame\": false,\n        \"generate_audio\": false,\n        \"resolution\": \"720p\",\n        \"aspect_ratio\": \"16:9\",\n        \"duration\": 15,\n    }\n}",
           "examples": null
         }
       },
@@ -6741,6 +7219,10 @@
                     "examples": [
                       true
                     ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -6761,16 +7243,9 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x--orders": [
-                  "prompt",
-                  "aspect_ratio",
-                  "resolution",
-                  "duration",
-                  "camera_fixed",
-                  "seed",
-                  "enable_safety_checker"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": [
+                  "nsfw_checker"
+                ]
               }
             },
             "x-apidog-orders": [
@@ -6778,12 +7253,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "bytedance/v1-lite-text-to-video",
@@ -7314,6 +7784,10 @@
                     "examples": [
                       true
                     ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -7334,16 +7808,9 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x--orders": [
-                  "prompt",
-                  "aspect_ratio",
-                  "resolution",
-                  "duration",
-                  "camera_fixed",
-                  "seed",
-                  "enable_safety_checker"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": [
+                  "nsfw_checker"
+                ]
               }
             },
             "x-apidog-orders": [
@@ -7351,12 +7818,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "bytedance/v1-pro-text-to-video",
@@ -9932,10 +10394,6 @@
                     "examples": [
                       "1K"
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -9956,9 +10414,13 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "input_urls",
+                  "prompt",
+                  "aspect_ratio",
+                  "resolution"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -9966,7 +10428,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "flux-2/pro-image-to-image",
@@ -10881,7 +11348,8 @@
                       ],
                       "required": [
                         "speaker_id",
-                        "voice_name"
+                        "voice_name",
+                        "accent"
                       ],
                       "x-apidog-ignore-properties": []
                     }
@@ -11150,13 +11618,7 @@
                   "aspect_ratio",
                   "seed"
                 ],
-                "x--orders": [
-                  "prompt",
-                  "negative_prompt",
-                  "aspect_ratio",
-                  "seed"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -11164,12 +11626,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "google/imagen4-fast",
@@ -11892,7 +12349,14 @@
                   "aspect_ratio",
                   "image_size"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "image_urls",
+                  "output_format",
+                  "aspect_ratio",
+                  "image_size"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -11900,7 +12364,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "google/nano-banana-edit",
@@ -12215,15 +12684,15 @@
                     "description": "Aspect ratio of the generated image",
                     "enum": [
                       "1:1",
-                      "1:4",
-                      "1:8",
                       "2:3",
                       "3:2",
-                      "3:4",
+                      "1:4",
                       "4:1",
+                      "3:4",
                       "4:3",
                       "4:5",
                       "5:4",
+                      "1:8",
                       "8:1",
                       "9:16",
                       "16:9",
@@ -12233,6 +12702,83 @@
                     "default": "auto",
                     "examples": [
                       "1:1"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "1:1",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "2:3",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "3:2",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "1:4",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "4:1",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "3:4",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "4:3",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "4:5",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "5:4",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "1:8",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "8:1",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "9:16",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "16:9",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "21:9",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "auto",
+                        "name": "",
+                        "description": ""
+                      }
                     ]
                   },
                   "resolution": {
@@ -12457,7 +13003,14 @@
                   "resolution",
                   "output_format"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "image_input",
+                  "aspect_ratio",
+                  "resolution",
+                  "output_format"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -12465,7 +13018,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "nano-banana-pro",
@@ -12625,7 +13183,13 @@
                   "aspect_ratio",
                   "quality"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "input_urls",
+                  "prompt",
+                  "aspect_ratio",
+                  "quality"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -12633,7 +13197,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "gpt-image/1.5-image-to-image",
@@ -13036,7 +13605,13 @@
                   "aspect_ratio",
                   "resolution"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "input_urls",
+                  "aspect_ratio",
+                  "resolution"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -13044,7 +13619,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "gpt-image-2-image-to-image",
@@ -13406,7 +13986,7 @@
                       "type": "string",
                       "format": "uri"
                     },
-                    "description": "Upload image files to be used as API input. Supported file types: image/jpeg, image/png, image/webp, image/jpg. Maximum file size: 20MB. Supports multi-file upload, up to 7 file.",
+                    "description": "Upload image files to be used as API input. Supported file types: image/jpeg, image/png, image/webp, image/jpg. Maximum file size: 20MB. Supports multi-file upload, up to 7 file.Only one is supported when the resolution is 1080p.",
                     "maxItems": 7
                   },
                   "aspect_ratio": {
@@ -13458,13 +14038,31 @@
                     ]
                   },
                   "resolution": {
-                    "description": "Resolution for video generation.",
                     "type": "string",
+                    "description": "Resolution for video generation.",
                     "enum": [
                       "480p",
-                      "720p"
+                      "720p",
+                      "1080p"
                     ],
-                    "default": "480p"
+                    "default": "480p",
+                    "x-apidog-enum": [
+                      {
+                        "value": "480p",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "720p",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "1080p",
+                        "name": "",
+                        "description": ""
+                      }
+                    ]
                   },
                   "duration": {
                     "description": "Video duration in seconds. Range: [1, 15]. Default: 8. Minimum: 1. Maximum: 15. Step: 1.",
@@ -13916,7 +14514,7 @@
                       "type": "string",
                       "format": "uri"
                     },
-                    "description": "Provide an external image URL as a reference for video generation. Up to 7 images are supported. Do not use it simultaneously with task_id. In your prompt, reference an uploaded image by typing @image(n) followed by a space (for example: @image1 a sunset over the ocean).\n- Supports JPEG, PNG, and WEBP formats\n- Maximum file size for each image: 10MB\n- The Spicy mode is not available when using external images\n- The array can contain a maximum of seven URLs",
+                    "description": "Provide an external image URL as a reference for video generation. Up to 7 images are supported. Do not use it simultaneously with task_id. In your prompt, reference an uploaded image by typing @image(n) followed by a space (for example: @image1 a sunset over the ocean).\n- Supports JPEG, PNG, and WEBP formats\n- Maximum file size for each image: 10MB\n- The Spicy mode is not available when using external images\n- The array can contain a maximum of seven URLs\n- Only one is supported when the resolution is 1080p.",
                     "maxItems": 7,
                     "examples": [
                       [
@@ -13971,7 +14569,8 @@
                     "description": "The resolution of the generated video.",
                     "enum": [
                       "480p",
-                      "720p"
+                      "720p",
+                      "1080p"
                     ],
                     "x-apidog-enum": [
                       {
@@ -13981,6 +14580,11 @@
                       },
                       {
                         "value": "720p",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "1080p",
                         "name": "",
                         "description": ""
                       }
@@ -14374,7 +14978,8 @@
                     "description": "The resolution of the generated video.",
                     "enum": [
                       "480p",
-                      "720p"
+                      "720p",
+                      "1080p"
                     ],
                     "x-apidog-enum": [
                       {
@@ -14384,6 +14989,11 @@
                       },
                       {
                         "value": "720p",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "1080p",
                         "name": "",
                         "description": ""
                       }
@@ -14538,13 +15148,35 @@
                     "examples": [
                       "task_grok_12345678"
                     ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "default": "720p",
+                    "enum": [
+                      "720p",
+                      "1080p"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "720p",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "1080p",
+                        "name": "",
+                        "description": ""
+                      }
+                    ],
+                    "description": "Video generation resolution."
                   }
                 },
                 "required": [
                   "task_id"
                 ],
                 "x-apidog-orders": [
-                  "task_id"
+                  "task_id",
+                  "resolution"
                 ],
                 "x-apidog-ignore-properties": []
               }
@@ -14686,10 +15318,6 @@
                     "examples": [
                       true
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -14708,9 +15336,13 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "image_url",
+                  "end_image_url",
+                  "prompt_optimizer"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -14718,7 +15350,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "hailuo/02-image-to-video-pro",
@@ -15008,6 +15645,10 @@
                     "examples": [
                       true
                     ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -15023,11 +15664,9 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x--orders": [
-                  "prompt",
-                  "prompt_optimizer"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": [
+                  "nsfw_checker"
+                ]
               }
             },
             "x-apidog-orders": [
@@ -15035,12 +15674,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "hailuo/02-text-to-video-pro",
@@ -15158,6 +15792,10 @@
                     "examples": [
                       true
                     ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -15174,12 +15812,9 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x--orders": [
-                  "prompt",
-                  "duration",
-                  "prompt_optimizer"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": [
+                  "nsfw_checker"
+                ]
               }
             },
             "x-apidog-orders": [
@@ -15187,12 +15822,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "hailuo/02-text-to-video-standard",
@@ -15323,10 +15953,6 @@
                     "examples": [
                       "768P"
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -15345,9 +15971,13 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "image_url",
+                  "duration",
+                  "resolution"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -15355,7 +15985,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "hailuo/2-3-image-to-video-pro",
@@ -15767,19 +16402,6 @@
                       ""
                     ]
                   },
-                  "reference_image": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "format": "uri"
-                    },
-                    "description": "The URL  of a reference image. \nImage requirements: \n1. Formats: JPEG, JPG, PNG, WEBP. \n2. Resolution: The shortest side must be at least 400 pixels. A clear image with a resolution of 720P or higher is recommended. Avoid using images that are too small, blurry, or overly compressed, as this can degrade the output quality. \n3. Maximum file size: 20 MB.",
-                    "maxItems": 9,
-                    "default": [],
-                    "examples": [
-                      []
-                    ]
-                  },
                   "resolution": {
                     "type": "string",
                     "enum": [
@@ -15821,6 +16443,19 @@
                     "examples": [
                       5
                     ]
+                  },
+                  "reference_image": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "The URL  of a reference image. \nImage requirements: \n1. Formats: JPEG, JPG, PNG, WEBP. \n2. Resolution: The shortest side must be at least 400 pixels. A clear image with a resolution of 720P or higher is recommended. Avoid using images that are too small, blurry, or overly compressed, as this can degrade the output quality. \n3. Maximum file size: 20 MB.",
+                    "maxItems": 9,
+                    "default": [],
+                    "examples": [
+                      []
+                    ]
                   }
                 },
                 "required": [
@@ -15834,14 +16469,25 @@
                   "aspect_ratio",
                   "duration"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "resolution",
+                  "aspect_ratio",
+                  "duration",
+                  "reference_image"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
               "model",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "happyhorse-1-1/reference-to-video",
@@ -16279,23 +16925,6 @@
                 "type": "object",
                 "description": "Input parameters for the generation task",
                 "properties": {
-                  "prompt": {
-                    "type": "string",
-                    "description": "Text prompt describing the video to generate (any language). Max 5,000 non‑Chinese characters or 2,500 Chinese characters; extra content is truncated.",
-                    "maxLength": 5000,
-                    "examples": [
-                      "A woman in a red qipao character1. The shot opens with a side medium view outlining the tailored fit of the qipao and S-curve silhouette, then cuts to a low-angle shot capturing her gracefully unfolding a folding fan character2, with tassel earrings character3 swaying lightly as she turns her head. Finally, the camera pushes into a facial close-up, freezing on her fingertips lightly touching the fan ribs and the subtle, reserved charm in her expressive gaze. Through multiple angles, it comprehensively showcases an aura of Eastern elegance."
-                    ]
-                  },
-                  "reference_image": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "description": "Reference image URL list. Provide 1–9 images. The order defines which image is character1, character2, etc.\n\nImage limits:\nFormat: JPEG, JPG, PNG, and WEBP.\nResolution: shortest side at least 400 px. 720P or higher recommended. Avoid small, blurry, or heavily compressed images, as they degrade output quality.\nFile size: 10 MB maximum.",
-                    "maxItems": 9,
-                    "minItems": 1
-                  },
                   "resolution": {
                     "type": "string",
                     "description": "Output video resolution. Valid values: 720P, 1080P (default).",
@@ -16319,6 +16948,31 @@
                     "examples": [
                       "1080p"
                     ]
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "Output duration in seconds (integer). Must be between 3 and 15. Defaults to 5.",
+                    "default": 5,
+                    "examples": [
+                      5
+                    ],
+                    "minimum": 3,
+                    "maximum": 15
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "Text prompt describing the video to generate (any language). Max 5,000 non‑Chinese characters or 2,500 Chinese characters; extra content is truncated.",
+                    "maxLength": 5000,
+                    "examples": [
+                      "A woman in a red qipao character1. The shot opens with a side medium view outlining the tailored fit of the qipao and S-curve silhouette, then cuts to a low-angle shot capturing her gracefully unfolding a folding fan character2, with tassel earrings character3 swaying lightly as she turns her head. Finally, the camera pushes into a facial close-up, freezing on her fingertips lightly touching the fan ribs and the subtle, reserved charm in her expressive gaze. Through multiple angles, it comprehensively showcases an aura of Eastern elegance."
+                    ]
+                  },
+                  "seed": {
+                    "type": "integer",
+                    "description": "Random seed for reproducibility (if supported).",
+                    "default": 0,
+                    "minimum": 0,
+                    "maximum": 2147483647
                   },
                   "aspect_ratio": {
                     "type": "string",
@@ -16362,22 +17016,14 @@
                       "16:9"
                     ]
                   },
-                  "duration": {
-                    "type": "integer",
-                    "description": "Output duration in seconds (integer). Must be between 3 and 15. Defaults to 5.",
-                    "default": 5,
-                    "examples": [
-                      5
-                    ],
-                    "minimum": 3,
-                    "maximum": 15
-                  },
-                  "seed": {
-                    "type": "integer",
-                    "description": "Random seed for reproducibility (if supported).",
-                    "default": 0,
-                    "minimum": 0,
-                    "maximum": 2147483647
+                  "reference_image": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Reference image URL list. Provide 1–9 images. The order defines which image is character1, character2, etc.\n\nImage limits:\nFormat: JPEG, JPG, PNG, and WEBP.\nResolution: shortest side at least 400 px. 720P or higher recommended. Avoid small, blurry, or heavily compressed images, as they degrade output quality.\nFile size: 10 MB maximum.",
+                    "maxItems": 9,
+                    "minItems": 1
                   }
                 },
                 "x-apidog-orders": [
@@ -16392,7 +17038,15 @@
                   "prompt",
                   "reference_image"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "resolution",
+                  "duration",
+                  "prompt",
+                  "seed",
+                  "aspect_ratio",
+                  "reference_image"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -16400,7 +17054,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "happyhorse/reference-to-video",
@@ -16720,27 +17379,6 @@
                 "type": "object",
                 "description": "Input parameters for the generation task",
                 "properties": {
-                  "prompt": {
-                    "type": "string",
-                    "description": "Required edit instruction describing the intended change (e.g., style transfer / local replacement). Max 5,000 non‑Chinese characters or 2,500 Chinese characters; extra content is truncated.",
-                    "maxLength": 5000,
-                    "examples": [
-                      "Make the horse-headed humanoid character in the video wear the striped sweater from the image"
-                    ]
-                  },
-                  "video_url": {
-                    "type": "string",
-                    "description": "Input video URL list. Exactly one video is required.\nVideo requirements:\nFormat: MP4, MOV (H.264 encoding recommended).\nDuration: 3–60 seconds.\nResolution: the longer side must not exceed 2,160 px; the shorter side must be at least 320 px.\nAspect ratio: 1:2.5–2.5:1.\nFile size: up to 100 MB.\nFrame rate: greater than 8 fps."
-                  },
-                  "reference_image ": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "description": "Optional reference image URL list (0–5).\nImage requirements:\nFormat: JPEG, JPG, PNG, WEBP.\nResolution: both width and height must be at least 300 px.\nAspect ratio: 1:2.5–2.5:1.\nFile size: up to 10 MB.",
-                    "maxItems": 5,
-                    "minItems": 0
-                  },
                   "resolution": {
                     "type": "string",
                     "description": "Output video resolution. Valid values: 720P, 1080P (default).",
@@ -16764,6 +17402,21 @@
                     "examples": [
                       "1080p"
                     ]
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "Required edit instruction describing the intended change (e.g., style transfer / local replacement). Max 5,000 non‑Chinese characters or 2,500 Chinese characters; extra content is truncated.",
+                    "maxLength": 5000,
+                    "examples": [
+                      "Make the horse-headed humanoid character in the video wear the striped sweater from the image"
+                    ]
+                  },
+                  "seed": {
+                    "type": "integer",
+                    "description": "Random seed for reproducibility (if supported).",
+                    "default": 0,
+                    "minimum": 0,
+                    "maximum": 2147483647
                   },
                   "audio_setting": {
                     "type": "string",
@@ -16789,12 +17442,18 @@
                       "auto"
                     ]
                   },
-                  "seed": {
-                    "type": "integer",
-                    "description": "Random seed for reproducibility (if supported).",
-                    "default": 0,
-                    "minimum": 0,
-                    "maximum": 2147483647
+                  "video_url": {
+                    "type": "string",
+                    "description": "Input video URL list. Exactly one video is required.\nVideo requirements:\nFormat: MP4, MOV (H.264 encoding recommended).\nDuration: 3–60 seconds.\nResolution: the longer side must not exceed 2,160 px; the shorter side must be at least 320 px.\nAspect ratio: 1:2.5–2.5:1.\nFile size: up to 100 MB.\nFrame rate: greater than 8 fps."
+                  },
+                  "reference_image ": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Optional reference image URL list (0–5).\nImage requirements:\nFormat: JPEG, JPG, PNG, WEBP.\nResolution: both width and height must be at least 300 px.\nAspect ratio: 1:2.5–2.5:1.\nFile size: up to 10 MB.",
+                    "maxItems": 5,
+                    "minItems": 0
                   }
                 },
                 "x-apidog-orders": [
@@ -16809,7 +17468,15 @@
                   "prompt",
                   "video_url"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "resolution",
+                  "prompt",
+                  "seed",
+                  "audio_setting",
+                  "video_url",
+                  "reference_image "
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -16817,7 +17484,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "happyhorse/video-edit",
@@ -17283,7 +17955,22 @@
                   "image_urls",
                   "reference_mask_urls"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "image_url",
+                  "reference_image_urls",
+                  "rendering_speed",
+                  "style",
+                  "expand_prompt",
+                  "image_size",
+                  "num_images",
+                  "seed",
+                  "strength",
+                  "negative_prompt",
+                  "image_urls",
+                  "reference_mask_urls"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -17291,7 +17978,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "ideogram/character-remix",
@@ -17679,7 +18371,15 @@
                   "expand_prompt",
                   "seed"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "image_url",
+                  "mask_url",
+                  "rendering_speed",
+                  "expand_prompt",
+                  "seed"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -17687,7 +18387,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "ideogram/v3-edit",
@@ -18093,7 +18798,16 @@
                   "seed",
                   "negative_prompt"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "rendering_speed",
+                  "style",
+                  "expand_prompt",
+                  "image_size",
+                  "seed",
+                  "negative_prompt"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -18101,7 +18815,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "ideogram/v3-text-to-image",
@@ -18923,7 +19642,11 @@
                         "prompt",
                         "duration"
                       ],
-                      "x-apidog-ignore-properties": []
+                      "x--orders": [
+                        "prompt",
+                        "duration"
+                      ],
+                      "x--ignore-properties": []
                     },
                     "examples": [
                       [
@@ -19001,7 +19724,15 @@
                         "start_time",
                         "end_time"
                       ],
-                      "x-apidog-ignore-properties": []
+                      "x--orders": [
+                        "name",
+                        "description",
+                        "element_input_urls",
+                        "element_input_audio_urls",
+                        "start_time",
+                        "end_time"
+                      ],
+                      "x--ignore-properties": []
                     },
                     "description": "Referenced elements. Detailed information about elements referenced in the prompt. A single task can reference a maximum of three elements.",
                     "examples": [
@@ -19039,7 +19770,18 @@
                   "multi_prompt",
                   "kling_elements"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "image_urls",
+                  "sound",
+                  "duration",
+                  "aspect_ratio",
+                  "mode",
+                  "multi_shots",
+                  "multi_prompt",
+                  "kling_elements"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -19047,7 +19789,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "kling-3.0/video",
@@ -19365,7 +20112,7 @@
                     ]
                   },
                   "video_urls": {
-                    "description": "An array containing a single video URL. The duration must be between 3 to 30 seconds, and the video must clearly show the subject's head, shoulders, and torso. (File URL after upload, not file content; Accepted types: video/mp4, video/quicktime, video/x-matroska; Max size: 100.0MB)",
+                    "description": "An array containing a single video URL. The duration must be between 3 to 30 seconds, and the video must clearly show the subject's head, shoulders, and torso. (File URL after upload, not file content; Accepted types: video/mp4, video/quicktime; Max size: 100.0MB)",
                     "type": "array",
                     "items": {
                       "type": "string",
@@ -19416,7 +20163,14 @@
                   "character_orientation",
                   "mode"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "input_urls",
+                  "video_urls",
+                  "character_orientation",
+                  "mode"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -19424,7 +20178,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "kling-2.6/motion-control",
@@ -20229,7 +20988,14 @@
                   "negative_prompt",
                   "cfg_scale"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "image_url",
+                  "duration",
+                  "negative_prompt",
+                  "cfg_scale"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -20237,7 +21003,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "kling/v2-1-standard",
@@ -20979,6 +21750,746 @@
       ]
     },
     {
+      "source_title": "MiniMax H3 Image-to-Video",
+      "source_url": "https://docs.kie.ai/market/minimax-h3/image-to-video.md",
+      "source_file": "/market/minimax-h3/image-to-video.md",
+      "servers": [
+        "https://api.kie.ai"
+      ],
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "summary": "MiniMax H3 Image-to-Video",
+      "operationId": "minimax-h3-image-to-video",
+      "tags": [
+        "docs/en/Market/Video Models/MiniMax H3"
+      ],
+      "parameters": [],
+      "request": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "model",
+              "input"
+            ],
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "The name of the model used for the generation task. Used for MiniMax H3 image-to-video.",
+                "enum": [
+                  "minimax-h3/image-to-video"
+                ],
+                "default": "minimax-h3/image-to-video",
+                "x-apidog-enum": [
+                  {
+                    "value": "minimax-h3/image-to-video",
+                    "name": "",
+                    "description": ""
+                  }
+                ]
+              },
+              "callBackUrl": {
+                "type": "string",
+                "description": "The callback URL after the task is completed.",
+                "format": "uri"
+              },
+              "input": {
+                "type": "object",
+                "required": [
+                  "prompt",
+                  "duration"
+                ],
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "Video generation prompt, length is between 1 and 7000 characters.",
+                    "minLength": 1,
+                    "maxLength": 7000,
+                    "examples": [
+                      "Let the character in the scene turn around naturally and smile, camera slowly pushing forward"
+                    ]
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "Generated video duration, supporting integer values from 4 to 15 seconds.",
+                    "enum": [
+                      4,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9,
+                      10,
+                      11,
+                      12,
+                      13,
+                      14,
+                      15
+                    ],
+                    "default": 6,
+                    "minimum": 4,
+                    "maximum": 15,
+                    "examples": [
+                      6
+                    ]
+                  },
+                  "first_frame_url": {
+                    "type": "string",
+                    "description": "First frame image URL. Note: Either first_frame_url or last_frame_url must be provided. Supports HTTP, HTTPS, and OSS addresses; supports JPG, JPEG, PNG, WEBP, HEIC, HEIF formats; single image size not exceeding 30 MB, image side length between 256 and 5760 pixels, aspect ratio between 0.4 and 2.5.",
+                    "pattern": "^(https?|oss)://",
+                    "format": "uri",
+                    "examples": [
+                      "https://example.com/first-frame.jpg"
+                    ]
+                  },
+                  "last_frame_url": {
+                    "type": "string",
+                    "description": "Last frame image URL. Note: Either first_frame_url or last_frame_url must be provided. Image restrictions are the same as first_frame_url.",
+                    "pattern": "^(https?|oss)://",
+                    "format": "uri",
+                    "examples": [
+                      "https://example.com/last-frame.jpg"
+                    ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "description": "Video resolution.",
+                    "enum": [
+                      "768P",
+                      "2K"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "768P",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "2K",
+                        "name": "",
+                        "description": ""
+                      }
+                    ],
+                    "default": "2K"
+                  }
+                },
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "x-apidog-orders": [
+                  "prompt",
+                  "first_frame_url",
+                  "last_frame_url",
+                  "duration",
+                  "resolution"
+                ],
+                "x--orders": [
+                  "prompt",
+                  "duration",
+                  "first_frame_url",
+                  "last_frame_url",
+                  "resolution"
+                ],
+                "x--ignore-properties": []
+              }
+            },
+            "x-apidog-orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "examples": [
+              {
+                "model": "minimax-h3/image-to-video",
+                "callBackUrl": "https://example.com/callback",
+                "input": {
+                  "prompt": "Let the character in the scene turn around naturally and smile, camera slowly pushing forward",
+                  "first_frame_url": "https://example.com/first-frame.jpg",
+                  "last_frame_url": "https://example.com/last-frame.jpg",
+                  "duration": 6
+                }
+              }
+            ],
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
+          },
+          "example": null,
+          "examples": {}
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "success",
+          "content_types": [
+            "application/json"
+          ]
+        }
+      },
+      "security": [
+        {
+          "BearerAuth": [],
+          "x-apidog": {
+            "schemeGroups": [
+              {
+                "id": "e5215e147f1a4de49eeac",
+                "schemeIds": [
+                  "BearerAuth"
+                ]
+              }
+            ],
+            "required": true,
+            "use": {
+              "id": "e5215e147f1a4de49eeac"
+            },
+            "scopes": {
+              "e5215e147f1a4de49eeac": {
+                "undefined": []
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_title": "MiniMax H3 Reference-to-Video",
+      "source_url": "https://docs.kie.ai/market/minimax-h3/reference-to-video.md",
+      "source_file": "/market/minimax-h3/reference-to-video.md",
+      "servers": [
+        "https://api.kie.ai"
+      ],
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "summary": "MiniMax H3 Reference-to-Video",
+      "operationId": "minimax-h3-reference-to-video",
+      "tags": [
+        "docs/en/Market/Video Models/MiniMax H3"
+      ],
+      "parameters": [],
+      "request": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "model",
+              "input"
+            ],
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "The name of the model used for the generation task. Used for MiniMax H3 reference-to-video.",
+                "enum": [
+                  "minimax-h3/reference-to-video"
+                ],
+                "default": "minimax-h3/reference-to-video",
+                "x-apidog-enum": [
+                  {
+                    "value": "minimax-h3/reference-to-video",
+                    "name": "",
+                    "description": ""
+                  }
+                ]
+              },
+              "callBackUrl": {
+                "type": "string",
+                "description": "The callback URL after the task is completed.",
+                "format": "uri"
+              },
+              "input": {
+                "type": "object",
+                "required": [
+                  "prompt",
+                  "duration"
+                ],
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "Video generation prompt, length is between 1 and 7000 characters.",
+                    "minLength": 1,
+                    "maxLength": 7000,
+                    "examples": [
+                      "Generate a continuous cinematic video referencing the characters, actions, and scenes in the input material"
+                    ]
+                  },
+                  "reference_image_urls": {
+                    "type": "array",
+                    "description": "Array of reference image URLs. Supports up to 9 images. Supports HTTP, HTTPS, and OSS addresses; supported image formats include JPG, JPEG, PNG, WEBP, HEIC, and HEIF; a single image size cannot exceed 30 MB; the side length of the image must be between 256 and 5760 pixels, and the aspect ratio must be between 0.4 and 2.5.",
+                    "maxItems": 9,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(https?|oss)://",
+                      "format": "uri"
+                    },
+                    "examples": [
+                      [
+                        "https://example.com/reference-image-1.jpg",
+                        "https://example.com/reference-image-2.jpg"
+                      ]
+                    ]
+                  },
+                  "reference_video_urls": {
+                    "type": "array",
+                    "description": "Array of reference video URLs. Supports up to 3 videos. Supports MP4, MOV; video encoding supports H.264, H.265, audio encoding supports AAC, MP3; a single file size cannot exceed 50 MB; the duration of a single segment is 2 to 15 seconds, and the total duration of all reference videos cannot exceed 15 seconds; the video side length must be between 256 and 5760 pixels, the aspect ratio must be between 0.4 and 2.5, and the frame rate must be between 23.976 and 60.",
+                    "maxItems": 3,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(https?|oss)://",
+                      "format": "uri"
+                    },
+                    "examples": [
+                      [
+                        "https://example.com/reference-video.mp4"
+                      ]
+                    ]
+                  },
+                  "reference_audio_urls": {
+                    "type": "array",
+                    "description": "Array of reference audio URLs. Supports up to 3 audios. Supports WAV, MP3; a single file size cannot exceed 15 MB; the duration of a single segment is 2 to 15 seconds, and the total duration of all reference audios cannot exceed 15 seconds. reference_audio cannot be used alone, it must be accompanied by reference_image or reference_video.",
+                    "maxItems": 3,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(https?|oss)://",
+                      "format": "uri"
+                    },
+                    "examples": [
+                      [
+                        "https://example.com/reference-audio.mp3"
+                      ]
+                    ]
+                  },
+                  "aspect_ratio": {
+                    "type": "string",
+                    "description": "Video aspect ratio. The default is adaptive, or a specific ratio can be specified.",
+                    "enum": [
+                      "adaptive",
+                      "21:9",
+                      "16:9",
+                      "4:3",
+                      "1:1",
+                      "3:4",
+                      "9:16"
+                    ],
+                    "default": "adaptive",
+                    "x-apidog-enum": [
+                      {
+                        "value": "adaptive",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "21:9",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "16:9",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "4:3",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "1:1",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "3:4",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "9:16",
+                        "name": "",
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "The duration of the generated video, supporting integer values from 4 to 15 seconds.",
+                    "enum": [
+                      4,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9,
+                      10,
+                      11,
+                      12,
+                      13,
+                      14,
+                      15
+                    ],
+                    "default": 6,
+                    "minimum": 4,
+                    "maximum": 15,
+                    "examples": [
+                      6
+                    ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "description": "Video resolution.",
+                    "enum": [
+                      "768P",
+                      "2K"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "768P",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "2K",
+                        "name": "",
+                        "description": ""
+                      }
+                    ],
+                    "default": "2K"
+                  }
+                },
+                "allOf": [
+                  {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "reference_image_urls"
+                        ],
+                        "properties": {
+                          "reference_image_urls": {
+                            "type": "string"
+                          }
+                        },
+                        "x-apidog-orders": [
+                          "reference_image_urls"
+                        ],
+                        "x-apidog-ignore-properties": [],
+                        "type": "object"
+                      },
+                      {
+                        "required": [
+                          "reference_video_urls"
+                        ],
+                        "properties": {
+                          "reference_video_urls": {
+                            "type": "string"
+                          }
+                        },
+                        "x-apidog-orders": [
+                          "reference_video_urls"
+                        ],
+                        "x-apidog-ignore-properties": [],
+                        "type": "object"
+                      }
+                    ]
+                  }
+                ],
+                "x-apidog-orders": [
+                  "prompt",
+                  "reference_image_urls",
+                  "reference_video_urls",
+                  "reference_audio_urls",
+                  "aspect_ratio",
+                  "duration",
+                  "resolution"
+                ],
+                "x-apidog-ignore-properties": []
+              }
+            },
+            "x-apidog-orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "examples": [
+              {
+                "model": "minimax-h3/reference-to-video",
+                "callBackUrl": "https://example.com/callback",
+                "input": {
+                  "prompt": "Generate a continuous cinematic video referencing the characters, actions, and scenes in the input material",
+                  "reference_image_urls": [
+                    "https://example.com/reference-image.jpg"
+                  ],
+                  "reference_video_urls": [
+                    "https://example.com/reference-video.mp4"
+                  ],
+                  "reference_audio_urls": [
+                    "https://example.com/reference-audio.mp3"
+                  ],
+                  "aspect_ratio": "adaptive",
+                  "duration": 6
+                }
+              }
+            ],
+            "x-apidog-ignore-properties": []
+          },
+          "example": null,
+          "examples": {}
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "success",
+          "content_types": [
+            "application/json"
+          ]
+        }
+      },
+      "security": [
+        {
+          "BearerAuth1": [],
+          "x-apidog": {
+            "schemeGroups": [
+              {
+                "id": "a5eb1d4486e4485ba333a",
+                "schemeIds": [
+                  "BearerAuth1"
+                ]
+              }
+            ],
+            "required": true,
+            "use": {
+              "id": "a5eb1d4486e4485ba333a"
+            },
+            "scopes": {
+              "a5eb1d4486e4485ba333a": {
+                "undefined": []
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_title": "MiniMax H3 Text-to-Video",
+      "source_url": "https://docs.kie.ai/market/minimax-h3/text-to-video.md",
+      "source_file": "/market/minimax-h3/text-to-video.md",
+      "servers": [
+        "https://api.kie.ai"
+      ],
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "summary": "MiniMax H3 Text-to-Video",
+      "operationId": "minimax-h3-text-to-video",
+      "tags": [
+        "docs/en/Market/Video Models/MiniMax H3"
+      ],
+      "parameters": [],
+      "request": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "model",
+              "input"
+            ],
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "The name of the model used for the generation task. Used for MiniMax H3 text-to-video.",
+                "enum": [
+                  "minimax-h3/text-to-video"
+                ],
+                "default": "minimax-h3/text-to-video",
+                "x-apidog-enum": [
+                  {
+                    "value": "minimax-h3/text-to-video",
+                    "name": "",
+                    "description": ""
+                  }
+                ]
+              },
+              "callBackUrl": {
+                "type": "string",
+                "description": "The callback URL after the task is completed.",
+                "format": "uri"
+              },
+              "input": {
+                "type": "object",
+                "required": [
+                  "prompt",
+                  "aspect_ratio",
+                  "duration"
+                ],
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "Video generation prompt, length is between 1 and 7000 characters.",
+                    "minLength": 1,
+                    "maxLength": 7000,
+                    "examples": [
+                      "A cat walking slowly on the beach at sunset, cinematic shot, waves gently lapping the shore"
+                    ]
+                  },
+                  "aspect_ratio": {
+                    "type": "string",
+                    "description": "Video aspect ratio. Required for text-to-video, adaptive is not supported.",
+                    "enum": [
+                      "21:9",
+                      "16:9",
+                      "4:3",
+                      "1:1",
+                      "3:4",
+                      "9:16"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "21:9",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "16:9",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "4:3",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "1:1",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "3:4",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "9:16",
+                        "name": "",
+                        "description": ""
+                      }
+                    ]
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "Generated video duration, supports integer values from 4 to 15 seconds.",
+                    "enum": [
+                      4,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9,
+                      10,
+                      11,
+                      12,
+                      13,
+                      14,
+                      15
+                    ],
+                    "default": 6,
+                    "minimum": 4,
+                    "maximum": 15,
+                    "examples": [
+                      6
+                    ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "description": "Video resolution.",
+                    "enum": [
+                      "768P",
+                      "2K"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "768P",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "2K",
+                        "name": "",
+                        "description": ""
+                      }
+                    ],
+                    "default": "2K"
+                  }
+                },
+                "x-apidog-orders": [
+                  "prompt",
+                  "aspect_ratio",
+                  "duration",
+                  "resolution"
+                ],
+                "x-apidog-ignore-properties": []
+              }
+            },
+            "x-apidog-orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "examples": [
+              {
+                "model": "minimax-h3/text-to-video",
+                "callBackUrl": "https://example.com/callback",
+                "input": {
+                  "prompt": "A cat walking slowly on the beach at sunset, cinematic shot",
+                  "aspect_ratio": "16:9",
+                  "duration": 6
+                }
+              }
+            ],
+            "x-apidog-ignore-properties": []
+          },
+          "example": null,
+          "examples": {}
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "success",
+          "content_types": [
+            "application/json"
+          ]
+        }
+      },
+      "security": [
+        {
+          "BearerAuth": [],
+          "x-apidog": {
+            "schemeGroups": [
+              {
+                "id": "e5011825f4be4df6ad511",
+                "schemeIds": [
+                  "BearerAuth"
+                ]
+              }
+            ],
+            "required": true,
+            "use": {
+              "id": "e5011825f4be4df6ad511"
+            },
+            "scopes": {
+              "e5011825f4be4df6ad511": {
+                "undefined": []
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       "source_title": "Omnihuman 1.5",
       "source_url": "https://docs.kie.ai/market/omnihuman-1-5.md",
       "source_file": "/market/omnihuman-1-5.md",
@@ -21042,8 +22553,8 @@
                   },
                   "prompt": {
                     "type": "string",
-                    "maxLength": 1000,
-                    "description": "Optional prompt text. Limited to Chinese, English, Japanese, Korean, Spanish, and Indonesian. Recommended 300 characters or less. Maximum length: 1000 characters."
+                    "description": "Optional prompt text. Limited to Chinese, English, Japanese, Korean, Spanish, and Indonesian. Recommended 300 characters or less. Maximum length: 1000 characters.",
+                    "maxLength": 300
                   },
                   "output_resolution": {
                     "type": "string",
@@ -23129,10 +24640,6 @@
                     "examples": [
                       "blurry, ugly"
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -23159,9 +24666,21 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "image_url",
+                  "acceleration",
+                  "image_size",
+                  "num_inference_steps",
+                  "seed",
+                  "guidance_scale",
+                  "sync_mode",
+                  "num_images",
+                  "enable_safety_checker",
+                  "output_format",
+                  "negative_prompt"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -23169,7 +24688,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "qwen/image-edit",
@@ -23357,10 +24881,6 @@
                     "examples": [
                       true
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -23385,9 +24905,19 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "image_url",
+                  "strength",
+                  "output_format",
+                  "acceleration",
+                  "negative_prompt",
+                  "seed",
+                  "num_inference_steps",
+                  "guidance_scale",
+                  "enable_safety_checker"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -23395,7 +24925,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "qwen/image-to-image",
@@ -24092,6 +25627,892 @@
       ]
     },
     {
+      "source_title": "Qwen3 Pro Image to Image",
+      "source_url": "https://docs.kie.ai/market/qwen3-pro/image-to-image.md",
+      "source_file": "/market/qwen3-pro/image-to-image.md",
+      "servers": [
+        "https://api.kie.ai"
+      ],
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "summary": "Qwen3 Pro Image to Image",
+      "operationId": "qwen3-pro-image-to-image",
+      "tags": [
+        "docs/en/Market/Image    Models/Qwen"
+      ],
+      "parameters": [],
+      "request": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "model",
+              "input"
+            ],
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "The model name used for generation. This field is required. This endpoint must use the `qwen3/pro-image-to-image` model.",
+                "enum": [
+                  "qwen3/pro-image-to-image"
+                ],
+                "default": "qwen3/pro-image-to-image",
+                "x-apidog-enum": [
+                  {
+                    "value": "qwen3/pro-image-to-image",
+                    "name": "",
+                    "description": ""
+                  }
+                ],
+                "examples": [
+                  "qwen3/pro-image-to-image"
+                ]
+              },
+              "callBackUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "Callback URL for task completion notifications. Optional parameter. If provided, the system will send a POST request to this URL when the task completes, whether it succeeds or fails. If omitted, no callback notification will be sent.",
+                "examples": [
+                  "https://your-domain.com/api/callback"
+                ]
+              },
+              "input": {
+                "type": "object",
+                "description": "Input parameters for the image-to-image generation task.",
+                "required": [
+                  "image_urls",
+                  "prompt"
+                ],
+                "properties": {
+                  "image_urls": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 3,
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Input image URL array. Upload images and provide their URLs rather than the file content. Supports up to 3 images. Supported file types: `image/jpeg`, `image/png`, `image/webp`, `image/bmp`, and `image/gif`,`image/tiff`. Maximum file size: 10 MB per image.",
+                    "examples": [
+                      [
+                        "https://example.com/input.png"
+                      ]
+                    ]
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "The positive prompt that describes the image content, style, and composition you want to generate or edit. Both Chinese and English are supported.",
+                    "minLength": 0,
+                    "maxLength": 800,
+                    "examples": [
+                      "Turn the input image into a cinematic watercolor illustration."
+                    ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "description": "The output image resolution.",
+                    "enum": [
+                      "1K",
+                      "2K"
+                    ],
+                    "examples": [
+                      "1K"
+                    ],
+                    "default": "1K"
+                  },
+                  "image_size": {
+                    "type": "string",
+                    "description": "The output image size.",
+                    "enum": [
+                      "1:1",
+                      "3:2",
+                      "2:3",
+                      "4:3",
+                      "3:4",
+                      "16:9",
+                      "9:16",
+                      "21:9"
+                    ],
+                    "default": "16:9",
+                    "examples": [
+                      "1:1"
+                    ]
+                  },
+                  "output_format": {
+                    "type": "string",
+                    "enum": [
+                      "png",
+                      "jpeg"
+                    ],
+                    "default": "png",
+                    "description": "The generated image format.",
+                    "examples": [
+                      "png"
+                    ]
+                  },
+                  "prompt_extend": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to enable intelligent prompt rewriting. Default: true (recommended). When enabled, the model optimizes the positive prompt, which significantly improves results for simple descriptions.",
+                    "examples": [
+                      true
+                    ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to enable content filtering. Optional. Defaults to false. When set to false, content filtering is disabled and all results are returned directly by the model. Note: Content filtering cannot guarantee that all inappropriate content will be detected. If the filtering results do not meet your requirements, you must implement additional content moderation measures.",
+                    "examples": [
+                      false
+                    ]
+                  },
+                  "negative_prompt": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 5000,
+                    "description": "The negative prompt that describes content you do not want to appear in the image.",
+                    "examples": [
+                      "blurry, low quality, distorted"
+                    ]
+                  },
+                  "seed": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647,
+                    "default": 1,
+                    "description": "The random seed. Value range: [0, 2147483647]. A fixed seed helps maintain relatively stable results.",
+                    "examples": [
+                      1
+                    ]
+                  }
+                },
+                "x-apidog-orders": [
+                  "image_urls",
+                  "prompt",
+                  "resolution",
+                  "image_size",
+                  "output_format",
+                  "prompt_extend",
+                  "negative_prompt",
+                  "seed",
+                  "nsfw_checker"
+                ]
+              }
+            },
+            "x-apidog-orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ]
+          },
+          "example": {
+            "model": "qwen3/pro-image-to-image",
+            "callBackUrl": "https://your-domain.com/api/callback",
+            "input": {
+              "image_urls": [
+                "https://example.com/input.png"
+              ],
+              "prompt": "Turn the input image into a cinematic watercolor illustration.",
+              "resolution": "1K",
+              "image_size": "1:1",
+              "output_format": "png",
+              "prompt_extend": true,
+              "nsfw_checker": false,
+              "negative_prompt": "blurry, low quality, distorted",
+              "seed": 1
+            }
+          },
+          "examples": null
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Request successful",
+          "content_types": [
+            "application/json"
+          ]
+        }
+      },
+      "security": [
+        {
+          "BearerAuth": [],
+          "x-apidog": {
+            "schemeGroups": [
+              {
+                "id": "kn8M4YUlc5i0A0179ezwx",
+                "schemeIds": [
+                  "BearerAuth"
+                ]
+              }
+            ],
+            "required": true,
+            "use": {
+              "id": "kn8M4YUlc5i0A0179ezwx"
+            },
+            "scopes": {
+              "kn8M4YUlc5i0A0179ezwx": {
+                "BearerAuth": []
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_title": "Qwen3 Pro Text to Image",
+      "source_url": "https://docs.kie.ai/market/qwen3-pro/text-to-image.md",
+      "source_file": "/market/qwen3-pro/text-to-image.md",
+      "servers": [
+        "https://api.kie.ai"
+      ],
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "summary": "Qwen3 Pro Text to Image",
+      "operationId": "qwen3-pro-text-to-image",
+      "tags": [
+        "docs/en/Market/Image    Models/Qwen"
+      ],
+      "parameters": [],
+      "request": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "model",
+              "input"
+            ],
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "The model name used for generation. This field is required. This endpoint must use the `qwen3/pro-text-to-image` model.",
+                "enum": [
+                  "qwen3/pro-text-to-image"
+                ],
+                "default": "qwen3/pro-text-to-image",
+                "examples": [
+                  "qwen3/pro-text-to-image"
+                ],
+                "x-apidog-enum": [
+                  {
+                    "value": "qwen3/pro-text-to-image",
+                    "name": "",
+                    "description": ""
+                  }
+                ]
+              },
+              "callBackUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "Callback URL for task completion notifications. Optional parameter. If provided, the system will send a POST request to this URL when the task completes, whether it succeeds or fails. If omitted, no callback notification will be sent.",
+                "examples": [
+                  "https://your-domain.com/api/callback"
+                ]
+              },
+              "input": {
+                "type": "object",
+                "description": "Input parameters for the text-to-image generation task.",
+                "required": [
+                  "prompt"
+                ],
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "The positive prompt that describes the image content, style, and composition you want to generate or edit. Both Chinese and English are supported.",
+                    "minLength": 0,
+                    "maxLength": 800,
+                    "examples": [
+                      "A futuristic city at sunset, cinematic lighting, ultra detailed."
+                    ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": [
+                      "1K",
+                      "2K"
+                    ],
+                    "description": "The output image resolution.",
+                    "examples": [
+                      "1K"
+                    ]
+                  },
+                  "image_size": {
+                    "type": "string",
+                    "description": "The output image size. ",
+                    "enum": [
+                      "1:1",
+                      "3:2",
+                      "2:3",
+                      "4:3",
+                      "3:4",
+                      "16:9",
+                      "9:16",
+                      "21:9"
+                    ],
+                    "default": "16:9",
+                    "examples": [
+                      "1:1"
+                    ]
+                  },
+                  "output_format": {
+                    "type": "string",
+                    "enum": [
+                      "png",
+                      "jpeg"
+                    ],
+                    "default": "png",
+                    "description": "The generated image format.",
+                    "examples": [
+                      "png"
+                    ]
+                  },
+                  "prompt_extend": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to enable intelligent prompt rewriting. Default: true (recommended). When enabled, the model optimizes the positive prompt, which significantly improves results for simple descriptions.",
+                    "examples": [
+                      true
+                    ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to enable content filtering. Optional. Defaults to false. When set to false, content filtering is disabled and all results are returned directly by the model. Note: Content filtering cannot guarantee that all inappropriate content will be detected. If the filtering results do not meet your requirements, you must implement additional content moderation measures.",
+                    "examples": [
+                      false
+                    ]
+                  },
+                  "negative_prompt": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 5000,
+                    "description": "The negative prompt that describes content you do not want to appear in the image.",
+                    "examples": [
+                      "blurry, low quality, distorted"
+                    ]
+                  },
+                  "seed": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647,
+                    "default": 1,
+                    "description": "The random seed. Value range: [0, 2147483647]. A fixed seed helps maintain relatively stable results.",
+                    "examples": [
+                      1
+                    ]
+                  }
+                },
+                "x-apidog-orders": [
+                  "prompt",
+                  "resolution",
+                  "image_size",
+                  "output_format",
+                  "prompt_extend",
+                  "negative_prompt",
+                  "seed",
+                  "nsfw_checker"
+                ]
+              }
+            },
+            "x-apidog-orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ]
+          },
+          "example": {
+            "model": "qwen3/pro-text-to-image",
+            "callBackUrl": "https://your-domain.com/api/callback",
+            "input": {
+              "prompt": "A futuristic city at sunset, cinematic lighting, ultra detailed.",
+              "resolution": "1K",
+              "image_size": "1:1",
+              "output_format": "png",
+              "prompt_extend": true,
+              "nsfw_checker": false,
+              "negative_prompt": "blurry, low quality, distorted",
+              "seed": 1
+            }
+          },
+          "examples": null
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Request successful",
+          "content_types": [
+            "application/json"
+          ]
+        }
+      },
+      "security": [
+        {
+          "BearerAuth": [],
+          "x-apidog": {
+            "schemeGroups": [
+              {
+                "id": "kn8M4YUlc5i0A0179ezwx",
+                "schemeIds": [
+                  "BearerAuth"
+                ]
+              }
+            ],
+            "required": true,
+            "use": {
+              "id": "kn8M4YUlc5i0A0179ezwx"
+            },
+            "scopes": {
+              "kn8M4YUlc5i0A0179ezwx": {
+                "BearerAuth": []
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_title": "Qwen3 Image to Image",
+      "source_url": "https://docs.kie.ai/market/qwen3/image-to-image.md",
+      "source_file": "/market/qwen3/image-to-image.md",
+      "servers": [
+        "https://api.kie.ai"
+      ],
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "summary": "Qwen3 Image to Image",
+      "operationId": "qwen3-image-to-image",
+      "tags": [
+        "docs/en/Market/Image    Models/Qwen"
+      ],
+      "parameters": [],
+      "request": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "model",
+              "input"
+            ],
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "The model name used for generation. This field is required. This endpoint must use the `qwen3/image-to-image` model.",
+                "enum": [
+                  "qwen3/image-to-image"
+                ],
+                "default": "qwen3/image-to-image",
+                "x-apidog-enum": [
+                  {
+                    "value": "qwen3/image-to-image",
+                    "name": "",
+                    "description": ""
+                  }
+                ],
+                "examples": [
+                  "qwen3/image-to-image"
+                ]
+              },
+              "callBackUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "Callback URL for task completion notifications. Optional parameter. If provided, the system will send a POST request to this URL when the task completes, whether it succeeds or fails. If omitted, no callback notification will be sent.",
+                "examples": [
+                  "https://your-domain.com/api/callback"
+                ]
+              },
+              "input": {
+                "type": "object",
+                "description": "Input parameters for the image-to-image generation task.",
+                "required": [
+                  "image_urls",
+                  "prompt"
+                ],
+                "properties": {
+                  "image_urls": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 3,
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Input image URL array. Upload images and provide their URLs rather than the file content. Supports up to 3 images. Supported file types: `image/jpeg`, `image/png`, `image/webp`, `image/bmp`, and `image/gif`,`image/tiff`. Maximum file size: 10 MB per image.",
+                    "examples": [
+                      [
+                        "https://example.com/input.png"
+                      ]
+                    ]
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "The positive prompt that describes the image content, style, and composition you want to generate or edit. Both Chinese and English are supported.",
+                    "minLength": 0,
+                    "maxLength": 800,
+                    "examples": [
+                      "Turn the input image into a cinematic watercolor illustration."
+                    ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "description": "The output image resolution.",
+                    "enum": [
+                      "1K",
+                      "2K"
+                    ],
+                    "examples": [
+                      "1K"
+                    ],
+                    "default": "1K"
+                  },
+                  "image_size": {
+                    "type": "string",
+                    "description": "The output image size.",
+                    "enum": [
+                      "1:1",
+                      "3:2",
+                      "2:3",
+                      "4:3",
+                      "3:4",
+                      "16:9",
+                      "9:16",
+                      "21:9"
+                    ],
+                    "default": "16:9",
+                    "examples": [
+                      "1:1"
+                    ]
+                  },
+                  "output_format": {
+                    "type": "string",
+                    "enum": [
+                      "png",
+                      "jpeg"
+                    ],
+                    "default": "png",
+                    "description": "The generated image format.",
+                    "examples": [
+                      "png"
+                    ]
+                  },
+                  "prompt_extend": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to enable intelligent prompt rewriting. Default: true (recommended). When enabled, the model optimizes the positive prompt, which significantly improves results for simple descriptions.",
+                    "examples": [
+                      true
+                    ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to enable content filtering. Optional. Defaults to false. When set to false, content filtering is disabled and all results are returned directly by the model. Note: Content filtering cannot guarantee that all inappropriate content will be detected. If the filtering results do not meet your requirements, you must implement additional content moderation measures.",
+                    "examples": [
+                      false
+                    ]
+                  },
+                  "negative_prompt": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 5000,
+                    "description": "The negative prompt that describes content you do not want to appear in the image.",
+                    "examples": [
+                      "blurry, low quality, distorted"
+                    ]
+                  },
+                  "seed": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647,
+                    "default": 1,
+                    "description": "The random seed. Value range: [0, 2147483647]. A fixed seed helps maintain relatively stable results.",
+                    "examples": [
+                      1
+                    ]
+                  }
+                },
+                "x-apidog-orders": [
+                  "image_urls",
+                  "prompt",
+                  "resolution",
+                  "image_size",
+                  "output_format",
+                  "prompt_extend",
+                  "negative_prompt",
+                  "seed",
+                  "nsfw_checker"
+                ]
+              }
+            },
+            "x-apidog-orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ]
+          },
+          "example": {
+            "model": "qwen3/image-to-image",
+            "callBackUrl": "https://your-domain.com/api/callback",
+            "input": {
+              "image_urls": [
+                "https://example.com/input.png"
+              ],
+              "prompt": "Turn the input image into a cinematic watercolor illustration.",
+              "resolution": "1K",
+              "image_size": "1:1",
+              "output_format": "png",
+              "prompt_extend": true,
+              "nsfw_checker": false,
+              "negative_prompt": "blurry, low quality, distorted",
+              "seed": 1
+            }
+          },
+          "examples": null
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Request successful",
+          "content_types": [
+            "application/json"
+          ]
+        }
+      },
+      "security": [
+        {
+          "BearerAuth": [],
+          "x-apidog": {
+            "schemeGroups": [
+              {
+                "id": "kn8M4YUlc5i0A0179ezwx",
+                "schemeIds": [
+                  "BearerAuth"
+                ]
+              }
+            ],
+            "required": true,
+            "use": {
+              "id": "kn8M4YUlc5i0A0179ezwx"
+            },
+            "scopes": {
+              "kn8M4YUlc5i0A0179ezwx": {
+                "BearerAuth": []
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_title": "Qwen3 Text to Image",
+      "source_url": "https://docs.kie.ai/market/qwen3/text-to-image.md",
+      "source_file": "/market/qwen3/text-to-image.md",
+      "servers": [
+        "https://api.kie.ai"
+      ],
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "summary": "Qwen3 Text to Image",
+      "operationId": "qwen3-text-to-image",
+      "tags": [
+        "docs/en/Market/Image    Models/Qwen"
+      ],
+      "parameters": [],
+      "request": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "model",
+              "input"
+            ],
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "The model name used for generation. This field is required. This endpoint must use the `qwen3/text-to-image` model.",
+                "enum": [
+                  "qwen3/text-to-image"
+                ],
+                "default": "qwen3/text-to-image",
+                "x-apidog-enum": [
+                  {
+                    "value": "qwen3/text-to-image",
+                    "name": "",
+                    "description": ""
+                  }
+                ],
+                "examples": [
+                  "qwen3/text-to-image"
+                ]
+              },
+              "callBackUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "Callback URL for task completion notifications. Optional parameter. If provided, the system will send a POST request to this URL when the task completes, whether it succeeds or fails. If omitted, no callback notification will be sent.",
+                "examples": [
+                  "https://your-domain.com/api/callback"
+                ]
+              },
+              "input": {
+                "type": "object",
+                "description": "Input parameters for the text-to-image generation task.",
+                "required": [
+                  "prompt"
+                ],
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "The positive prompt that describes the image content, style, and composition you want to generate or edit. Both Chinese and English are supported.",
+                    "minLength": 0,
+                    "maxLength": 800,
+                    "examples": [
+                      "A futuristic city at sunset, cinematic lighting, ultra detailed."
+                    ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": [
+                      "1K",
+                      "2K"
+                    ],
+                    "description": "The output image resolution.",
+                    "examples": [
+                      "1K"
+                    ]
+                  },
+                  "image_size": {
+                    "type": "string",
+                    "description": "The output image size. ",
+                    "enum": [
+                      "1:1",
+                      "3:2",
+                      "2:3",
+                      "4:3",
+                      "3:4",
+                      "16:9",
+                      "9:16",
+                      "21:9"
+                    ],
+                    "default": "16:9",
+                    "examples": [
+                      "1:1"
+                    ]
+                  },
+                  "output_format": {
+                    "type": "string",
+                    "enum": [
+                      "png",
+                      "jpeg"
+                    ],
+                    "default": "png",
+                    "description": "The generated image format.",
+                    "examples": [
+                      "png"
+                    ]
+                  },
+                  "prompt_extend": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to enable intelligent prompt rewriting. Default: true (recommended). When enabled, the model optimizes the positive prompt, which significantly improves results for simple descriptions.",
+                    "examples": [
+                      true
+                    ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to enable content filtering. Optional. Defaults to false. When set to false, content filtering is disabled and all results are returned directly by the model. Note: Content filtering cannot guarantee that all inappropriate content will be detected. If the filtering results do not meet your requirements, you must implement additional content moderation measures.",
+                    "examples": [
+                      false
+                    ]
+                  },
+                  "negative_prompt": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 5000,
+                    "description": "The negative prompt that describes content you do not want to appear in the image.",
+                    "examples": [
+                      "blurry, low quality, distorted"
+                    ]
+                  },
+                  "seed": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647,
+                    "default": 1,
+                    "description": "The random seed. Value range: [0, 2147483647]. A fixed seed helps maintain relatively stable results.",
+                    "examples": [
+                      1
+                    ]
+                  }
+                },
+                "x-apidog-orders": [
+                  "prompt",
+                  "resolution",
+                  "image_size",
+                  "output_format",
+                  "prompt_extend",
+                  "negative_prompt",
+                  "seed",
+                  "nsfw_checker"
+                ]
+              }
+            },
+            "x-apidog-orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ]
+          },
+          "example": {
+            "model": "qwen3/text-to-image",
+            "callBackUrl": "https://your-domain.com/api/callback",
+            "input": {
+              "prompt": "A futuristic city at sunset, cinematic lighting, ultra detailed.",
+              "resolution": "1K",
+              "image_size": "1:1",
+              "output_format": "png",
+              "prompt_extend": true,
+              "nsfw_checker": false,
+              "negative_prompt": "blurry, low quality, distorted",
+              "seed": 1
+            }
+          },
+          "examples": null
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Request successful",
+          "content_types": [
+            "application/json"
+          ]
+        }
+      },
+      "security": [
+        {
+          "BearerAuth": [],
+          "x-apidog": {
+            "schemeGroups": [
+              {
+                "id": "kn8M4YUlc5i0A0179ezwx",
+                "schemeIds": [
+                  "BearerAuth"
+                ]
+              }
+            ],
+            "required": true,
+            "use": {
+              "id": "kn8M4YUlc5i0A0179ezwx"
+            },
+            "scopes": {
+              "kn8M4YUlc5i0A0179ezwx": {
+                "BearerAuth": []
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       "source_title": "Recraft - Crisp Upscale",
       "source_url": "https://docs.kie.ai/market/recraft/crisp-upscale.md",
       "source_file": "/market/recraft/crisp-upscale.md",
@@ -24264,7 +26685,10 @@
                 "x-apidog-orders": [
                   "image"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "image"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -24272,7 +26696,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "recraft/remove-background",
@@ -24821,10 +27250,6 @@
                     "examples": [
                       "basic"
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -24843,9 +27268,12 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "aspect_ratio",
+                  "quality"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -24853,7 +27281,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "seedream/4.5-text-to-image",
@@ -25033,10 +27466,6 @@
                     "examples": [
                       "png"
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -25056,9 +27485,13 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "aspect_ratio",
+                  "quality",
+                  "output_format"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -25066,7 +27499,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "seedream/5-lite-text-to-image",
@@ -25322,6 +27760,200 @@
             }
           },
           "examples": null
+        }
+      },
+      "responses": {
+        "200": {
+          "description": null,
+          "content_types": [
+            "application/json"
+          ]
+        },
+        "500": {
+          "description": "request failed",
+          "content_types": [
+            "application/json"
+          ]
+        }
+      },
+      "security": [
+        {
+          "BearerAuth": [],
+          "x-apidog": {
+            "schemeGroups": [
+              {
+                "id": "kn8M4YUlc5i0A0179ezwx",
+                "schemeIds": [
+                  "BearerAuth"
+                ]
+              }
+            ],
+            "required": true,
+            "use": {
+              "id": "kn8M4YUlc5i0A0179ezwx"
+            },
+            "scopes": {
+              "kn8M4YUlc5i0A0179ezwx": {
+                "BearerAuth": []
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_title": "Seedream 5.0 Pro -  Layer Decomposition",
+      "source_url": "https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md",
+      "source_file": "/market/seedream/5-pro-layer-decomposition.md",
+      "servers": [
+        "https://api.kie.ai"
+      ],
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "summary": "Seedream 5.0 Pro -  Layer Decomposition",
+      "operationId": "seedream-5-pro-layer-decomposition",
+      "tags": [
+        "docs/en/Market/Image    Models/Seedream"
+      ],
+      "parameters": [],
+      "request": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "model",
+              "input"
+            ],
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "The model name used to execute the layer separation task. Required field.\n\n- Must be `seedream/5-pro-layer-decomposition` for this endpoint",
+                "enum": [
+                  "seedream/5-pro-layer-decomposition"
+                ],
+                "default": "seedream/5-pro-layer-decomposition",
+                "examples": [
+                  "seedream/5-pro-layer-decomposition"
+                ],
+                "x-apidog-enum": [
+                  {
+                    "value": "seedream/5-pro-layer-decomposition",
+                    "name": "",
+                    "description": ""
+                  }
+                ]
+              },
+              "callBackUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL to receive task completion notifications. Optional, but recommended for production environments.\n\n- Upon task completion, the system will send a POST request to this URL\n- The callback content includes task status, generated result URLs, and task information\n- You can also actively query the task status through the get task details interface\n- For callback signature verification methods, please refer to the [Webhook Verification Guide](/cn/common-api/webhook-verification)",
+                "examples": [
+                  "https://your-domain.com/api/callback"
+                ]
+              },
+              "input": {
+                "type": "object",
+                "description": "Input parameters for the layer separation task",
+                "required": [
+                  "image_url"
+                ],
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "Optional prompt for layer separation.\n\n- When a prompt is provided, the model separates the specified elements based on the prompt\n- When no prompt is provided, the model automatically identifies the main elements in the image\n- Supports using `<bbox>x1 y1 x2 y2</bbox>` to precisely specify element positions, recommending the use of normalized coordinates in the 0-1000 range",
+                    "minLength": 0,
+                    "maxLength": 5000,
+                    "examples": [
+                      "Separate the title text <bbox>179 58 809 197</bbox> and the parrot <bbox>330 274 641 991</bbox> into independent layers"
+                    ]
+                  },
+                  "image_url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "The source image URL for layer separation.\n\n- Must upload exactly 1 image\n- Supports PNG, JPEG, WebP, BMP, TIFF, GIF\n- Does not support HEIC, HEIF\n- Image size must not exceed 30 MB\n- Total pixel range is 262,144-36,000,000\n- Aspect ratio range is 1:16-16:1",
+                    "examples": [
+                      "https://example.com/seedream-layer-input.png"
+                    ]
+                  },
+                  "size": {
+                    "type": "string",
+                    "description": "Resolution level of the output image. The base image maintains the aspect ratio of the input image, and each separated layer maintains the aspect ratio of the corresponding element in the original image.\n\n- `auto`: Automatically selected based on the input image size\n- `1K`: 1K resolution level\n- `1.5K`: 1.5K resolution level\n- `2K`: 2K resolution level",
+                    "enum": [
+                      "auto",
+                      "1K",
+                      "1.5K",
+                      "2K"
+                    ],
+                    "default": "auto",
+                    "examples": [
+                      "2K"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "auto",
+                        "name": "",
+                        "description": "Automatically select output size based on input image"
+                      },
+                      {
+                        "value": "1K",
+                        "name": "",
+                        "description": "1K resolution level"
+                      },
+                      {
+                        "value": "1.5K",
+                        "name": "",
+                        "description": "1.5K resolution level"
+                      },
+                      {
+                        "value": "2K",
+                        "name": "",
+                        "description": "2K resolution level"
+                      }
+                    ]
+                  },
+                  "output_format": {
+                    "type": "string",
+                    "description": "Output format of the base image. This parameter only controls the base image format; all separated layers are fixed to output as PNG.",
+                    "enum": [
+                      "png",
+                      "jpeg"
+                    ],
+                    "default": "jpeg",
+                    "examples": [
+                      "jpeg"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "png",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "jpeg",
+                        "name": "",
+                        "description": ""
+                      }
+                    ]
+                  }
+                },
+                "x-apidog-orders": [
+                  "prompt",
+                  "image_url",
+                  "size",
+                  "output_format"
+                ],
+                "x-apidog-ignore-properties": []
+              }
+            },
+            "x-apidog-orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x-apidog-ignore-properties": []
+          },
+          "example": null,
+          "examples": {}
         }
       },
       "responses": {
@@ -25699,10 +28331,6 @@
                   "seed": {
                     "description": "Random seed to control the stochasticity of image generation.",
                     "type": "integer"
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -25723,9 +28351,15 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "image_urls",
+                  "image_size",
+                  "image_resolution",
+                  "max_images",
+                  "seed"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -25733,7 +28367,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "bytedance/seedream-v4-edit",
@@ -25891,10 +28530,6 @@
                   "seed": {
                     "description": "Random seed to control the stochasticity of image generation",
                     "type": "integer"
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -25913,9 +28548,14 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "image_size",
+                  "image_resolution",
+                  "max_images",
+                  "seed"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -25923,7 +28563,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "bytedance/seedream-v4-text-to-image",
@@ -26073,7 +28718,13 @@
                   "guidance_scale",
                   "seed"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "image_size",
+                  "guidance_scale",
+                  "seed"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -26081,7 +28732,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": "",
           "examples": null
@@ -26157,17 +28813,33 @@
                     ]
                   },
                   "upscale_factor": {
-                    "description": "Factor to upscale the video by (e.g. 2.0 doubles width and height)",
                     "type": "string",
+                    "description": "Factor to upscale the video by (e.g. 2.0 doubles width and height)",
                     "enum": [
                       "1",
                       "2",
-                      "4",
-                      "8"
+                      "4"
                     ],
                     "default": "2",
                     "examples": [
                       "2"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "1",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "2",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "4",
+                        "name": "",
+                        "description": ""
+                      }
                     ]
                   }
                 },
@@ -26307,11 +28979,7 @@
                   "video_url",
                   "upscale_factor"
                 ],
-                "x--orders": [
-                  "video_url",
-                  "upscale_factor"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -26319,12 +28987,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "topaz/video-upscale",
@@ -28351,6 +31014,11 @@
                       "1080p"
                     ]
                   },
+                  "multi_shots": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "The multi shots parameter controls the shot composition style during AI video generation, determining whether the generated video is a single continuous shot or multiple shots with transitions."
+                  },
                   "nsfw_checker": {
                     "type": "boolean",
                     "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
@@ -28365,6 +31033,7 @@
                   "image_urls",
                   "duration",
                   "resolution",
+                  "multi_shots",
                   "01KWKNXZPECYPAXHWHSYF61FYY"
                 ],
                 "x-apidog-refs": {
@@ -28394,6 +31063,7 @@
               ],
               "duration": "5",
               "resolution": "1080p",
+              "multi_shots": false,
               "nsfw_checker": false
             }
           },
@@ -28518,6 +31188,11 @@
                       "1080p"
                     ]
                   },
+                  "multi_shots": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "The multi shots parameter controls the shot composition style during AI video generation, determining whether the generated video is a single continuous shot or multiple shots with transitions."
+                  },
                   "nsfw_checker": {
                     "type": "boolean",
                     "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
@@ -28530,6 +31205,7 @@
                   "prompt",
                   "duration",
                   "resolution",
+                  "multi_shots",
                   "01KWKNYJZHXZG8M36GJBYPX23M"
                 ],
                 "x-apidog-refs": {
@@ -28556,6 +31232,7 @@
               "prompt": "In a hyperrealistic ASMR video, a hand uses a knitted knife to slowly slice a burger made entirely of knitted wool. The satisfyingly crisp cut reveals a detailed cross-section of knitted meat, lettuce, and tomato slices. Captured in a close-up with a shallow depth of field, the scene is set against a stark, matte black surface. Cinematic lighting makes the surreal yarn textures shine with clear reflections. The focus is on the deliberate, satisfying motion and the unique, tactile materials.",
               "duration": "5",
               "resolution": "1080p",
+              "multi_shots": false,
               "nsfw_checker": false
             }
           },
@@ -28693,6 +31370,11 @@
                       "1080p"
                     ]
                   },
+                  "multi_shots": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "The multi shots parameter controls the shot composition style during AI video generation, determining whether the generated video is a single continuous shot or multiple shots with transitions."
+                  },
                   "nsfw_checker": {
                     "type": "boolean",
                     "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
@@ -28707,6 +31389,7 @@
                   "video_urls",
                   "duration",
                   "resolution",
+                  "multi_shots",
                   "01KWKNZ2Z137FWYPF91MQYNZPD"
                 ],
                 "x-apidog-refs": {
@@ -28736,6 +31419,7 @@
               ],
               "duration": "5",
               "resolution": "1080p",
+              "multi_shots": false,
               "nsfw_checker": false
             }
           },
@@ -30468,6 +33152,10 @@
                     "examples": [
                       "1:1"
                     ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -30484,11 +33172,9 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x--orders": [
-                  "prompt",
-                  "aspect_ratio"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": [
+                  "nsfw_checker"
+                ]
               }
             },
             "x-apidog-orders": [
@@ -30496,12 +33182,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "z-image",
@@ -33811,12 +36492,7 @@
               "audioId",
               "callBackUrl"
             ],
-            "x--orders": [
-              "taskId",
-              "audioId",
-              "callBackUrl"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "taskId": "5c79****be8e",
@@ -38836,6 +41512,7 @@
             "x-apidog-ignore-properties": []
           },
           "example": {
+            "model": "gemini-3-5-flash-thinking",
             "messages": [
               {
                 "role": "user",
@@ -39184,7 +41861,14 @@
                 }
               }
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "messages",
+              "stream",
+              "tools",
+              "include_thoughts",
+              "reasoning_effort"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "messages": [
@@ -42361,6 +45045,15 @@
       },
       {
         "method": "POST",
+        "summary": "Seedream 5.0 Pro 图层分离",
+        "operationId": "seedream/5-pro-layer-decomposition",
+        "source_url": "https://docs.kie.ai/41313512e0.md",
+        "servers": [
+          "https://api.kie.ai"
+        ]
+      },
+      {
+        "method": "POST",
         "summary": "PixVerse V6 Reference-to-video/参考图生成",
         "operationId": "pixverse-v6-fusion-reference-to-video",
         "source_url": "https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md",
@@ -42382,6 +45075,15 @@
         "summary": "Bytedance Seedance 1.5 Pro",
         "operationId": "bytedance-seedance-1-5-pro",
         "source_url": "https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md",
+        "servers": [
+          "https://api.kie.ai"
+        ]
+      },
+      {
+        "method": "POST",
+        "summary": "Bytedance Seedance 2.5",
+        "operationId": "bytedance-seedance-2-5",
+        "source_url": "https://docs.kie.ai/market/bytedance/seedance-2-5.md",
         "servers": [
           "https://api.kie.ai"
         ]
@@ -43036,6 +45738,33 @@
       },
       {
         "method": "POST",
+        "summary": "MiniMax H3 Image-to-Video",
+        "operationId": "minimax-h3-image-to-video",
+        "source_url": "https://docs.kie.ai/market/minimax-h3/image-to-video.md",
+        "servers": [
+          "https://api.kie.ai"
+        ]
+      },
+      {
+        "method": "POST",
+        "summary": "MiniMax H3 Reference-to-Video",
+        "operationId": "minimax-h3-reference-to-video",
+        "source_url": "https://docs.kie.ai/market/minimax-h3/reference-to-video.md",
+        "servers": [
+          "https://api.kie.ai"
+        ]
+      },
+      {
+        "method": "POST",
+        "summary": "MiniMax H3 Text-to-Video",
+        "operationId": "minimax-h3-text-to-video",
+        "source_url": "https://docs.kie.ai/market/minimax-h3/text-to-video.md",
+        "servers": [
+          "https://api.kie.ai"
+        ]
+      },
+      {
+        "method": "POST",
         "summary": "Omnihuman 1.5",
         "operationId": "omnihuman-1-5",
         "source_url": "https://docs.kie.ai/market/omnihuman-1-5.md",
@@ -43153,6 +45882,42 @@
       },
       {
         "method": "POST",
+        "summary": "Qwen3 Pro Image to Image",
+        "operationId": "qwen3-pro-image-to-image",
+        "source_url": "https://docs.kie.ai/market/qwen3-pro/image-to-image.md",
+        "servers": [
+          "https://api.kie.ai"
+        ]
+      },
+      {
+        "method": "POST",
+        "summary": "Qwen3 Pro Text to Image",
+        "operationId": "qwen3-pro-text-to-image",
+        "source_url": "https://docs.kie.ai/market/qwen3-pro/text-to-image.md",
+        "servers": [
+          "https://api.kie.ai"
+        ]
+      },
+      {
+        "method": "POST",
+        "summary": "Qwen3 Image to Image",
+        "operationId": "qwen3-image-to-image",
+        "source_url": "https://docs.kie.ai/market/qwen3/image-to-image.md",
+        "servers": [
+          "https://api.kie.ai"
+        ]
+      },
+      {
+        "method": "POST",
+        "summary": "Qwen3 Text to Image",
+        "operationId": "qwen3-text-to-image",
+        "source_url": "https://docs.kie.ai/market/qwen3/text-to-image.md",
+        "servers": [
+          "https://api.kie.ai"
+        ]
+      },
+      {
+        "method": "POST",
         "summary": "Recraft - Crisp Upscale",
         "operationId": "recraft-crisp-upscale",
         "source_url": "https://docs.kie.ai/market/recraft/crisp-upscale.md",
@@ -43210,6 +45975,15 @@
         "summary": "Seedream5.0 Pro - Image to Image",
         "operationId": "seedream-5-pro-image-to-image",
         "source_url": "https://docs.kie.ai/market/seedream/5-pro-image-to-image.md",
+        "servers": [
+          "https://api.kie.ai"
+        ]
+      },
+      {
+        "method": "POST",
+        "summary": "Seedream 5.0 Pro -  Layer Decomposition",
+        "operationId": "seedream-5-pro-layer-decomposition",
+        "source_url": "https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md",
         "servers": [
           "https://api.kie.ai"
         ]
