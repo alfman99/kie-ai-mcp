@@ -1,17 +1,17 @@
 {
-  "name": "kie-ai-mcp-server",
-  "version": "0.2.3",
+  "name": "kie-ai-mcp",
+  "version": "0.3.0",
   "description": "Higgsfield-style image, video, and voice creation in Claude, ChatGPT/Codex, Cursor, VS Code, and Windsurf using flexible KIE credits.",
   "type": "module",
   "license": "MIT",
   "author": "alfman99",
-  "homepage": "https://github.com/alfman99/kie-mcp#readme",
+  "homepage": "https://github.com/alfman99/kie-ai-mcp#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alfman99/kie-mcp.git"
+    "url": "git+https://github.com/alfman99/kie-ai-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/alfman99/kie-mcp/issues"
+    "url": "https://github.com/alfman99/kie-ai-mcp/issues"
   },
   "keywords": [
     "kie",
@@ -55,7 +55,7 @@
     "bundle:claude": "npm run build && node scripts/build-mcpb.mjs",
     "docs:check": "tsx scripts/kie-docs.ts check",
     "docs:update": "tsx scripts/kie-docs.ts update",
-    "bundle:claude:info": "npx --yes @anthropic-ai/mcpb@2.1.2 info release/kie-creator-for-claude.mcpb"
+    "bundle:claude:info": "npx --yes @anthropic-ai/mcpb@2.1.2 info release/kie-ai-mcp.mcpb"
   },
   "engines": {
     "node": ">=20"

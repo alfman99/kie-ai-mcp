@@ -1,6 +1,6 @@
 # Client Compatibility
 
-KIE Creator uses one MCP implementation across supported agents. The local server speaks MCP over standard input/output and calls only KIE's official HTTPS API and native upload endpoints.
+KIE.AI MCP uses one implementation across supported agents. The local server speaks MCP over standard input/output and calls only KIE's official HTTPS API and native upload endpoints.
 
 ## Support matrix
 
@@ -14,7 +14,7 @@ KIE Creator uses one MCP implementation across supported agents. The local serve
 
 The browser inside Codex does not need its own KIE connection. Codex calls KIE through the local MCP and can use its browser separately in the same task.
 
-For beginner-friendly, app-by-app instructions, use [Install KIE Creator in Your App](INSTALL_OTHER_APPS.md). This page records the compatibility boundary and shared technical requirements.
+For beginner-friendly, app-by-app instructions, use [Install KIE.AI MCP in Your App](INSTALL_OTHER_APPS.md). This page records the compatibility boundary and shared technical requirements.
 
 ## Shared safety requirement
 
@@ -48,7 +48,7 @@ For a different checkout or a global installation, add this entry to the chosen 
   "mcpServers": {
     "kie-ai": {
       "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
+      "args": ["/absolute/path/to/kie-ai-mcp/dist/src/index.js"],
       "env": {
         "KIE_API_KEY": "your-kie-api-key",
         "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
@@ -75,7 +75,7 @@ On macOS, an app opened from the Dock may not inherit variables from a shell sta
 Claude Code, Cursor, VS Code, Windsurf's legacy Cascade agent, and Codex support a local stdio command with arguments and environment variables. They can therefore launch the same built entry point:
 
 ```text
-node /absolute/path/to/kie-mcp/dist/src/index.js
+node /absolute/path/to/kie-ai-mcp/dist/src/index.js
 ```
 
 Their configuration wrappers and secret-input capabilities differ. The [app-by-app install guide](INSTALL_OTHER_APPS.md) provides verified menu paths and the correct JSON shape for each client.
@@ -95,7 +95,7 @@ codex mcp add kie-ai \
   --env KIE_API_KEY="$KIE_API_KEY" \
   --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
   --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/your/kie-media" \
-  -- node /absolute/path/to/kie-mcp/dist/src/index.js
+  -- node /absolute/path/to/kie-ai-mcp/dist/src/index.js
 ```
 
 Verify it without printing or sharing secret values:

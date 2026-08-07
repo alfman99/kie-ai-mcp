@@ -6,7 +6,7 @@ Choose the installation path that matches the client.
 
 Prefer the release `.mcpb` extension. It bundles the built server and dependencies, requests the KIE key through a sensitive configuration field, and does not require Node or terminal configuration.
 
-1. Download `kie-creator-for-claude.mcpb` from the repository's latest GitHub release.
+1. Download `kie-ai-mcp.mcpb` from the repository's latest GitHub release.
 2. In Claude Desktop, open **Settings → Extensions → Advanced settings → Install Extension…**
 3. Select the bundle and enter the user's KIE API key when Claude requests it.
 4. Restart Claude Desktop or start a fresh conversation.

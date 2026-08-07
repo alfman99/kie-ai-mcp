@@ -2,7 +2,7 @@
   "mcpServers": {
     "kie-ai": {
       "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
+      "args": ["/absolute/path/to/kie-ai-mcp/dist/src/index.js"],
       "env": {
         "KIE_API_KEY": "your-kie-api-key",
         "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",

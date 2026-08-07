@@ -1,10 +1,10 @@
 # Technical Reference
 
-This document is for maintainers and users connecting KIE Creator to an MCP client other than Claude Desktop. The beginner installation belongs in the main [README](../README.md).
+This document is for maintainers and users connecting KIE.AI MCP to a client other than Claude Desktop. The beginner installation belongs in the main [README](../README.md).
 
 ## Runtime model
 
-KIE Creator is a local stdio MCP server. The MCP client starts it as a child process, communicates over stdin/stdout, and closes it when the session ends.
+KIE.AI MCP is a local stdio server. The MCP client starts it as a child process, communicates over stdin/stdout, and closes it when the session ends.
 
 It does not expose a listening port, run a daemon, host user media, or require a container. Live tools call KIE directly over HTTPS.
 
@@ -17,8 +17,8 @@ Requirements:
 - A KIE API key for live creation tools
 
 ```bash
-git clone https://github.com/alfman99/kie-mcp.git
-cd kie-mcp
+git clone https://github.com/alfman99/kie-ai-mcp.git
+cd kie-ai-mcp
 npm ci
 npm run build
 npm run mcp:doctor
@@ -27,7 +27,7 @@ npm run mcp:doctor
 Register this command in the client:
 
 ```text
-node /absolute/path/to/kie-mcp/dist/src/index.js
+node /absolute/path/to/kie-ai-mcp/dist/src/index.js
 ```
 
 Generic configuration:
@@ -37,7 +37,7 @@ Generic configuration:
   "mcpServers": {
     "kie-ai": {
       "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
+      "args": ["/absolute/path/to/kie-ai-mcp/dist/src/index.js"],
       "env": {
         "KIE_API_KEY": "your-kie-api-key",
         "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
@@ -57,7 +57,7 @@ claude mcp add --transport stdio kie-ai \
   --env KIE_API_KEY="$KIE_API_KEY" \
   --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
   --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/your/kie-media" \
-  -- node /absolute/path/to/kie-mcp/dist/src/index.js
+  -- node /absolute/path/to/kie-ai-mcp/dist/src/index.js
 ```
 
 ### Codex
@@ -67,7 +67,7 @@ codex mcp add kie-ai \
   --env KIE_API_KEY="$KIE_API_KEY" \
   --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
   --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/your/kie-media" \
-  -- node /absolute/path/to/kie-mcp/dist/src/index.js
+  -- node /absolute/path/to/kie-ai-mcp/dist/src/index.js
 ```
 
 Verify the saved registration:
@@ -83,7 +83,7 @@ A running agent may not hot-load a new MCP registration. Start a fresh task or r
 `npm run bundle:claude` creates:
 
 ```text
-release/kie-creator-for-claude.mcpb
+release/kie-ai-mcp.mcpb
 ```
 
 The bundle contains the built JavaScript server and production dependencies. Its manifest:

@@ -1,187 +1,82 @@
-# KIE Creator for Claude
+# KIE.AI MCP
 
-### Higgsfield-style image and video creation in Claude—without a Higgsfield subscription.
+Create images, videos, edits, and voiceovers from Claude, Codex, Cursor, VS Code, or Windsurf using your own pay-as-you-go KIE credits.
 
-Tell Claude what you want to make. KIE Creator gives it the tools to generate images, edit with reference pictures, create videos, and produce voiceovers using your own KIE credits.
+It is a free, open-source alternative to subscription-based creative MCPs. Requests go directly from your AI app to KIE—there is no Docker service, hosted middleman, or third-party upload provider.
 
-For Claude Desktop: no coding, no Docker, and no configuration files.
+[Download for Claude Desktop](https://github.com/alfman99/kie-ai-mcp/releases/latest/download/kie-ai-mcp.mcpb) · [Install in another AI app](docs/INSTALL_OTHER_APPS.md) · [Get a KIE API key](https://kie.ai/api-key)
 
-[Download KIE Creator for Claude](https://github.com/alfman99/kie-mcp/releases/latest/download/kie-creator-for-claude.mcpb)
+## Install in Claude Desktop
 
-## Why creators use it
+No coding, Node.js, Docker, or configuration file is required.
 
-- **Create inside Claude.** Stay in the same conversation from idea to finished asset.
-- **Avoid another creative subscription.** The extension is free; you pay KIE only when you generate.
-- **Choose the right model for each job.** Use KIE's image, video, and audio model marketplace instead of being locked into one workflow.
-- **Use reference media.** Create from prompts, images, first and last frames, video, or audio.
-- **Keep the simple Higgsfield experience.** Describe the result and let Claude handle model selection, task submission, and waiting for the output.
-- **Connect directly to KIE.** Your key and media are not routed through our servers or an outside upload service.
+1. Get a key from [KIE](https://kie.ai/api-key).
+2. Download [`kie-ai-mcp.mcpb`](https://github.com/alfman99/kie-ai-mcp/releases/latest/download/kie-ai-mcp.mcpb).
+3. In Claude Desktop, open **Settings → Extensions → Advanced settings → Install Extension…**
+4. Select the download, enter your KIE key, and choose a dedicated folder for reference media.
+5. Start a new conversation.
 
-KIE says its API pricing is typically 30%–50% below official model APIs, with larger discounts on some models. Prices change, so check [KIE's current pricing](https://kie.ai/pricing) before a large project. Purchased KIE credits do not expire under [KIE's current terms](https://kie.ai/terms-of-use).
-
-## Why use this instead of Higgsfield MCP?
-
-Higgsfield MCP is convenient, but its generations use Higgsfield plan credits. KIE Creator is for people who want the same conversational creation pattern with a different cost structure:
-
-- no recurring Higgsfield plan required;
-- pay-as-you-go KIE credits that do not expire under KIE's current terms;
-- freedom to choose a faster, cheaper, or higher-quality model for each job;
-- open-source tools you can inspect instead of a closed creative gateway;
-- direct KIE uploads with no extra media service in the middle.
-
-The trade-off is that this extension does not copy Higgsfield-only products such as Soul character training, its web creation library, or its complete studio interface. It focuses on the part creators want most inside Claude: generating and iterating on images, videos, edits, and voiceovers from a conversation.
-
-## Install in your app
-
-Claude Desktop is the easiest path: no Node, Docker, Terminal, or configuration files.
-
-| You use | Installation |
-|---|---|
-| Claude Desktop | Follow the five-minute steps below |
-| ChatGPT / Codex | Use Codex desktop or CLI; ChatGPT web requires a hosted edition |
-| Cursor | Use the included `.cursor/mcp.json` |
-| VS Code / GitHub Copilot | Add the local server with a protected key prompt |
-| Windsurf | Add the local server through Cascade MCP settings |
-
-For Claude Code and every app other than Claude Desktop, open the plain-English [top-five app install guide](docs/INSTALL_OTHER_APPS.md). It includes exact menu paths, copy/paste configuration, Windows examples, a verification prompt, and troubleshooting.
-
-### Claude Desktop: install in about five minutes
-
-#### 1. Get a KIE key
-
-Create a KIE account, add credits, and open the [KIE API key page](https://kie.ai/api-key). Copy your key.
-
-Treat this key like a password. Do not post it in a chat, screenshot, or public document.
-
-#### 2. Download the extension
-
-Download [`kie-creator-for-claude.mcpb`](https://github.com/alfman99/kie-mcp/releases/latest/download/kie-creator-for-claude.mcpb).
-
-#### 3. Add it to Claude Desktop
-
-In Claude Desktop:
-
-1. Open **Settings → Extensions**.
-2. Open **Advanced settings**.
-3. Click **Install Extension…**
-4. Choose the `.mcpb` file you downloaded.
-5. Paste your KIE API key when Claude asks for it.
-6. Choose a dedicated folder for reference media. Put only files you are comfortable sending to KIE in that folder.
-7. Finish the installation and start a new chat.
-
-Claude stores the key as a protected secret on your device. The extension can read only the reference-media folder you chose, and the server blocks paths and symlinks that escape it. You do not need to install Node, edit JSON, use Terminal, or keep another app running.
-
-If you cannot find **Install Extension…**, update Claude Desktop first. Anthropic's official instructions are available in [Installing local MCP extensions](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop).
+Anthropic documents this installation flow in its [local MCP extension guide](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop).
 
 ## Start creating
 
-Try one of these in a new Claude conversation:
+Try:
 
-> Create a premium square product photo of a matte black perfume bottle on wet stone. Use soft morning light and leave room for a headline.
+> Create a premium square product photo of a matte black perfume bottle on wet stone. Leave room for a headline.
 
-> Turn this reference image into a five-second vertical ad. Slowly rotate the product on black glass and add subtle mist.
-
-> Make three different hooks for this product, create a matching image for each one, and recommend the strongest concept.
-
-> Create an energetic voiceover for this 20-second launch script.
-
-You can also name a model:
+> Turn this reference image into a five-second vertical ad with a slow product rotation and subtle mist.
 
 > Use Seedance 2.5 to turn this first frame into a 9:16 video.
 
-If you do not name one, Claude can choose a sensible default.
+You can ask for product images, image edits, short-form video, reference-based video, voiceovers, or multiple creative variations. If you do not name a model, your agent can choose one.
 
-## What you can make
+## Install in your AI app
 
-| You want | Ask Claude to… |
+| App | Best path |
 |---|---|
-| Product images | Create polished studio, lifestyle, or advertising images |
-| Image edits | Change a background, style, composition, or product setting |
-| Short-form video | Make vertical ads, B-roll, product motion, or cinematic clips |
-| Reference-based video | Animate a first frame or use image, video, and audio references |
-| Voiceovers | Turn a script into speech or narration |
-| Variations | Generate multiple concepts and iterate in the same conversation |
+| Claude Desktop | [Install the one-file extension](docs/INSTALL_OTHER_APPS.md#claude) |
+| Claude Code | [Register the local server](docs/INSTALL_OTHER_APPS.md#claude-code) |
+| ChatGPT / Codex | [Use Codex desktop or CLI](docs/INSTALL_OTHER_APPS.md#chatgpt-and-codex) |
+| Cursor | [Use the included MCP configuration](docs/INSTALL_OTHER_APPS.md#cursor) |
+| VS Code / Copilot | [Add the server to VS Code MCP settings](docs/INSTALL_OTHER_APPS.md#vs-code-and-github-copilot) |
+| Windsurf | [Add it through Cascade MCP settings](docs/INSTALL_OTHER_APPS.md#windsurf) |
 
-## What it costs
+ChatGPT in a web browser cannot launch a local MCP process. See the [compatibility explanation](docs/CLIENT_COMPATIBILITY.md#chatgpt-in-a-browser).
 
-KIE Creator itself is free and open source.
+## Why creators use it
 
-You still need:
+- Work inside the AI conversation you already use.
+- Pay only for KIE generations instead of adding another creative subscription.
+- Choose among KIE image, video, and audio models.
+- Use reference images, first and last frames, video, or audio.
+- Send files directly through KIE's native upload service.
 
-- Claude Desktop and whatever Claude plan you normally use.
-- KIE credits for generations.
+Read the [creator guide](docs/CREATOR_GUIDE.md) for the full [Higgsfield comparison](docs/CREATOR_GUIDE.md#comparison-with-higgsfield-mcp), [cost explanation](docs/CREATOR_GUIDE.md#costs), [privacy details](docs/CREATOR_GUIDE.md#privacy-and-safety), and [FAQ](docs/CREATOR_GUIDE.md#common-questions).
 
-There is no KIE Creator subscription and no Higgsfield subscription required. Different models, durations, and resolutions use different amounts of KIE credit. Claude can check your remaining balance, and you can review every task and its credit use in your [KIE logs](https://kie.ai/logs).
+## Direct and private by design
 
-No honest comparison can promise that every individual generation will always cost less than every Higgsfield plan or promotion. The savings proposition is straightforward: pay as you go, pick lower-cost models when they are good enough, and avoid paying for a separate Higgsfield subscription you may not fully use.
+```text
+Your AI app → local KIE.AI MCP → official KIE API
+                                  ↳ native KIE upload service
+```
 
-## Privacy and safety
+Your API key stays in your AI client's protected configuration. Creation requests go to `https://api.kie.ai`; reference media goes to KIE's [official native upload API](https://docs.kie.ai/file-upload-api/quickstart). Local file access is limited to the folder you choose.
 
-- The extension runs locally inside Claude Desktop.
-- Claude stores your KIE key as a sensitive setting using your device's secure storage.
-- Creation requests go directly to `https://api.kie.ai`.
-- Reference files go directly to KIE's [official native upload service](https://docs.kie.ai/file-upload-api/quickstart).
-- There is no Cloudinary, S3, ImgBB, Firebase, Supabase, or other media middleman.
-- KIE currently retains generated media for 14 days, so download anything you want to keep.
+## Documentation
 
-Only install extension files downloaded from this repository's official Releases page. Never send anyone your KIE API key.
-
-## Common questions
-
-### Is this Higgsfield?
-
-No. KIE Creator is an independent, open-source alternative that offers a similar “ask your agent to create” workflow. It is not affiliated with or endorsed by Higgsfield or KIE.
-
-### Do I need Docker or Node?
-
-No. The Claude Desktop extension contains what it needs, and Claude supplies the runtime.
-
-### Does it work in the Claude website?
-
-This version is designed for the Claude Desktop app because it runs locally and can work with reference files on your computer.
-
-### Which AI apps does it support?
-
-KIE Creator focuses on Claude, ChatGPT/Codex, Cursor, VS Code/Copilot, and Windsurf. Claude Desktop is the no-code path. Claude Code, Codex, Cursor, VS Code, and Windsurf can run the same local server; these installations require Node.js and are covered in the [top-five app install guide](docs/INSTALL_OTHER_APPS.md).
-
-ChatGPT in a web browser cannot start a local MCP process on your computer. It requires a separately hosted HTTPS MCP endpoint or OpenAI's secure MCP tunnel. For the current local release, use Codex desktop.
-
-### Can it use an image I already have?
-
-Yes. Place the image in the reference-media folder you selected during installation, then attach it or tell Claude its path and describe how it should be used. Public image links also work.
-
-### Where do my creations go?
-
-Claude returns the result supplied by KIE. Download finished media you want to keep; KIE's official documentation says generated files are retained for 14 days.
-
-### How do I update it?
-
-Download the newest `.mcpb` file from [Releases](https://github.com/alfman99/kie-mcp/releases/latest) and install it over the existing extension. Extensions distributed through Anthropic's official directory can update automatically if this project is accepted there.
-
-### Something is not working
-
-Check these three things first:
-
-1. Your KIE key is still valid.
-2. Your KIE account has enough credits.
-3. You restarted Claude Desktop after installing or updating the extension.
-
-Then review the extension in **Settings → Extensions** or [report an issue](https://github.com/alfman99/kie-mcp/issues) without including your API key or private media.
-
-## For developers and other agents
-
-The consumer README intentionally avoids build commands and protocol details.
-
+- [Install in the top five AI apps](docs/INSTALL_OTHER_APPS.md)
+- [Creator guide, pricing context, privacy, and FAQ](docs/CREATOR_GUIDE.md)
+- [Client compatibility](docs/CLIENT_COMPATIBILITY.md)
 - [Technical reference](docs/TECHNICAL_REFERENCE.md)
-- [Install in Claude, ChatGPT/Codex, Cursor, VS Code, or Windsurf](docs/INSTALL_OTHER_APPS.md)
-- [Client compatibility and transport boundaries](docs/CLIENT_COMPATIBILITY.md)
 - [How the local process works](docs/HOW_IT_RUNS.md)
+- [Security policy](SECURITY.md)
 - [Contributing](CONTRIBUTING.md)
-- [Security](SECURITY.md)
 - [Official KIE documentation](https://docs.kie.ai/)
 
-All API behavior and bundled model catalogs are derived exclusively from KIE's official documentation.
+## Updates and support
 
----
+Install the newest file from [Releases](https://github.com/alfman99/kie-ai-mcp/releases/latest) over the existing Claude extension. Source installations can follow the [update instructions](docs/INSTALL_OTHER_APPS.md#update).
 
-Higgsfield is a trademark of its respective owner. KIE Creator is an independent project and does not claim feature-for-feature parity with Higgsfield's full platform.
+If something fails, check your KIE key, credit balance, and whether the AI app was restarted after installation. Then use the [troubleshooting guide](docs/INSTALL_OTHER_APPS.md#troubleshooting) or [open an issue](https://github.com/alfman99/kie-ai-mcp/issues) without including keys or private media.
+
+KIE.AI MCP is independent and is not affiliated with or endorsed by KIE or Higgsfield. Higgsfield is a trademark of its respective owner.

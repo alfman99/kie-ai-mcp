@@ -1,9 +1,9 @@
 # Update Official Docs
 
-Resolve the `kie-ai-mcp-server` source checkout, then run the bundled maintenance script from this skill:
+Resolve the `kie-ai-mcp` source checkout, then run the bundled maintenance script from this skill:
 
 ```bash
-node "<skill-directory>/scripts/update-kie-mcp.mjs" --repo "/absolute/path/to/kie-mcp"
+node "<skill-directory>/scripts/update-kie-mcp.mjs" --repo "/absolute/path/to/kie-ai-mcp"
 ```
 
 The script:

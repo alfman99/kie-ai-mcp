@@ -36,14 +36,14 @@ jobs:
 
       - name: Create checksum
         working-directory: release
-        run: sha256sum kie-creator-for-claude.mcpb > SHA256SUMS
+        run: sha256sum kie-ai-mcp.mcpb > SHA256SUMS
 
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: >
           gh release create "${GITHUB_REF_NAME}"
-          release/kie-creator-for-claude.mcpb
+          release/kie-ai-mcp.mcpb
           release/SHA256SUMS
-          --title "KIE Creator for Claude ${GITHUB_REF_NAME}"
+          --title "KIE.AI MCP ${GITHUB_REF_NAME}"
           --generate-notes

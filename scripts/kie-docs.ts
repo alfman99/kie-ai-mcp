@@ -840,7 +840,7 @@ export async function fetchOfficialText(fetchImpl: typeof fetch, url: string): P
         signal: controller.signal,
         headers: {
           Accept: "text/markdown, text/plain;q=0.9",
-          "User-Agent": "kie-ai-mcp-docs-sync/0.1 (+https://github.com/alfman99/kie-mcp)"
+          "User-Agent": "kie-ai-mcp-docs-sync/0.1 (+https://github.com/alfman99/kie-ai-mcp)"
         }
       });
       const finalUrl = new URL(response.url || url);

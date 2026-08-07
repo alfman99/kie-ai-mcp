@@ -1,6 +1,6 @@
-# Install KIE Creator in the Top AI Apps
+# Install KIE.AI MCP in the Top AI Apps
 
-KIE Creator focuses on five mainstream AI products:
+KIE.AI MCP focuses on five mainstream AI products:
 
 1. Claude
 2. ChatGPT / Codex
@@ -27,7 +27,7 @@ All five use the same KIE account and the same direct connection to KIE. Claude 
 You do not need Node, Docker, Git, Terminal, or a configuration file.
 
 1. Get a KIE key from [kie.ai/api-key](https://kie.ai/api-key).
-2. Download [`kie-creator-for-claude.mcpb`](https://github.com/alfman99/kie-mcp/releases/latest/download/kie-creator-for-claude.mcpb).
+2. Download [`kie-ai-mcp.mcpb`](https://github.com/alfman99/kie-ai-mcp/releases/latest/download/kie-ai-mcp.mcpb).
 3. Open **Claude Desktop → Settings → Extensions → Advanced settings → Install Extension…**
 4. Choose the downloaded file.
 5. Paste your KIE key when Claude asks.
@@ -48,14 +48,14 @@ claude mcp add \
   --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/KIE Media" \
   --transport stdio \
   kie-ai \
-  -- node /absolute/path/to/kie-mcp/dist/src/index.js
+  -- node /absolute/path/to/kie-ai-mcp/dist/src/index.js
 ```
 
 Check the connection with `claude mcp list`. Inside Claude Code, `/mcp` opens the server status panel.
 
 Official reference: [Claude Code MCP](https://code.claude.com/docs/en/mcp).
 
-## ChatGPT / Codex
+## ChatGPT and Codex
 
 ### Codex desktop and CLI
 
@@ -66,12 +66,12 @@ codex mcp add kie-ai \
   --env KIE_API_KEY="$KIE_API_KEY" \
   --env KIE_ALLOW_LOCAL_FILE_UPLOADS="true" \
   --env KIE_LOCAL_UPLOAD_ROOT="/absolute/path/to/KIE Media" \
-  -- node /absolute/path/to/kie-mcp/dist/src/index.js
+  -- node /absolute/path/to/kie-ai-mcp/dist/src/index.js
 ```
 
 Check it with `codex mcp get kie-ai`, then start a fresh Codex task.
 
-Codex can use KIE Creator and its browser in the same task. The browser is a separate tool and does not need another KIE connection.
+Codex can use KIE.AI MCP and its browser in the same task. The browser is a separate tool and does not need another KIE connection.
 
 Official reference: [Codex MCP](https://developers.openai.com/codex/mcp/).
 
@@ -102,7 +102,7 @@ For a global installation, add this to `~/.cursor/mcp.json` and replace both pat
   "mcpServers": {
     "kie-ai": {
       "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
+      "args": ["/absolute/path/to/kie-ai-mcp/dist/src/index.js"],
       "env": {
         "KIE_API_KEY": "${env:KIE_API_KEY}",
         "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
@@ -117,7 +117,7 @@ Cursor Agent uses the same configuration. Check it with `cursor-agent mcp list-t
 
 Official reference: [Cursor MCP](https://docs.cursor.com/context/model-context-protocol).
 
-## VS Code / GitHub Copilot
+## VS Code and GitHub Copilot
 
 VS Code can ask for the KIE key once and store it securely.
 
@@ -139,7 +139,7 @@ VS Code can ask for the KIE key once and store it securely.
     "kie-ai": {
       "type": "stdio",
       "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
+      "args": ["/absolute/path/to/kie-ai-mcp/dist/src/index.js"],
       "env": {
         "KIE_API_KEY": "${input:kie-api-key}",
         "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
@@ -172,7 +172,7 @@ These instructions apply to Windsurf's legacy Cascade agent. Devin Desktop now u
   "mcpServers": {
     "kie-ai": {
       "command": "node",
-      "args": ["/absolute/path/to/kie-mcp/dist/src/index.js"],
+      "args": ["/absolute/path/to/kie-ai-mcp/dist/src/index.js"],
       "env": {
         "KIE_API_KEY": "${env:KIE_API_KEY}",
         "KIE_ALLOW_LOCAL_FILE_UPLOADS": "true",
@@ -214,7 +214,7 @@ Use these path formats:
 
 | | macOS/Linux | Windows |
 |---|---|---|
-| Server | `/Users/YOU/kie-mcp/dist/src/index.js` | `C:/Users/YOU/kie-mcp/dist/src/index.js` |
+| Server | `/Users/YOU/kie-ai-mcp/dist/src/index.js` | `C:/Users/YOU/kie-ai-mcp/dist/src/index.js` |
 | Media | `/Users/YOU/KIE Media` | `C:/Users/YOU/KIE Media` |
 
 Use forward slashes in Windows JSON paths.
@@ -239,13 +239,13 @@ $env:KIE_API_KEY = [System.Net.NetworkCredential]::new("", $secureKieKey).Passwo
 
 Paste this into Claude Code, Codex, Cursor, VS Code, or Windsurf while the repository is open:
 
-> Install this KIE Creator MCP server in the app I am currently using. Follow `docs/INSTALL_OTHER_APPS.md`, run the no-credit doctor, use an absolute path to `dist/src/index.js`, and create a dedicated `KIE Media` folder. Ask me to enter my KIE API key through the safest secret input the app supports. Never print, commit, or repeat my key.
+> Install this KIE.AI MCP server in the app I am currently using. Follow `docs/INSTALL_OTHER_APPS.md`, run the no-credit doctor, use an absolute path to `dist/src/index.js`, and create a dedicated `KIE Media` folder. Ask me to enter my KIE API key through the safest secret input the app supports. Never print, commit, or repeat my key.
 
 ## Confirm it works
 
 Start a fresh chat and paste:
 
-> Use `kie_check_configuration`. Tell me whether KIE Creator is ready, but do not show or repeat secret values. Do not generate media yet.
+> Use `kie_check_configuration`. Tell me whether KIE.AI MCP is ready, but do not show or repeat secret values. Do not generate media yet.
 
 A ready setup reports the official KIE API, KIE's native upload service, and the dedicated local media folder.
 
@@ -255,7 +255,7 @@ Then, when you are ready to spend a small number of KIE credits:
 
 ## Update
 
-Claude Desktop users can install the newest `.mcpb` from [Releases](https://github.com/alfman99/kie-mcp/releases/latest) over the existing extension.
+Claude Desktop users can install the newest `.mcpb` from [Releases](https://github.com/alfman99/kie-ai-mcp/releases/latest) over the existing extension.
 
 Git-based source installations can run:
 
@@ -284,7 +284,7 @@ Never share logs or configuration containing your KIE key. Revoke exposed keys a
 ## Direct KIE connection
 
 ```text
-Your AI app → local KIE Creator MCP → official KIE API
+Your AI app → local KIE.AI MCP → official KIE API
                                     ↳ native KIE upload service
 ```
 

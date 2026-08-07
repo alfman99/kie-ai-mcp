@@ -1,9 +1,9 @@
 {
   "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/mcpb/main/schemas/mcpb-manifest-v0.4.schema.json",
   "manifest_version": "0.4",
-  "name": "kie-creator-for-claude",
-  "display_name": "KIE Creator for Claude",
-  "version": "0.2.3",
+  "name": "kie-ai-mcp",
+  "display_name": "KIE.AI MCP",
+  "version": "0.3.0",
   "description": "Create images, videos, edits, and voiceovers in Claude using flexible pay-as-you-go KIE credits.",
   "long_description": "A lower-cost, Higgsfield-style creative workflow inside Claude. Describe what you want, attach reference media when needed, and let Claude create with KIE's image, video, and speech models.",
   "author": {
@@ -12,11 +12,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/alfman99/kie-mcp"
+    "url": "https://github.com/alfman99/kie-ai-mcp"
   },
-  "homepage": "https://github.com/alfman99/kie-mcp#readme",
-  "documentation": "https://github.com/alfman99/kie-mcp#readme",
-  "support": "https://github.com/alfman99/kie-mcp/issues",
+  "homepage": "https://github.com/alfman99/kie-ai-mcp#readme",
+  "documentation": "https://github.com/alfman99/kie-ai-mcp#readme",
+  "support": "https://github.com/alfman99/kie-ai-mcp/issues",
   "icon": "icon.png",
   "privacy_policies": [
     "https://kie.ai/privacy-policy"

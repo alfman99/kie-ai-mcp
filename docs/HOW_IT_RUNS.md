@@ -14,7 +14,7 @@ npm run build
 Register this absolute command in the MCP client:
 
 ```bash
-node /absolute/path/to/kie-mcp/dist/src/index.js
+node /absolute/path/to/kie-ai-mcp/dist/src/index.js
 ```
 
 The lifecycle is:
@@ -56,7 +56,7 @@ kie-ai
   enabled: true
   transport: stdio
   command: node
-  args: /absolute/path/to/kie-mcp/dist/src/index.js
+  args: /absolute/path/to/kie-ai-mcp/dist/src/index.js
 ```
 
 Codex masks configured environment values. Fresh tasks load the MCP automatically. An already-open task may require a new task or Codex reload after registration changes.

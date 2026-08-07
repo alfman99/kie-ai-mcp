@@ -308,7 +308,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
   const catalogs = loadCatalogRegistry(config.docsDataDir);
   const { docsManifest, endpointMentionIndex, marketModels, openapiEndpointCatalog } = catalogs;
   const server = new McpServer({
-    name: "kie-ai-mcp-server",
+    name: "kie-ai-mcp",
     version: "0.2.1"
   });
 

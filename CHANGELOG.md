@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 - 2026-08-07
+
+- Renamed the project and extension to KIE.AI MCP, with the `kie-ai-mcp` repository, package, server, and release-asset names.
+- Reorganized the README into a shorter creator-first quick start with focused links to installation, compatibility, technical, privacy, cost, and troubleshooting documentation.
+
 ## 0.2.3 - 2026-08-07
 
 - Updated transitive `fast-uri`, `hono`, and `ip-address` dependencies to patched releases, resolving five Dependabot advisories covering host confusion, SSRF/trust-boundary bypasses, and CORS middleware ReDoS.

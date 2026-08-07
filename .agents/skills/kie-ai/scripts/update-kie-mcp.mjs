@@ -7,7 +7,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
-const PACKAGE_NAME = "kie-ai-mcp-server";
+const PACKAGE_NAME = "kie-ai-mcp";
 const GENERATED_FILES = [
   "docs_manifest.json",
   "openapi_endpoint_catalog.json",
@@ -120,7 +120,7 @@ async function resolveRepository(explicitPath) {
     return registeredRepository;
   }
   throw new Error(
-    "Could not locate the kie-ai-mcp-server source checkout. Pass --repo or set KIE_MCP_REPO."
+    "Could not locate the kie-ai-mcp source checkout. Pass --repo or set KIE_MCP_REPO."
   );
 }
 

@@ -27,12 +27,12 @@ if (
 const builtEntryPoint = path.join(repositoryRoot, "dist", "src", "index.js");
 await readFile(builtEntryPoint);
 
-const temporaryRoot = await mkdtemp(path.join(tmpdir(), "kie-creator-mcpb-"));
+const temporaryRoot = await mkdtemp(path.join(tmpdir(), "kie-ai-mcp-"));
 const bundleRoot = path.join(temporaryRoot, "bundle");
 const unpackedRoot = path.join(temporaryRoot, "unpacked");
 const serverRoot = path.join(bundleRoot, "server");
 const releaseRoot = path.join(repositoryRoot, "release");
-const outputPath = path.join(releaseRoot, "kie-creator-for-claude.mcpb");
+const outputPath = path.join(releaseRoot, "kie-ai-mcp.mcpb");
 
 function pngCrc(buffer) {
   let crc = 0xffffffff;
