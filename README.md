@@ -18,17 +18,21 @@ No coding, Node.js, Docker, or configuration file is required.
 
 Anthropic documents this installation flow in its [local MCP extension guide](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop).
 
-## Start creating
+## How to use it
 
-Try:
+Talk to your AI normally—there are no special commands to learn. Describe what you want and, when useful, include the model, resolution, aspect ratio, duration, style, or reference media.
 
-> Create a premium square product photo of a matte black perfume bottle on wet stone. Leave room for a headline.
+For example:
 
-> Turn this reference image into a five-second vertical ad with a slow product rotation and subtle mist.
+> Create an image of a hairless Sphynx cat looking to the right. Use GPT Image 2 at 4K in a 9:16 aspect ratio, with soft studio lighting and a plain warm-gray background.
 
-> Use Seedance 2.5 to turn this first frame into a 9:16 video.
+> Edit this reference photo: keep the product unchanged, replace the background with wet black stone, and add soft morning light. Make it square.
 
-You can ask for product images, image edits, short-form video, reference-based video, voiceovers, or multiple creative variations. If you do not name a model, your agent can choose one.
+> Use Seedance 2.5 to turn this first frame into a five-second vertical ad. Slowly rotate the product on black glass and add subtle mist.
+
+> Create a confident, energetic voiceover for this 20-second launch script. Use a natural conversational delivery.
+
+The agent selects the appropriate KIE tool, checks the model parameters, uploads references directly to KIE when needed, submits the task, and returns the finished result. If you do not specify a model or technical settings, ask the agent to choose sensible options for your goal and budget.
 
 ## Install in your AI app
 
