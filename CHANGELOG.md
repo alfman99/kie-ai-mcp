@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0 - 2026-08-10
+
+- Added parallel submission for up to 16 independent Seedance video jobs and parallel status checks for up to 32 KIE tasks.
+- Added standard MCP progress notifications with heartbeat updates, cancellation, request deadlines, and retry rules for temporary status failures.
+- Added normalized friendly-tool results with structured task IDs, partial-failure handling, direct media links, and URL-derived MIME types.
+- Preserved accepted KIE task IDs when waiting fails, so users can resume a paid task without submitting it again.
+- Added Seedance 2 Fast and Seedance 2 Mini support, including a low-cost Mini smoke-test workflow.
+- Split friendly media tools, Market task submission, progress reporting, and result formatting into focused modules.
+
 ## 0.3.0 - 2026-08-07
 
 - Renamed the project and extension to KIE.AI MCP, with the `kie-ai-mcp` repository, package, server, and release-asset names.

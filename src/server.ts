@@ -5,16 +5,18 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { loadConfig, requireApiKey } from "./config.js";
 import { normalizeError } from "./errors.js";
+import { registerFriendlyTools } from "./friendly-tools.js";
 import { KieHttpClient } from "./http.js";
+import { createMarketTask } from "./market.js";
 import {
   findProductOperation,
   getProductOperationSchema,
   productOperations,
   validateProductOperationInput
 } from "./products.js";
-import { findMarketModel, loadCatalogRegistry, summarizeMarketModel, validateMarketInput } from "./registry.js";
+import { findMarketModel, loadCatalogRegistry, summarizeMarketModel } from "./registry.js";
 import { getMarketTask, waitForMarketTask } from "./task.js";
-import type { KieConfig, MarketModelRecord } from "./types.js";
+import type { KieConfig } from "./types.js";
 import { verifyWebhookSignature } from "./webhook.js";
 
 type ToolResult = {
@@ -23,14 +25,6 @@ type ToolResult = {
 };
 
 const JsonRecordSchema = z.record(z.string(), z.unknown());
-const GptImage2ModelSchema = z.enum([
-  "gpt-image-2-text-to-image",
-  "gpt-image-2-image-to-image"
-]);
-const SeedanceVideoModelSchema = z.enum([
-  "bytedance/seedance-2",
-  "bytedance/seedance-2-5"
-]);
 const UploadPathSchema = z
   .string()
   .min(1)
@@ -133,184 +127,20 @@ function makeClient(config: KieConfig, fetchImpl?: typeof fetch): KieHttpClient 
   return new KieHttpClient(config, fetchImpl);
 }
 
-function extractTaskId(payload: unknown): string | undefined {
-  if (!payload || typeof payload !== "object") {
-    return undefined;
-  }
-
-  const envelope = payload as Record<string, unknown>;
-  const data = envelope.data && typeof envelope.data === "object" ? (envelope.data as Record<string, unknown>) : undefined;
-  const directCandidates = [envelope.taskId, envelope.task_id, data?.taskId, data?.task_id, data?.id];
-  const taskId = directCandidates.find((candidate) => typeof candidate === "string" && candidate.length > 0);
-  return typeof taskId === "string" ? taskId : undefined;
-}
-
-async function createMarketTask(args: {
-  client: KieHttpClient;
-  model: string;
-  input: Record<string, unknown>;
-  callBackUrl?: string;
-  validateKnownModel?: boolean;
-  marketModels: MarketModelRecord[];
-}): Promise<unknown> {
-  if (args.validateKnownModel ?? true) {
-    validateMarketInput(args.model, args.input, args.marketModels);
-  }
-
-  return args.client.requestJson({
-    method: "POST",
-    path: "/api/v1/jobs/createTask",
-    body: {
-      model: args.model,
-      ...(args.callBackUrl ? { callBackUrl: args.callBackUrl } : {}),
-      input: args.input
-    }
-  });
-}
-
-async function createAndMaybeWaitForMarketTask(args: {
-  client: KieHttpClient;
-  config: KieConfig;
-  kind: "image" | "video" | "speech";
-  model: string;
-  input: Record<string, unknown>;
-  callBackUrl?: string;
-  waitForResult: boolean;
-  intervalMs?: number;
-  timeoutMs?: number;
-  marketModels: MarketModelRecord[];
-}): Promise<Record<string, unknown>> {
-  const createTask = await createMarketTask({
-    client: args.client,
-    model: args.model,
-    input: args.input,
-    callBackUrl: args.callBackUrl,
-    marketModels: args.marketModels
-  });
-  const taskId = extractTaskId(createTask);
-  const base = {
-    kind: args.kind,
-    model: args.model,
-    input: args.input,
-    taskId,
-    createTask
-  };
-
-  if (!args.waitForResult) {
-    return {
-      ...base,
-      status: "submitted",
-      nextStep: taskId ? "Call kie_get_creation or kie_market_wait_for_task with this taskId to retrieve the result." : undefined
-    };
-  }
-
-  if (!taskId) {
-    return {
-      ...base,
-      status: "submitted_without_task_id",
-      warning: "KIE accepted the task request, but this server could not find a taskId in the response."
-    };
-  }
-
-  return {
-    ...base,
-    status: "waited",
-    result: await waitForMarketTask({
-      client: args.client,
-      taskId,
-      intervalMs: args.intervalMs ?? args.config.pollIntervalMs,
-      timeoutMs: args.timeoutMs ?? args.config.pollTimeoutMs
-    })
-  };
-}
-
-function validateGptImage2Combination(model: string, input: Record<string, unknown>): void {
-  const inputUrls = Array.isArray(input.input_urls) ? input.input_urls : [];
-  if (model === "gpt-image-2-text-to-image" && inputUrls.length > 0) {
-    throw new Error("gpt-image-2-text-to-image does not accept inputUrls; use gpt-image-2-image-to-image.");
-  }
-  if (model === "gpt-image-2-image-to-image" && inputUrls.length === 0) {
-    throw new Error("gpt-image-2-image-to-image requires at least one inputUrls entry.");
-  }
-
-  const aspectRatio = input.aspect_ratio;
-  const resolution = input.resolution;
-  if (resolution === "4K" && aspectRatio === "1:1") {
-    throw new Error("GPT Image 2 does not support 4K output at a 1:1 aspect ratio.");
-  }
-  if (resolution !== "1K" && aspectRatio === "auto") {
-    throw new Error('GPT Image 2 only supports resolution "1K" when aspectRatio is "auto".');
-  }
-  if (
-    model === "gpt-image-2-text-to-image" &&
-    resolution !== "1K" &&
-    ["5:4", "4:5", "3:1", "1:3", "9:21"].includes(String(aspectRatio))
-  ) {
-    throw new Error(`GPT Image 2 text-to-image does not support ${String(aspectRatio)} at ${String(resolution)}.`);
-  }
-  if (
-    model === "gpt-image-2-image-to-image" &&
-    resolution !== "1K" &&
-    ["5:4", "4:5"].includes(String(aspectRatio))
-  ) {
-    throw new Error(`GPT Image 2 image-to-image only supports ${String(aspectRatio)} at 1K.`);
-  }
-}
-
-function validateSeedanceCombination(model: string, input: Record<string, unknown>): void {
-  const label = model === "bytedance/seedance-2-5" ? "Seedance 2.5" : "Seedance 2";
-  const hasFrames = Boolean(input.first_frame_url || input.last_frame_url);
-  const hasReferences = ["reference_image_urls", "reference_video_urls", "reference_audio_urls"].some(
-    (field) => Array.isArray(input[field]) && input[field].length > 0
-  );
-  if (input.last_frame_url && !input.first_frame_url) {
-    throw new Error(`${label} lastFrameUrl requires firstFrameUrl.`);
-  }
-  if (hasFrames && hasReferences) {
-    throw new Error(
-      `${label} frame-based and multimodal-reference modes are mutually exclusive; use first/last frames or reference media, not both.`
-    );
-  }
-
-  const duration = Number(input.duration);
-  const resolution = String(input.resolution);
-  const prompt = String(input.prompt ?? "");
-  const referenceImages = Array.isArray(input.reference_image_urls) ? input.reference_image_urls.length : 0;
-  const referenceVideos = Array.isArray(input.reference_video_urls) ? input.reference_video_urls.length : 0;
-  const referenceAudio = Array.isArray(input.reference_audio_urls) ? input.reference_audio_urls.length : 0;
-
-  if (model === "bytedance/seedance-2-5") {
-    if (prompt.length > 5000) {
-      throw new Error("Seedance 2.5 prompt must be at most 5000 characters.");
-    }
-    if (!["480p", "720p"].includes(resolution)) {
-      throw new Error("Seedance 2.5 resolution must be 480p or 720p.");
-    }
-    if (duration !== -1 && (duration < 4 || duration > 30)) {
-      throw new Error("Seedance 2.5 duration must be -1 (automatic) or between 4 and 30 seconds.");
-    }
-    return;
-  }
-
-  if (duration === -1 || duration > 15) {
-    throw new Error("Seedance 2 duration must be between 4 and 15 seconds.");
-  }
-  if (input.output_format !== undefined) {
-    throw new Error("Seedance 2 does not accept outputFormat; use Seedance 2.5 for mp4 or mov selection.");
-  }
-  if (referenceImages > 9 || referenceVideos > 3 || referenceAudio > 3) {
-    throw new Error("Seedance 2 accepts at most 9 reference images, 3 reference videos, and 3 reference audios.");
-  }
-}
-
 export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?: typeof fetch): McpServer {
   const client = makeClient(config, fetchImpl);
   const catalogs = loadCatalogRegistry(config.docsDataDir);
   const { docsManifest, endpointMentionIndex, marketModels, openapiEndpointCatalog } = catalogs;
-  const server = new McpServer({
-    name: "kie-ai-mcp",
-    version: "0.2.1"
-  });
+  const server = new McpServer(
+    {
+      name: "kie-ai-mcp",
+      version: "0.4.0"
+    },
+    {
+      instructions:
+        "For normal media requests, prefer kie_create_image, kie_create_video, kie_create_speech, and kie_upload_media. For two or more independent videos, call kie_create_videos once with waitForResult false, then call kie_get_creations once with all returned task IDs. Use Seedance 2 Mini at 480p, 4 seconds, without audio for low-cost tests. Use Market and product API tools only when the friendly tools cannot satisfy an explicit advanced request. Return concise status, task IDs, and direct media links."
+    }
+  );
 
   addDocsResource(
     server,
@@ -358,219 +188,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
     config.docsDataDir
   );
 
-  server.registerTool(
-    "kie_create_image",
-    {
-      title: "Create Image With KIE",
-      description:
-        "Friendly image-generation tool for chat agents. Use this when the user asks to create, generate, render, or edit an image with KIE. Defaults to GPT Image 2 and can wait for the finished image result.",
-      inputSchema: {
-        prompt: z.string().min(1).max(20000).describe("Plain-language description of the image to create or edit."),
-        aspectRatio: z
-          .enum(["auto", "1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "3:1", "1:3", "21:9", "9:21"])
-          .default("1:1"),
-        resolution: z.enum(["1K", "2K", "4K"]).default("1K"),
-        inputUrls: z
-          .array(z.string().url())
-          .min(1)
-          .max(16)
-          .optional()
-          .describe("Optional source image URLs for GPT Image 2 image-to-image workflows."),
-        model: GptImage2ModelSchema.optional().describe(
-          "Optional GPT Image 2 mode. For other KIE models, use kie_market_create_task with that model's official schema."
-        ),
-        callBackUrl: z.string().url().optional(),
-        waitForResult: z.boolean().default(true).describe("When true, poll until KIE returns the final image result or timeout."),
-        intervalMs: z.number().int().positive().max(60000).optional(),
-        timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional(),
-        additionalInput: JsonRecordSchema.default({}).describe("Advanced KIE model input overrides.")
-      }
-    },
-    async ({ prompt, aspectRatio, resolution, inputUrls, model, callBackUrl, waitForResult, intervalMs, timeoutMs, additionalInput }) =>
-      safeTool(() => {
-        const selectedModel = model ?? (inputUrls && inputUrls.length > 0 ? "gpt-image-2-image-to-image" : "gpt-image-2-text-to-image");
-        const input = {
-          prompt,
-          ...(inputUrls && inputUrls.length > 0 ? { input_urls: inputUrls } : {}),
-          aspect_ratio: aspectRatio,
-          resolution,
-          ...additionalInput
-        };
-        validateGptImage2Combination(selectedModel, input);
-
-        return createAndMaybeWaitForMarketTask({
-          client,
-          config,
-          kind: "image",
-          model: selectedModel,
-          input,
-          callBackUrl,
-          waitForResult,
-          intervalMs,
-          timeoutMs,
-          marketModels
-        });
-      })
-  );
-
-  server.registerTool(
-    "kie_create_video",
-    {
-      title: "Create Video With KIE",
-      description:
-        "Friendly video-generation tool for chat agents. Use this when the user asks to create, generate, render, animate, or turn an image into a video with KIE. Supports Seedance 2.0 and 2.5, defaults to 2.0, and can wait for the finished video result.",
-      inputSchema: {
-        prompt: z.string().min(3).max(20000).describe("Plain-language description of the video, shot, motion, style, and subject."),
-        aspectRatio: z.enum(["1:1", "4:3", "3:4", "16:9", "9:16", "21:9", "adaptive"]).default("16:9"),
-        resolution: z.enum(["480p", "720p", "1080p", "4k"]).default("720p"),
-        duration: z
-          .union([z.literal(-1), z.number().int().min(4).max(30)])
-          .default(5)
-          .describe("Seedance 2: 4-15 seconds. Seedance 2.5: -1 for automatic duration or 4-30 seconds."),
-        generateAudio: z.boolean().default(true),
-        firstFrameUrl: z.string().url().optional(),
-        lastFrameUrl: z.string().url().optional(),
-        referenceImageUrls: z.array(z.string().url()).min(1).max(30).optional(),
-        referenceVideoUrls: z.array(z.string().url()).min(1).max(10).optional(),
-        referenceAudioUrls: z.array(z.string().url()).min(1).max(10).optional(),
-        outputFormat: z.enum(["mp4", "mov"]).optional().describe("Seedance 2.5 only."),
-        model: SeedanceVideoModelSchema
-          .default("bytedance/seedance-2")
-          .describe("Use Seedance 2.0 or 2.5. For other models, use kie_market_create_task."),
-        callBackUrl: z.string().url().optional(),
-        waitForResult: z.boolean().default(true).describe("When true, poll until KIE returns the final video result or timeout."),
-        intervalMs: z.number().int().positive().max(60000).optional(),
-        timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional(),
-        additionalInput: JsonRecordSchema.default({}).describe("Advanced KIE model input overrides.")
-      }
-    },
-    async ({
-      prompt,
-      aspectRatio,
-      resolution,
-      duration,
-      generateAudio,
-      firstFrameUrl,
-      lastFrameUrl,
-      referenceImageUrls,
-      referenceVideoUrls,
-      referenceAudioUrls,
-      outputFormat,
-      model,
-      callBackUrl,
-      waitForResult,
-      intervalMs,
-      timeoutMs,
-      additionalInput
-    }) =>
-      safeTool(() => {
-        const input = {
-          prompt,
-          aspect_ratio: aspectRatio,
-          resolution,
-          duration,
-          generate_audio: generateAudio,
-          ...(firstFrameUrl ? { first_frame_url: firstFrameUrl } : {}),
-          ...(lastFrameUrl ? { last_frame_url: lastFrameUrl } : {}),
-          ...(referenceImageUrls && referenceImageUrls.length > 0 ? { reference_image_urls: referenceImageUrls } : {}),
-          ...(referenceVideoUrls && referenceVideoUrls.length > 0 ? { reference_video_urls: referenceVideoUrls } : {}),
-          ...(referenceAudioUrls && referenceAudioUrls.length > 0 ? { reference_audio_urls: referenceAudioUrls } : {}),
-          ...(outputFormat ? { output_format: outputFormat } : {}),
-          ...additionalInput
-        };
-        validateSeedanceCombination(model, input);
-
-        return createAndMaybeWaitForMarketTask({
-          client,
-          config,
-          kind: "video",
-          model,
-          input,
-          callBackUrl,
-          waitForResult,
-          intervalMs,
-          timeoutMs,
-          marketModels
-        });
-      })
-  );
-
-  server.registerTool(
-    "kie_create_speech",
-    {
-      title: "Create Speech With KIE",
-      description:
-        "Friendly text-to-speech tool for chat agents. Use this when the user asks to create narration, voiceover, spoken audio, or speech with KIE.",
-      inputSchema: {
-        text: z.string().min(1).max(5000).describe("Text to turn into speech."),
-        voice: z.string().default("EkK5I93UQWFDigLMpZcX").describe("Official KIE/ElevenLabs voice ID."),
-        model: z
-          .literal("elevenlabs/text-to-speech-turbo-2-5")
-          .default("elevenlabs/text-to-speech-turbo-2-5")
-          .describe("This friendly tool uses ElevenLabs Turbo 2.5. For other models, use kie_market_create_task."),
-        languageCode: z
-          .string()
-          .regex(/^[a-z]{2}$/)
-          .optional()
-          .describe("Optional lowercase ISO 639-1 language code supported by Turbo 2.5, such as en or es."),
-        speed: z.number().min(0.7).max(1.2).default(1),
-        callBackUrl: z.string().url().optional(),
-        waitForResult: z.boolean().default(true),
-        intervalMs: z.number().int().positive().max(60000).optional(),
-        timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional(),
-        additionalInput: JsonRecordSchema.default({})
-      }
-    },
-    async ({ text, voice, model, languageCode, speed, callBackUrl, waitForResult, intervalMs, timeoutMs, additionalInput }) =>
-      safeTool(() => {
-        const input = {
-          text,
-          voice,
-          speed,
-          ...(languageCode ? { language_code: languageCode } : {}),
-          ...additionalInput
-        };
-
-        return createAndMaybeWaitForMarketTask({
-          client,
-          config,
-          kind: "speech",
-          model,
-          input,
-          callBackUrl,
-          waitForResult,
-          intervalMs,
-          timeoutMs,
-          marketModels
-        });
-      })
-  );
-
-  server.registerTool(
-    "kie_get_creation",
-    {
-      title: "Get KIE Creation",
-      description:
-        "Check or wait for a KIE creation task from kie_create_image, kie_create_video, kie_create_speech, or any Market createTask call.",
-      inputSchema: {
-        taskId: z.string().min(1),
-        waitForResult: z.boolean().default(true),
-        intervalMs: z.number().int().positive().max(60000).optional(),
-        timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional()
-      }
-    },
-    async ({ taskId, waitForResult, intervalMs, timeoutMs }) =>
-      safeTool(() =>
-        waitForResult
-          ? waitForMarketTask({
-              client,
-              taskId,
-              intervalMs: intervalMs ?? config.pollIntervalMs,
-              timeoutMs: timeoutMs ?? config.pollTimeoutMs
-            })
-          : getMarketTask(client, taskId)
-      )
-  );
+  registerFriendlyTools({ server, client, config, marketModels });
 
   server.registerTool(
     "kie_get_credits",
@@ -808,7 +426,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
         taskId: z.string().min(1)
       }
     },
-    async ({ taskId }) => safeTool(() => getMarketTask(client, taskId))
+    async ({ taskId }, extra) => safeTool(() => getMarketTask(client, taskId, extra.signal))
   );
 
   server.registerTool(
@@ -822,13 +440,14 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
         timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional()
       }
     },
-    async ({ taskId, intervalMs, timeoutMs }) =>
+    async ({ taskId, intervalMs, timeoutMs }, extra) =>
       safeTool(() =>
         waitForMarketTask({
           client,
           taskId,
           intervalMs: intervalMs ?? config.pollIntervalMs,
-          timeoutMs: timeoutMs ?? config.pollTimeoutMs
+          timeoutMs: timeoutMs ?? config.pollTimeoutMs,
+          signal: extra.signal
         })
       )
   );

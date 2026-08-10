@@ -42,6 +42,8 @@ describe("MCP server integration", () => {
 
   it("exposes the required tools and docs resources without KIE_API_KEY", async () => {
     const client = await connect();
+    expect(client.getInstructions()).toContain("prefer kie_create_image, kie_create_video, kie_create_speech, and kie_upload_media");
+    expect(client.getInstructions()).toContain("call kie_create_videos once with waitForResult false");
     const tools = await client.listTools();
     const toolNames = tools.tools.map((tool) => tool.name);
 
@@ -50,8 +52,10 @@ describe("MCP server integration", () => {
         "kie_check_configuration",
         "kie_create_image",
         "kie_create_video",
+        "kie_create_videos",
         "kie_create_speech",
         "kie_get_creation",
+        "kie_get_creations",
         "kie_get_local_catalogs",
         "kie_get_credits",
         "kie_get_download_url",
@@ -190,8 +194,10 @@ describe("MCP server integration", () => {
     });
 
     const text = firstTextContent(result);
-    expect(text).toContain('"kind": "image"');
-    expect(text).toContain('"taskId": "task_123"');
+    expect(text).toContain("image 1 | submitted | task task_123");
+    expect(result.structuredContent).toMatchObject({
+      generations: [{ kind: "image", taskId: "task_123", status: "submitted" }]
+    });
 
     const [url, init] = vi.mocked(fetchImpl).mock.calls[0];
     expect(String(url)).toBe("https://api.test/api/v1/jobs/createTask");
@@ -204,6 +210,47 @@ describe("MCP server integration", () => {
         resolution: "1K"
       }
     });
+  });
+
+  it("returns a direct media link from a completed friendly creation", async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ code: 200, msg: "success", data: { taskId: "task_done" } }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" }
+        })
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            code: 200,
+            msg: "success",
+            data: {
+              taskId: "task_done",
+              model: "gpt-image-2-text-to-image",
+              state: "success",
+              progress: 100,
+              resultJson: JSON.stringify({ resultUrls: ["https://example.com/task_done.png"] })
+            }
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        )
+      ) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const result = await client.callTool({
+      name: "kie_create_image",
+      arguments: { prompt: "A simple product image", waitForResult: true }
+    });
+
+    expect(result.isError).not.toBe(true);
+    expect(firstTextContent(result)).toContain("image 1 | success | task task_done");
+    expect(result.content).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "resource_link", uri: "https://example.com/task_done.png" })
+      ])
+    );
   });
 
   it("rejects invalid friendly-tool combinations before sending a billable request", async () => {
@@ -358,6 +405,255 @@ describe("MCP server integration", () => {
         output_format: "mov"
       }
     });
+  });
+
+  it("supports Seedance Mini for low-cost smoke tests and enforces its official limits", async () => {
+    const fetchImpl = vi.fn(async () =>
+      new Response(JSON.stringify({ code: 200, msg: "success", data: { taskId: "task_mini" } }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      })
+    ) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const result = await client.callTool({
+      name: "kie_create_video",
+      arguments: {
+        model: "bytedance/seedance-2-mini",
+        prompt: "A low-cost smoke test",
+        duration: 4,
+        resolution: "480p",
+        generateAudio: false,
+        waitForResult: false
+      }
+    });
+
+    expect(result.isError).not.toBe(true);
+    expect(JSON.parse(String(vi.mocked(fetchImpl).mock.calls[0][1]?.body))).toMatchObject({
+      model: "bytedance/seedance-2-mini",
+      input: { duration: 4, resolution: "480p", generate_audio: false }
+    });
+
+    const invalid = await client.callTool({
+      name: "kie_create_video",
+      arguments: {
+        model: "bytedance/seedance-2-mini",
+        prompt: "An invalid expensive smoke test",
+        resolution: "1080p",
+        waitForResult: false
+      }
+    });
+    expect(invalid.isError).toBe(true);
+    expect(firstTextContent(invalid)).toContain("Seedance 2 Mini resolution must be 480p or 720p");
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
+  });
+
+  it("submits independent video jobs in parallel and returns all task IDs", async () => {
+    const started: string[] = [];
+    const resolvers: Array<() => void> = [];
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as { input: { prompt: string } };
+      started.push(body.input.prompt);
+      await new Promise<void>((resolve) => resolvers.push(resolve));
+      return new Response(
+        JSON.stringify({ code: 200, msg: "success", data: { taskId: `task_${body.input.prompt}` } }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    }) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const resultPromise = client.callTool({
+      name: "kie_create_videos",
+      arguments: {
+        jobs: [
+          { label: "Reveal", prompt: "reveal", firstFrameUrl: "https://example.com/one.png" },
+          { label: "Install", prompt: "install", firstFrameUrl: "https://example.com/two.png" }
+        ],
+        waitForResult: false
+      }
+    });
+
+    await vi.waitFor(() => expect(started).toEqual(["reveal", "install"]));
+    resolvers.forEach((resolve) => resolve());
+    const result = await resultPromise;
+    const text = firstTextContent(result);
+    expect(text).toContain("Reveal | submitted | task task_reveal");
+    expect(text).toContain("Install | submitted | task task_install");
+    expect(result.structuredContent).toMatchObject({
+      generations: [{ taskId: "task_reveal" }, { taskId: "task_install" }]
+    });
+  });
+
+  it("collects generation results in parallel with normalized output and direct links", async () => {
+    const fetchImpl = vi.fn(async (url: string | URL | Request) => {
+      const taskId = new URL(String(url)).searchParams.get("taskId") ?? "unknown";
+      const extension = taskId.endsWith("video") ? "mp4" : "png";
+      return new Response(
+        JSON.stringify({
+          code: 200,
+          msg: "success",
+          data: {
+            taskId,
+            model: taskId.endsWith("video") ? "bytedance/seedance-2" : "gpt-image-2-text-to-image",
+            state: "success",
+            progress: 100,
+            resultJson: JSON.stringify({ resultUrls: [`https://example.com/${taskId}.${extension}`] })
+          }
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    }) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const result = await client.callTool({
+      name: "kie_get_creations",
+      arguments: {
+        taskIds: ["clip_video", "poster_image"],
+        labels: ["Hero clip", "Poster"],
+        waitForResult: false
+      }
+    });
+
+    expect(result.isError).not.toBe(true);
+    expect(result.structuredContent).toMatchObject({
+      title: "Creations",
+      summary: "2 complete · 0 failed · 0 in progress",
+      generations: [
+        { taskId: "clip_video", label: "Hero clip", kind: "video", status: "success" },
+        { taskId: "poster_image", label: "Poster", kind: "image", status: "success" }
+      ]
+    });
+    expect(result.content).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "resource_link", uri: "https://example.com/clip_video.mp4" }),
+        expect.objectContaining({ type: "resource_link", uri: "https://example.com/poster_image.png" })
+      ])
+    );
+    expect(firstTextContent(result)).toBe(
+      [
+        "2 complete · 0 failed · 0 in progress",
+        "1. Hero clip | success | task clip_video | bytedance/seedance-2 | https://example.com/clip_video.mp4",
+        "2. Poster | success | task poster_image | gpt-image-2-text-to-image | https://example.com/poster_image.png"
+      ].join("\n")
+    );
+    expect(vi.mocked(fetchImpl)).toHaveBeenCalledTimes(2);
+  });
+
+  it("keeps successful batch results when another task check fails", async () => {
+    const fetchImpl = vi.fn(async (url: string | URL | Request) => {
+      const taskId = new URL(String(url)).searchParams.get("taskId") ?? "unknown";
+      if (taskId === "broken_task") {
+        throw new Error("Temporary provider failure");
+      }
+      return new Response(
+        JSON.stringify({
+          code: 200,
+          msg: "success",
+          data: {
+            taskId,
+            model: "bytedance/seedance-2-mini",
+            state: "success",
+            resultJson: JSON.stringify({ resultUrls: [`https://example.com/${taskId}.mp4`] })
+          }
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    }) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const result = await client.callTool({
+      name: "kie_get_creations",
+      arguments: {
+        taskIds: ["good_task", "broken_task"],
+        labels: ["Good clip", "Broken clip"],
+        kinds: ["video", "video"],
+        waitForResult: false
+      }
+    });
+
+    expect(result.isError).not.toBe(true);
+    expect(result.structuredContent).toMatchObject({
+      summary: "1 complete · 1 failed · 0 in progress",
+      generations: [
+        { taskId: "good_task", status: "success", outputUrls: ["https://example.com/good_task.mp4"] },
+        { taskId: "broken_task", status: "error", outputUrls: [], error: "Temporary provider failure" }
+      ]
+    });
+    expect(result.content).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "resource_link", uri: "https://example.com/good_task.mp4" })
+      ])
+    );
+  });
+
+  it("sends standard MCP progress updates while waiting for a creation", async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({ code: 200, msg: "success", data: { taskId: "progress_task", state: "generating", progress: 40 } }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        )
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            code: 200,
+            msg: "success",
+            data: {
+              taskId: "progress_task",
+              state: "success",
+              progress: 100,
+              resultJson: JSON.stringify({ resultUrls: ["https://example.com/progress_task.mp4"] })
+            }
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        )
+      ) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+    const updates: Array<{ progress: number; total?: number; message?: string }> = [];
+
+    const result = await client.callTool(
+      {
+        name: "kie_get_creation",
+        arguments: { taskId: "progress_task", waitForResult: true }
+      },
+      undefined,
+      {
+        onprogress: (update: { progress: number; total?: number; message?: string }) => updates.push(update),
+        resetTimeoutOnProgress: true
+      }
+    );
+
+    expect(result.isError).not.toBe(true);
+    expect(updates.map((update) => update.progress)).toEqual([0, 40, 100]);
+    expect(updates.every((update) => update.total === 100)).toBe(true);
+    expect(updates.at(-1)?.message).toBe("Creation: success");
+  });
+
+  it("cancels an in-flight advanced Market wait", async () => {
+    let requestSignal: AbortSignal | undefined;
+    const fetchImpl = vi.fn((_url: URL | RequestInfo, init?: RequestInit) =>
+      new Promise<Response>((_resolve, reject) => {
+        requestSignal = init?.signal ?? undefined;
+        requestSignal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+      })
+    ) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+    const controller = new AbortController();
+    const call = client.callTool(
+      {
+        name: "kie_market_wait_for_task",
+        arguments: { taskId: "advanced_cancel", timeoutMs: 1_000 }
+      },
+      undefined,
+      { signal: controller.signal }
+    );
+
+    await vi.waitFor(() => expect(fetchImpl).toHaveBeenCalledTimes(1));
+    controller.abort();
+    await expect(call).rejects.toThrow();
+    await vi.waitFor(() => expect(requestSignal?.aborted).toBe(true));
   });
 
   it("exposes and enforces official product operation schemas before network access", async () => {

@@ -30,6 +30,7 @@ export type KieRequestOptions = {
   body?: unknown;
   headers?: Record<string, string>;
   requireApiKey?: boolean;
+  signal?: AbortSignal;
 };
 
 export type MarketModelField = {

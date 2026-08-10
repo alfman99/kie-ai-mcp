@@ -99,7 +99,8 @@ export class KieHttpClient {
 
     const init: RequestInit = {
       method: options.method ?? (options.body === undefined ? "GET" : "POST"),
-      headers
+      headers,
+      signal: options.signal
     };
 
     if (options.body !== undefined) {
