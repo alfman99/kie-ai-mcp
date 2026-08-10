@@ -32,7 +32,7 @@ For example:
 
 > Create a confident, energetic voiceover for this 20-second launch script. Use a natural conversational delivery.
 
-The agent selects the appropriate KIE tool, checks the model parameters, uploads references directly to KIE when needed, submits the task, and returns the finished result. If you do not specify a model or technical settings, ask the agent to choose sensible options for your goal and budget.
+The agent selects the appropriate KIE tool, checks the model parameters, uploads references directly to KIE when needed, submits the task, and returns a short result with the task ID and direct media link. Long-running calls send standard MCP progress updates when the AI client supports them. Temporary status-check failures retry automatically. If you do not specify a model or technical settings, ask the agent to choose sensible options for your goal and budget.
 
 ## Install in your AI app
 
@@ -54,6 +54,7 @@ ChatGPT in a web browser cannot launch a local MCP process. See the [compatibili
 - Choose among KIE image, video, and audio models.
 - Use reference images, first and last frames, video, or audio.
 - Send files directly through KIE's native upload service.
+- Submit independent videos together and keep successful results if one job fails.
 
 Read the [creator guide](docs/CREATOR_GUIDE.md) for the full [Higgsfield comparison](docs/CREATOR_GUIDE.md#comparison-with-higgsfield-mcp), [cost explanation](docs/CREATOR_GUIDE.md#costs), [privacy details](docs/CREATOR_GUIDE.md#privacy-and-safety), and [FAQ](docs/CREATOR_GUIDE.md#common-questions).
 

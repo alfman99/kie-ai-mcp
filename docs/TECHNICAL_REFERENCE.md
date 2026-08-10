@@ -117,12 +117,14 @@ External catalogs are validated at startup and are not hot-loaded. Restart the M
 ## Friendly creation tools
 
 - `kie_create_image`: create an image or edit from reference URLs.
-- `kie_create_video`: create Seedance 2.0 or 2.5 video from text, frames, image references, video references, or audio references.
+- `kie_create_video`: create one Seedance 2.0, Fast, Mini, or 2.5 video from text, frames, image references, video references, or audio references.
+- `kie_create_videos`: submit up to 16 independent Seedance video jobs in parallel.
 - `kie_create_speech`: create narration or voiceover.
-- `kie_get_creation`: retrieve or wait for a submitted creation.
+- `kie_get_creation`: retrieve or wait for one submitted creation with a normalized result.
+- `kie_get_creations`: retrieve or wait for up to 32 submitted creations in parallel while preserving partial success.
 - `kie_upload_media`: upload one local file, public URL, or base64 source through KIE.
 
-The friendly tools choose and format the relevant KIE task, submit it, and optionally wait for the final result. Advanced Market and product tools remain available for exact control.
+All friendly create and status tools return the same structured result shape with `taskIds`, normalized generations, and direct media links. Wait-enabled calls send standard MCP progress notifications when the client supports them. Status requests stop on cancellation or timeout and retry only temporary network, rate-limit, and server errors. Creation requests do not retry because a duplicate request can spend credits twice. Advanced Market and product tools remain available for exact control.
 
 ## Native media upload
 
