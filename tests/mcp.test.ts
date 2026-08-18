@@ -274,10 +274,10 @@ describe("MCP server integration", () => {
 
     const seedance25Result = await client.callTool({
       name: "kie_create_video",
-      arguments: { jobs: [{ model: "bytedance/seedance-2-5", prompt: "A bird takes flight", resolution: "1080p" }], waitForResult: false }
+      arguments: { jobs: [{ model: "bytedance/seedance-2-5", prompt: "A bird takes flight", resolution: "4k" }], waitForResult: false }
     });
     expect(seedance25Result.isError).toBe(true);
-    expect(firstTextContent(seedance25Result)).toContain("resolution must be 480p or 720p");
+    expect(firstTextContent(seedance25Result)).toContain('resolution must be one of "480p", "720p", "1080p"');
 
     const speechResult = await client.callTool({
       name: "kie_create_speech",
@@ -388,7 +388,7 @@ describe("MCP server integration", () => {
       arguments: { jobs: [{ model: "bytedance/seedance-2-mini", prompt: "An invalid expensive smoke test", resolution: "1080p" }], waitForResult: false }
     });
     expect(invalid.isError).toBe(true);
-    expect(firstTextContent(invalid)).toContain("Seedance 2 Mini resolution must be 480p or 720p");
+    expect(firstTextContent(invalid)).toContain('resolution must be one of "480p", "720p"');
     expect(fetchImpl).toHaveBeenCalledTimes(1);
   });
 
@@ -838,5 +838,57 @@ describe("MCP server integration", () => {
     expect(result.isError).toBe(true);
     expect(payload).toMatchObject({ category: "auth", retryable: false });
     expect(String(payload.nextStep)).toContain("KIE_API_KEY");
+  });
+
+  it("tracks official catalog limits instead of hardcoded copies of them", async () => {
+    const fetchImpl = vi.fn(async () =>
+      new Response(JSON.stringify({ code: 200, msg: "success", data: { taskId: "task_2_5" } }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      })
+    ) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    // KIE widened Seedance 2.5 to 1080p and to a 30000 character prompt. Both must be accepted.
+    const accepted = await client.callTool({
+      name: "kie_create_video",
+      arguments: {
+        jobs: [{ model: "bytedance/seedance-2-5", prompt: "A".repeat(25_000), resolution: "1080p" }],
+        waitForResult: false
+      }
+    });
+    expect(accepted.isError).not.toBe(true);
+    expect(JSON.parse(String(vi.mocked(fetchImpl).mock.calls[0][1]?.body))).toMatchObject({
+      model: "bytedance/seedance-2-5",
+      input: { resolution: "1080p" }
+    });
+
+    // The narrower per-model limits still apply, and still stop a billable request.
+    const rejected = await client.callTool({
+      name: "kie_create_video",
+      arguments: {
+        jobs: [{ model: "bytedance/seedance-2", prompt: "A".repeat(25_000) }],
+        waitForResult: false
+      }
+    });
+    expect(rejected.isError).toBe(true);
+    expect(firstTextContent(rejected)).toContain("at most 20000 character");
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
+  });
+
+  it("exposes newly published catalog models through the Market escape hatch", async () => {
+    const client = await connect();
+
+    const listed = await client.callTool({
+      name: "kie_market_list_models",
+      arguments: { search: "kling-3.0-omni", limit: 10 }
+    });
+    expect(firstTextContent(listed)).toContain("kling-3.0-omni/text-to-video");
+
+    const schema = await client.callTool({
+      name: "kie_market_get_model_schema",
+      arguments: { model: "grok-imagine-image-2-0/text-to-image" }
+    });
+    expect(firstTextContent(schema)).toContain("grok-imagine-image-2-0/text-to-image");
   });
 });

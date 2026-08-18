@@ -214,6 +214,8 @@ For verified client-specific setup, see [Client Compatibility](CLIENT_COMPATIBIL
 
 Known models are checked against fields, types, enums, limits, item counts, and URL formats extracted from the official documentation. Undocumented fields are rejected by default. Set `validateKnownModel` to `false` only as an explicit forward-compatibility escape hatch. Unknown models remain pass-through.
 
+The bundled catalog is the single source of truth for per-field limits. The friendly tools deliberately do not restate them: they only enforce cross-field rules that no JSON schema can express, such as "lastFrameUrl requires firstFrameUrl", the frame-versus-reference exclusivity, and the duration bounds KIE documents in prose. Anything a model schema already states — resolution and format enums, prompt length, reference-array sizes, fields a model does not accept — is validated straight from the catalog, so `npm run docs:update` is all that is needed to track an upstream change. A handful of models publish no input fields upstream; those stay pass-through rather than being blocked.
+
 ### Product APIs
 
 - `kie_product_list_operations`

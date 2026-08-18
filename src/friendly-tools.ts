@@ -26,7 +26,13 @@ const SeedanceVideoModelSchema = z.enum([
   "bytedance/seedance-2-5"
 ]);
 const VideoInputSchema = z.object({
-  prompt: z.string().min(3).max(20000).describe("Plain-language description of the video, shot, motion, style, and subject."),
+  prompt: z
+    .string()
+    .min(3)
+    .max(30000)
+    .describe(
+      "Plain-language description of the video, shot, motion, style, and subject. The per-model limit is enforced against the official catalog."
+    ),
   aspectRatio: z.enum(["1:1", "4:3", "3:4", "16:9", "9:16", "21:9", "adaptive"]).default("16:9"),
   resolution: z.enum(["480p", "720p", "1080p", "4k"]).default("720p"),
   duration: z.union([z.literal(-1), z.number().int().min(4).max(30)]).default(5),
@@ -153,6 +159,11 @@ function validateSeedanceCombination(model: string, input: Record<string, unknow
         : model === "bytedance/seedance-2-mini"
           ? "Seedance 2 Mini"
           : "Seedance 2";
+
+  // Only cross-field rules live here. Per-field limits (resolution and output_format enums,
+  // prompt length, reference-array sizes, fields a model does not accept) are validated against
+  // the official catalog by validateMarketInput, so they stay correct across catalog refreshes
+  // instead of drifting out of sync with hardcoded copies.
   const hasFrames = Boolean(input.first_frame_url || input.last_frame_url);
   const hasReferences = ["reference_image_urls", "reference_video_urls", "reference_audio_urls"].some(
     (field) => Array.isArray(input[field]) && input[field].length > 0
@@ -165,40 +176,18 @@ function validateSeedanceCombination(model: string, input: Record<string, unknow
       `${label} frame-based and multimodal-reference modes are mutually exclusive; use first/last frames or reference media, not both.`
     );
   }
+
+  // Duration bounds are documented in prose rather than in the model schema, so they have no
+  // catalog counterpart and must be checked here.
   const duration = Number(input.duration);
-  const resolution = String(input.resolution ?? "");
-  const prompt = String(input.prompt ?? "");
-  const referenceImages = Array.isArray(input.reference_image_urls) ? input.reference_image_urls.length : 0;
-  const referenceVideos = Array.isArray(input.reference_video_urls) ? input.reference_video_urls.length : 0;
-  const referenceAudio = Array.isArray(input.reference_audio_urls) ? input.reference_audio_urls.length : 0;
-  if (["bytedance/seedance-2-fast", "bytedance/seedance-2-mini"].includes(model)) {
-    if (!["480p", "720p"].includes(resolution)) {
-      throw new Error(`${label} resolution must be 480p or 720p.`);
-    }
-  }
-  if (model === "bytedance/seedance-2-mini" && input.return_last_frame !== undefined) {
-    throw new Error("Seedance 2 Mini does not accept return_last_frame.");
-  }
   if (model === "bytedance/seedance-2-5") {
-    if (prompt.length > 5000) {
-      throw new Error("Seedance 2.5 prompt must be at most 5000 characters.");
-    }
-    if (!["480p", "720p"].includes(resolution)) {
-      throw new Error("Seedance 2.5 resolution must be 480p or 720p.");
-    }
     if (duration !== -1 && (duration < 4 || duration > 30)) {
       throw new Error("Seedance 2.5 duration must be -1 or between 4 and 30 seconds.");
     }
     return;
   }
   if (duration === -1 || duration > 15) {
-    throw new Error("Seedance 2 duration must be between 4 and 15 seconds.");
-  }
-  if (input.output_format !== undefined) {
-    throw new Error("Seedance 2 does not accept outputFormat; use Seedance 2.5 for mp4 or mov selection.");
-  }
-  if (referenceImages > 9 || referenceVideos > 3 || referenceAudio > 3) {
-    throw new Error("Seedance 2 accepts at most 9 reference images, 3 reference videos, and 3 reference audios.");
+    throw new Error(`${label} duration must be between 4 and 15 seconds.`);
   }
 }
 
