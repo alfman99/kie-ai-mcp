@@ -1,6 +1,6 @@
 # KIE.AI Documentation Endpoint Index
 
-Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages.
+Generated 2026-08-18T09:52:42.236Z exclusively from official `docs.kie.ai` pages.
 
 ## `/api/4k-callback`
 
@@ -44,6 +44,9 @@ Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages
 - Mention: [GPT Image-1.5 - Text to Image](<https://docs.kie.ai/market/gpt-image/1-5-text-to-image.md>)
 - Mention: [GPT Image 2 - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md>)
 - Mention: [GPT Image-2 - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image.md>)
+- Mention: [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>)
+- Mention: [Grok Imagine Image 2.0 Segment Map](<https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md>)
+- Mention: [Grok Imagine Image 2.0 Text To Image](<https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md>)
 - Mention: [Grok Imagine Video 1.5 Preview](<https://docs.kie.ai/market/grok-imagine/1-5-preview.md>)
 - Mention: [Grok Imagine - Video Extend](<https://docs.kie.ai/market/grok-imagine/extend.md>)
 - Mention: [Grok Imagine - image to image](<https://docs.kie.ai/market/grok-imagine/image-to-image.md>)
@@ -81,6 +84,10 @@ Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages
 - Mention: [Kling V2.1 Standard](<https://docs.kie.ai/market/kling/v2-1-standard.md>)
 - Mention: [Kling - V2.5 Turbo Image to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-image-to-video-pro.md>)
 - Mention: [Kling - V2.5 Turbo Text to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-text-to-video-pro.md>)
+- Mention: [Kling 3.0 Omni  Image To Video](<https://docs.kie.ai/market/kling/v3-omni-image-to-video.md>)
+- Mention: [Kling 3.0 Omni Reference To Video](<https://docs.kie.ai/market/kling/v3-omni-reference-to-video.md>)
+- Mention: [Kling 3.0 Omni Text to Video](<https://docs.kie.ai/market/kling/v3-omni-text-to-video.md>)
+- Mention: [Kling 3.0 Omni Transformation](<https://docs.kie.ai/market/kling/v3-omni-transformation.md>)
 - Mention: [Kling - V3 Turbo Image to Video](<https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md>)
 - Mention: [Kling - V3 Turbo Text to Video](<https://docs.kie.ai/market/kling/v3-turbo-text-to-video.md>)
 - Mention: [Omnihuman 1.5](<https://docs.kie.ai/market/omnihuman-1-5.md>)
@@ -114,9 +121,9 @@ Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages
 - Mention: [Topaz - Image Upscale](<https://docs.kie.ai/market/topaz/image-upscale.md>)
 - Mention: [Topaz - Video Upscale](<https://docs.kie.ai/market/topaz/video-upscale.md>)
 - Mention: [Volcengine video to video lip sync](<https://docs.kie.ai/market/volcengine/video-to-video-lip-sync.md>)
-- Mention: [Wan - Image to Video](<https://docs.kie.ai/market/wan/2-2-a14b-image-to-video-turbo.md>)
+- Mention: [Wan - 2.2 A14B Image to Video Turbo](<https://docs.kie.ai/market/wan/2-2-a14b-image-to-video-turbo.md>)
 - Mention: [Wan - 2.2 A14B Speech to Video Turbo](<https://docs.kie.ai/market/wan/2-2-a14b-speech-to-video-turbo.md>)
-- Mention: [Wan - Text to Video](<https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md>)
+- Mention: [Wan - 2.2 A14B Text to Video Turbo](<https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md>)
 - Mention: [Wan - Animate Move](<https://docs.kie.ai/market/wan/2-2-animate-move.md>)
 - Mention: [Wan - Animate Replace](<https://docs.kie.ai/market/wan/2-2-animate-replace.md>)
 - Mention: [Wan 2.5 - Image to Video](<https://docs.kie.ai/market/wan/2-5-image-to-video.md>)
@@ -299,6 +306,9 @@ Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages
 - POST: [GPT Image-1.5 - Text to Image](<https://docs.kie.ai/market/gpt-image/1-5-text-to-image.md>)
 - POST: [GPT Image 2 - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md>)
 - POST: [GPT Image-2 - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image.md>)
+- POST: [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>)
+- POST: [Grok Imagine Image 2.0 Segment Map](<https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md>)
+- POST: [Grok Imagine Image 2.0 Text To Image](<https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md>)
 - POST: [Grok Imagine Video 1.5 Preview](<https://docs.kie.ai/market/grok-imagine/1-5-preview.md>)
 - POST: [Grok Imagine - Video Extend](<https://docs.kie.ai/market/grok-imagine/extend.md>)
 - POST: [Grok Imagine - image to image](<https://docs.kie.ai/market/grok-imagine/image-to-image.md>)
@@ -339,6 +349,10 @@ Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages
 - POST: [Kling V2.1 Standard](<https://docs.kie.ai/market/kling/v2-1-standard.md>)
 - POST: [Kling - V2.5 Turbo Image to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-image-to-video-pro.md>)
 - POST: [Kling - V2.5 Turbo Text to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-text-to-video-pro.md>)
+- POST: [Kling 3.0 Omni  Image To Video](<https://docs.kie.ai/market/kling/v3-omni-image-to-video.md>)
+- POST: [Kling 3.0 Omni Reference To Video](<https://docs.kie.ai/market/kling/v3-omni-reference-to-video.md>)
+- POST: [Kling 3.0 Omni Text to Video](<https://docs.kie.ai/market/kling/v3-omni-text-to-video.md>)
+- POST: [Kling 3.0 Omni Transformation](<https://docs.kie.ai/market/kling/v3-omni-transformation.md>)
 - POST: [Kling - V3 Turbo Image to Video](<https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md>)
 - POST: [Kling - V3 Turbo Text to Video](<https://docs.kie.ai/market/kling/v3-turbo-text-to-video.md>)
 - POST: [MiniMax H3 Image-to-Video](<https://docs.kie.ai/market/minimax-h3/image-to-video.md>)
@@ -376,9 +390,9 @@ Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages
 - POST: [Topaz - Image Upscale](<https://docs.kie.ai/market/topaz/image-upscale.md>)
 - POST: [Topaz - Video Upscale](<https://docs.kie.ai/market/topaz/video-upscale.md>)
 - POST: [Volcengine video to video lip sync](<https://docs.kie.ai/market/volcengine/video-to-video-lip-sync.md>)
-- POST: [Wan - Image to Video](<https://docs.kie.ai/market/wan/2-2-a14b-image-to-video-turbo.md>)
+- POST: [Wan - 2.2 A14B Image to Video Turbo](<https://docs.kie.ai/market/wan/2-2-a14b-image-to-video-turbo.md>)
 - POST: [Wan - 2.2 A14B Speech to Video Turbo](<https://docs.kie.ai/market/wan/2-2-a14b-speech-to-video-turbo.md>)
-- POST: [Wan - Text to Video](<https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md>)
+- POST: [Wan - 2.2 A14B Text to Video Turbo](<https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md>)
 - POST: [Wan - Animate Move](<https://docs.kie.ai/market/wan/2-2-animate-move.md>)
 - POST: [Wan - Animate Replace](<https://docs.kie.ai/market/wan/2-2-animate-replace.md>)
 - POST: [Wan 2.5 - Image to Video](<https://docs.kie.ai/market/wan/2-5-image-to-video.md>)
@@ -584,6 +598,10 @@ Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages
 - POST: [Gemini 3.6 Flash (openai)](<https://docs.kie.ai/40573330e0.md>)
 - POST: [Gemini 3.6 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-6-flash-openai.md>)
 
+## `/gemini-3-7-flash-openai/v1/chat/completions`
+
+- POST: [Gemini 3.7 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-7-flash-openai.md>)
+
 ## `/gemini-3-flash/v1/chat/completions`
 
 - POST: [Gemini 3 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-flash.md>)
@@ -605,6 +623,10 @@ Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages
 - POST: [Gemini 3.6 Flash](<https://docs.kie.ai/40573326e0.md>)
 - POST: [Gemini 3.6 Flash](<https://docs.kie.ai/market/gemini/gemini-3-6-flash.md>)
 
+## `/gemini/v1/models/gemini-3-7-flash:streamGenerateContent`
+
+- POST: [Gemini 3.7 Flash](<https://docs.kie.ai/market/gemini/gemini-3-7-flash.md>)
+
 ## `/gemini/v1/models/gemini-3-flash-v1betamodels:streamGenerateContent`
 
 - POST: [Gemini 3 Flash](<https://docs.kie.ai/market/gemini/gemini-3-flash-v1beta.md>)
@@ -617,3 +639,4 @@ Generated 2026-08-07T12:10:26.196Z exclusively from official `docs.kie.ai` pages
 
 - POST: [Grok 4.3](<https://docs.kie.ai/market/grok/grok-4-3.md>)
 - POST: [Grok 4.5](<https://docs.kie.ai/market/grok/grok-4-5.md>)
+- POST: [Grok 4.6](<https://docs.kie.ai/market/grok/grok-4-6.md>)

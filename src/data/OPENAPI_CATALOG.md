@@ -1,6 +1,6 @@
 # KIE.AI OpenAPI Catalog
 
-Generated 2026-08-07T12:10:26.196Z from official `docs.kie.ai` Markdown pages.
+Generated 2026-08-18T09:52:42.236Z from official `docs.kie.ai` Markdown pages.
 
 | Method | Path | Operation ID | Official source |
 | --- | --- | --- | --- |
@@ -66,6 +66,9 @@ Generated 2026-08-07T12:10:26.196Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | gpt-image-1-5-text-to-image | [GPT Image-1.5 - Text to Image](<https://docs.kie.ai/market/gpt-image/1-5-text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | gpt-image-2-image-to-image | [GPT Image 2 - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | gpt-image-2-text-to-image | [GPT Image-2 - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | grok-imagine-image-2-0-image-edit | [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>) |
+| POST | `/api/v1/jobs/createTask` | grok-imagine-image-2-segment-map | [Grok Imagine Image 2.0 Segment Map](<https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md>) |
+| POST | `/api/v1/jobs/createTask` | grok-imagine-image-2-0-text-to-image | [Grok Imagine Image 2.0 Text To Image](<https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | GrokImagineVideo15PreviewCreateTask | [Grok Imagine Video 1.5 Preview](<https://docs.kie.ai/market/grok-imagine/1-5-preview.md>) |
 | POST | `/api/v1/jobs/createTask` | grok-imagine-extend | [Grok Imagine - Video Extend](<https://docs.kie.ai/market/grok-imagine/extend.md>) |
 | POST | `/api/v1/jobs/createTask` | grok-imagine-image-to-image | [Grok Imagine - image to image](<https://docs.kie.ai/market/grok-imagine/image-to-image.md>) |
@@ -106,6 +109,10 @@ Generated 2026-08-07T12:10:26.196Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | kling-v2-1-standard | [Kling V2.1 Standard](<https://docs.kie.ai/market/kling/v2-1-standard.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v2-1-master-image-to-video | [Kling - V2.5 Turbo Image to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-image-to-video-pro.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v2-5-turbo-text-to-video-pro | [Kling - V2.5 Turbo Text to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-text-to-video-pro.md>) |
+| POST | `/api/v1/jobs/createTask` | kling-3.0-omni-image-to-video | [Kling 3.0 Omni  Image To Video](<https://docs.kie.ai/market/kling/v3-omni-image-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | kling-3.0-omni-reference-to-video | [Kling 3.0 Omni Reference To Video](<https://docs.kie.ai/market/kling/v3-omni-reference-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | kling-3.0-omni-text-to-video | [Kling 3.0 Omni Text to Video](<https://docs.kie.ai/market/kling/v3-omni-text-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | kling-3.0-omni-transformation | [Kling 3.0 Omni Transformation](<https://docs.kie.ai/market/kling/v3-omni-transformation.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v3-turbo-image-to-video | [Kling - V3 Turbo Image to Video](<https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v3-turbo-text-to-video | [Kling - V3 Turbo Text to Video](<https://docs.kie.ai/market/kling/v3-turbo-text-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | minimax-h3-image-to-video | [MiniMax H3 Image-to-Video](<https://docs.kie.ai/market/minimax-h3/image-to-video.md>) |
@@ -143,9 +150,9 @@ Generated 2026-08-07T12:10:26.196Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | topaz-image-upscale | [Topaz - Image Upscale](<https://docs.kie.ai/market/topaz/image-upscale.md>) |
 | POST | `/api/v1/jobs/createTask` | topaz-video-upscale | [Topaz - Video Upscale](<https://docs.kie.ai/market/topaz/video-upscale.md>) |
 | POST | `/api/v1/jobs/createTask` | volcengine-video-to-video-lip-sync | [Volcengine video to video lip sync](<https://docs.kie.ai/market/volcengine/video-to-video-lip-sync.md>) |
-| POST | `/api/v1/jobs/createTask` | wan-2-2-a14b-image-to-video-turbo | [Wan - Image to Video](<https://docs.kie.ai/market/wan/2-2-a14b-image-to-video-turbo.md>) |
+| POST | `/api/v1/jobs/createTask` | wan-2-2-a14b-image-to-video-turbo | [Wan - 2.2 A14B Image to Video Turbo](<https://docs.kie.ai/market/wan/2-2-a14b-image-to-video-turbo.md>) |
 | POST | `/api/v1/jobs/createTask` | wan-2-2-a14b-speech-to-video-turbo | [Wan - 2.2 A14B Speech to Video Turbo](<https://docs.kie.ai/market/wan/2-2-a14b-speech-to-video-turbo.md>) |
-| POST | `/api/v1/jobs/createTask` | wan-2-2-a14b-text-to-video-turbo | [Wan - Text to Video](<https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md>) |
+| POST | `/api/v1/jobs/createTask` | wan-2-2-a14b-text-to-video-turbo | [Wan - 2.2 A14B Text to Video Turbo](<https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md>) |
 | POST | `/api/v1/jobs/createTask` | wan-2-2-animate-move | [Wan - Animate Move](<https://docs.kie.ai/market/wan/2-2-animate-move.md>) |
 | POST | `/api/v1/jobs/createTask` | wan-2-2-animate-replace | [Wan - Animate Replace](<https://docs.kie.ai/market/wan/2-2-animate-replace.md>) |
 | POST | `/api/v1/jobs/createTask` | wan-2-5-image-to-video | [Wan 2.5 - Image to Video](<https://docs.kie.ai/market/wan/2-5-image-to-video.md>) |
@@ -214,13 +221,16 @@ Generated 2026-08-07T12:10:26.196Z from official `docs.kie.ai` Markdown pages.
 | POST | `/gemini-3-5-flash-openai/v1/chat/completions` | gemini-3-5-flash-chat-completions | [Gemini 3.5 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-5-flash-openai.md>) |
 | POST | `/gemini-3-6-flash-openai/v1/chat/completions` | gemini-3-6-flash-chat-completions | [Gemini 3.6 Flash (openai)](<https://docs.kie.ai/40573330e0.md>) |
 | POST | `/gemini-3-6-flash-openai/v1/chat/completions` | gemini-3-6-flash-chat-completions | [Gemini 3.6 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-6-flash-openai.md>) |
+| POST | `/gemini-3-7-flash-openai/v1/chat/completions` | gemini-3-7-flash-chat-completions | [Gemini 3.7 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-7-flash-openai.md>) |
 | POST | `/gemini-3-flash/v1/chat/completions` | gemini-3-flash-chat-completions | [Gemini 3 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-flash.md>) |
 | POST | `/gemini-3-pro/v1/chat/completions` | gemini-3-pro-chat-completions | [Gemini 3 Pro (openai)](<https://docs.kie.ai/market/gemini/gemini-3-pro.md>) |
 | POST | `/gemini-3.1-pro/v1/chat/completions` | gemini-3.1-pro-chat-completions | [Gemini 3.1 Pro (openai)](<https://docs.kie.ai/market/gemini/gemini-3-1-pro.md>) |
 | POST | `/gemini/v1/models/gemini-3-5-flash:streamGenerateContent` | gemini_3.5_flash | [Gemini 3.5 Flash](<https://docs.kie.ai/market/gemini/gemini-3-5-flash.md>) |
 | POST | `/gemini/v1/models/gemini-3-6-flash:streamGenerateContent` | gemini_3.6_flash | [Gemini 3.6 Flash](<https://docs.kie.ai/40573326e0.md>) |
 | POST | `/gemini/v1/models/gemini-3-6-flash:streamGenerateContent` | gemini_3.6_flash | [Gemini 3.6 Flash](<https://docs.kie.ai/market/gemini/gemini-3-6-flash.md>) |
+| POST | `/gemini/v1/models/gemini-3-7-flash:streamGenerateContent` | gemini_3_7_flash | [Gemini 3.7 Flash](<https://docs.kie.ai/market/gemini/gemini-3-7-flash.md>) |
 | POST | `/gemini/v1/models/gemini-3-flash-v1betamodels:streamGenerateContent` | gemini_3_flash_v1betamodels | [Gemini 3 Flash](<https://docs.kie.ai/market/gemini/gemini-3-flash-v1beta.md>) |
 | POST | `/gpt-5-2/v1/chat/completions` | gpt-5-2-chat-completions | [GPT 5.2](<https://docs.kie.ai/market/chat/gpt-5-2.md>) |
 | POST | `/grok/v1/responses` | grok/v1/responses | [Grok 4.3](<https://docs.kie.ai/market/grok/grok-4-3.md>) |
 | POST | `/grok/v1/responses` | grok/v1/responses | [Grok 4.5](<https://docs.kie.ai/market/grok/grok-4-5.md>) |
+| POST | `/grok/v1/responses` | grok/v1/responses | [Grok 4.6](<https://docs.kie.ai/market/grok/grok-4-6.md>) |

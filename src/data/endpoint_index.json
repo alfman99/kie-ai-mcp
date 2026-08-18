@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-07T12:10:26.196Z",
+  "generated_at": "2026-08-18T09:52:42.236Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -264,6 +264,27 @@
     {
       "method": "",
       "path": "/api/callback",
+      "title": "Grok Imagine Image 2.0 Image Edit",
+      "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md",
+      "file": "/market/grok-imagine-image-2-0/image-edit.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Grok Imagine Image 2.0 Segment Map",
+      "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md",
+      "file": "/market/grok-imagine-image-2-0/segment-map.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Grok Imagine Image 2.0 Text To Image",
+      "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md",
+      "file": "/market/grok-imagine-image-2-0/text-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
       "title": "Grok Imagine Video 1.5 Preview",
       "url": "https://docs.kie.ai/market/grok-imagine/1-5-preview.md",
       "file": "/market/grok-imagine/1-5-preview.md"
@@ -523,6 +544,34 @@
     {
       "method": "",
       "path": "/api/callback",
+      "title": "Kling 3.0 Omni  Image To Video",
+      "url": "https://docs.kie.ai/market/kling/v3-omni-image-to-video.md",
+      "file": "/market/kling/v3-omni-image-to-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Kling 3.0 Omni Reference To Video",
+      "url": "https://docs.kie.ai/market/kling/v3-omni-reference-to-video.md",
+      "file": "/market/kling/v3-omni-reference-to-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Kling 3.0 Omni Text to Video",
+      "url": "https://docs.kie.ai/market/kling/v3-omni-text-to-video.md",
+      "file": "/market/kling/v3-omni-text-to-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Kling 3.0 Omni Transformation",
+      "url": "https://docs.kie.ai/market/kling/v3-omni-transformation.md",
+      "file": "/market/kling/v3-omni-transformation.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
       "title": "Kling - V3 Turbo Image to Video",
       "url": "https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md",
       "file": "/market/kling/v3-turbo-image-to-video.md"
@@ -754,7 +803,7 @@
     {
       "method": "",
       "path": "/api/callback",
-      "title": "Wan - Image to Video",
+      "title": "Wan - 2.2 A14B Image to Video Turbo",
       "url": "https://docs.kie.ai/market/wan/2-2-a14b-image-to-video-turbo.md",
       "file": "/market/wan/2-2-a14b-image-to-video-turbo.md"
     },
@@ -768,7 +817,7 @@
     {
       "method": "",
       "path": "/api/callback",
-      "title": "Wan - Text to Video",
+      "title": "Wan - 2.2 A14B Text to Video Turbo",
       "url": "https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md",
       "file": "/market/wan/2-2-a14b-text-to-video-turbo.md"
     },
@@ -1461,6 +1510,27 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "Grok Imagine Image 2.0 Image Edit",
+      "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md",
+      "file": "/market/grok-imagine-image-2-0/image-edit.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Grok Imagine Image 2.0 Segment Map",
+      "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md",
+      "file": "/market/grok-imagine-image-2-0/segment-map.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Grok Imagine Image 2.0 Text To Image",
+      "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md",
+      "file": "/market/grok-imagine-image-2-0/text-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "Grok Imagine Video 1.5 Preview",
       "url": "https://docs.kie.ai/market/grok-imagine/1-5-preview.md",
       "file": "/market/grok-imagine/1-5-preview.md"
@@ -1741,6 +1811,34 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "Kling 3.0 Omni  Image To Video",
+      "url": "https://docs.kie.ai/market/kling/v3-omni-image-to-video.md",
+      "file": "/market/kling/v3-omni-image-to-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Kling 3.0 Omni Reference To Video",
+      "url": "https://docs.kie.ai/market/kling/v3-omni-reference-to-video.md",
+      "file": "/market/kling/v3-omni-reference-to-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Kling 3.0 Omni Text to Video",
+      "url": "https://docs.kie.ai/market/kling/v3-omni-text-to-video.md",
+      "file": "/market/kling/v3-omni-text-to-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Kling 3.0 Omni Transformation",
+      "url": "https://docs.kie.ai/market/kling/v3-omni-transformation.md",
+      "file": "/market/kling/v3-omni-transformation.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "Kling - V3 Turbo Image to Video",
       "url": "https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md",
       "file": "/market/kling/v3-turbo-image-to-video.md"
@@ -2000,7 +2098,7 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
-      "title": "Wan - Image to Video",
+      "title": "Wan - 2.2 A14B Image to Video Turbo",
       "url": "https://docs.kie.ai/market/wan/2-2-a14b-image-to-video-turbo.md",
       "file": "/market/wan/2-2-a14b-image-to-video-turbo.md"
     },
@@ -2014,7 +2112,7 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
-      "title": "Wan - Text to Video",
+      "title": "Wan - 2.2 A14B Text to Video Turbo",
       "url": "https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md",
       "file": "/market/wan/2-2-a14b-text-to-video-turbo.md"
     },
@@ -2608,6 +2706,13 @@
     },
     {
       "method": "POST",
+      "path": "/gemini-3-7-flash-openai/v1/chat/completions",
+      "title": "Gemini 3.7 Flash (openai)",
+      "url": "https://docs.kie.ai/market/gemini/gemini-3-7-flash-openai.md",
+      "file": "/market/gemini/gemini-3-7-flash-openai.md"
+    },
+    {
+      "method": "POST",
       "path": "/gemini-3-flash/v1/chat/completions",
       "title": "Gemini 3 Flash (openai)",
       "url": "https://docs.kie.ai/market/gemini/gemini-3-flash.md",
@@ -2650,6 +2755,13 @@
     },
     {
       "method": "POST",
+      "path": "/gemini/v1/models/gemini-3-7-flash:streamGenerateContent",
+      "title": "Gemini 3.7 Flash",
+      "url": "https://docs.kie.ai/market/gemini/gemini-3-7-flash.md",
+      "file": "/market/gemini/gemini-3-7-flash.md"
+    },
+    {
+      "method": "POST",
       "path": "/gemini/v1/models/gemini-3-flash-v1betamodels:streamGenerateContent",
       "title": "Gemini 3 Flash",
       "url": "https://docs.kie.ai/market/gemini/gemini-3-flash-v1beta.md",
@@ -2675,6 +2787,13 @@
       "title": "Grok 4.5",
       "url": "https://docs.kie.ai/market/grok/grok-4-5.md",
       "file": "/market/grok/grok-4-5.md"
+    },
+    {
+      "method": "POST",
+      "path": "/grok/v1/responses",
+      "title": "Grok 4.6",
+      "url": "https://docs.kie.ai/market/grok/grok-4-6.md",
+      "file": "/market/grok/grok-4-6.md"
     }
   ],
   "by_path": {
@@ -2943,6 +3062,27 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "Grok Imagine Image 2.0 Image Edit",
+        "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md",
+        "file": "/market/grok-imagine-image-2-0/image-edit.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Grok Imagine Image 2.0 Segment Map",
+        "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md",
+        "file": "/market/grok-imagine-image-2-0/segment-map.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Grok Imagine Image 2.0 Text To Image",
+        "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md",
+        "file": "/market/grok-imagine-image-2-0/text-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "Grok Imagine Video 1.5 Preview",
         "url": "https://docs.kie.ai/market/grok-imagine/1-5-preview.md",
         "file": "/market/grok-imagine/1-5-preview.md"
@@ -3202,6 +3342,34 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "Kling 3.0 Omni  Image To Video",
+        "url": "https://docs.kie.ai/market/kling/v3-omni-image-to-video.md",
+        "file": "/market/kling/v3-omni-image-to-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Kling 3.0 Omni Reference To Video",
+        "url": "https://docs.kie.ai/market/kling/v3-omni-reference-to-video.md",
+        "file": "/market/kling/v3-omni-reference-to-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Kling 3.0 Omni Text to Video",
+        "url": "https://docs.kie.ai/market/kling/v3-omni-text-to-video.md",
+        "file": "/market/kling/v3-omni-text-to-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Kling 3.0 Omni Transformation",
+        "url": "https://docs.kie.ai/market/kling/v3-omni-transformation.md",
+        "file": "/market/kling/v3-omni-transformation.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "Kling - V3 Turbo Image to Video",
         "url": "https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md",
         "file": "/market/kling/v3-turbo-image-to-video.md"
@@ -3433,7 +3601,7 @@
       {
         "method": "",
         "path": "/api/callback",
-        "title": "Wan - Image to Video",
+        "title": "Wan - 2.2 A14B Image to Video Turbo",
         "url": "https://docs.kie.ai/market/wan/2-2-a14b-image-to-video-turbo.md",
         "file": "/market/wan/2-2-a14b-image-to-video-turbo.md"
       },
@@ -3447,7 +3615,7 @@
       {
         "method": "",
         "path": "/api/callback",
-        "title": "Wan - Text to Video",
+        "title": "Wan - 2.2 A14B Text to Video Turbo",
         "url": "https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md",
         "file": "/market/wan/2-2-a14b-text-to-video-turbo.md"
       },
@@ -4196,6 +4364,27 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "Grok Imagine Image 2.0 Image Edit",
+        "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md",
+        "file": "/market/grok-imagine-image-2-0/image-edit.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Grok Imagine Image 2.0 Segment Map",
+        "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md",
+        "file": "/market/grok-imagine-image-2-0/segment-map.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Grok Imagine Image 2.0 Text To Image",
+        "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md",
+        "file": "/market/grok-imagine-image-2-0/text-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "Grok Imagine Video 1.5 Preview",
         "url": "https://docs.kie.ai/market/grok-imagine/1-5-preview.md",
         "file": "/market/grok-imagine/1-5-preview.md"
@@ -4476,6 +4665,34 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "Kling 3.0 Omni  Image To Video",
+        "url": "https://docs.kie.ai/market/kling/v3-omni-image-to-video.md",
+        "file": "/market/kling/v3-omni-image-to-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Kling 3.0 Omni Reference To Video",
+        "url": "https://docs.kie.ai/market/kling/v3-omni-reference-to-video.md",
+        "file": "/market/kling/v3-omni-reference-to-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Kling 3.0 Omni Text to Video",
+        "url": "https://docs.kie.ai/market/kling/v3-omni-text-to-video.md",
+        "file": "/market/kling/v3-omni-text-to-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Kling 3.0 Omni Transformation",
+        "url": "https://docs.kie.ai/market/kling/v3-omni-transformation.md",
+        "file": "/market/kling/v3-omni-transformation.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "Kling - V3 Turbo Image to Video",
         "url": "https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md",
         "file": "/market/kling/v3-turbo-image-to-video.md"
@@ -4735,7 +4952,7 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
-        "title": "Wan - Image to Video",
+        "title": "Wan - 2.2 A14B Image to Video Turbo",
         "url": "https://docs.kie.ai/market/wan/2-2-a14b-image-to-video-turbo.md",
         "file": "/market/wan/2-2-a14b-image-to-video-turbo.md"
       },
@@ -4749,7 +4966,7 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
-        "title": "Wan - Text to Video",
+        "title": "Wan - 2.2 A14B Text to Video Turbo",
         "url": "https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md",
         "file": "/market/wan/2-2-a14b-text-to-video-turbo.md"
       },
@@ -5422,6 +5639,15 @@
         "file": "/market/gemini/gemini-3-6-flash-openai.md"
       }
     ],
+    "/gemini-3-7-flash-openai/v1/chat/completions": [
+      {
+        "method": "POST",
+        "path": "/gemini-3-7-flash-openai/v1/chat/completions",
+        "title": "Gemini 3.7 Flash (openai)",
+        "url": "https://docs.kie.ai/market/gemini/gemini-3-7-flash-openai.md",
+        "file": "/market/gemini/gemini-3-7-flash-openai.md"
+      }
+    ],
     "/gemini-3-flash/v1/chat/completions": [
       {
         "method": "POST",
@@ -5474,6 +5700,15 @@
         "file": "/market/gemini/gemini-3-6-flash.md"
       }
     ],
+    "/gemini/v1/models/gemini-3-7-flash:streamGenerateContent": [
+      {
+        "method": "POST",
+        "path": "/gemini/v1/models/gemini-3-7-flash:streamGenerateContent",
+        "title": "Gemini 3.7 Flash",
+        "url": "https://docs.kie.ai/market/gemini/gemini-3-7-flash.md",
+        "file": "/market/gemini/gemini-3-7-flash.md"
+      }
+    ],
     "/gemini/v1/models/gemini-3-flash-v1betamodels:streamGenerateContent": [
       {
         "method": "POST",
@@ -5506,6 +5741,13 @@
         "title": "Grok 4.5",
         "url": "https://docs.kie.ai/market/grok/grok-4-5.md",
         "file": "/market/grok/grok-4-5.md"
+      },
+      {
+        "method": "POST",
+        "path": "/grok/v1/responses",
+        "title": "Grok 4.6",
+        "url": "https://docs.kie.ai/market/grok/grok-4-6.md",
+        "file": "/market/grok/grok-4-6.md"
       }
     ]
   }
