@@ -3,7 +3,7 @@
   "manifest_version": "0.4",
   "name": "kie-ai-mcp",
   "display_name": "KIE.AI MCP",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "description": "Create images, videos, edits, and voiceovers in Claude using flexible pay-as-you-go KIE credits.",
   "long_description": "A lower-cost, Higgsfield-style creative workflow inside Claude. Describe what you want, attach reference media when needed, and let Claude create with KIE's image, video, and speech models.",
   "author": {
@@ -74,27 +74,19 @@
   "tools": [
     {
       "name": "kie_create_image",
-      "description": "Create or edit an image from a prompt and optional references."
+      "description": "Create or edit one or more images in parallel from a single call."
     },
     {
       "name": "kie_create_video",
-      "description": "Create a video from text, images, video, or audio references."
-    },
-    {
-      "name": "kie_create_videos",
-      "description": "Submit independent video jobs in parallel and preserve every accepted task ID."
+      "description": "Create one or more videos in parallel from text, images, video, or audio references."
     },
     {
       "name": "kie_create_speech",
-      "description": "Create a voiceover or narration."
+      "description": "Create one or more voiceover lines in parallel."
     },
     {
       "name": "kie_get_creation",
-      "description": "Wait for or check a submitted creation."
-    },
-    {
-      "name": "kie_get_creations",
-      "description": "Wait for or check several submitted creations in parallel."
+      "description": "Wait for or check submitted creations and return their media links."
     },
     {
       "name": "kie_upload_media",

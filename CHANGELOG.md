@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.6.0 - 2026-08-18
+
+Breaking: the create tools now take a `jobs` array, and the batch variants added in 0.5.0 are gone.
+`kie_create_images`, `kie_create_videos`, and `kie_create_speeches` are folded into `kie_create_image`,
+`kie_create_video`, and `kie_create_speech`; `kie_get_creations` is folded into `kie_get_creation`,
+which now takes `taskIds`. One tool per media type, always parallel-shaped, so an agent has no
+single-versus-batch decision to get wrong and no reason to loop.
+
+- Cut the default tool surface from 25 tools and about 6,800 tokens of schema per model request to 11 tools and about 4,000. `KIE_TOOL_PROFILE=full` restores the advanced upload, Market status, product-API, webhook, and catalog tools.
+- Added `idempotencyKey` to every create tool. Reusing a key replays the original submission instead of paying for a second generation, and a duplicate arriving while the first is in flight joins it rather than racing it. Keys are scoped per job position, so two deliberately identical jobs in one call still produce two tasks.
+- Added an in-memory cache for finished tasks, so repeated status checks return instantly without touching the network.
+- Added `category`, `retryable`, and `nextStep` to every error, so automated callers branch on fields instead of parsing messages.
+- A call is now marked `isError` only when every job failed; a partial success stays a success with per-job error rows.
+- Rewrote the server instructions around the parallel-by-default workflow, idempotency, and the error contract.
+- Added a startup connection pre-warm so the first live call skips DNS, TCP, and the TLS handshake. Disable with `KIE_PREWARM_CONNECTION=false`.
+- Single-job progress messages now report the task status instead of a "1/1 finished" tally.
+- Added `KIE_TOOL_PROFILE`, `KIE_SUBMISSION_TTL_MS`, `KIE_RESULT_CACHE_TTL_MS`, and `KIE_PREWARM_CONNECTION`.
+
+## 0.5.0 - 2026-08-18
+
+- Removed the exponential backoff that was applied to healthy status polls. The cadence now ramps quickly to a steady interval and only eases for clearly long renders, cutting average result-detection lag from about 13s to about 1.4s and worst case from about 30s to under 4s on a typical video.
+- Added a fast first status re-check (about 0.6s) so short image and voice jobs are returned almost as soon as KIE finishes them.
+- Reserved exponential backoff for failures only, and honoured `Retry-After` when KIE rate limits a status check.
+- Added a per-request deadline so one stalled socket is retried instead of consuming the whole wait budget, and raised the transient-failure tolerance from three consecutive errors to six.
+- Added `kie_create_images` and `kie_create_speeches` for parallel submission of up to 16 independent image or voice jobs, closing the gap where only video had a parallel tool.
+- Kept batches alive when one job fails validation: the bad job is reported on its own row and the rest are still submitted.
+- Added jittered poll sleeps and a `KIE_MAX_CONCURRENT_REQUESTS` ceiling so parallel batches do not reach KIE in one synchronized burst.
+- Made progress notifications coalescing and non-blocking, so parallel poll loops no longer queue behind each other's client notifications.
+- Added `KIE_POLL_FIRST_DELAY_MS`, `KIE_POLL_MAX_INTERVAL_MS`, `KIE_POLL_EASE_AFTER_MS`, `KIE_REQUEST_TIMEOUT_MS`, and `KIE_MAX_CONCURRENT_REQUESTS`, and lowered the default `KIE_POLL_INTERVAL_MS` from 3000 to 2500.
+
 ## 0.4.0 - 2026-08-10
 
 - Added parallel submission for up to 16 independent Seedance video jobs and parallel status checks for up to 32 KIE tasks.
