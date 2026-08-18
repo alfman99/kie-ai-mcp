@@ -36,6 +36,25 @@ async function parseResponse(response: Response): Promise<unknown> {
   }
 }
 
+/** Parse a Retry-After header in either delta-seconds or HTTP-date form. */
+export function parseRetryAfterMs(headerValue: string | null): number | undefined {
+  if (!headerValue) {
+    return undefined;
+  }
+
+  const seconds = Number(headerValue.trim());
+  if (Number.isFinite(seconds) && seconds >= 0) {
+    return Math.round(seconds * 1000);
+  }
+
+  const dateMs = Date.parse(headerValue);
+  if (Number.isFinite(dateMs)) {
+    return Math.max(0, dateMs - Date.now());
+  }
+
+  return undefined;
+}
+
 function assertKieSuccess(response: Response, payload: unknown): void {
   const envelope = payload && typeof payload === "object" ? (payload as KieApiEnvelope) : undefined;
   const code = typeof envelope?.code === "number" ? envelope.code : undefined;
@@ -43,12 +62,97 @@ function assertKieSuccess(response: Response, payload: unknown): void {
 
   if (!response.ok || (code !== undefined && code !== 200) || success === false) {
     const msg = envelope?.msg ? String(envelope.msg) : response.statusText || "KIE API request failed";
+    const retryAfterMs = parseRetryAfterMs(response.headers?.get?.("retry-after") ?? null);
     throw new KieApiError(msg, {
       status: response.status,
       code,
+      ...(retryAfterMs !== undefined ? { retryAfterMs } : {}),
       response: payload
     });
   }
+}
+
+/**
+ * Strict counting semaphore. Batch tools fan out dozens of tasks, each polling on its own
+ * schedule; without a shared ceiling those bursts land on KIE at the same instant and earn
+ * 429s, which cost far more time than the queueing does.
+ */
+class RequestGate {
+  private active = 0;
+  private readonly waiters: Array<{ resolve: () => void; reject: (error: Error) => void }> = [];
+
+  constructor(private readonly limit: number) {}
+
+  async acquire(signal?: AbortSignal): Promise<void> {
+    if (this.limit <= 0 || this.active < this.limit) {
+      this.active += 1;
+      return;
+    }
+    if (signal?.aborted) {
+      throw new Error("Request cancelled before it reached KIE.");
+    }
+
+    await new Promise<void>((resolve, reject) => {
+      const waiter = {
+        resolve: () => {
+          signal?.removeEventListener("abort", onAbort);
+          resolve();
+        },
+        reject: (error: Error) => {
+          signal?.removeEventListener("abort", onAbort);
+          reject(error);
+        }
+      };
+      const onAbort = () => {
+        const index = this.waiters.indexOf(waiter);
+        if (index >= 0) {
+          this.waiters.splice(index, 1);
+        }
+        waiter.reject(new Error("Request cancelled before it reached KIE."));
+      };
+      signal?.addEventListener("abort", onAbort, { once: true });
+      this.waiters.push(waiter);
+    });
+  }
+
+  release(): void {
+    const next = this.waiters.shift();
+    if (next) {
+      // Hand the slot straight over so `active` never dips below the real in-flight count.
+      next.resolve();
+      return;
+    }
+    this.active = Math.max(0, this.active - 1);
+  }
+}
+
+/** Combine the caller signal with a per-request deadline without mutating either. */
+function requestSignal(
+  signal: AbortSignal | undefined,
+  timeoutMs: number | undefined
+): { signal: AbortSignal | undefined; cleanup: () => void } {
+  if (timeoutMs === undefined || timeoutMs <= 0) {
+    return { signal, cleanup: () => undefined };
+  }
+
+  const controller = new AbortController();
+  const onAbort = () => controller.abort(signal?.reason);
+  if (signal?.aborted) {
+    controller.abort(signal.reason);
+  } else {
+    signal?.addEventListener("abort", onAbort, { once: true });
+  }
+  const timer = setTimeout(
+    () => controller.abort(new Error(`KIE request exceeded its ${timeoutMs}ms deadline.`)),
+    timeoutMs
+  );
+  return {
+    signal: controller.signal,
+    cleanup: () => {
+      clearTimeout(timer);
+      signal?.removeEventListener("abort", onAbort);
+    }
+  };
 }
 
 async function resolveLocalUploadPath(filePath: string, configuredRoot?: string): Promise<string> {
@@ -82,7 +186,11 @@ async function resolveLocalUploadPath(filePath: string, configuredRoot?: string)
 }
 
 export class KieHttpClient {
-  constructor(private readonly config: KieConfig, private readonly fetchImpl: typeof fetch = fetch) {}
+  private readonly gate: RequestGate;
+
+  constructor(private readonly config: KieConfig, private readonly fetchImpl: typeof fetch = fetch) {
+    this.gate = new RequestGate(config.maxConcurrentRequests ?? 8);
+  }
 
   async requestJson<T = unknown>(options: KieRequestOptions): Promise<T> {
     const url = joinUrl(options.baseUrl ?? this.config.apiBaseUrl, options.path);
@@ -108,10 +216,19 @@ export class KieHttpClient {
       init.body = JSON.stringify(options.body);
     }
 
-    const response = await this.fetchImpl(url, init);
-    const payload = await parseResponse(response);
-    assertKieSuccess(response, payload);
-    return payload as T;
+    const deadline = requestSignal(options.signal, options.timeoutMs);
+    init.signal = deadline.signal;
+
+    await this.gate.acquire(options.signal);
+    try {
+      const response = await this.fetchImpl(url, init);
+      const payload = await parseResponse(response);
+      assertKieSuccess(response, payload);
+      return payload as T;
+    } finally {
+      this.gate.release();
+      deadline.cleanup();
+    }
   }
 
   async uploadFileStream(args: { filePath: string; uploadPath: string; fileName?: string }): Promise<unknown> {
@@ -126,14 +243,20 @@ export class KieHttpClient {
       form.set("fileName", args.fileName);
     }
 
-    const response = await this.fetchImpl(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        Accept: "application/json"
-      },
-      body: form
-    });
+    await this.gate.acquire();
+    let response: Response;
+    try {
+      response = await this.fetchImpl(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          Accept: "application/json"
+        },
+        body: form
+      });
+    } finally {
+      this.gate.release();
+    }
 
     const payload = await parseResponse(response);
     assertKieSuccess(response, payload);

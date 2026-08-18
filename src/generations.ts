@@ -13,7 +13,11 @@ export const GenerationViewSchema = z.object({
   progress: z.number().optional(),
   outputUrls: z.array(z.string().url()),
   error: z.string().optional(),
-  creditsConsumed: z.number().optional()
+  creditsConsumed: z.number().optional(),
+  deduplicated: z
+    .boolean()
+    .optional()
+    .describe("True when an idempotencyKey replayed an earlier submission instead of creating a new paid task.")
 });
 export type GenerationKind = z.infer<typeof GenerationKindSchema>;
 export type GenerationView = z.infer<typeof GenerationViewSchema>;
@@ -224,7 +228,11 @@ export function generationToolResult(generations: GenerationView[]): CallToolRes
       };
     })
   );
+  // When nothing survived, the call as a whole failed: say so with isError so an automated caller
+  // does not have to inspect every row to notice. A partial success stays a success.
+  const allFailed = generations.length > 0 && failed === generations.length;
   return {
+    ...(allFailed ? { isError: true as const } : {}),
     content: [{ type: "text" as const, text: [structuredContent.summary, ...resultLines].join("\n") }, ...mediaLinks],
     structuredContent
   };

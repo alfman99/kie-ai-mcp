@@ -23,7 +23,7 @@ describe("MCP server integration", () => {
     servers.length = 0;
   });
 
-  async function connect(fetchImpl?: typeof fetch) {
+  async function connect(fetchImpl?: typeof fetch, toolProfile: "standard" | "full" = "full") {
     const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
     const server = createKieMcpServer({
       apiKey: fetchImpl ? "test-key" : undefined,
@@ -31,7 +31,8 @@ describe("MCP server integration", () => {
       uploadBaseUrl: "https://upload.test",
       pollIntervalMs: 1,
       pollTimeoutMs: 100,
-      allowLocalFileUploads: false
+      allowLocalFileUploads: false,
+      toolProfile
     }, fetchImpl);
     const client = new Client({ name: "test-client", version: "0.0.0" });
     servers.push(server);
@@ -42,8 +43,9 @@ describe("MCP server integration", () => {
 
   it("exposes the required tools and docs resources without KIE_API_KEY", async () => {
     const client = await connect();
-    expect(client.getInstructions()).toContain("prefer kie_create_image, kie_create_video, kie_create_speech, and kie_upload_media");
-    expect(client.getInstructions()).toContain("call kie_create_videos once with waitForResult false");
+    expect(client.getInstructions()).toContain("each take a `jobs` array");
+    expect(client.getInstructions()).toContain("pass every pending task ID in one call");
+    expect(client.getInstructions()).toContain("pass idempotencyKey");
     const tools = await client.listTools();
     const toolNames = tools.tools.map((tool) => tool.name);
 
@@ -52,10 +54,8 @@ describe("MCP server integration", () => {
         "kie_check_configuration",
         "kie_create_image",
         "kie_create_video",
-        "kie_create_videos",
         "kie_create_speech",
         "kie_get_creation",
-        "kie_get_creations",
         "kie_get_local_catalogs",
         "kie_get_credits",
         "kie_get_download_url",
@@ -174,7 +174,8 @@ describe("MCP server integration", () => {
         uploadBaseUrl: "https://upload.test",
         pollIntervalMs: 1,
         pollTimeoutMs: 100,
-        allowLocalFileUploads: false
+        allowLocalFileUploads: false,
+        toolProfile: "full"
       },
       fetchImpl
     );
@@ -185,12 +186,7 @@ describe("MCP server integration", () => {
 
     const result = await client.callTool({
       name: "kie_create_image",
-      arguments: {
-        prompt: "A cinematic product photo of a chrome espresso machine",
-        aspectRatio: "1:1",
-        resolution: "1K",
-        waitForResult: false
-      }
+      arguments: { jobs: [{ prompt: "A cinematic product photo of a chrome espresso machine", aspectRatio: "1:1", resolution: "1K" }], waitForResult: false }
     });
 
     const text = firstTextContent(result);
@@ -241,7 +237,7 @@ describe("MCP server integration", () => {
 
     const result = await client.callTool({
       name: "kie_create_image",
-      arguments: { prompt: "A simple product image", waitForResult: true }
+      arguments: { jobs: [{ prompt: "A simple product image" }], waitForResult: true }
     });
 
     expect(result.isError).not.toBe(true);
@@ -264,47 +260,28 @@ describe("MCP server integration", () => {
 
     const imageResult = await client.callTool({
       name: "kie_create_image",
-      arguments: {
-        prompt: "A studio portrait",
-        aspectRatio: "1:1",
-        resolution: "4K",
-        waitForResult: false
-      }
+      arguments: { jobs: [{ prompt: "A studio portrait", aspectRatio: "1:1", resolution: "4K" }], waitForResult: false }
     });
     expect(imageResult.isError).toBe(true);
     expect(firstTextContent(imageResult)).toContain("does not support 4K output at a 1:1");
 
     const videoResult = await client.callTool({
       name: "kie_create_video",
-      arguments: {
-        prompt: "A bird takes flight",
-        firstFrameUrl: "https://example.com/first.png",
-        referenceImageUrls: ["https://example.com/reference.png"],
-        waitForResult: false
-      }
+      arguments: { jobs: [{ prompt: "A bird takes flight", firstFrameUrl: "https://example.com/first.png", referenceImageUrls: ["https://example.com/reference.png"] }], waitForResult: false }
     });
     expect(videoResult.isError).toBe(true);
     expect(firstTextContent(videoResult)).toContain("mutually exclusive");
 
     const seedance25Result = await client.callTool({
       name: "kie_create_video",
-      arguments: {
-        model: "bytedance/seedance-2-5",
-        prompt: "A bird takes flight",
-        resolution: "1080p",
-        waitForResult: false
-      }
+      arguments: { jobs: [{ model: "bytedance/seedance-2-5", prompt: "A bird takes flight", resolution: "1080p" }], waitForResult: false }
     });
     expect(seedance25Result.isError).toBe(true);
     expect(firstTextContent(seedance25Result)).toContain("resolution must be 480p or 720p");
 
     const speechResult = await client.callTool({
       name: "kie_create_speech",
-      arguments: {
-        text: "Read this sentence.",
-        speed: 1.3,
-        waitForResult: false
-      }
+      arguments: { jobs: [{ text: "Read this sentence.", speed: 1.3 }], waitForResult: false }
     });
     expect(speechResult.isError).toBe(true);
     expect(fetchImpl).not.toHaveBeenCalled();
@@ -321,26 +298,13 @@ describe("MCP server integration", () => {
 
     const videoResult = await client.callTool({
       name: "kie_create_video",
-      arguments: {
-        prompt: "A bird takes flight",
-        duration: 4,
-        firstFrameUrl: "https://example.com/first.png",
-        generateAudio: false,
-        waitForResult: false,
-        additionalInput: { return_last_frame: true, web_search: false }
-      }
+      arguments: { jobs: [{ prompt: "A bird takes flight", duration: 4, firstFrameUrl: "https://example.com/first.png", generateAudio: false, additionalInput: { return_last_frame: true, web_search: false } }], waitForResult: false }
     });
     expect(videoResult.isError).not.toBe(true);
 
     const speechResult = await client.callTool({
       name: "kie_create_speech",
-      arguments: {
-        text: "Read this sentence.",
-        languageCode: "en",
-        speed: 0.9,
-        waitForResult: false,
-        additionalInput: { stability: 0.6, timestamps: true }
-      }
+      arguments: { jobs: [{ text: "Read this sentence.", languageCode: "en", speed: 0.9, additionalInput: { stability: 0.6, timestamps: true } }], waitForResult: false }
     });
     expect(speechResult.isError).not.toBe(true);
 
@@ -381,15 +345,7 @@ describe("MCP server integration", () => {
 
     const result = await client.callTool({
       name: "kie_create_video",
-      arguments: {
-        model: "bytedance/seedance-2-5",
-        prompt: "A cinematic product reveal",
-        duration: 30,
-        resolution: "720p",
-        outputFormat: "mov",
-        referenceImageUrls: ["https://example.com/reference.png"],
-        waitForResult: false
-      }
+      arguments: { jobs: [{ model: "bytedance/seedance-2-5", prompt: "A cinematic product reveal", duration: 30, resolution: "720p", outputFormat: "mov", referenceImageUrls: ["https://example.com/reference.png"] }], waitForResult: false }
     });
 
     expect(result.isError).not.toBe(true);
@@ -418,14 +374,7 @@ describe("MCP server integration", () => {
 
     const result = await client.callTool({
       name: "kie_create_video",
-      arguments: {
-        model: "bytedance/seedance-2-mini",
-        prompt: "A low-cost smoke test",
-        duration: 4,
-        resolution: "480p",
-        generateAudio: false,
-        waitForResult: false
-      }
+      arguments: { jobs: [{ model: "bytedance/seedance-2-mini", prompt: "A low-cost smoke test", duration: 4, resolution: "480p", generateAudio: false }], waitForResult: false }
     });
 
     expect(result.isError).not.toBe(true);
@@ -436,12 +385,7 @@ describe("MCP server integration", () => {
 
     const invalid = await client.callTool({
       name: "kie_create_video",
-      arguments: {
-        model: "bytedance/seedance-2-mini",
-        prompt: "An invalid expensive smoke test",
-        resolution: "1080p",
-        waitForResult: false
-      }
+      arguments: { jobs: [{ model: "bytedance/seedance-2-mini", prompt: "An invalid expensive smoke test", resolution: "1080p" }], waitForResult: false }
     });
     expect(invalid.isError).toBe(true);
     expect(firstTextContent(invalid)).toContain("Seedance 2 Mini resolution must be 480p or 720p");
@@ -463,7 +407,7 @@ describe("MCP server integration", () => {
     const client = await connect(fetchImpl);
 
     const resultPromise = client.callTool({
-      name: "kie_create_videos",
+      name: "kie_create_video",
       arguments: {
         jobs: [
           { label: "Reveal", prompt: "reveal", firstFrameUrl: "https://example.com/one.png" },
@@ -506,7 +450,7 @@ describe("MCP server integration", () => {
     const client = await connect(fetchImpl);
 
     const result = await client.callTool({
-      name: "kie_get_creations",
+      name: "kie_get_creation",
       arguments: {
         taskIds: ["clip_video", "poster_image"],
         labels: ["Hero clip", "Poster"],
@@ -562,7 +506,7 @@ describe("MCP server integration", () => {
     const client = await connect(fetchImpl);
 
     const result = await client.callTool({
-      name: "kie_get_creations",
+      name: "kie_get_creation",
       arguments: {
         taskIds: ["good_task", "broken_task"],
         labels: ["Good clip", "Broken clip"],
@@ -616,7 +560,7 @@ describe("MCP server integration", () => {
     const result = await client.callTool(
       {
         name: "kie_get_creation",
-        arguments: { taskId: "progress_task", waitForResult: true }
+        arguments: { taskIds: ["progress_task"], waitForResult: true }
       },
       undefined,
       {
@@ -626,9 +570,10 @@ describe("MCP server integration", () => {
     );
 
     expect(result.isError).not.toBe(true);
-    expect(updates.map((update) => update.progress)).toEqual([0, 40, 100]);
+    expect(updates.map((update) => update.progress)).toEqual([0, 40, 100, 100]);
     expect(updates.every((update) => update.total === 100)).toBe(true);
-    expect(updates.at(-1)?.message).toBe("Creation: success");
+    expect(updates.map((update) => update.message)).toContain("Creation: success");
+    expect(updates.at(-1)?.message).toBe("Creation checks finished");
   });
 
   it("cancels an in-flight advanced Market wait", async () => {
@@ -686,5 +631,212 @@ describe("MCP server integration", () => {
     expect(invalidResult.isError).toBe(true);
     expect(firstTextContent(invalidResult)).toContain("body.model must be one of");
     expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
+  it("submits every job in one call in parallel", async () => {
+    const started: string[] = [];
+    const resolvers: Array<() => void> = [];
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as { input: { prompt: string } };
+      started.push(body.input.prompt);
+      await new Promise<void>((resolve) => resolvers.push(resolve));
+      return new Response(
+        JSON.stringify({ code: 200, msg: "success", data: { taskId: `task_${body.input.prompt}` } }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    }) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const resultPromise = client.callTool({
+      name: "kie_create_image",
+      arguments: {
+        jobs: [
+          { label: "Front", prompt: "front" },
+          { label: "Side", prompt: "side" }
+        ],
+        waitForResult: false
+      }
+    });
+
+    // Both requests are in flight before either resolves.
+    await vi.waitFor(() => expect(started).toEqual(["front", "side"]));
+    resolvers.forEach((resolve) => resolve());
+
+    expect((await resultPromise).structuredContent).toMatchObject({
+      generations: [{ taskId: "task_front", kind: "image" }, { taskId: "task_side", kind: "image" }]
+    });
+  });
+
+  it("keeps a batch alive when one job fails validation", async () => {
+    const submitted: string[] = [];
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as { input: { prompt: string } };
+      submitted.push(body.input.prompt);
+      return new Response(
+        JSON.stringify({ code: 200, msg: "success", data: { taskId: `task_${body.input.prompt}` } }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    }) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const result = await client.callTool({
+      name: "kie_create_video",
+      arguments: {
+        jobs: [
+          { label: "Good", prompt: "good" },
+          // lastFrameUrl without firstFrameUrl is rejected before submission.
+          { label: "Bad", prompt: "bad", lastFrameUrl: "https://example.com/last.png" },
+          { label: "Also good", prompt: "also-good" }
+        ],
+        waitForResult: false
+      }
+    });
+
+    expect(submitted).toEqual(["good", "also-good"]);
+    expect(result.isError).not.toBe(true);
+    expect(result.structuredContent).toMatchObject({
+      generations: [
+        { label: "Good", taskId: "task_good" },
+        { label: "Bad", taskId: "unavailable" },
+        { label: "Also good", taskId: "task_also-good" }
+      ]
+    });
+    expect(firstTextContent(result)).toContain("lastFrameUrl requires firstFrameUrl");
+  });
+
+  it("reports a tool error when every job in a call fails", async () => {
+    const client = await connect();
+
+    const result = await client.callTool({
+      name: "kie_create_video",
+      arguments: {
+        jobs: [{ prompt: "bad", lastFrameUrl: "https://example.com/last.png" }],
+        waitForResult: false
+      }
+    });
+
+    expect(result.isError).toBe(true);
+  });
+
+  it("does not pay twice when an automated step retries with the same idempotency key", async () => {
+    let creates = 0;
+    const fetchImpl = vi.fn(async (url: string | URL | Request) => {
+      const isCreate = String(url).includes("createTask");
+      if (isCreate) creates += 1;
+      return new Response(
+        JSON.stringify({ code: 200, msg: "success", data: { taskId: "task_once" } }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    }) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const call = () =>
+      client.callTool({
+        name: "kie_create_image",
+        arguments: {
+          jobs: [{ prompt: "a chrome espresso machine" }],
+          waitForResult: false,
+          idempotencyKey: "nightly-render-2026-08-18"
+        }
+      });
+
+    const first = await call();
+    const second = await call();
+
+    expect(creates).toBe(1);
+    expect(first.structuredContent).toMatchObject({ generations: [{ taskId: "task_once" }] });
+    // The replay is labelled, so an automated caller can tell it did not create new work.
+    expect(second.structuredContent).toMatchObject({ generations: [{ taskId: "task_once", deduplicated: true }] });
+  });
+
+  it("still submits both jobs when one call repeats a prompt without an idempotency key", async () => {
+    let creates = 0;
+    const fetchImpl = vi.fn(async (url: string | URL | Request) => {
+      if (String(url).includes("createTask")) creates += 1;
+      return new Response(
+        JSON.stringify({ code: 200, msg: "success", data: { taskId: `task_${creates}` } }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    }) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    await client.callTool({
+      name: "kie_create_image",
+      arguments: {
+        jobs: [{ prompt: "same prompt" }, { prompt: "same prompt" }],
+        waitForResult: false,
+        idempotencyKey: "variation-batch"
+      }
+    });
+
+    // Two deliberate variations of one prompt must stay two paid tasks.
+    expect(creates).toBe(2);
+  });
+
+  it("serves a finished task from memory instead of the network", async () => {
+    let statusCalls = 0;
+    const fetchImpl = vi.fn(async () => {
+      statusCalls += 1;
+      return new Response(
+        JSON.stringify({
+          code: 200,
+          msg: "success",
+          data: {
+            taskId: "task_done",
+            state: "success",
+            resultJson: JSON.stringify({ resultUrls: ["https://example.com/task_done.png"] })
+          }
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    }) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const args = { name: "kie_get_creation", arguments: { taskIds: ["task_done"], waitForResult: true } };
+    const first = await client.callTool(args);
+    const second = await client.callTool(args);
+
+    expect(statusCalls).toBe(1);
+    expect(second.structuredContent).toMatchObject({
+      generations: [{ taskId: "task_done", status: "success", outputUrls: ["https://example.com/task_done.png"] }]
+    });
+    expect(second).toMatchObject(first);
+  });
+
+  it("hides advanced escape-hatch tools on the default profile", async () => {
+    const client = await connect(undefined, "standard");
+    const names = (await client.listTools()).tools.map((tool) => tool.name);
+
+    expect(names).toEqual(
+      expect.arrayContaining([
+        "kie_create_image",
+        "kie_create_video",
+        "kie_create_speech",
+        "kie_get_creation",
+        "kie_upload_media",
+        "kie_market_create_task"
+      ])
+    );
+    expect(names).not.toContain("kie_product_api_call");
+    expect(names).not.toContain("kie_upload_file_base64");
+    expect(names).not.toContain("kie_market_wait_for_task");
+    expect(names.length).toBeLessThan(14);
+  });
+
+  it("returns machine-readable error categories automated callers can branch on", async () => {
+    const fetchImpl = vi.fn(async () =>
+      new Response(JSON.stringify({ code: 401, msg: "Bad API key" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" }
+      })
+    ) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+
+    const result = await client.callTool({ name: "kie_get_credits", arguments: {} });
+    const payload = JSON.parse(firstTextContent(result)) as Record<string, unknown>;
+
+    expect(result.isError).toBe(true);
+    expect(payload).toMatchObject({ category: "auth", retryable: false });
+    expect(String(payload.nextStep)).toContain("KIE_API_KEY");
   });
 });

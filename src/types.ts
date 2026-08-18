@@ -9,9 +9,35 @@ export type KieConfig = {
   webhookHmacKey?: string;
   pollIntervalMs: number;
   pollTimeoutMs: number;
+  /** Delay before the first status re-check, so short jobs are not held behind a full interval. */
+  pollFirstDelayMs?: number;
+  /** Ceiling the interval eases toward once a task is clearly long-running. */
+  pollMaxIntervalMs?: number;
+  /** Elapsed wait time after which the interval starts easing toward pollMaxIntervalMs. */
+  pollEaseAfterMs?: number;
+  /** Per-HTTP-request deadline, so one stalled socket cannot consume the whole wait budget. */
+  requestTimeoutMs?: number;
+  /** Cap on simultaneous in-flight KIE requests across all parallel tasks. */
+  maxConcurrentRequests?: number;
+  /** "standard" exposes the curated tool set; "full" adds the advanced escape-hatch tools. */
+  toolProfile?: "standard" | "full";
+  /** How long an idempotency key can replay its original submission. */
+  submissionTtlMs?: number;
+  /** How long a finished task result is served from memory instead of the network. */
+  resultCacheTtlMs?: number;
+  /** Open the API connection at startup so the first call skips the TLS handshake. */
+  prewarmConnection?: boolean;
   allowLocalFileUploads: boolean;
   localUploadRoot?: string;
   docsDataDir?: string;
+};
+
+export type KiePollPlan = {
+  intervalMs: number;
+  firstDelayMs: number;
+  maxIntervalMs: number;
+  easeAfterMs: number;
+  requestTimeoutMs: number;
 };
 
 export type KieApiEnvelope = {
@@ -31,6 +57,8 @@ export type KieRequestOptions = {
   headers?: Record<string, string>;
   requireApiKey?: boolean;
   signal?: AbortSignal;
+  /** Per-request deadline applied on top of any caller signal. */
+  timeoutMs?: number;
 };
 
 export type MarketModelField = {

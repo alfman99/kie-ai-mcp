@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { loadConfig, requireApiKey } from "./config.js";
+import { loadConfig, pollPlanFromConfig, requireApiKey } from "./config.js";
 import { normalizeError } from "./errors.js";
 import { registerFriendlyTools } from "./friendly-tools.js";
 import { KieHttpClient } from "./http.js";
@@ -15,6 +15,7 @@ import {
   validateProductOperationInput
 } from "./products.js";
 import { findMarketModel, loadCatalogRegistry, summarizeMarketModel } from "./registry.js";
+import { TaskStore } from "./task-store.js";
 import { getMarketTask, waitForMarketTask } from "./task.js";
 import type { KieConfig } from "./types.js";
 import { verifyWebhookSignature } from "./webhook.js";
@@ -129,16 +130,36 @@ function makeClient(config: KieConfig, fetchImpl?: typeof fetch): KieHttpClient 
 
 export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?: typeof fetch): McpServer {
   const client = makeClient(config, fetchImpl);
+  const advancedTools = config.toolProfile === "full";
+  const store = new TaskStore({
+    submissionTtlMs: config.submissionTtlMs ?? 30 * 60 * 1000,
+    resultTtlMs: config.resultCacheTtlMs ?? 30 * 60 * 1000,
+    maxEntries: 500
+  });
+  if (!fetchImpl && config.apiKey && config.prewarmConnection !== false) {
+    // Open the TLS connection while the client is still negotiating, so the first real call does
+    // not pay for DNS, TCP, and the handshake.
+    void fetch(config.apiBaseUrl, { method: "HEAD" }).catch(() => undefined);
+  }
   const catalogs = loadCatalogRegistry(config.docsDataDir);
   const { docsManifest, endpointMentionIndex, marketModels, openapiEndpointCatalog } = catalogs;
   const server = new McpServer(
     {
       name: "kie-ai-mcp",
-      version: "0.4.0"
+      version: "0.6.0"
     },
     {
-      instructions:
-        "For normal media requests, prefer kie_create_image, kie_create_video, kie_create_speech, and kie_upload_media. For two or more independent videos, call kie_create_videos once with waitForResult false, then call kie_get_creations once with all returned task IDs. Use Seedance 2 Mini at 480p, 4 seconds, without audio for low-cost tests. Use Market and product API tools only when the friendly tools cannot satisfy an explicit advanced request. Return concise status, task IDs, and direct media links."
+      instructions: [
+        "KIE media creation. Three create tools and one collect tool cover almost every request.",
+        "kie_create_image, kie_create_video, and kie_create_speech each take a `jobs` array. Put every independent asset in ONE call so they run in parallel. Never call a create tool repeatedly in a loop for independent assets.",
+        "kie_get_creation collects results: pass every pending task ID in one call, not one call per ID. Finished tasks are cached, so re-checking is free.",
+        "Videos take minutes, so kie_create_video returns task IDs immediately by default; collect them with kie_get_creation. Images and speech wait by default and usually return media URLs directly.",
+        "For automated or retryable steps, pass idempotencyKey. Retrying with the same key returns the original task instead of paying for a second generation.",
+        "Reference media must be a URL. Use kie_upload_media for local files or base64 data first.",
+        "For a low-cost smoke test use model bytedance/seedance-2-mini at 480p, 4 seconds, with generateAudio false.",
+        "Errors carry category, retryable, and nextStep fields. Branch on those instead of parsing messages: retry only when retryable is true, and never resubmit a create call after a timeout because the task is still running.",
+        "Market and product tools are advanced escape hatches for models the create tools do not cover. Return concise status, task IDs, and direct media links."
+      ].join(" ")
     }
   );
 
@@ -188,7 +209,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
     config.docsDataDir
   );
 
-  registerFriendlyTools({ server, client, config, marketModels });
+  registerFriendlyTools({ server, client, config, marketModels, store });
 
   server.registerTool(
     "kie_get_credits",
@@ -268,6 +289,9 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
       })
   );
 
+  // Advanced surface. kie_upload_media already covers URL, base64, and local-file uploads, so the
+  // three transport-specific tools only add tool-selection ambiguity on the default profile.
+  if (advancedTools) {
   server.registerTool(
     "kie_upload_file_from_url",
     {
@@ -334,6 +358,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
         return client.uploadFileStream({ filePath, uploadPath, fileName });
       })
   );
+  }
 
   server.registerTool(
     "kie_market_list_models",
@@ -417,6 +442,9 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
       )
   );
 
+  // Advanced surface. kie_get_creation covers status and waiting; the product and webhook tools
+  // are escape hatches that most callers never need.
+  if (advancedTools) {
   server.registerTool(
     "kie_market_get_task",
     {
@@ -426,7 +454,8 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
         taskId: z.string().min(1)
       }
     },
-    async ({ taskId }, extra) => safeTool(() => getMarketTask(client, taskId, extra.signal))
+    async ({ taskId }, extra) =>
+      safeTool(() => getMarketTask(client, taskId, extra.signal, pollPlanFromConfig(config).requestTimeoutMs))
   );
 
   server.registerTool(
@@ -441,15 +470,17 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
       }
     },
     async ({ taskId, intervalMs, timeoutMs }, extra) =>
-      safeTool(() =>
-        waitForMarketTask({
+      safeTool(() => {
+        const plan = pollPlanFromConfig(config, intervalMs);
+        return waitForMarketTask({
           client,
           taskId,
-          intervalMs: intervalMs ?? config.pollIntervalMs,
+          intervalMs: plan.intervalMs,
           timeoutMs: timeoutMs ?? config.pollTimeoutMs,
+          plan,
           signal: extra.signal
-        })
-      )
+        });
+      })
   );
 
   server.registerTool(
@@ -576,6 +607,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
           : {})
       }))
   );
+  }
 
   server.registerTool(
     "kie_check_configuration",
@@ -591,6 +623,10 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
         hasWebhookHmacKey: Boolean(config.webhookHmacKey),
         pollIntervalMs: config.pollIntervalMs,
         pollTimeoutMs: config.pollTimeoutMs,
+        pollPlan: pollPlanFromConfig(config),
+        maxConcurrentRequests: config.maxConcurrentRequests,
+        toolProfile: config.toolProfile ?? "standard",
+        cache: store.stats(),
         allowLocalFileUploads: config.allowLocalFileUploads,
         hasLocalUploadRoot: Boolean(config.localUploadRoot),
         docsCatalogSource: catalogs.source,

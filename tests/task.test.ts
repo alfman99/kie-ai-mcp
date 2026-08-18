@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { KieHttpClient } from "../src/http.js";
-import { getMarketTask, waitForMarketTask } from "../src/task.js";
+import { getMarketTask, healthyDelayMs, waitForMarketTask } from "../src/task.js";
 import type { KieConfig } from "../src/types.js";
 
 const config: KieConfig = {
@@ -174,5 +174,95 @@ describe("task helpers", () => {
       })
     ).rejects.toThrow("client cancelled the request");
     expect(vi.mocked(fetchImpl)).not.toHaveBeenCalled();
+  });
+});
+
+describe("poll scheduling", () => {
+  const plan = {
+    intervalMs: 2500,
+    firstDelayMs: 600,
+    maxIntervalMs: 8000,
+    easeAfterMs: 90_000,
+    requestTimeoutMs: 20_000
+  };
+
+  it("ramps quickly to the steady cadence so short jobs are not held back", () => {
+    expect(healthyDelayMs(plan, 1, 0)).toBe(600);
+    expect(healthyDelayMs(plan, 2, 600)).toBe(1200);
+    expect(healthyDelayMs(plan, 3, 1800)).toBe(2400);
+    expect(healthyDelayMs(plan, 4, 4200)).toBe(2500);
+  });
+
+  it("holds the steady cadence flat while a task is still running", () => {
+    const delays = [5, 10, 20, 30].map((poll) => healthyDelayMs(plan, poll, 60_000));
+    expect(delays).toEqual([2500, 2500, 2500, 2500]);
+  });
+
+  it("eases toward the ceiling only for clearly long renders, and never past it", () => {
+    expect(healthyDelayMs(plan, 40, 180_000)).toBe(3750);
+    expect(healthyDelayMs(plan, 80, 270_000)).toBe(5625);
+    expect(healthyDelayMs(plan, 200, 900_000)).toBe(8000);
+  });
+
+  it("never exceeds a caller-supplied interval override", () => {
+    const tight = { ...plan, intervalMs: 400, firstDelayMs: 400, maxIntervalMs: 400 };
+    expect(healthyDelayMs(tight, 1, 0)).toBe(400);
+    expect(healthyDelayMs(tight, 25, 600_000)).toBe(400);
+  });
+
+  it("keeps polling at the steady rate instead of backing off between healthy checks", async () => {
+    const fetchImpl = vi.fn(async () =>
+      jsonResponse({ code: 200, msg: "success", data: { status: "generating" } })
+    ) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+
+    await expect(
+      waitForMarketTask({ client, taskId: "task_steady", intervalMs: 20, timeoutMs: 300 })
+    ).rejects.toThrow("Timed out waiting for KIE task task_steady");
+
+    // A 1.5x backoff on healthy polls could only reach about six checks in this window.
+    expect(vi.mocked(fetchImpl).mock.calls.length).toBeGreaterThanOrEqual(10);
+  });
+
+  it("honours Retry-After when KIE rate limits a status check", async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ code: 429, msg: "Too many requests" }), {
+          status: 429,
+          headers: { "Content-Type": "application/json", "Retry-After": "0" }
+        })
+      )
+      .mockResolvedValueOnce(jsonResponse({ code: 200, msg: "success", data: { status: "success" } })) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+    const updates: Array<{ status: string; error?: string }> = [];
+
+    const result = await waitForMarketTask({
+      client,
+      taskId: "task_429",
+      intervalMs: 1,
+      timeoutMs: 500,
+      onProgress: (update) => {
+        updates.push(update);
+      }
+    });
+
+    expect(result).toMatchObject({ data: { status: "success" } });
+    expect(updates[0]).toMatchObject({ status: "retrying" });
+  });
+
+  it("survives more consecutive transient failures than the old three-strike limit", async () => {
+    const fetchImpl = vi.fn() as unknown as typeof fetch;
+    const mocked = vi.mocked(fetchImpl);
+    for (let attempt = 0; attempt < 4; attempt += 1) {
+      mocked.mockRejectedValueOnce(new Error("Temporary network failure"));
+    }
+    mocked.mockResolvedValueOnce(jsonResponse({ code: 200, msg: "success", data: { status: "success" } }));
+    const client = new KieHttpClient(config, fetchImpl);
+
+    const result = await waitForMarketTask({ client, taskId: "task_flaky", intervalMs: 1, timeoutMs: 2_000 });
+
+    expect(result).toMatchObject({ data: { status: "success" } });
+    expect(mocked.mock.calls.length).toBe(5);
   });
 });

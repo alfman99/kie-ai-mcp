@@ -22,45 +22,51 @@ export function createProgressReporter(context?: ProgressContext): ProgressRepor
   const progressToken = context?._meta?.progressToken;
   const sendNotification = context?.sendNotification;
   const signal = context?.signal;
-  let lastProgress = -1;
-  let pending = Promise.resolve();
+  let lastProgress = 0;
+  let latest: ProgressUpdate | undefined;
+  let draining = false;
 
+  /**
+   * Coalescing, non-blocking reporter. Batch tools share one reporter across every parallel
+   * task, so a strict FIFO queue would make each poll loop wait behind every other task's
+   * notification. Instead only the newest update is kept: one send is in flight, later callers
+   * drop their update into `latest` and return immediately.
+   */
   return async (update) => {
     if (progressToken === undefined || !sendNotification || signal?.aborted) return;
-    pending = pending.then(async () => {
-      if (signal?.aborted || update.progress < lastProgress) return;
-      lastProgress = update.progress;
-      try {
-        await sendNotification({
-          method: "notifications/progress",
-          params: { progressToken, ...update }
-        });
-      } catch {
-        // Progress is optional. A client notification failure must not fail a media task.
-      }
-    });
-    await pending;
-  };
-}
+    // Clamp rather than drop, so a message still reaches the client when progress dips.
+    latest = { ...update, progress: Math.max(lastProgress, update.progress) };
+    if (draining) return;
 
-export function reportMarketTaskProgress(
-  report: ProgressReporter,
-  update: MarketTaskProgress,
-  label: string
-): Promise<void> {
-  const progress = update.terminal ? 100 : Math.min(99, update.progress ?? Math.max(1, update.pollCount));
-  const message = update.terminal
-    ? `${label}: ${update.status}`
-    : `${label}: ${update.status}${update.progress !== undefined ? ` (${Math.round(update.progress)}%)` : ""}`;
-  return report({ progress, total: 100, message });
+    draining = true;
+    try {
+      while (latest && !signal?.aborted) {
+        const next = latest;
+        latest = undefined;
+        lastProgress = next.progress;
+        try {
+          await sendNotification({
+            method: "notifications/progress",
+            params: { progressToken, ...next }
+          });
+        } catch {
+          // Progress is optional. A client notification failure must not fail a media task.
+        }
+      }
+    } finally {
+      draining = false;
+    }
+  };
 }
 
 export function createBatchProgressTracker(args: {
   count: number;
   report: ProgressReporter;
+  label?: string;
 }): (index: number, update: MarketTaskProgress) => Promise<void> {
   const progress = Array.from({ length: args.count }, () => 0);
   const statuses = Array.from({ length: args.count }, () => "submitting");
+  const label = args.label ?? "Task";
 
   return async (index, update) => {
     statuses[index] = update.status;
@@ -70,10 +76,11 @@ export function createBatchProgressTracker(args: {
     const average = progress.reduce((sum, value) => sum + value, 0) / progress.length;
     const finished = progress.filter((value) => value === 100).length;
     const active = statuses.filter((status) => !isTerminalStatus(status)).length;
-    await args.report({
-      progress: Math.min(100, average),
-      total: 100,
-      message: `${finished}/${args.count} finished · ${active} active`
-    });
+    // A single job reads better as its own status than as a "1/1 finished" tally.
+    const message =
+      args.count === 1
+        ? `${label}: ${update.status}${update.progress !== undefined && !update.terminal ? ` (${Math.round(update.progress)}%)` : ""}`
+        : `${finished}/${args.count} finished · ${active} active`;
+    await args.report({ progress: Math.min(100, average), total: 100, message });
   };
 }

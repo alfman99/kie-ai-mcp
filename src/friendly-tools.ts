@@ -9,14 +9,12 @@ import {
   type GenerationKind,
   type GenerationView
 } from "./generations.js";
+import { pollPlanFromConfig } from "./config.js";
 import type { KieHttpClient } from "./http.js";
 import { createAndMaybeWaitForMarketTask } from "./market.js";
-import {
-  createBatchProgressTracker,
-  createProgressReporter,
-  reportMarketTaskProgress
-} from "./progress.js";
-import { getMarketTask, waitForMarketTask } from "./task.js";
+import { createBatchProgressTracker, createProgressReporter } from "./progress.js";
+import type { TaskStore } from "./task-store.js";
+import { getMarketTaskCached, waitForMarketTask, type MarketTaskProgress } from "./task.js";
 import type { KieConfig, MarketModelRecord } from "./types.js";
 
 const JsonRecordSchema = z.record(z.string(), z.unknown());
@@ -46,7 +44,69 @@ const VideoInputSchema = z.object({
 const VideoBatchJobSchema = VideoInputSchema.extend({
   label: z.string().min(1).max(120).optional()
 });
+type VideoJob = z.infer<typeof VideoBatchJobSchema>;
 type VideoInput = z.infer<typeof VideoInputSchema>;
+
+const ImageInputSchema = z.object({
+  prompt: z.string().min(1).max(20000),
+  aspectRatio: z
+    .enum(["auto", "1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "3:1", "1:3", "21:9", "9:21"])
+    .default("1:1"),
+  resolution: z.enum(["1K", "2K", "4K"]).default("1K"),
+  inputUrls: z.array(z.string().url()).min(1).max(16).optional(),
+  model: GptImage2ModelSchema.optional(),
+  callBackUrl: z.string().url().optional(),
+  additionalInput: JsonRecordSchema.default({})
+});
+const ImageBatchJobSchema = ImageInputSchema.extend({
+  label: z.string().min(1).max(120).optional()
+});
+type ImageJob = z.infer<typeof ImageBatchJobSchema>;
+type ImageInput = z.infer<typeof ImageInputSchema>;
+
+const SpeechInputSchema = z.object({
+  text: z.string().min(1).max(5000),
+  voice: z.string().default("EkK5I93UQWFDigLMpZcX"),
+  model: z.literal("elevenlabs/text-to-speech-turbo-2-5").default("elevenlabs/text-to-speech-turbo-2-5"),
+  languageCode: z.string().regex(/^[a-z]{2}$/).optional(),
+  speed: z.number().min(0.7).max(1.2).default(1),
+  callBackUrl: z.string().url().optional(),
+  additionalInput: JsonRecordSchema.default({})
+});
+const SpeechBatchJobSchema = SpeechInputSchema.extend({
+  label: z.string().min(1).max(120).optional()
+});
+type SpeechJob = z.infer<typeof SpeechBatchJobSchema>;
+type SpeechInput = z.infer<typeof SpeechInputSchema>;
+
+const WaitControlSchema = {
+  intervalMs: z.number().int().positive().max(60000).optional(),
+  timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional()
+};
+
+function imageModelFor(job: ImageInput): string {
+  return job.model ?? (job.inputUrls?.length ? "gpt-image-2-image-to-image" : "gpt-image-2-text-to-image");
+}
+
+function imageInput(job: ImageInput): Record<string, unknown> {
+  return {
+    prompt: job.prompt,
+    ...(job.inputUrls?.length ? { input_urls: job.inputUrls } : {}),
+    aspect_ratio: job.aspectRatio,
+    resolution: job.resolution,
+    ...job.additionalInput
+  };
+}
+
+function speechInput(job: SpeechInput): Record<string, unknown> {
+  return {
+    text: job.text,
+    voice: job.voice,
+    speed: job.speed,
+    ...(job.languageCode ? { language_code: job.languageCode } : {}),
+    ...job.additionalInput
+  };
+}
 
 function record(value: unknown): Record<string, unknown> | undefined {
   return value && typeof value === "object" && !Array.isArray(value)
@@ -167,8 +227,12 @@ function generationFromFriendlyResult(args: {
   const taskId = typeof args.result.taskId === "string" ? args.result.taskId : "unavailable";
   const model = typeof args.result.model === "string" ? args.result.model : undefined;
   const kind = args.result.kind === "speech" ? "audio" : args.result.kind === "image" ? "image" : "video";
+  const deduplicated = args.result.deduplicated === true ? { deduplicated: true } : {};
   if (args.result.result && taskId !== "unavailable") {
-    return generationFromTask({ taskId, payload: args.result.result, kind, prompt: args.prompt, label: args.label });
+    return {
+      ...generationFromTask({ taskId, payload: args.result.result, kind, prompt: args.prompt, label: args.label }),
+      ...deduplicated
+    };
   }
   const waitError = record(args.result.waitError);
   const error =
@@ -185,257 +249,271 @@ function generationFromFriendlyResult(args: {
     prompt: args.prompt,
     status: typeof args.result.status === "string" ? args.result.status : "submitted",
     outputUrls: [],
+    ...deduplicated,
     ...(error ? { error } : {})
   };
 }
+
+type BatchPlan<T> = {
+  jobs: T[];
+  kind: "image" | "video" | "speech";
+  label: (job: T) => string | undefined;
+  prompt: (job: T) => string;
+  model: (job: T) => string;
+  buildInput: (job: T) => Record<string, unknown>;
+  callBackUrl: (job: T) => string | undefined;
+};
+
+type PreparedJob<T> = {
+  job: T;
+  input?: Record<string, unknown>;
+  error?: unknown;
+};
+
+/**
+ * Validate every job first, then fan out the accepted ones together. A job that fails validation
+ * is reported on its own row instead of aborting the batch, so one bad prompt never wastes the
+ * round trip for the other fifteen.
+ */
+function prepareBatch<T>(
+  plan: BatchPlan<T>,
+  validate?: (model: string, input: Record<string, unknown>) => void
+): PreparedJob<T>[] {
+  return plan.jobs.map((job) => {
+    try {
+      const input = plan.buildInput(job);
+      validate?.(plan.model(job), input);
+      return { job, input };
+    } catch (error) {
+      return { job, error };
+    }
+  });
+}
+
+const BatchControlSchema = {
+  waitForResult: z
+    .boolean()
+    .default(true)
+    .describe("Wait for the finished media. Set false to return task IDs immediately and collect them later with kie_get_creation."),
+  idempotencyKey: z
+    .string()
+    .min(1)
+    .max(200)
+    .optional()
+    .describe(
+      "Stable key identifying this submission. Reuse the same key when retrying an automated step: the original task is returned instead of paying for a second generation."
+    ),
+  intervalMs: z.number().int().positive().max(60000).optional(),
+  timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional()
+};
 
 export function registerFriendlyTools(args: {
   server: McpServer;
   client: KieHttpClient;
   config: KieConfig;
   marketModels: MarketModelRecord[];
+  store: TaskStore;
 }): void {
-  const { server, client, config, marketModels } = args;
+  const { server, client, config, marketModels, store } = args;
 
-  server.registerTool(
-    "kie_create_image",
-    {
-      title: "Create Image With KIE",
-      description: "Create or edit an image with KIE. Returns a normalized task record and direct media links.",
-      inputSchema: {
-        prompt: z.string().min(1).max(20000),
-        aspectRatio: z.enum(["auto", "1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "3:1", "1:3", "21:9", "9:21"]).default("1:1"),
-        resolution: z.enum(["1K", "2K", "4K"]).default("1K"),
-        inputUrls: z.array(z.string().url()).min(1).max(16).optional(),
-        model: GptImage2ModelSchema.optional(),
-        callBackUrl: z.string().url().optional(),
-        waitForResult: z.boolean().default(true),
-        intervalMs: z.number().int().positive().max(60000).optional(),
-        timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional(),
-        additionalInput: JsonRecordSchema.default({})
-      },
-      outputSchema: GenerationResultSchema
-    },
-    async (
-      { prompt, aspectRatio, resolution, inputUrls, model, callBackUrl, waitForResult, intervalMs, timeoutMs, additionalInput },
-      extra
-    ) =>
-      safeGenerationTool(async () => {
-        const report = createProgressReporter(extra);
-        await report({ progress: 0, total: 100, message: "Submitting image generation" });
-        const selectedModel = model ?? (inputUrls?.length ? "gpt-image-2-image-to-image" : "gpt-image-2-text-to-image");
-        const input = {
-          prompt,
-          ...(inputUrls?.length ? { input_urls: inputUrls } : {}),
-          aspect_ratio: aspectRatio,
-          resolution,
-          ...additionalInput
-        };
-        validateGptImage2Combination(selectedModel, input);
-        const result = await createAndMaybeWaitForMarketTask({
-          client,
-          config,
-          kind: "image",
-          model: selectedModel,
-          input,
-          callBackUrl,
-          waitForResult,
-          intervalMs,
-          timeoutMs,
-          marketModels,
-          onProgress: (update) => reportMarketTaskProgress(report, update, "Image"),
-          signal: extra.signal
-        });
-        if (!waitForResult || result.status !== "waited") {
-          await report({ progress: 100, total: 100, message: waitForResult ? "Image wait stopped; task ID preserved" : "Image task submitted" });
-        }
-        return [generationFromFriendlyResult({ result, prompt })];
-      })
-  );
-
-  server.registerTool(
-    "kie_create_video",
-    {
-      title: "Create Video With KIE",
-      description: "Create one Seedance video. Use Mini at 480p for a low-cost smoke test.",
-      inputSchema: {
-        ...VideoInputSchema.shape,
-        waitForResult: z.boolean().default(true),
-        intervalMs: z.number().int().positive().max(60000).optional(),
-        timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional()
-      },
-      outputSchema: GenerationResultSchema
-    },
-    async ({ waitForResult, intervalMs, timeoutMs, ...job }, extra) =>
-      safeGenerationTool(async () => {
-        const report = createProgressReporter(extra);
-        await report({ progress: 0, total: 100, message: "Submitting video generation" });
-        const input = seedanceInput(job);
-        validateSeedanceCombination(job.model, input);
-        const result = await createAndMaybeWaitForMarketTask({
-          client,
-          config,
-          kind: "video",
-          model: job.model,
-          input,
-          callBackUrl: job.callBackUrl,
-          waitForResult,
-          intervalMs,
-          timeoutMs,
-          marketModels,
-          onProgress: (update) => reportMarketTaskProgress(report, update, "Video"),
-          signal: extra.signal
-        });
-        if (!waitForResult || result.status !== "waited") {
-          await report({ progress: 100, total: 100, message: waitForResult ? "Video wait stopped; task ID preserved" : "Video task submitted" });
-        }
-        return [generationFromFriendlyResult({ result, prompt: job.prompt })];
-      })
-  );
-
-  server.registerTool(
-    "kie_create_videos",
-    {
-      title: "Create KIE Videos In Parallel",
-      description: "Submit 1-16 independent Seedance jobs in parallel. Every accepted task ID is preserved.",
-      inputSchema: {
-        jobs: z.array(VideoBatchJobSchema).min(1).max(16),
-        waitForResult: z.boolean().default(false),
-        intervalMs: z.number().int().positive().max(60000).optional(),
-        timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional()
-      },
-      outputSchema: GenerationResultSchema,
-      annotations: { title: "Create KIE Videos In Parallel", readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true }
-    },
-    async ({ jobs, waitForResult, intervalMs, timeoutMs }, extra) =>
-      safeGenerationTool(async () => {
-        const report = createProgressReporter(extra);
-        const track = createBatchProgressTracker({ count: jobs.length, report });
-        await report({ progress: 0, total: 100, message: `Submitting ${jobs.length} video jobs in parallel` });
-        const prepared = jobs.map((job) => {
-          const input = seedanceInput(job);
-          validateSeedanceCombination(job.model, input);
-          return { job, input };
-        });
-        const settled = await Promise.allSettled(
-          prepared.map(({ job, input }, index) =>
-            createAndMaybeWaitForMarketTask({
+  /** Fan a prepared batch out in parallel; the HTTP client caps real concurrency. */
+  const runBatch = async <T>(bits: {
+    plan: BatchPlan<T>;
+    prepared: PreparedJob<T>[];
+    waitForResult: boolean;
+    idempotencyKey?: string;
+    intervalMs?: number;
+    timeoutMs?: number;
+    track: (index: number, update: MarketTaskProgress) => Promise<void>;
+    signal?: AbortSignal;
+  }): Promise<GenerationView[]> => {
+    const { plan, prepared } = bits;
+    const settled = await Promise.allSettled(
+      prepared.map(({ job, input, error }, index) =>
+        input === undefined
+          ? Promise.reject(error)
+          : createAndMaybeWaitForMarketTask({
               client,
               config,
-              kind: "video",
-              model: job.model,
+              kind: plan.kind,
+              model: plan.model(job),
               input,
-              callBackUrl: job.callBackUrl,
-              waitForResult,
-              intervalMs,
-              timeoutMs,
+              callBackUrl: plan.callBackUrl(job),
+              waitForResult: bits.waitForResult,
+              intervalMs: bits.intervalMs,
+              timeoutMs: bits.timeoutMs,
               marketModels,
-              onProgress: (update) => track(index, update),
-              signal: extra.signal
+              store,
+              // Each job in a batch is a distinct intentional submission, so the caller's key is
+              // scoped per position. Two identical prompts in one call still produce two tasks.
+              ...(bits.idempotencyKey ? { idempotencyKey: `${bits.idempotencyKey}#${index}` } : {}),
+              onProgress: (update) => bits.track(index, update),
+              signal: bits.signal
             })
-          )
-        );
-        const generations = settled.map((result, index) => {
-          const job = prepared[index].job;
-          return result.status === "fulfilled"
-            ? generationFromFriendlyResult({ result: result.value, prompt: job.prompt, label: job.label })
-            : failedGeneration({ taskId: "unavailable", error: result.reason, label: job.label, kind: "video", prompt: job.prompt });
-        });
-        await report({ progress: 100, total: 100, message: waitForResult ? "Video waits finished" : "Video jobs submitted" });
-        return generations;
-      })
-  );
+      )
+    );
 
-  server.registerTool(
-    "kie_create_speech",
-    {
-      title: "Create Speech With KIE",
-      description: "Create a voiceover or narration with ElevenLabs Turbo 2.5 through KIE.",
-      inputSchema: {
-        text: z.string().min(1).max(5000),
-        voice: z.string().default("EkK5I93UQWFDigLMpZcX"),
-        model: z.literal("elevenlabs/text-to-speech-turbo-2-5").default("elevenlabs/text-to-speech-turbo-2-5"),
-        languageCode: z.string().regex(/^[a-z]{2}$/).optional(),
-        speed: z.number().min(0.7).max(1.2).default(1),
-        callBackUrl: z.string().url().optional(),
-        waitForResult: z.boolean().default(true),
-        intervalMs: z.number().int().positive().max(60000).optional(),
-        timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional(),
-        additionalInput: JsonRecordSchema.default({})
-      },
-      outputSchema: GenerationResultSchema
-    },
-    async ({ text, voice, model, languageCode, speed, callBackUrl, waitForResult, intervalMs, timeoutMs, additionalInput }, extra) =>
-      safeGenerationTool(async () => {
-        const report = createProgressReporter(extra);
-        await report({ progress: 0, total: 100, message: "Submitting speech generation" });
-        const input = { text, voice, speed, ...(languageCode ? { language_code: languageCode } : {}), ...additionalInput };
-        const result = await createAndMaybeWaitForMarketTask({
-          client,
-          config,
-          kind: "speech",
-          model,
-          input,
-          callBackUrl,
-          waitForResult,
-          intervalMs,
-          timeoutMs,
-          marketModels,
-          onProgress: (update) => reportMarketTaskProgress(report, update, "Speech"),
-          signal: extra.signal
-        });
-        if (!waitForResult || result.status !== "waited") {
-          await report({ progress: 100, total: 100, message: waitForResult ? "Speech wait stopped; task ID preserved" : "Speech task submitted" });
+    return settled.map((result, index) => {
+      const job = prepared[index].job;
+      return result.status === "fulfilled"
+        ? generationFromFriendlyResult({ result: result.value, prompt: plan.prompt(job), label: plan.label(job) })
+        : failedGeneration({
+            taskId: "unavailable",
+            error: result.reason,
+            label: plan.label(job),
+            kind: plan.kind === "speech" ? "audio" : plan.kind,
+            prompt: plan.prompt(job)
+          });
+    });
+  };
+
+  /** Register one create tool. Every create tool is batch-shaped so parallel work is the default. */
+  const registerCreateTool = <T extends { label?: string }>(bits: {
+    name: string;
+    title: string;
+    description: string;
+    jobSchema: z.ZodTypeAny;
+    maxJobs: number;
+    waitByDefault: boolean;
+    plan: (jobs: T[]) => BatchPlan<T>;
+    validate?: (model: string, input: Record<string, unknown>) => void;
+    progressLabel: string;
+  }): void => {
+    server.registerTool(
+      bits.name,
+      {
+        title: bits.title,
+        description: bits.description,
+        inputSchema: {
+          jobs: z
+            .array(bits.jobSchema)
+            .min(1)
+            .max(bits.maxJobs)
+            .describe(
+              `One entry per asset, ${1}-${bits.maxJobs} per call. All entries are submitted in parallel in a single call; never call this tool repeatedly for independent assets.`
+            ),
+          ...BatchControlSchema,
+          waitForResult: BatchControlSchema.waitForResult.default(bits.waitByDefault)
+        },
+        outputSchema: GenerationResultSchema,
+        annotations: {
+          title: bits.title,
+          readOnlyHint: false,
+          destructiveHint: false,
+          idempotentHint: false,
+          openWorldHint: true
         }
-        return [generationFromFriendlyResult({ result, prompt: text })];
-      })
-  );
+      },
+      async ({ jobs, waitForResult, idempotencyKey, intervalMs, timeoutMs }, extra) =>
+        safeGenerationTool(async () => {
+          const report = createProgressReporter(extra);
+          const track = createBatchProgressTracker({ count: jobs.length, report, label: bits.progressLabel });
+          await report({
+            progress: 0,
+            total: 100,
+            message: `Submitting ${jobs.length} ${bits.progressLabel} job${jobs.length === 1 ? "" : "s"}`
+          });
+          const plan = bits.plan(jobs as T[]);
+          const generations = await runBatch({
+            plan,
+            prepared: prepareBatch(plan, bits.validate),
+            waitForResult,
+            idempotencyKey,
+            intervalMs,
+            timeoutMs,
+            track,
+            signal: extra.signal
+          });
+          await report({
+            progress: 100,
+            total: 100,
+            message: waitForResult ? `${bits.title} finished` : `${bits.title} submitted`
+          });
+          return generations;
+        })
+    );
+  };
+
+  registerCreateTool<ImageJob>({
+    name: "kie_create_image",
+    title: "Create KIE Images",
+    description:
+      "Create or edit images. Put one entry in `jobs` per image you want; they are generated in parallel. Returns task IDs and direct image URLs.",
+    jobSchema: ImageBatchJobSchema,
+    maxJobs: 16,
+    waitByDefault: true,
+    progressLabel: "image",
+    validate: validateGptImage2Combination,
+    plan: (jobs) => ({
+      jobs,
+      kind: "image",
+      label: (job) => job.label,
+      prompt: (job) => job.prompt,
+      model: (job) => imageModelFor(job),
+      buildInput: (job) => imageInput(job),
+      callBackUrl: (job) => job.callBackUrl
+    })
+  });
+
+  registerCreateTool<VideoJob>({
+    name: "kie_create_video",
+    title: "Create KIE Videos",
+    description:
+      "Create Seedance videos. Put one entry in `jobs` per shot; they are submitted in parallel. Videos take minutes, so this defaults to returning task IDs immediately — collect the finished media with kie_get_creation. For a cheap smoke test use model bytedance/seedance-2-mini at 480p, 4 seconds, generateAudio false.",
+    jobSchema: VideoBatchJobSchema,
+    maxJobs: 16,
+    waitByDefault: false,
+    progressLabel: "video",
+    validate: validateSeedanceCombination,
+    plan: (jobs) => ({
+      jobs,
+      kind: "video",
+      label: (job) => job.label,
+      prompt: (job) => job.prompt,
+      model: (job) => job.model,
+      buildInput: (job) => seedanceInput(job),
+      callBackUrl: (job) => job.callBackUrl
+    })
+  });
+
+  registerCreateTool<SpeechJob>({
+    name: "kie_create_speech",
+    title: "Create KIE Speech",
+    description:
+      "Create voiceover or narration with ElevenLabs Turbo 2.5. Put one entry in `jobs` per line of a script; they are generated in parallel. Returns task IDs and direct audio URLs.",
+    jobSchema: SpeechBatchJobSchema,
+    maxJobs: 16,
+    waitByDefault: true,
+    progressLabel: "speech",
+    plan: (jobs) => ({
+      jobs,
+      kind: "speech",
+      label: (job) => job.label,
+      prompt: (job) => job.text,
+      model: (job) => job.model,
+      buildInput: (job) => speechInput(job),
+      callBackUrl: (job) => job.callBackUrl
+    })
+  });
 
   server.registerTool(
     "kie_get_creation",
     {
-      title: "Get KIE Creation",
-      description: "Check or wait for one KIE task. Returns the same normalized result shape as all friendly create tools.",
-      inputSchema: {
-        taskId: z.string().min(1),
-        kind: GenerationKindSchema.optional(),
-        label: z.string().min(1).max(120).optional(),
-        waitForResult: z.boolean().default(true),
-        intervalMs: z.number().int().positive().max(60000).optional(),
-        timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional()
-      },
-      outputSchema: GenerationResultSchema,
-      annotations: { title: "Get KIE Creation", readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true }
-    },
-    async ({ taskId, kind, label, waitForResult, intervalMs, timeoutMs }, extra) =>
-      safeGenerationTool(async () => {
-        const report = createProgressReporter(extra);
-        await report({ progress: 0, total: 100, message: `Checking task ${taskId}` });
-        const payload = waitForResult
-          ? await waitForMarketTask({
-              client,
-              taskId,
-              intervalMs: intervalMs ?? config.pollIntervalMs,
-              timeoutMs: timeoutMs ?? config.pollTimeoutMs,
-              onProgress: (update) => reportMarketTaskProgress(report, update, "Creation"),
-              signal: extra.signal
-            })
-          : await getMarketTask(client, taskId, extra.signal);
-        if (!waitForResult) await report({ progress: 100, total: 100, message: "Creation check finished" });
-        return [generationFromTask({ taskId, payload, kind: kind as GenerationKind | undefined, label })];
-      })
-  );
-
-  server.registerTool(
-    "kie_get_creations",
-    {
       title: "Get KIE Creations",
-      description: "Check or wait for 1-32 KIE task IDs in parallel. Partial failures do not hide successful results.",
+      description:
+        "Check or wait for submitted KIE tasks and return their finished media URLs. Pass every task ID you are waiting on in one call; they are polled in parallel and a failure on one never hides the others. Finished tasks are served from memory, so re-checking is free.",
       inputSchema: {
-        taskIds: z.array(z.string().min(1)).min(1).max(32),
-        labels: z.array(z.string().min(1).max(120)).max(32).optional(),
-        kinds: z.array(GenerationKindSchema).max(32).optional(),
-        waitForResult: z.boolean().default(true),
+        taskIds: z
+          .array(z.string().min(1))
+          .min(1)
+          .max(32)
+          .describe("Task IDs returned by a create tool. Pass all of them in one call rather than one call each."),
+        labels: z.array(z.string().min(1).max(120)).max(32).optional().describe("Optional names, positionally matched to taskIds."),
+        kinds: z.array(GenerationKindSchema).max(32).optional().describe("Optional media kinds, positionally matched to taskIds."),
+        waitForResult: z
+          .boolean()
+          .default(true)
+          .describe("Wait until every task reaches a terminal status. Set false for a single immediate status snapshot."),
         intervalMs: z.number().int().positive().max(60000).optional(),
         timeoutMs: z.number().int().positive().max(60 * 60 * 1000).optional()
       },
@@ -445,26 +523,43 @@ export function registerFriendlyTools(args: {
     async ({ taskIds, labels, kinds, waitForResult, intervalMs, timeoutMs }, extra) =>
       safeGenerationTool(async () => {
         const report = createProgressReporter(extra);
-        const track = createBatchProgressTracker({ count: taskIds.length, report });
-        await report({ progress: 0, total: 100, message: `Checking ${taskIds.length} creations in parallel` });
+        const track = createBatchProgressTracker({ count: taskIds.length, report, label: "Creation" });
+        await report({
+          progress: 0,
+          total: 100,
+          message: `Checking ${taskIds.length} creation${taskIds.length === 1 ? "" : "s"}`
+        });
+        const plan = pollPlanFromConfig(config, intervalMs);
         const settled = await Promise.allSettled(
           taskIds.map((taskId, index) =>
             waitForResult
               ? waitForMarketTask({
                   client,
                   taskId,
-                  intervalMs: intervalMs ?? config.pollIntervalMs,
+                  intervalMs: plan.intervalMs,
                   timeoutMs: timeoutMs ?? config.pollTimeoutMs,
+                  plan,
+                  store,
                   onProgress: (update) => track(index, update),
                   signal: extra.signal
                 })
-              : getMarketTask(client, taskId, extra.signal)
+              : getMarketTaskCached({ client, taskId, store, signal: extra.signal, timeoutMs: plan.requestTimeoutMs })
           )
         );
         const generations = settled.map((result, index) =>
           result.status === "fulfilled"
-            ? generationFromTask({ taskId: taskIds[index], payload: result.value, label: labels?.[index], kind: kinds?.[index] as GenerationKind | undefined })
-            : failedGeneration({ taskId: taskIds[index], error: result.reason, label: labels?.[index], kind: kinds?.[index] as GenerationKind | undefined })
+            ? generationFromTask({
+                taskId: taskIds[index],
+                payload: result.value,
+                label: labels?.[index],
+                kind: kinds?.[index] as GenerationKind | undefined
+              })
+            : failedGeneration({
+                taskId: taskIds[index],
+                error: result.reason,
+                label: labels?.[index],
+                kind: kinds?.[index] as GenerationKind | undefined
+              })
         );
         await report({ progress: 100, total: 100, message: "Creation checks finished" });
         return generations;

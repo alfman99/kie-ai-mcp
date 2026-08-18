@@ -3,7 +3,7 @@ import process from "node:process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { KieHttpClient } from "../src/http.js";
+import { KieHttpClient, parseRetryAfterMs } from "../src/http.js";
 import type { KieConfig } from "../src/types.js";
 
 const config: KieConfig = {
@@ -141,5 +141,89 @@ describe("KieHttpClient", () => {
       client.uploadFileStream({ filePath: linkedFile, uploadPath: "agent-uploads" })
     ).rejects.toThrow("limited to the configured KIE_LOCAL_UPLOAD_ROOT");
     expect(fetchImpl).not.toHaveBeenCalled();
+  });
+});
+
+describe("request pacing", () => {
+  it("parses Retry-After in seconds and HTTP-date form", () => {
+    expect(parseRetryAfterMs("2")).toBe(2000);
+    expect(parseRetryAfterMs(null)).toBeUndefined();
+    expect(parseRetryAfterMs("not-a-date")).toBeUndefined();
+    const soon = parseRetryAfterMs(new Date(Date.now() + 5000).toUTCString());
+    expect(soon).toBeGreaterThan(3000);
+  });
+
+  it("surfaces Retry-After on rate-limit errors", async () => {
+    const fetchImpl = vi.fn(
+      async () =>
+        new Response(JSON.stringify({ code: 429, msg: "Too many requests" }), {
+          status: 429,
+          headers: { "Content-Type": "application/json", "Retry-After": "3" }
+        })
+    ) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+
+    await expect(client.requestJson({ path: "/api/v1/jobs/recordInfo" })).rejects.toMatchObject({
+      name: "KieApiError",
+      status: 429,
+      retryAfterMs: 3000
+    });
+  });
+
+  it("caps simultaneous in-flight requests so parallel batches do not burst", async () => {
+    let inFlight = 0;
+    let peak = 0;
+    const fetchImpl = vi.fn(async () => {
+      inFlight += 1;
+      peak = Math.max(peak, inFlight);
+      await new Promise((resolve) => setTimeout(resolve, 5));
+      inFlight -= 1;
+      return new Response(JSON.stringify({ code: 200, msg: "success", data: {} }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      });
+    }) as unknown as typeof fetch;
+    const client = new KieHttpClient({ ...config, maxConcurrentRequests: 2 }, fetchImpl);
+
+    await Promise.all(
+      Array.from({ length: 8 }, () => client.requestJson({ path: "/api/v1/jobs/recordInfo" }))
+    );
+
+    expect(peak).toBe(2);
+    expect(vi.mocked(fetchImpl).mock.calls.length).toBe(8);
+  });
+
+  it("aborts a request that outlives its own deadline", async () => {
+    const fetchImpl = vi.fn(
+      (_url: URL | RequestInfo, init?: RequestInit) =>
+        new Promise<Response>((_resolve, reject) => {
+          init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), {
+            once: true
+          });
+        })
+    ) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+
+    await expect(client.requestJson({ path: "/api/v1/jobs/recordInfo", timeoutMs: 10 })).rejects.toThrow();
+  });
+
+  it("releases queued slots when a caller cancels while waiting", async () => {
+    const fetchImpl = vi.fn(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      return new Response(JSON.stringify({ code: 200, msg: "success", data: {} }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      });
+    }) as unknown as typeof fetch;
+    const client = new KieHttpClient({ ...config, maxConcurrentRequests: 1 }, fetchImpl);
+    const controller = new AbortController();
+
+    const first = client.requestJson({ path: "/api/v1/jobs/recordInfo" });
+    const queued = client.requestJson({ path: "/api/v1/jobs/recordInfo", signal: controller.signal });
+    controller.abort();
+
+    await expect(queued).rejects.toThrow("cancelled");
+    await expect(first).resolves.toBeTruthy();
+    await expect(client.requestJson({ path: "/api/v1/jobs/recordInfo" })).resolves.toBeTruthy();
   });
 });

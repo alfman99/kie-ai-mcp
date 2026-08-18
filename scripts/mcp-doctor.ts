@@ -7,13 +7,15 @@ type JsonRecord = Record<string, unknown>;
 
 const REQUIRED_TOOLS = [
   "kie_check_configuration",
-  "kie_get_local_catalogs",
   "kie_upload_media",
   "kie_create_image",
   "kie_create_video",
   "kie_create_speech",
-  "kie_product_get_operation_schema"
+  "kie_get_creation"
 ] as const;
+
+/** Only present on KIE_TOOL_PROFILE=full, so they are verified conditionally. */
+const ADVANCED_TOOLS = ["kie_get_local_catalogs", "kie_product_get_operation_schema"] as const;
 
 const REQUIRED_RESOURCES = [
   "kie://docs/manifest",
@@ -48,6 +50,15 @@ function inheritedKieEnvironment(): Record<string, string> {
     "KIE_WEBHOOK_HMAC_KEY",
     "KIE_POLL_INTERVAL_MS",
     "KIE_POLL_TIMEOUT_MS",
+    "KIE_POLL_FIRST_DELAY_MS",
+    "KIE_POLL_MAX_INTERVAL_MS",
+    "KIE_POLL_EASE_AFTER_MS",
+    "KIE_REQUEST_TIMEOUT_MS",
+    "KIE_MAX_CONCURRENT_REQUESTS",
+    "KIE_TOOL_PROFILE",
+    "KIE_SUBMISSION_TTL_MS",
+    "KIE_RESULT_CACHE_TTL_MS",
+    "KIE_PREWARM_CONNECTION",
     "KIE_ALLOW_LOCAL_FILE_UPLOADS",
     "KIE_LOCAL_UPLOAD_ROOT",
     "KIE_DOCS_DATA_DIR"
@@ -126,13 +137,22 @@ async function main(): Promise<void> {
     const configuration = textPayload(
       await client.callTool({ name: "kie_check_configuration", arguments: {} })
     );
-    const catalogs = textPayload(
-      await client.callTool({
-        name: "kie_get_local_catalogs",
-        arguments: { includeFullCatalogs: false }
-      })
+    const toolProfile = String(configuration.toolProfile ?? "standard");
+    if (toolProfile === "full") {
+      const missingAdvanced = ADVANCED_TOOLS.filter((name) => !toolNames.includes(name));
+      if (missingAdvanced.length > 0) {
+        throw new Error(`MCP is missing advanced tools: ${missingAdvanced.join(", ")}`);
+      }
+    }
+
+    // Read the snapshot from the docs resource, which both tool profiles expose.
+    const manifestResource = await client.readResource({ uri: "kie://docs/manifest" });
+    const manifestText = manifestResource.contents[0];
+    const snapshot = (
+      manifestText && "text" in manifestText && typeof manifestText.text === "string"
+        ? (JSON.parse(manifestText.text) as JsonRecord)
+        : undefined
     );
-    const snapshot = catalogs.snapshot as JsonRecord | undefined;
     if (!snapshot || snapshot.failures !== 0) {
       throw new Error("MCP loaded an incomplete or invalid KIE documentation snapshot.");
     }
@@ -154,10 +174,11 @@ async function main(): Promise<void> {
       initialized: true,
       toolCount: toolNames.length,
       resourceCount: resourceUris.length,
-      catalogSource: catalogs.catalogSource,
+      toolProfile,
+      catalogSource: configuration.docsCatalogSource,
       catalogGeneratedAt: snapshot.generatedAt,
-      marketModelCount: catalogs.marketModelCount,
-      productOperationCount: catalogs.productOperationCount,
+      marketModelCount: snapshot.marketModelCount,
+      operationCount: snapshot.operationCount,
       apiConfigured: configuration.hasApiKey,
       apiBaseUrl: configuration.apiBaseUrl,
       nativeUploadBaseUrl: configuration.uploadBaseUrl,
