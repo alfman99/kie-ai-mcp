@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.0 - 2026-08-18
+
+- Refreshed the official KIE documentation snapshot from 254 to 264 pages, 220 to 230 OpenAPI operations, and 128 to 135 Market models. No model or endpoint was removed.
+- Added seven newly documented models: Kling 3.0 Omni (text-to-video, image-to-video, reference-to-video, transformation) and Grok Imagine Image 2.0 (text-to-image, image-edit, segment-map).
+- Fixed Seedance 2.5 rejecting inputs KIE now accepts. The catalog widened it to 1080p output and a 30000 character prompt, but hardcoded copies of the old limits still refused both.
+- Stopped restating per-field model limits in the friendly video tool. Resolution and format enums, prompt length, reference-array sizes, and unsupported fields are now validated straight from the official catalog, so a `docs:update` keeps them correct instead of leaving hardcoded copies to drift. Cross-field rules that no schema can express are unchanged.
+- Raised the video prompt ceiling to the highest documented model limit; the narrower per-model limits are still enforced before any billable request.
+
 ## 0.6.0 - 2026-08-18
 
 Breaking: the create tools now take a `jobs` array, and the batch variants added in 0.5.0 are gone.

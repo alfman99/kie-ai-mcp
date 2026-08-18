@@ -146,7 +146,7 @@ export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?:
   const server = new McpServer(
     {
       name: "kie-ai-mcp",
-      version: "0.6.0"
+      version: "0.7.0"
     },
     {
       instructions: [
