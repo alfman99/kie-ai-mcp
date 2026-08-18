@@ -105,8 +105,17 @@ The bundle is validated and inspected with the official MCPB tool before the bui
 | `KIE_UPLOAD_BASE_URL` | No | `https://kieai.redpandaai.co` | Official KIE upload base |
 | `KIE_ALLOW_LOCAL_FILE_UPLOADS` | No | `false` | Enable reads from the restricted local media folder |
 | `KIE_LOCAL_UPLOAD_ROOT` | With local uploads | — | Restrict local reads to one absolute media folder |
-| `KIE_POLL_INTERVAL_MS` | No | `3000` | Async-task polling interval |
+| `KIE_POLL_INTERVAL_MS` | No | `2500` | Steady async-task polling cadence |
 | `KIE_POLL_TIMEOUT_MS` | No | `600000` | Async-task polling timeout |
+| `KIE_POLL_FIRST_DELAY_MS` | No | `600` | Delay before the first status re-check |
+| `KIE_POLL_MAX_INTERVAL_MS` | No | `8000` | Cadence ceiling for long-running renders |
+| `KIE_POLL_EASE_AFTER_MS` | No | `90000` | Elapsed wait before easing toward the ceiling |
+| `KIE_REQUEST_TIMEOUT_MS` | No | `20000` | Per-request deadline |
+| `KIE_MAX_CONCURRENT_REQUESTS` | No | `8` | Ceiling on simultaneous in-flight KIE requests |
+| `KIE_TOOL_PROFILE` | No | `standard` | `full` adds the advanced escape-hatch tools |
+| `KIE_SUBMISSION_TTL_MS` | No | `1800000` | How long an `idempotencyKey` replays its original submission |
+| `KIE_RESULT_CACHE_TTL_MS` | No | `1800000` | How long a finished task is served from memory |
+| `KIE_PREWARM_CONNECTION` | No | `true` | Open the API connection at startup |
 | `KIE_WEBHOOK_HMAC_KEY` | No | — | Default webhook verification key |
 | `KIE_DOCS_DATA_DIR` | No | bundled snapshot | External reviewed catalog snapshot |
 
@@ -114,17 +123,53 @@ Catalog and supplied-key webhook tools work without `KIE_API_KEY`. Live KIE tool
 
 External catalogs are validated at startup and are not hot-loaded. Restart the MCP after changing `KIE_DOCS_DATA_DIR`.
 
-## Friendly creation tools
+## Creation tools
 
-- `kie_create_image`: create an image or edit from reference URLs.
-- `kie_create_video`: create one Seedance 2.0, Fast, Mini, or 2.5 video from text, frames, image references, video references, or audio references.
-- `kie_create_videos`: submit up to 16 independent Seedance video jobs in parallel.
-- `kie_create_speech`: create narration or voiceover.
-- `kie_get_creation`: retrieve or wait for one submitted creation with a normalized result.
-- `kie_get_creations`: retrieve or wait for up to 32 submitted creations in parallel while preserving partial success.
+Every create tool is batch-shaped: it takes a `jobs` array and submits all entries in parallel. There is one tool per media type, so an agent never has to choose between a single and a batch variant, and never has a reason to loop.
+
+- `kie_create_image`: 1-16 images per call, waits for results by default.
+- `kie_create_video`: 1-16 Seedance 2.0, Fast, Mini, or 2.5 shots per call from text, frames, image references, video references, or audio references. Returns task IDs immediately by default because videos take minutes.
+- `kie_create_speech`: 1-16 ElevenLabs Turbo 2.5 lines per call, waits for results by default.
+- `kie_get_creation`: check or wait for up to 32 task IDs in parallel while preserving partial success. Finished tasks are served from memory.
 - `kie_upload_media`: upload one local file, public URL, or base64 source through KIE.
 
-All friendly create and status tools return the same structured result shape with `taskIds`, normalized generations, and direct media links. Wait-enabled calls send standard MCP progress notifications when the client supports them. Status requests stop on cancellation or timeout and retry only temporary network, rate-limit, and server errors. Creation requests do not retry because a duplicate request can spend credits twice. Advanced Market and product tools remain available for exact control.
+All create and status tools return the same structured result shape with `taskIds`, normalized generations, and direct media links. Wait-enabled calls send standard MCP progress notifications when the client supports them. A job that fails validation is reported on its own row and does not stop the other jobs; a call is only marked `isError` when every job failed.
+
+### Tool profiles
+
+`KIE_TOOL_PROFILE=standard` (the default) exposes 11 tools. It omits the three transport-specific upload tools, the two advanced Market status tools, the three product-API tools, the webhook verifier, and the local-catalog dump, all of which duplicate something in the curated set or are rarely needed. `KIE_TOOL_PROFILE=full` restores all 21. The standard profile costs roughly 4,000 tokens of tool schema per model request against roughly 5,300 for `full`.
+
+### Automation and idempotency
+
+Every create tool accepts an optional `idempotencyKey`. Reusing the key replays the original submission for `KIE_SUBMISSION_TTL_MS` instead of paying for a second generation, and a duplicate that arrives while the first is still in flight joins that request rather than racing it. Within one call the key is scoped per job position, so two deliberately identical jobs in the same batch still produce two tasks.
+
+Creation requests are never retried automatically, because a duplicate request can spend credits twice. When a wait times out, the accepted task ID is preserved so the work can be collected with `kie_get_creation` rather than resubmitted.
+
+### Error shape
+
+Every error carries `category`, `retryable`, and `nextStep` alongside the message, so automated callers branch on fields instead of parsing text.
+
+| Category | Retryable | Meaning |
+|---|---|---|
+| `auth` | No | Missing or rejected `KIE_API_KEY` |
+| `input` | No | The request itself is invalid |
+| `credits` | No | The KIE account needs a top-up |
+| `rate_limit` | Yes | Honour `retryAfterMs` when present |
+| `server` | Yes | Transient KIE-side failure |
+| `network` | Yes | Transient connectivity failure |
+| `timeout` | Yes | Poll the task ID; do not resubmit |
+| `cancelled` | No | The caller cancelled the request |
+
+## Status polling
+
+Polling is tuned for the shortest gap between "finished at KIE" and "returned here":
+
+- The first checks ramp quickly (about 0.6s, 1.2s, 2.4s) so a short image or voice job is returned almost immediately.
+- The cadence then stays flat at `KIE_POLL_INTERVAL_MS`. It is not increased while a task is still running, because a growing interval only adds dead time after the result is already available.
+- Only after `KIE_POLL_EASE_AFTER_MS` of a clearly long render does the cadence drift toward `KIE_POLL_MAX_INTERVAL_MS`, trading a few seconds of worst-case lag for far fewer requests.
+- Exponential backoff applies to failures only, and a `Retry-After` header is honoured when KIE sends one.
+- Each poll carries `KIE_REQUEST_TIMEOUT_MS` of its own, so a stalled socket is retried instead of consuming the whole wait budget.
+- Every sleep is jittered, and `KIE_MAX_CONCURRENT_REQUESTS` caps in-flight requests, so a 16-job batch does not arrive at KIE in one synchronized burst.
 
 ## Native media upload
 

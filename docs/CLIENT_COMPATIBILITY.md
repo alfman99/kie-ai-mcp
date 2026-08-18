@@ -16,7 +16,7 @@ The browser inside Codex does not need its own KIE connection. Codex calls KIE t
 
 ## Parallel media jobs
 
-For multiple independent shots, use `kie_create_videos` with `waitForResult: false`, then pass its `taskIds` to `kie_get_creations`. The server submits and checks the jobs in parallel. Every client receives structured status data and direct media links. KIE and the selected model provider control actual render concurrency.
+For multiple independent assets, put one entry per asset in a single create call's `jobs` array instead of calling the tool repeatedly. For video, that call returns task IDs immediately by default; pass them all to `kie_get_creation` in one call. The server submits and checks the jobs in parallel. Every client receives structured status data and direct media links. KIE and the selected model provider control actual render concurrency.
 
 Long-running friendly tools send standard MCP progress notifications when the client requests them. A client can show these updates as a progress bar or status text. Clients without progress support still receive the same final result. Cancelling the client request stops local polling, and temporary status-check failures retry up to two times. Creation submissions do not retry automatically because a duplicate submission could spend credits twice.
 

@@ -112,10 +112,10 @@ Friendly creation:
 
 - `kie_create_image`
 - `kie_create_video`
-- `kie_create_videos`
 - `kie_create_speech`
 - `kie_get_creation`
-- `kie_get_creations`
+
+Each create tool takes a `jobs` array and submits every entry in parallel.
 
 Native upload:
 
