@@ -1,6 +1,6 @@
 # KIE.AI OpenAPI Catalog
 
-Generated 2026-08-18T09:52:42.236Z from official `docs.kie.ai` Markdown pages.
+Generated 2026-08-19T12:27:50.246Z from official `docs.kie.ai` Markdown pages.
 
 | Method | Path | Operation ID | Official source |
 | --- | --- | --- | --- |

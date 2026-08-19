@@ -1,6 +1,6 @@
 # KIE.AI Documentation Endpoint Index
 
-Generated 2026-08-18T09:52:42.236Z exclusively from official `docs.kie.ai` pages.
+Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages.
 
 ## `/api/4k-callback`
 

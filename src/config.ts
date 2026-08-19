@@ -2,13 +2,18 @@ import type { KieConfig, KiePollPlan } from "./types.js";
 
 const DEFAULT_API_BASE_URL = "https://api.kie.ai";
 const DEFAULT_UPLOAD_BASE_URL = "https://kieai.redpandaai.co";
-const DEFAULT_POLL_INTERVAL_MS = 2500;
+const DEFAULT_POLL_INTERVAL_MS = 3000;
 const DEFAULT_POLL_TIMEOUT_MS = 10 * 60 * 1000;
-const DEFAULT_POLL_FIRST_DELAY_MS = 600;
-const DEFAULT_POLL_MAX_INTERVAL_MS = 8000;
+const DEFAULT_POLL_FIRST_DELAY_MS = 3000;
+const DEFAULT_POLL_MAX_INTERVAL_MS = 3000;
 const DEFAULT_POLL_EASE_AFTER_MS = 90 * 1000;
 const DEFAULT_REQUEST_TIMEOUT_MS = 20 * 1000;
 const DEFAULT_MAX_CONCURRENT_REQUESTS = 8;
+// "Up to 20 new generation requests per 10 seconds ... Rejected requests will not enter the queue."
+// https://docs.kie.ai/1973359m0.md section 8.
+const DEFAULT_GENERATION_RATE_LIMIT = 20;
+const DEFAULT_GENERATION_RATE_WINDOW_MS = 10 * 1000;
+const DEFAULT_GENERATION_MAX_RETRIES = 3;
 const DEFAULT_SUBMISSION_TTL_MS = 30 * 60 * 1000;
 const DEFAULT_RESULT_CACHE_TTL_MS = 30 * 60 * 1000;
 
@@ -37,6 +42,9 @@ export function loadConfig(): KieConfig {
     pollEaseAfterMs: readPositiveInteger("KIE_POLL_EASE_AFTER_MS", DEFAULT_POLL_EASE_AFTER_MS),
     requestTimeoutMs: readPositiveInteger("KIE_REQUEST_TIMEOUT_MS", DEFAULT_REQUEST_TIMEOUT_MS),
     maxConcurrentRequests: readPositiveInteger("KIE_MAX_CONCURRENT_REQUESTS", DEFAULT_MAX_CONCURRENT_REQUESTS),
+    generationRateLimit: readPositiveInteger("KIE_GENERATION_RATE_LIMIT", DEFAULT_GENERATION_RATE_LIMIT),
+    generationRateWindowMs: readPositiveInteger("KIE_GENERATION_RATE_WINDOW_MS", DEFAULT_GENERATION_RATE_WINDOW_MS),
+    generationMaxRetries: readPositiveInteger("KIE_GENERATION_MAX_RETRIES", DEFAULT_GENERATION_MAX_RETRIES),
     toolProfile: process.env.KIE_TOOL_PROFILE === "full" ? "full" : "standard",
     submissionTtlMs: readPositiveInteger("KIE_SUBMISSION_TTL_MS", DEFAULT_SUBMISSION_TTL_MS),
     resultCacheTtlMs: readPositiveInteger("KIE_RESULT_CACHE_TTL_MS", DEFAULT_RESULT_CACHE_TTL_MS),

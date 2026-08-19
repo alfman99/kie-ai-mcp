@@ -85,6 +85,34 @@ describe("TenantRegistry", () => {
 });
 
 describe("createRemoteHandler", () => {
+  it("serves a human-facing landing page at the root", async () => {
+    const baseUrl = await startServer();
+    const response = await fetch(`${baseUrl}/`);
+    const body = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toMatch(/text\/html/);
+    // The two things a first-time visitor must not miss.
+    expect(body).toContain("Unofficial project");
+    expect(body).toContain("/mcp");
+    expect(body).toContain("github.com/alfman99/kie-ai-mcp");
+  });
+
+  it("answers HEAD on the landing page without a body", async () => {
+    const baseUrl = await startServer();
+    const response = await fetch(`${baseUrl}/`, { method: "HEAD" });
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe("");
+  });
+
+  it("does not expose the landing page as an MCP endpoint", async () => {
+    const baseUrl = await startServer();
+    const response = await fetch(`${baseUrl}/`, { method: "POST" });
+
+    expect(response.status).toBe(404);
+  });
+
   it("serves a health check", async () => {
     const baseUrl = await startServer();
     const response = await fetch(`${baseUrl}/healthz`);

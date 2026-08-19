@@ -1,6 +1,9 @@
 import { normalizeError } from "./errors.js";
+import { classifyTaskState, isFailedStatus, isSuccessStatus, isTerminalStatus } from "./task-status.js";
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
+
+export { classifyTaskState, isFailedStatus, isSuccessStatus, isTerminalStatus };
 
 export const GenerationKindSchema = z.enum(["image", "video", "audio", "file"]);
 export const GenerationViewSchema = z.object({
@@ -10,9 +13,20 @@ export const GenerationViewSchema = z.object({
   model: z.string().optional(),
   prompt: z.string().optional(),
   status: z.string(),
+  outcome: z
+    .enum(["pending", "success", "failed", "unrecognized"])
+    .describe(
+      "Normalized reading of the KIE task state. Branch on this, not on `status`: only \"success\" means the asset is ready, and only \"pending\" means checking again can help."
+    ),
   progress: z.number().optional(),
   outputUrls: z.array(z.string().url()),
+  resultObject: z
+    .unknown()
+    .optional()
+    .describe("Non-URL result payload, for models documented to return {resultObject: {...}} instead of media URLs."),
   error: z.string().optional(),
+  errorCode: z.string().optional(),
+  warning: z.string().optional(),
   creditsConsumed: z.number().optional(),
   deduplicated: z
     .boolean()
@@ -27,17 +41,6 @@ export const GenerationResultSchema = z.object({
   taskIds: z.array(z.string()),
   generations: z.array(GenerationViewSchema)
 });
-
-const FAILED_STATUSES = new Set(["fail", "failed", "error", "wait_failed"]);
-const TERMINAL_STATUSES = new Set(["success", "fail", "failed", "error"]);
-
-export function isFailedStatus(status: string): boolean {
-  return FAILED_STATUSES.has(status.toLowerCase());
-}
-
-export function isTerminalStatus(status: string): boolean {
-  return TERMINAL_STATUSES.has(status.toLowerCase());
-}
 
 function record(value: unknown): Record<string, unknown> | undefined {
   return value && typeof value === "object" && !Array.isArray(value)
@@ -81,6 +84,40 @@ function uniqueHttpUrls(value: unknown, found = new Set<string>()): string[] {
     }
   }
   return [...found];
+}
+
+/**
+ * Pull the finished media out of a parsed `resultJson`.
+ *
+ * The Get Task Details reference documents exactly where output lands: `{resultUrls: []}` for
+ * media, plus `firstFrameUrl`/`lastFrameUrl` when a Seedance job asks for frames, and
+ * `{resultObject: {mask_urls: []}}` for OmniHuman subject detection. Reading those fields in
+ * their documented order keeps the ordering stable and stops unrelated URLs elsewhere in the
+ * payload (echoed inputs, reference media) from being reported as generated assets. Scraping the
+ * whole object stays as a fallback so an undocumented future shape still yields something.
+ */
+export function outputUrlsFromResult(parsedResult: Record<string, unknown> | undefined): string[] {
+  if (!parsedResult) {
+    return [];
+  }
+
+  const ordered = new Set<string>();
+  const push = (value: unknown): void => {
+    for (const url of uniqueHttpUrls(value)) {
+      ordered.add(url);
+    }
+  };
+
+  push(parsedResult.resultUrls);
+  push(parsedResult.firstFrameUrl);
+  push(parsedResult.lastFrameUrl);
+  const resultObject = record(parsedResult.resultObject);
+  push(resultObject?.mask_urls);
+
+  if (ordered.size > 0) {
+    return [...ordered];
+  }
+  return uniqueHttpUrls(parsedResult);
 }
 
 function inferKind(urls: string[], model?: string, hint?: GenerationKind): GenerationKind {
@@ -169,11 +206,24 @@ export function generationFromTask(args: {
   const params = parseRecord(data?.param);
   const input = record(params?.input);
   const model = String(data?.model ?? params?.model ?? "") || undefined;
-  const outputUrls = uniqueHttpUrls(parsedResult);
+  const outputUrls = outputUrlsFromResult(parsedResult);
+  const resultObject = record(parsedResult?.resultObject);
+  // `state` is the documented field; `status` is accepted only as a fallback for sibling APIs
+  // and for this server's own synthesized rows.
   const status = String(data?.state ?? data?.status ?? envelope?.status ?? "unknown").toLowerCase();
+  const outcome = classifyTaskState(status);
   const progressValue = optionalNumber(data?.progress);
   const creditsValue = optionalNumber(data?.creditsConsumed);
-  const failMessage = String(data?.failMsg ?? envelope?.msg ?? "");
+  const failCode = String(data?.failCode ?? "");
+  const failMessage = String(data?.failMsg ?? (outcome === "failed" ? envelope?.msg ?? "" : ""));
+  // A task can be "success" and still hand back nothing usable. Saying so beats returning a
+  // green row with an empty URL list that the caller then has to notice on its own.
+  const warning =
+    outcome === "success" && outputUrls.length === 0 && !resultObject
+      ? `KIE reported task ${args.taskId} as successful but returned no result URLs. Re-check with kie_get_creation, or resubmit if it stays empty.`
+      : outcome === "unrecognized"
+        ? `KIE reported an unrecognized task state "${status}" for task ${args.taskId}. Treating it as unfinished.`
+        : undefined;
 
   return {
     taskId: args.taskId,
@@ -184,16 +234,20 @@ export function generationFromTask(args: {
       ? { prompt: args.prompt ?? String(input?.prompt) }
       : {}),
     status,
-    ...(progressValue !== undefined ? { progress: progressValue } : {}),
+    outcome,
+    ...(progressValue !== undefined ? { progress: Math.max(0, Math.min(100, progressValue)) } : {}),
     outputUrls,
-    ...(isFailedStatus(status) && failMessage ? { error: failMessage } : {}),
+    ...(resultObject ? { resultObject } : {}),
+    ...(outcome === "failed" && failMessage ? { error: failMessage } : {}),
+    ...(outcome === "failed" && failCode ? { errorCode: failCode } : {}),
+    ...(warning ? { warning } : {}),
     ...(creditsValue !== undefined ? { creditsConsumed: creditsValue } : {})
   };
 }
 
 export function generationToolResult(generations: GenerationView[]): CallToolResult {
-  const complete = generations.filter((item) => item.status === "success").length;
-  const failed = generations.filter((item) => isFailedStatus(item.status)).length;
+  const complete = generations.filter((item) => item.outcome === "success").length;
+  const failed = generations.filter((item) => item.outcome === "failed").length;
   const taskIds = generations.map((item) => item.taskId).filter((taskId) => taskId !== "unavailable");
   const structuredContent = {
     title: generations.length === 1 ? "Creation" : "Creations",
@@ -210,6 +264,7 @@ export function generationToolResult(generations: GenerationView[]): CallToolRes
       generation.model,
       generation.creditsConsumed !== undefined ? `${generation.creditsConsumed} credits` : undefined,
       generation.error,
+      generation.warning,
       ...generation.outputUrls
     ]
       .filter((value): value is string => typeof value === "string" && value.length > 0)
@@ -263,6 +318,7 @@ export function failedGeneration(args: {
     kind: args.kind ?? "file",
     ...(args.prompt ? { prompt: args.prompt } : {}),
     status: "error",
+    outcome: "failed" as const,
     outputUrls: [],
     error: messageFromError(args.error)
   };

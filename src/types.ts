@@ -19,6 +19,12 @@ export type KieConfig = {
   requestTimeoutMs?: number;
   /** Cap on simultaneous in-flight KIE requests across all parallel tasks. */
   maxConcurrentRequests?: number;
+  /** New generation requests allowed per `generationRateWindowMs`. KIE documents 20 per 10s per account. */
+  generationRateLimit?: number;
+  /** Width of the generation rate-limit window. */
+  generationRateWindowMs?: number;
+  /** How many times a rate-limited (429) generation request is re-sent before giving up. */
+  generationMaxRetries?: number;
   /** "standard" exposes the curated tool set; "full" adds the advanced escape-hatch tools. */
   toolProfile?: "standard" | "full";
   /** How long an idempotency key can replay its original submission. */
@@ -59,6 +65,11 @@ export type KieRequestOptions = {
   signal?: AbortSignal;
   /** Per-request deadline applied on top of any caller signal. */
   timeoutMs?: number;
+  /**
+   * Marks a request that creates a new generation task. KIE meters those separately from reads
+   * (20 per 10 seconds per account), and rejects the excess outright instead of queueing it.
+   */
+  rateLimitClass?: "generation";
 };
 
 export type MarketModelField = {
@@ -134,4 +145,6 @@ export type ProductOperation = {
   method: "GET" | "POST";
   path: string;
   description: string;
+  /** True when calling this endpoint creates a new billable generation task. */
+  creates?: boolean;
 };

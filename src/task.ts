@@ -1,15 +1,28 @@
 import { KieApiError } from "./errors.js";
-import { isTerminalStatus } from "./generations.js";
 import type { KieHttpClient } from "./http.js";
 import type { TaskStore } from "./task-store.js";
+import {
+  classifyTaskState,
+  isTerminalStatus,
+  recordInfoDisposition,
+  recordInfoReason,
+  syntheticFailurePayload,
+  TaskNotVisibleError
+} from "./task-status.js";
 import type { KiePollPlan } from "./types.js";
 
-const DEFAULT_FIRST_DELAY_MS = 600;
-const DEFAULT_MAX_INTERVAL_MS = 8000;
+const DEFAULT_FIRST_DELAY_MS = 3000;
+const DEFAULT_MAX_INTERVAL_MS = 3000;
 const DEFAULT_EASE_AFTER_MS = 90 * 1000;
 const DEFAULT_REQUEST_TIMEOUT_MS = 20 * 1000;
 const MAX_ERROR_BACKOFF_MS = 30 * 1000;
 const DEFAULT_MAX_CONSECUTIVE_ERRORS = 6;
+/**
+ * How long a task may report as not-yet-queryable (recordInfo code 404/422) before we stop
+ * waiting. createTask and recordInfo are not instantly consistent, so a task checked immediately
+ * after submission can legitimately answer "recordInfo is null" for a few seconds.
+ */
+const DEFAULT_NOT_VISIBLE_GRACE_MS = 90 * 1000;
 const JITTER_RATIO = 0.12;
 
 export type MarketTaskProgress = {
@@ -76,20 +89,45 @@ function optionalNumber(value: unknown): number | undefined {
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
+/**
+ * Fetch one task record, reading the envelope `code` as part of the task's status rather than as
+ * a transport failure.
+ *
+ * GET /api/v1/jobs/recordInfo answers 200 with a `code` that can itself say the task failed
+ * (501 Generation Failed, 408 upstream stalled) or that the record is not queryable yet
+ * (404/422). Letting the HTTP layer throw all of those as generic errors is what made a finished,
+ * failed task look like a flaky server and keep "processing" until the wait timed out.
+ */
 export async function getMarketTask(
   client: KieHttpClient,
   taskId: string,
   signal?: AbortSignal,
   timeoutMs?: number
 ): Promise<unknown> {
-  const payload = await client.requestJson({
-    method: "GET",
-    path: "/api/v1/jobs/recordInfo",
-    query: { taskId },
-    signal,
-    ...(timeoutMs !== undefined ? { timeoutMs } : {})
-  });
-  return parseResultJson(payload);
+  try {
+    const payload = await client.requestJson({
+      method: "GET",
+      path: "/api/v1/jobs/recordInfo",
+      query: { taskId },
+      signal,
+      ...(timeoutMs !== undefined ? { timeoutMs } : {})
+    });
+    return parseResultJson(payload);
+  } catch (error) {
+    if (!(error instanceof KieApiError)) throw error;
+    const disposition = recordInfoDisposition(error.code, error.status);
+    if (disposition === "failed") {
+      return syntheticFailurePayload({ taskId, code: error.code ?? error.status, message: error.message });
+    }
+    if (disposition === "invisible") {
+      throw new TaskNotVisibleError({
+        taskId,
+        ...(error.code ?? error.status ? { code: error.code ?? error.status } : {}),
+        message: recordInfoReason(error.code ?? error.status, error.message)
+      });
+    }
+    throw error;
+  }
 }
 
 /**
@@ -108,7 +146,16 @@ export async function getMarketTaskCached(args: {
     return cached;
   }
 
-  const payload = await getMarketTask(args.client, args.taskId, args.signal, args.timeoutMs);
+  let payload: unknown;
+  try {
+    payload = await getMarketTask(args.client, args.taskId, args.signal, args.timeoutMs);
+  } catch (error) {
+    // A snapshot of a task KIE cannot see yet is "still waiting", not a failure.
+    if (error instanceof TaskNotVisibleError) {
+      return { code: 200, msg: error.message, data: { taskId: args.taskId, state: "waiting" } };
+    }
+    throw error;
+  }
   if (isTerminalPayload(payload)) {
     args.store?.rememberResult(args.taskId, payload);
   }
@@ -118,7 +165,7 @@ export async function getMarketTaskCached(args: {
 function statusOf(payload: unknown): string {
   const data = payload && typeof payload === "object" ? (payload as Record<string, unknown>).data : undefined;
   const dataRecord = data && typeof data === "object" ? (data as Record<string, unknown>) : undefined;
-  return String(dataRecord?.status ?? dataRecord?.state ?? "unknown").toLowerCase();
+  return String(dataRecord?.state ?? dataRecord?.status ?? "unknown").toLowerCase();
 }
 
 function isTerminalPayload(payload: unknown): boolean {
@@ -139,11 +186,13 @@ function resolvePlan(args: { intervalMs: number; plan?: Partial<KiePollPlan> }):
 /**
  * Delay before the next status check on a healthy poll.
  *
- * Short jobs get a fast ramp (~0.6s, 1.2s, ...) so an image or a voice line is returned almost
- * as soon as KIE finishes it. Once the ramp reaches the steady cadence it stays flat: growing the
- * interval while a task is still running only adds dead time between "done at KIE" and "reported
- * here". Only after `easeAfterMs` of a clearly long render does the interval drift toward
- * `maxIntervalMs`, which trades a few seconds of worst-case lag for far fewer requests.
+ * The default is a flat 3 second cadence, matching the interval KIE recommends for polling
+ * `recordInfo`. It stays flat because growing the interval while a task is still running only
+ * adds dead time between "done at KIE" and "reported here".
+ *
+ * The ramp and the long-render ease are still implemented and still honoured: they are simply
+ * inert while `firstDelayMs`, `intervalMs`, and `maxIntervalMs` are all equal, and come back if
+ * an operator widens `KIE_POLL_MAX_INTERVAL_MS` or narrows `KIE_POLL_FIRST_DELAY_MS`.
  */
 export function healthyDelayMs(plan: KiePollPlan, pollCount: number, elapsedMs: number): number {
   const ramped = Math.min(plan.intervalMs, plan.firstDelayMs * 2 ** Math.max(0, pollCount - 1));
@@ -166,7 +215,9 @@ function retryAfterMs(error: unknown): number | undefined {
 }
 
 function isRetryableStatusError(error: unknown): boolean {
+  if (error instanceof TaskNotVisibleError) return true;
   if (error instanceof KieApiError) {
+    if (recordInfoDisposition(error.code, error.status) === "retry") return true;
     const codes = [error.status, error.code].filter((value): value is number => typeof value === "number");
     return codes.some((code) => [408, 425, 429].includes(code) || code >= 500);
   }
@@ -204,6 +255,7 @@ export async function waitForMarketTask(args: {
   timeoutMs: number;
   plan?: Partial<KiePollPlan>;
   maxConsecutiveErrors?: number;
+  notVisibleGraceMs?: number;
   store?: TaskStore;
   onProgress?: (update: MarketTaskProgress) => Promise<void> | void;
   signal?: AbortSignal;
@@ -224,9 +276,12 @@ export async function waitForMarketTask(args: {
   const started = Date.now();
   const plan = resolvePlan({ intervalMs: args.intervalMs, plan: args.plan });
   const maxConsecutiveErrors = args.maxConsecutiveErrors ?? DEFAULT_MAX_CONSECUTIVE_ERRORS;
+  const notVisibleGraceMs = args.notVisibleGraceMs ?? DEFAULT_NOT_VISIBLE_GRACE_MS;
   let errorBackoffMs = plan.intervalMs;
   let pollCount = 0;
   let consecutiveErrors = 0;
+  let firstNotVisibleAt: number | undefined;
+  let lastStatus = "unknown";
 
   while (Date.now() - started <= args.timeoutMs) {
     throwIfAborted(args.signal, args.taskId);
@@ -248,8 +303,20 @@ export async function waitForMarketTask(args: {
       throwIfAborted(args.signal, args.taskId);
       if (request.timedOut() && isFinalBudget) break;
       if (!request.timedOut() && !isRetryableStatusError(error)) throw error;
-      consecutiveErrors += 1;
-      if (consecutiveErrors >= maxConsecutiveErrors) throw error;
+      if (error instanceof TaskNotVisibleError) {
+        // A record KIE cannot see yet gets its own budget: it is not a server fault, so it must
+        // not burn the consecutive-error allowance, but it also must not retry forever.
+        firstNotVisibleAt ??= Date.now();
+        if (Date.now() - firstNotVisibleAt > notVisibleGraceMs) {
+          throw new Error(
+            `KIE has no record of task ${args.taskId} after ${Math.round(notVisibleGraceMs / 1000)}s (${error.message}). The task id is wrong, or the submission never reached KIE.`
+          );
+        }
+        lastStatus = "not_visible";
+      } else {
+        consecutiveErrors += 1;
+        if (consecutiveErrors >= maxConsecutiveErrors) throw error;
+      }
       await args.onProgress?.({
         taskId: args.taskId,
         status: "retrying",
@@ -271,7 +338,9 @@ export async function waitForMarketTask(args: {
     }
     const data = payload && typeof payload === "object" ? (payload as Record<string, unknown>).data : undefined;
     const dataRecord = data && typeof data === "object" ? (data as Record<string, unknown>) : undefined;
+    firstNotVisibleAt = undefined;
     const status = statusOf(payload);
+    lastStatus = status;
     const progressValue = optionalNumber(dataRecord?.progress);
     const terminal = isTerminalStatus(status);
 
@@ -301,5 +370,11 @@ export async function waitForMarketTask(args: {
     );
   }
 
-  throw new Error(`Timed out waiting for KIE task ${args.taskId} after ${args.timeoutMs}ms.`);
+  const stateNote =
+    classifyTaskState(lastStatus) === "unrecognized" && lastStatus !== "unknown"
+      ? ` KIE last reported an unrecognized state "${lastStatus}".`
+      : ` KIE last reported "${lastStatus}".`;
+  throw new Error(
+    `Timed out waiting for KIE task ${args.taskId} after ${args.timeoutMs}ms.${stateNote} The task is still running at KIE — call kie_get_creation with this task id rather than resubmitting.`
+  );
 }

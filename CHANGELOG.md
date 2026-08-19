@@ -1,7 +1,61 @@
 # Changelog
 
-## Unreleased
+## 1.0.0 - 2026-08-19
 
+Deciding whether a KIE task finished, failed, or is still running is now read from one place, against
+the documented contract of `GET /api/v1/jobs/recordInfo`. This was the largest source of tasks that
+appeared to hang, and of failures reported as flaky infrastructure.
+
+- Fixed a failed generation being reported as still processing. `recordInfo` answers HTTP 200 with an
+  envelope `code`, and `501 Generation Failed` and `408` (upstream produced nothing for over ten
+  minutes) both mean the task is finished and unsuccessful. Those were being thrown as generic server
+  errors and retried six times before surfacing as an infrastructure fault. They now end the wait
+  immediately and report the failure with its code.
+- Fixed a freshly created task being declared dead. `recordInfo` can briefly answer `422 recordInfo is
+  null` or `404 Task not found` before a just-submitted task becomes queryable; `422` was classified as
+  a caller input error and aborted the whole wait on the first poll. A not-yet-queryable record now
+  gets its own 90-second grace budget, separate from the consecutive-error allowance, and a task id
+  that never appears fails with a message saying so instead of timing out.
+- Fixed the task state being read from the wrong field. The documented field is `data.state`; `status`
+  is now only a fallback. The two readers in this server disagreed about which came first.
+- Added `outcome` to every generation row — `pending`, `success`, `failed`, or `unrecognized` — as the
+  single field callers should branch on. An undocumented state is reported as unfinished and named,
+  rather than being silently treated as either done or broken.
+- Fixed generated assets being mixed up with echoed input URLs. Results are now read from the fields
+  the reference documents (`resultUrls`, `firstFrameUrl`/`lastFrameUrl`, `resultObject.mask_urls`) in
+  their documented order, with a whole-payload scan kept only as a fallback.
+- Added the non-URL `resultObject` to the result, for models documented to return one, and surfaced
+  `failCode` alongside `failMsg`.
+- A task KIE calls successful but returns nothing for is now flagged instead of reported as a clean
+  success with an empty URL list.
+- A wait that times out now names the last state KIE reported and says to collect the task rather than
+  resubmit it.
+- `kie_get_creation` now states the documented result-URL lifetime (as little as 24 hours, with generated media deleted after 14 days), and `kie_get_download_url` states that the link it returns expires after 20 minutes.
+- Fixed generation requests being able to exceed KIE's documented account rate limit. KIE allows 20 new
+  generation requests per 10 seconds and does **not** queue the excess — it rejects it, so an overrun lost
+  work rather than delaying it. `KIE_MAX_CONCURRENT_REQUESTS` capped concurrency, not rate, and nothing
+  retried a refused submission. Task creation now takes a slot from a sliding window before being sent, and
+  a submission refused with 429 is re-sent honouring `Retry-After`. Only 429 is retried: a create request
+  that may have landed is never sent twice. Tunable via `KIE_GENERATION_RATE_LIMIT`,
+  `KIE_GENERATION_RATE_WINDOW_MS`, and `KIE_GENERATION_MAX_RETRIES`.
+- Verified all 47 endpoints this server calls against the endpoint catalog extracted from the official docs:
+  every path and method matches.
+- Refreshed the official documentation snapshot to 2026-08-19. Same page, operation, and model counts, with
+  upstream schema corrections picked up (Grok Imagine Image 2.0 segment-map inputs, a removed `nsfw_checker`
+  field, clarified `task_id` semantics).
+- `kie_upload_media` and the transport-specific upload tools now state the documented limits they are subject
+  to: uploads are deleted after 3 days, base64 is for small files with the stream path preferred above 10MB,
+  and URL uploads must resolve within a 30 second download timeout under a ~100MB ceiling.
+- Polling now runs at a flat 3 second cadence by default, matching the interval KIE recommends for
+  `recordInfo`. The fast initial ramp and the long-render ease are still implemented and still configurable
+  via `KIE_POLL_FIRST_DELAY_MS` and `KIE_POLL_MAX_INTERVAL_MS`; they are simply inert at the new defaults.
+- Added a landing page at `/` on the hosted relay, so someone who opens the bare hostname gets a short
+  explanation, a copy-paste client configuration, a prompt they can hand to their IDE agent, and a link to
+  the source, instead of a JSON 404.
+- Documented throughout that this is an unofficial, community-built server with no affiliation to the
+  KIE.ai team, and that the hosted instance is not run by them either.
+- Rewrote the README around the hosted server as the default path, with local stdio installation as the
+  alternative for anyone who wants local file uploads or wants nothing but API calls leaving their machine.
 - Added a remote Streamable HTTP transport so the server can be hosted at a URL and used without installing anything locally. `npm run start:http` serves `POST /mcp` plus a `/healthz` probe, and a root `Dockerfile` deploys it on any container host.
 - Made the hosted path a multi-tenant relay: every request carries its own KIE key in an `Authorization: Bearer` or `X-KIE-API-Key` header, so many people share one deployment without sharing credits. The relay keeps no key of its own, refuses keyless requests, and disables local file uploads. Optional `KIE_REMOTE_ACCESS_TOKEN` gates the deployment itself.
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T09:52:42.236Z",
+  "generated_at": "2026-08-19T12:27:50.246Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -4184,24 +4184,14 @@
                   "aspect_ratio",
                   "duration"
                 ],
-                "x--orders": [
-                  "prompt",
-                  "resolution",
-                  "aspect_ratio",
-                  "duration"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": []
               }
             },
             "x-apidog-orders": [
               "model",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "happyhorse-1-1/text-to-video",
@@ -4485,6 +4475,14 @@
                     "minLength": 0,
                     "maxLength": 5000
                   },
+                  "image_url": {
+                    "type": "string",
+                    "description": "需要进行图层拆分的源图片 URL。\n\n- 必须且只能上传 1 张图片\n- 支持 PNG、JPEG、WebP、BMP、TIFF、GIF\n- 不支持 HEIC、HEIF\n- 图片大小不超过 30 MB\n- 总像素范围为 262,144–36,000,000\n- 宽高比范围为 1:16–16:1",
+                    "format": "uri",
+                    "examples": [
+                      "https://static.aiquickdraw.com/tools/example/1786019968051_cKRYLHHu.png"
+                    ]
+                  },
                   "size": {
                     "type": "string",
                     "description": "输出图片的分辨率档位。底图保持输入图片的宽高比，各拆分图层保持对应元素在原图中的宽高比。\n\n- `auto`：根据输入图片尺寸自动选择\n- `1K`：1K 分辨率档位\n- `1.5K`：1.5K 分辨率档位\n- `2K`：2K 分辨率档位",
@@ -4544,14 +4542,6 @@
                         "description": ""
                       }
                     ]
-                  },
-                  "image_url": {
-                    "type": "string",
-                    "description": "需要进行图层拆分的源图片 URL。\n\n- 必须且只能上传 1 张图片\n- 支持 PNG、JPEG、WebP、BMP、TIFF、GIF\n- 不支持 HEIC、HEIF\n- 图片大小不超过 30 MB\n- 总像素范围为 262,144–36,000,000\n- 宽高比范围为 1:16–16:1",
-                    "format": "uri",
-                    "examples": [
-                      "https://static.aiquickdraw.com/tools/example/1786019968051_cKRYLHHu.png"
-                    ]
                   }
                 },
                 "x-apidog-orders": [
@@ -4560,13 +4550,7 @@
                   "size",
                   "output_format"
                 ],
-                "x--orders": [
-                  "prompt",
-                  "size",
-                  "output_format",
-                  "image_url"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -4574,12 +4558,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": null,
           "examples": {}
@@ -6667,69 +6646,6 @@
                 "type": "object",
                 "description": "Input parameters for the generation task",
                 "properties": {
-                  "prompt": {
-                    "type": "string",
-                    "description": "The text prompt used to generate the video. Required field. (Min length: 3, Max length: 20000 characters)",
-                    "minLength": 3,
-                    "maxLength": 20000,
-                    "examples": [
-                      "A serene beach at sunset with waves gently crashing on the shore, palm trees swaying in the breeze, and seagulls flying across the orange sky"
-                    ]
-                  },
-                  "first_frame_url": {
-                    "type": "string",
-                    "description": "First frame image url or asset://{assetId} \n(for example: asset://asset-20260404242101-76djj)"
-                  },
-                  "last_frame_url": {
-                    "type": "string",
-                    "description": "End frame image url or asset://{assetId} \n(for example: asset://asset-20260404242101-76djj)"
-                  },
-                  "reference_image_urls": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "format": "uri"
-                    },
-                    "description": "Enter a list of image URLs or asset://{assetId} (for example: asset://asset-20260404242101-76djj).\nSingle image requirements:\nFormat: jpeg, png, webp, bmp, tiff, gif.\nAspect ratio (width/height): (0.4, 2.5)\nWidth and height (px): (300, 6000)\nSize: Single image less than 30 MB.\nMaximum number of files: The sum of the number of frames at the beginning and end must not exceed 9..",
-                    "maxItems": 9,
-                    "examples": [
-                      [
-                        "https://file.aiquickdraw.com/custom-page/akr/section-images/example1.png"
-                      ]
-                    ]
-                  },
-                  "reference_video_urls": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "format": "uri"
-                    },
-                    "description": "Enter a list of video URLs or asset://{assetId} (for example: asset://asset-20260404242101-76djj) .\nSingle video requirements:\nVideo format: mp4, mov.\nResolution: 480p, 720p\nDuration: Single video duration [2, 15] s, maximum 3 reference videos, total duration of all videos not exceeding 15 seconds.\nDimensions:\nAspect ratio (width/height): [0.4, 2.5]\nWidth/height (px): [300, 6000]\nTotal pixels: [640×640=409600, 834×1112=927408], i.e., the product of width and height must meet the range requirement of [409600, 927408].\nSize: Single video not exceeding 50 MB.\nFrame rate (FPS): [24, 60]",
-                    "maxItems": 3
-                  },
-                  "reference_audio_urls": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "format": "uri"
-                    },
-                    "description": "Enter a list of audio URLs or asset://{assetId} (for example: asset://asset-20260404242101-76djj) .\nSingle audio requirements:\nFormat: wav, mp3\nDuration: Single audio duration [2, 15] s, maximum 3 reference audios, total duration of all audios not exceeding 15 s.\nSize: Single audio file size not exceeding 15 MB.",
-                    "maxItems": 3
-                  },
-                  "return_last_frame": {
-                    "type": "boolean",
-                    "description": "Whether to return the last frame of the video as an image.",
-                    "default": false,
-                    "deprecated": true
-                  },
-                  "generate_audio": {
-                    "description": "Whether to generate audio for the video.\n\n- **true**: Generate with audio\n- **false**: Generate without audio",
-                    "type": "boolean",
-                    "default": true,
-                    "examples": [
-                      false
-                    ]
-                  },
                   "resolution": {
                     "type": "string",
                     "description": "Video resolution - 480p for faster generation, 720p for balance, 1080p for High-quality video, 4K Ultra-High Definition, delivering perfect visual details.",
@@ -6765,6 +6681,32 @@
                         "description": ""
                       }
                     ]
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "Video duration in 4-15 seconds.",
+                    "default": 5,
+                    "examples": [
+                      5
+                    ]
+                  },
+                  "generate_audio": {
+                    "description": "Whether to generate audio for the video.\n\n- **true**: Generate with audio\n- **false**: Generate without audio",
+                    "type": "boolean",
+                    "default": true,
+                    "examples": [
+                      false
+                    ]
+                  },
+                  "return_last_frame": {
+                    "type": "boolean",
+                    "description": "Whether to return the last frame of the video as an image.",
+                    "default": false,
+                    "deprecated": true
+                  },
+                  "web_search": {
+                    "type": "boolean",
+                    "description": "Use online search"
                   },
                   "aspect_ratio": {
                     "type": "string",
@@ -6820,21 +6762,54 @@
                       "16:9"
                     ]
                   },
-                  "duration": {
-                    "type": "integer",
-                    "description": "Video duration in 4-15 seconds.",
-                    "default": 5,
+                  "prompt": {
+                    "type": "string",
+                    "description": "The text prompt used to generate the video. Required field. (Min length: 3, Max length: 20000 characters)",
+                    "minLength": 3,
+                    "maxLength": 20000,
                     "examples": [
-                      5
+                      "A serene beach at sunset with waves gently crashing on the shore, palm trees swaying in the breeze, and seagulls flying across the orange sky"
                     ]
                   },
-                  "web_search": {
-                    "type": "boolean",
-                    "description": "Use online search"
+                  "reference_image_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Enter a list of image URLs or asset://{assetId} (for example: asset://asset-20260404242101-76djj).\nSingle image requirements:\nFormat: jpeg, png, webp, bmp, tiff, gif.\nAspect ratio (width/height): (0.4, 2.5)\nWidth and height (px): (300, 6000)\nSize: Single image less than 30 MB.\nMaximum number of files: The sum of the number of frames at the beginning and end must not exceed 9..",
+                    "maxItems": 9,
+                    "examples": [
+                      [
+                        "https://file.aiquickdraw.com/custom-page/akr/section-images/example1.png"
+                      ]
+                    ]
                   },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
+                  "reference_audio_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Enter a list of audio URLs or asset://{assetId} (for example: asset://asset-20260404242101-76djj) .\nSingle audio requirements:\nFormat: wav, mp3\nDuration: Single audio duration [2, 15] s, maximum 3 reference audios, total duration of all audios not exceeding 15 s.\nSize: Single audio file size not exceeding 15 MB.",
+                    "maxItems": 3
+                  },
+                  "first_frame_url": {
+                    "type": "string",
+                    "description": "First frame image url or asset://{assetId} \n(for example: asset://asset-20260404242101-76djj)"
+                  },
+                  "last_frame_url": {
+                    "type": "string",
+                    "description": "End frame image url or asset://{assetId} \n(for example: asset://asset-20260404242101-76djj)"
+                  },
+                  "reference_video_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Enter a list of video URLs or asset://{assetId} (for example: asset://asset-20260404242101-76djj) .\nSingle video requirements:\nVideo format: mp4, mov.\nResolution: 480p, 720p\nDuration: Single video duration [2, 15] s, maximum 3 reference videos, total duration of all videos not exceeding 15 seconds.\nDimensions:\nAspect ratio (width/height): [0.4, 2.5]\nWidth/height (px): [300, 6000]\nTotal pixels: [640×640=409600, 834×1112=927408], i.e., the product of width and height must meet the range requirement of [409600, 927408].\nSize: Single video not exceeding 50 MB.\nFrame rate (FPS): [24, 60]",
+                    "maxItems": 3
                   }
                 },
                 "x-apidog-orders": [
@@ -6857,9 +6832,21 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "resolution",
+                  "duration",
+                  "generate_audio",
+                  "return_last_frame",
+                  "web_search",
+                  "aspect_ratio",
+                  "prompt",
+                  "reference_image_urls",
+                  "reference_audio_urls",
+                  "first_frame_url",
+                  "last_frame_url",
+                  "reference_video_urls"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -6867,7 +6854,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "bytedance/seedance-2",
@@ -11640,7 +11632,13 @@
                   "aspect_ratio",
                   "seed"
                 ],
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "negative_prompt",
+                  "aspect_ratio",
+                  "seed"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -11648,7 +11646,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "google/imagen4-fast",
@@ -13935,7 +13938,7 @@
                   },
                   "task_id": {
                     "type": "string",
-                    "description": "The source task ID to use for image editing.",
+                    "description": "The source task ID to use for image editing(This can be a task ID generated by the `grok-imagine-image-2-0/text-to-image` model, or a task ID generated by the `grok-imagine-image-2-0/segment-map` model by passing an `image_url`.).",
                     "examples": [
                       "task_grok_imagine_1234567890"
                     ]
@@ -14038,23 +14041,45 @@
                 ]
               },
               "input": {
-                "type": "object",
                 "description": "Input parameters for the segment map task.",
-                "required": [
-                  "task_id"
-                ],
-                "properties": {
-                  "task_id": {
-                    "type": "string",
-                    "minLength": 1,
-                    "description": "The ID of an existing task. Required. ",
-                    "examples": [
-                      "task_grok_imagine_1765180586443"
+                "oneOf": [
+                  {
+                    "title": "task_id",
+                    "type": "object",
+                    "required": [
+                      "task_id"
+                    ],
+                    "properties": {
+                      "task_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The ID of an existing task. Required. ",
+                        "examples": [
+                          "task_grok_imagine_1765180586443"
+                        ]
+                      }
+                    },
+                    "x-apidog-orders": [
+                      "task_id"
+                    ]
+                  },
+                  {
+                    "title": "image_url",
+                    "type": "object",
+                    "required": [
+                      "image_url"
+                    ],
+                    "properties": {
+                      "image_url": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "The URL of the reference image."
+                      }
+                    },
+                    "x-apidog-orders": [
+                      "image_url"
                     ]
                   }
-                },
-                "x-apidog-orders": [
-                  "task_id"
                 ]
               }
             },
@@ -14916,10 +14941,6 @@
                       }
                     ],
                     "default": "16:9"
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "x-apidog-orders": [
@@ -14938,9 +14959,17 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "image_urls",
+                  "task_id",
+                  "index",
+                  "prompt",
+                  "mode",
+                  "duration",
+                  "resolution",
+                  "aspect_ratio"
+                ],
+                "x--ignore-properties": []
               }
             },
             "required": [
@@ -14965,7 +14994,12 @@
                 }
               }
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "grok-imagine/image-to-video",
@@ -15286,10 +15320,6 @@
                     "examples": [
                       "480p"
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -15308,9 +15338,14 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "aspect_ratio",
+                  "mode",
+                  "duration",
+                  "resolution"
+                ],
+                "x--ignore-properties": []
               }
             },
             "required": [
@@ -15333,7 +15368,12 @@
                 }
               }
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "grok-imagine/text-to-video",
@@ -16396,10 +16436,6 @@
                     "examples": [
                       "768P"
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -16418,9 +16454,13 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "image_url",
+                  "duration",
+                  "resolution"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -16428,7 +16468,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "hailuo/2-3-image-to-video-standard",
@@ -33729,10 +33774,6 @@
                     "type": "boolean",
                     "default": false,
                     "description": "The multi shots parameter controls the shot composition style during AI video generation, determining whether the generated video is a single continuous shot or multiple shots with transitions."
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -33750,9 +33791,13 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "duration",
+                  "resolution",
+                  "multi_shots"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -33760,7 +33805,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "wan/2-6-text-to-video",
@@ -34195,7 +34245,11 @@
                         "hex",
                         "ratio"
                       ],
-                      "x-apidog-ignore-properties": []
+                      "x--orders": [
+                        "hex",
+                        "ratio"
+                      ],
+                      "x--ignore-properties": []
                     }
                   },
                   "bbox_list": {
@@ -34236,10 +34290,6 @@
                     "examples": [
                       0
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -34281,9 +34331,20 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "input_urls",
+                  "aspect_ratio",
+                  "enable_sequential",
+                  "n",
+                  "resolution",
+                  "thinking_mode",
+                  "color_palette",
+                  "bbox_list",
+                  "watermark",
+                  "seed"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -34291,7 +34352,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": null,
           "examples": {}
@@ -37997,7 +38063,12 @@
               "index",
               "callBackUrl"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "taskId",
+              "index",
+              "callBackUrl"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "taskId": "veo_task_abcdef123456",

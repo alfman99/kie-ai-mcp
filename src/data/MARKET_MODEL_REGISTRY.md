@@ -1,6 +1,6 @@
 # KIE.AI Market Model Registry
 
-Generated 2026-08-18T09:52:42.236Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
+Generated 2026-08-19T12:27:50.246Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
 
 | Model | Required input | Official source |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ Generated 2026-08-18T09:52:42.236Z from official `docs.kie.ai` OpenAPI schemas f
 | `gpt-image/1.5-image-to-image` | `aspect_ratio`, `input_urls`, `prompt`, `quality` | [GPT Image-1.5 - Image to Image](<https://docs.kie.ai/market/gpt-image/1-5-image-to-image.md>) |
 | `gpt-image/1.5-text-to-image` | `aspect_ratio`, `prompt`, `quality` | [GPT Image-1.5 - Text to Image](<https://docs.kie.ai/market/gpt-image/1-5-text-to-image.md>) |
 | `grok-imagine-image-2-0/image-edit` | `prompt`, `task_id` | [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>) |
-| `grok-imagine-image-2-0/segment-map` | `task_id` | [Grok Imagine Image 2.0 Segment Map](<https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md>) |
+| `grok-imagine-image-2-0/segment-map` |  | [Grok Imagine Image 2.0 Segment Map](<https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md>) |
 | `grok-imagine-image-2-0/text-to-image` | `aspect_ratio`, `prompt` | [Grok Imagine Image 2.0 Text To Image](<https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md>) |
 | `grok-imagine-video-1-5-preview` |  | [Grok Imagine Video 1.5 Preview](<https://docs.kie.ai/market/grok-imagine/1-5-preview.md>) |
 | `grok-imagine/extend` | `extend_at`, `extend_times`, `prompt`, `task_id` | [Grok Imagine - Video Extend](<https://docs.kie.ai/market/grok-imagine/extend.md>) |

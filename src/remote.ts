@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { loadConfig } from "./config.js";
+import { landingPage } from "./landing.js";
 import { createKieMcpServer } from "./server.js";
 import { TaskStore } from "./task-store.js";
 import type { KieConfig } from "./types.js";
@@ -11,6 +12,7 @@ const INVALID_REQUEST = -32600;
 
 export const MCP_PATH = "/mcp";
 export const HEALTH_PATH = "/healthz";
+export const LANDING_PATH = "/";
 
 /**
  * How long a tenant's task store survives without traffic. Long enough that idempotency keys and
@@ -117,6 +119,18 @@ export class TenantRegistry {
   }
 }
 
+function sendHtml(res: ServerResponse, status: number, body: string, includeBody: boolean): void {
+  res.writeHead(status, {
+    "content-type": "text/html; charset=utf-8",
+    "content-length": Buffer.byteLength(body)
+  });
+  if (includeBody) {
+    res.end(body);
+  } else {
+    res.end();
+  }
+}
+
 function sendJson(res: ServerResponse, status: number, body: unknown): void {
   const payload = JSON.stringify(body);
   res.writeHead(status, {
@@ -155,6 +169,13 @@ export function createRemoteHandler(options: RemoteHandlerOptions = {}) {
 
   return async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> {
     const url = new URL(req.url ?? "/", `http://${req.headers.host ?? "localhost"}`);
+
+    // A human who typed the bare hostname gets a page explaining what this is; every other path
+    // stays a machine-facing JSON endpoint.
+    if (url.pathname === LANDING_PATH && (req.method === "GET" || req.method === "HEAD")) {
+      sendHtml(res, 200, landingPage(MCP_PATH), req.method === "GET");
+      return;
+    }
 
     if (url.pathname === HEALTH_PATH) {
       sendJson(res, 200, { status: "ok", transport: "streamable-http", tenants: registry.size });

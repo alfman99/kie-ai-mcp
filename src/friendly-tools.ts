@@ -1,6 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import {
+  classifyTaskState,
   failedGeneration,
   GenerationKindSchema,
   GenerationResultSchema,
@@ -230,13 +231,18 @@ function generationFromFriendlyResult(args: {
       : typeof args.result.warning === "string"
         ? args.result.warning
         : undefined;
+  const status = typeof args.result.status === "string" ? args.result.status : "submitted";
+  // A task KIE accepted but whose id we never saw cannot be polled, so it is reported as failed
+  // rather than left looking like work still in flight.
+  const outcome = taskId === "unavailable" ? "failed" : classifyTaskState(status);
   return {
     taskId,
     ...(args.label ? { label: args.label } : {}),
     kind,
     ...(model ? { model } : {}),
     prompt: args.prompt,
-    status: typeof args.result.status === "string" ? args.result.status : "submitted",
+    status,
+    outcome,
     outputUrls: [],
     ...deduplicated,
     ...(error ? { error } : {})
@@ -490,7 +496,7 @@ export function registerFriendlyTools(args: {
     {
       title: "Get KIE Creations",
       description:
-        "Check or wait for submitted KIE tasks and return their finished media URLs. Pass every task ID you are waiting on in one call; they are polled in parallel and a failure on one never hides the others. Finished tasks are served from memory, so re-checking is free.",
+        "Check or wait for submitted KIE tasks and return their finished media URLs. Pass every task ID you are waiting on in one call; they are polled in parallel and a failure on one never hides the others. Finished tasks are served from memory, so re-checking is free. Read `outcome` on each row, not `status`: \"success\" means the asset is ready, \"failed\" means it will never be (`error`/`errorCode` say why, and checking again cannot change it), and \"pending\" is the only outcome worth another call. Download anything worth keeping promptly: KIE documents result URLs as expiring in as little as 24 hours, and deletes generated media after 14 days.",
       inputSchema: {
         taskIds: z
           .array(z.string().min(1))

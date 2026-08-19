@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { KieHttpClient } from "../src/http.js";
-import { getMarketTask, healthyDelayMs, waitForMarketTask } from "../src/task.js";
+import { getMarketTask, getMarketTaskCached, healthyDelayMs, waitForMarketTask } from "../src/task.js";
 import type { KieConfig } from "../src/types.js";
 
 const config: KieConfig = {
@@ -264,5 +264,84 @@ describe("poll scheduling", () => {
 
     expect(result).toMatchObject({ data: { status: "success" } });
     expect(mocked.mock.calls.length).toBe(5);
+  });
+});
+
+describe("status reported through the envelope code", () => {
+  function codeResponse(code: number, msg: string): Response {
+    return new Response(JSON.stringify({ code, msg, data: null }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  it("stops waiting when code 501 says generation failed", async () => {
+    const fetchImpl = vi.fn(async () => codeResponse(501, "Generation Failed")) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+
+    const result = await waitForMarketTask({ client, taskId: "task_501", intervalMs: 1, timeoutMs: 500 });
+
+    expect(result).toMatchObject({ data: { state: "fail", failCode: "501" } });
+    expect(vi.mocked(fetchImpl)).toHaveBeenCalledTimes(1);
+  });
+
+  it("stops waiting when code 408 says the upstream produced nothing", async () => {
+    const fetchImpl = vi.fn(async () => codeResponse(408, "Upstream timeout")) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+
+    await expect(
+      waitForMarketTask({ client, taskId: "task_408", intervalMs: 1, timeoutMs: 500 })
+    ).resolves.toMatchObject({ data: { state: "fail", failCode: "408" } });
+  });
+
+  it("rides out the gap before a freshly created task becomes queryable", async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(codeResponse(422, "recordInfo is null"))
+      .mockResolvedValueOnce(codeResponse(404, "Task not found"))
+      .mockResolvedValueOnce(jsonResponse({ code: 200, msg: "success", data: { state: "success" } })) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+
+    const result = await waitForMarketTask({ client, taskId: "task_new", intervalMs: 1, timeoutMs: 2000 });
+
+    expect(result).toMatchObject({ data: { state: "success" } });
+  });
+
+  it("gives up on a task id KIE never learns about", async () => {
+    const fetchImpl = vi.fn(async () => codeResponse(404, "Task not found")) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+
+    await expect(
+      waitForMarketTask({ client, taskId: "task_ghost", intervalMs: 1, timeoutMs: 2000, notVisibleGraceMs: 10 })
+    ).rejects.toThrow(/no record of task task_ghost/);
+  });
+
+  it("reports a not-yet-queryable task as waiting in a single snapshot", async () => {
+    const fetchImpl = vi.fn(async () => codeResponse(422, "recordInfo is null")) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+
+    await expect(getMarketTaskCached({ client, taskId: "task_snap" })).resolves.toMatchObject({
+      data: { state: "waiting" }
+    });
+  });
+
+  it("still surfaces an unusable API key instead of polling through it", async () => {
+    const fetchImpl = vi.fn(async () => codeResponse(401, "Unauthorized")) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+
+    await expect(
+      waitForMarketTask({ client, taskId: "task_401", intervalMs: 1, timeoutMs: 200 })
+    ).rejects.toMatchObject({ name: "KieApiError", code: 401 });
+  });
+
+  it("names the last observed state when a wait times out", async () => {
+    const fetchImpl = vi.fn(async () =>
+      jsonResponse({ code: 200, msg: "success", data: { state: "queuing" } })
+    ) as unknown as typeof fetch;
+    const client = new KieHttpClient(config, fetchImpl);
+
+    await expect(
+      waitForMarketTask({ client, taskId: "task_slow", intervalMs: 1, timeoutMs: 20 })
+    ).rejects.toThrow(/last reported "queuing"/);
   });
 });

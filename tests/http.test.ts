@@ -227,3 +227,86 @@ describe("request pacing", () => {
     await expect(client.requestJson({ path: "/api/v1/jobs/recordInfo" })).resolves.toBeTruthy();
   });
 });
+
+describe("documented generation rate limit", () => {
+  const limited: KieConfig = {
+    apiKey: "test-key",
+    apiBaseUrl: "https://api.test",
+    uploadBaseUrl: "https://upload.test",
+    pollIntervalMs: 1,
+    pollTimeoutMs: 1000,
+    allowLocalFileUploads: false,
+    generationRateLimit: 3,
+    generationRateWindowMs: 150,
+    generationMaxRetries: 2
+  };
+
+  function ok(): Response {
+    return new Response(JSON.stringify({ code: 200, msg: "success", data: { taskId: "t" } }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  it("holds new generation requests back instead of spending them on a guaranteed rejection", async () => {
+    const fetchImpl = vi.fn(async () => ok()) as unknown as typeof fetch;
+    const client = new KieHttpClient(limited, fetchImpl);
+
+    const inFlight = Array.from({ length: 5 }, () =>
+      client.requestJson({ method: "POST", path: "/api/v1/jobs/createTask", body: {}, rateLimitClass: "generation" })
+    );
+    await new Promise((resolve) => setTimeout(resolve, 20));
+
+    // Only the window's worth of submissions may leave; the rest wait for a slot.
+    expect(vi.mocked(fetchImpl)).toHaveBeenCalledTimes(3);
+
+    // ...and then they are sent, rather than being dropped.
+    await Promise.all(inFlight);
+    expect(vi.mocked(fetchImpl)).toHaveBeenCalledTimes(5);
+  });
+
+  it("does not meter status reads against the generation budget", async () => {
+    const fetchImpl = vi.fn(async () => ok()) as unknown as typeof fetch;
+    const client = new KieHttpClient(limited, fetchImpl);
+
+    await Promise.all(
+      Array.from({ length: 8 }, () => client.requestJson({ method: "GET", path: "/api/v1/jobs/recordInfo" }))
+    );
+
+    expect(vi.mocked(fetchImpl)).toHaveBeenCalledTimes(8);
+  });
+
+  it("re-sends a submission KIE refused with 429, honouring Retry-After", async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ code: 429, msg: "Rate limit exceeded" }), {
+          status: 429,
+          headers: { "Content-Type": "application/json", "Retry-After": "0" }
+        })
+      )
+      .mockResolvedValueOnce(ok()) as unknown as typeof fetch;
+    const client = new KieHttpClient(limited, fetchImpl);
+
+    await expect(
+      client.requestJson({ method: "POST", path: "/api/v1/jobs/createTask", body: {}, rateLimitClass: "generation" })
+    ).resolves.toMatchObject({ code: 200 });
+    expect(vi.mocked(fetchImpl)).toHaveBeenCalledTimes(2);
+  });
+
+  it("never re-sends a submission that failed for any other reason", async () => {
+    const fetchImpl = vi.fn(
+      async () =>
+        new Response(JSON.stringify({ code: 402, msg: "Insufficient credits" }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" }
+        })
+    ) as unknown as typeof fetch;
+    const client = new KieHttpClient(limited, fetchImpl);
+
+    await expect(
+      client.requestJson({ method: "POST", path: "/api/v1/jobs/createTask", body: {}, rateLimitClass: "generation" })
+    ).rejects.toMatchObject({ code: 402 });
+    expect(vi.mocked(fetchImpl)).toHaveBeenCalledTimes(1);
+  });
+});

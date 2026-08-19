@@ -33,6 +33,7 @@ export async function createMarketTask(args: {
   return args.client.requestJson({
     method: "POST",
     path: "/api/v1/jobs/createTask",
+    rateLimitClass: "generation",
     body: {
       model: args.model,
       ...(args.callBackUrl ? { callBackUrl: args.callBackUrl } : {}),

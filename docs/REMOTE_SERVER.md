@@ -7,10 +7,15 @@ The hosted server is a **relay**. It holds no KIE credentials: every caller send
 key on each request, and the relay spends only that key's credits. Many people can use one
 deployment at the same time with different keys.
 
+A public instance runs at **`https://kie-mcp.alfredomanresa.com/mcp`** — see the
+[quick start](../README.md#quick-start-the-hosted-server) to connect to it. It is an unofficial
+deployment run by this project's author, not by KIE.ai. This document covers running your own.
+
 ## Endpoints
 
 | Path | Method | Purpose |
 | --- | --- | --- |
+| `/` | `GET` | Human-facing landing page: what this is and how to connect |
 | `/mcp` | `POST` | MCP Streamable HTTP transport (stateless — every JSON-RPC message is a POST) |
 | `/healthz` | `GET` | Liveness probe: `{"status":"ok",...}` |
 

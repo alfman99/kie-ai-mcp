@@ -156,7 +156,7 @@ export function createKieMcpServer(
   const server = new McpServer(
     {
       name: "kie-ai-mcp",
-      version: "0.7.0"
+      version: "1.0.0"
     },
     {
       instructions: [
@@ -240,7 +240,8 @@ export function createKieMcpServer(
     "kie_get_download_url",
     {
       title: "Get KIE Download URL",
-      description: "Convert a KIE-generated file URL into a temporary direct download URL.",
+      description:
+        "Convert a KIE-generated file URL into a temporary direct download URL. The returned link expires 20 minutes after it is issued, so fetch it immediately rather than storing it.",
       inputSchema: {
         url: z.string().url().describe("A KIE-generated media/file URL.")
       }
@@ -260,7 +261,7 @@ export function createKieMcpServer(
     {
       title: "Upload Media With KIE",
       description:
-        "Upload one local file, public URL, or base64 payload through KIE's native temporary File Upload API. No third-party storage service is used.",
+        "Upload one local file, public URL, or base64 payload through KIE's native temporary File Upload API. No third-party storage service is used. Uploads are temporary: KIE deletes them after 3 days. Use base64 only for small files — anything over 10MB should go through a local file (stream) upload, and a URL upload must be publicly reachable within a 30 second download timeout and is capped around 100MB.",
       inputSchema: {
         sourceType: z.enum(["local_file", "url", "base64"]),
         source: z.string().min(1).describe("Absolute local path, public HTTP(S) URL, raw base64, or a base64 data URL."),
@@ -306,7 +307,8 @@ export function createKieMcpServer(
     "kie_upload_file_from_url",
     {
       title: "Upload File From URL",
-      description: "Ask KIE to download a remote URL into temporary upload storage.",
+      description:
+        "Ask KIE to download a remote URL into temporary upload storage. The URL must be publicly reachable within a 30 second download timeout, the recommended ceiling is 100MB, and the stored file is deleted after 3 days.",
       inputSchema: {
         fileUrl: z.string().url(),
         uploadPath: UploadPathSchema,
@@ -328,7 +330,8 @@ export function createKieMcpServer(
     "kie_upload_file_base64",
     {
       title: "Upload Base64 File",
-      description: "Upload base64 file data into KIE temporary upload storage.",
+      description:
+        "Upload base64 file data into KIE temporary upload storage. Accepts a plain base64 string or a data URL. Recommended for small files only — base64 adds about 33% overhead, so use the stream upload above 10MB. The stored file is deleted after 3 days.",
       inputSchema: {
         base64Data: z.string().min(1),
         uploadPath: UploadPathSchema,
@@ -351,7 +354,7 @@ export function createKieMcpServer(
     {
       title: "Upload Local File Stream",
       description:
-        "Upload a local file inside KIE_LOCAL_UPLOAD_ROOT to KIE temporary storage using multipart form data. Disabled by default for safety.",
+        "Upload a local file inside KIE_LOCAL_UPLOAD_ROOT to KIE temporary storage using multipart form data. Preferred for files over 10MB. Disabled by default for safety. The stored file is deleted after 3 days.",
       inputSchema: {
         filePath: z.string().min(1),
         uploadPath: UploadPathSchema,
@@ -580,7 +583,10 @@ export function createKieMcpServer(
           method: productOperation.method,
           path: productOperation.path,
           query: productOperation.method === "GET" ? (query as Record<string, string | number | boolean | undefined>) : undefined,
-          body: productOperation.method === "POST" ? body ?? {} : undefined
+          body: productOperation.method === "POST" ? body ?? {} : undefined,
+          // Product endpoints that create a task are metered against the same account-wide
+          // generation budget as the Market createTask endpoint.
+          ...(productOperation.creates ? { rateLimitClass: "generation" as const } : {})
         });
       })
   );

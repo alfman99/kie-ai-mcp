@@ -1,10 +1,10 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-08-18T09:52:42.236Z",
+  "generatedAt": "2026-08-19T12:27:50.246Z",
   "sourceIndex": "https://docs.kie.ai/llms.txt",
   "sourceHost": "docs.kie.ai",
   "indexSha256": "43e0b581b8289c0498d44f31fa8740bd44f9d77eb28394840388a73247c2d911",
-  "contentSha256": "7253da60eb1d10c893dcdcd7b600a597b0dc0bd7d8dbbbe374272b71ed2b5c12",
+  "contentSha256": "51ab77b978a7f89179e760a0b382ab6338f12931e58285472d9a7474ba60a634",
   "pageCount": 264,
   "openapiPageCount": 230,
   "operationCount": 230,
@@ -12,9 +12,9 @@
   "marketModelCount": 135,
   "failures": 0,
   "artifactSha256": {
-    "openapi_endpoint_catalog": "60682e72b0b3d4c51a8bc97e6f975e1fcf039dd09b3d1b753412b7ed6e1c9fb5",
-    "market_model_registry": "96e59b092d2672dba62806fc83cb3495dcc3f908557d81f538ece181f39d3c87",
-    "endpoint_index": "8276cc91e30153828b5c1242f27f95e335664a1a55c5ecfa909d12870157f4d6"
+    "openapi_endpoint_catalog": "5610716312507988ac5a2da4388907fd3f7f84379dfc3b24412e4d614683659d",
+    "market_model_registry": "55d39f620b5fbcf390ea144ecfddebc2212ecf4793d300f7d37b907921bed8a2",
+    "endpoint_index": "62e2a22a71b5ba47ebab5f83fbd27a89f2df02a8dd0ae3ab98ec7370453f0049"
   },
   "schemaCorrections": [
     {

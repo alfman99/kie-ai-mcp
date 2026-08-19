@@ -112,6 +112,9 @@ The bundle is validated and inspected with the official MCPB tool before the bui
 | `KIE_POLL_EASE_AFTER_MS` | No | `90000` | Elapsed wait before easing toward the ceiling |
 | `KIE_REQUEST_TIMEOUT_MS` | No | `20000` | Per-request deadline |
 | `KIE_MAX_CONCURRENT_REQUESTS` | No | `8` | Ceiling on simultaneous in-flight KIE requests |
+| `KIE_GENERATION_RATE_LIMIT` | No | `20` | New generation requests allowed per window (KIE's documented account limit) |
+| `KIE_GENERATION_RATE_WINDOW_MS` | No | `10000` | Width of the generation rate-limit window |
+| `KIE_GENERATION_MAX_RETRIES` | No | `3` | Re-sends of a submission KIE refused with 429 |
 | `KIE_TOOL_PROFILE` | No | `standard` | `full` adds the advanced escape-hatch tools |
 | `KIE_SUBMISSION_TTL_MS` | No | `1800000` | How long an `idempotencyKey` replays its original submission |
 | `KIE_RESULT_CACHE_TTL_MS` | No | `1800000` | How long a finished task is served from memory |
@@ -170,6 +173,19 @@ Polling is tuned for the shortest gap between "finished at KIE" and "returned he
 - Exponential backoff applies to failures only, and a `Retry-After` header is honoured when KIE sends one.
 - Each poll carries `KIE_REQUEST_TIMEOUT_MS` of its own, so a stalled socket is retried instead of consuming the whole wait budget.
 - Every sleep is jittered, and `KIE_MAX_CONCURRENT_REQUESTS` caps in-flight requests, so a 16-job batch does not arrive at KIE in one synchronized burst.
+
+## Task creation rate limit
+
+KIE allows [up to 20 new generation requests per 10 seconds per account](https://docs.kie.ai/1973359m0.md), and states that
+rejected requests **do not enter the queue** — an overrun destroys work rather than delaying it.
+
+- Task-creating requests take a slot from a sliding window (`KIE_GENERATION_RATE_LIMIT` per `KIE_GENERATION_RATE_WINDOW_MS`)
+  before they are sent. This covers `POST /api/v1/jobs/createTask` and the 23 product endpoints that create billable tasks.
+- Status reads, credit checks, uploads, and downloads are not metered against that budget.
+- A submission KIE still refuses with 429 is re-sent up to `KIE_GENERATION_MAX_RETRIES` times, honouring `Retry-After`.
+  A 429 means the request was refused outright, so nothing was created and nothing was charged. **No other failure is ever
+  retried automatically**, because a create request that may have landed must not be sent twice.
+- Neither the rate-limit wait nor the retry backoff holds a concurrency slot, so a waiting submission never blocks a working one.
 
 ## Native media upload
 
