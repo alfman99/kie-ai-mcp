@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.1.0 - 2026-08-19
+
+Local files now work against the hosted relay. A remote server has no access to the caller's disk and
+must never touch its own, which left base64 as the only route — unusable in practice, since a 1MB
+image is roughly 350k tokens of context.
+
+- Added `POST /upload` to the remote server. It takes a `multipart/form-data` file off the wire and
+  forwards it to KIE's temporary File Upload API under the caller's own key, returning the resulting
+  URL. Authentication matches `/mcp`. The body is streamed socket to socket and never buffered or
+  written to disk, so a large file costs one connection and no memory.
+- Added `uploadPath` and `fileName` as query parameters on that endpoint. Both are validated — the
+  path against the same rules as the tools, the name against anything that could break out of the
+  multipart header — and injected into the body, so the form itself needs only a `file` field.
+- Added `KIE_MAX_UPLOAD_BYTES` (default 100MB, KIE's own ceiling). An oversized upload is refused with
+  `413`, before forwarding when `Content-Length` declares it and mid-stream otherwise.
+- Added the endpoint to what agents are told: the server instructions, the `kie_upload_media`
+  description, and the error returned for a `local_file` attempt now all carry the exact command.
+  Previously that error read as a misconfiguration to fix, naming an environment variable a remote
+  caller has no way to set. This guidance appears only when running as the relay.
+- Added `KIE_PUBLIC_URL` for deployments behind a proxy that does not send `X-Forwarded-Host` or
+  `X-Forwarded-Proto`. It is what the addresses handed to agents are built from.
+
 ## 1.0.0 - 2026-08-19
 
 Deciding whether a KIE task finished, failed, or is still running is now read from one place, against

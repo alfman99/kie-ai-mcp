@@ -17,6 +17,7 @@ deployment run by this project's author, not by KIE.ai. This document covers run
 | --- | --- | --- |
 | `/` | `GET` | Human-facing landing page: what this is and how to connect |
 | `/mcp` | `POST` | MCP Streamable HTTP transport (stateless — every JSON-RPC message is a POST) |
+| `/upload` | `POST` | Send a local file to KIE under the caller's own key (see below) |
 | `/healthz` | `GET` | Liveness probe: `{"status":"ok",...}` |
 
 `GET /mcp` returns `405`. Stateless mode keeps no server-held session, so there is no stream to
@@ -53,7 +54,9 @@ caller's behalf. Callers upload media by URL or base64 instead.
 3. Port: `3000`.
 4. Domain: `https://kie-mcp.alfredomanresa.com` — Coolify's proxy terminates TLS.
 5. Health check path: `/healthz`.
-6. Environment variables: none are required. Set `KIE_REMOTE_ACCESS_TOKEN` if you want the gate.
+6. Environment variables: none are required. Set `KIE_REMOTE_ACCESS_TOKEN` if you want the gate,
+   and `KIE_PUBLIC_URL` if the proxy does not send `X-Forwarded-Host`/`X-Forwarded-Proto` (it is
+   what the upload instructions handed to agents are built from).
    Do **not** set `KIE_API_KEY`.
 7. Point a DNS `A`/`CNAME` record for `kie-mcp` at the Coolify host before deploying, so the
    certificate can be issued.
@@ -97,6 +100,33 @@ curl -s https://kie-mcp.alfredomanresa.com/healthz
 ```bash
 curl -sN -X POST https://kie-mcp.alfredomanresa.com/mcp -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' -H "Authorization: Bearer $KIE_API_KEY" -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 ```
+
+## Uploading local files
+
+A hosted relay has no access to the caller's disk, and it must never read its own, so
+`kie_upload_media` with `sourceType: "local_file"` is unavailable here. `POST /upload` is the way
+in: it takes the file straight off the wire and forwards it to KIE's temporary File Upload API
+under the caller's key, then returns KIE's response with the resulting URL.
+
+```bash
+curl -X POST "https://kie-mcp.alfredomanresa.com/upload?fileName=reference.png" \
+  -H "Authorization: Bearer $KIE_API_KEY" \
+  -F file=@/path/to/reference.png
+```
+
+Same credentials as `/mcp`: the caller's KIE key, plus `X-KIE-Access-Token` when the gate is set.
+Query parameters: `uploadPath` (relative, defaults to `agent-uploads`) and an optional `fileName`.
+The relay injects both into the multipart body, so the form itself needs only the `file` field.
+
+Nothing is written to the server's disk and the body is never buffered — it is streamed socket to
+socket, so a large file costs one connection and no memory. Uploads over `KIE_MAX_UPLOAD_BYTES`
+(default 100MB, KIE's own ceiling) are refused with `413`. Files live in KIE's temporary storage
+under the caller's own account and are deleted after 3 days.
+
+Agents are told about this endpoint without being asked: the server instructions, the
+`kie_upload_media` description, and the error returned for a `local_file` attempt all carry the
+exact command. That guidance appears only in remote mode — over stdio, local files upload from
+disk as before.
 
 ## What is shared between callers
 

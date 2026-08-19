@@ -8,8 +8,9 @@
 export const REPOSITORY_URL = "https://github.com/alfman99/kie-ai-mcp";
 export const HOSTED_URL = "https://kie-mcp.alfredomanresa.com";
 
-export function landingPage(mcpPath: string): string {
+export function landingPage(mcpPath: string, uploadPath = "/upload"): string {
   const endpoint = `${HOSTED_URL}${mcpPath}`;
+  const uploadEndpoint = `${HOSTED_URL}${uploadPath}`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -150,6 +151,21 @@ whether I need to restart the editor.</textarea>
   <p class="note">
     Videos take minutes, so they return a task ID immediately; ask for the result and the client
     collects it. Images and speech usually come back in the same call.
+  </p>
+
+  <h2>Using your own files</h2>
+  <p>
+    A hosted server cannot reach your disk, so a reference image or audio clip has to be sent to it.
+    Upload it with your same API key and you get back a URL to pass to any create tool:
+  </p>
+  <pre><code>curl -X POST "${uploadEndpoint}?fileName=reference.png" \
+  -H "Authorization: Bearer YOUR_KIE_API_KEY" \
+  -F file=@/path/to/reference.png</code></pre>
+  <p class="note">
+    Your agent is told about this endpoint automatically, so in practice you can just say
+    &ldquo;use this image&rdquo; and point at the file. Files go straight to KIE's own temporary
+    storage under your account &mdash; this relay stores nothing &mdash; and KIE deletes them after
+    3 days. Maximum 100MB per file.
   </p>
 
   <h2>Run it yourself</h2>

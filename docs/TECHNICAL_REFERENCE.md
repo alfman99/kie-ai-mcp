@@ -121,6 +121,8 @@ The bundle is validated and inspected with the official MCPB tool before the bui
 | `KIE_PREWARM_CONNECTION` | No | `true` | Open the API connection at startup |
 | `KIE_WEBHOOK_HMAC_KEY` | No | — | Default webhook verification key |
 | `KIE_DOCS_DATA_DIR` | No | bundled snapshot | External reviewed catalog snapshot |
+| `KIE_PUBLIC_URL` | Remote only | derived from proxy headers | Origin agents are told to upload files to |
+| `KIE_MAX_UPLOAD_BYTES` | Remote only | `104857600` | Largest file accepted by `POST /upload` |
 
 Catalog and supplied-key webhook tools work without `KIE_API_KEY`. Live KIE tools return a clear configuration error when it is absent.
 

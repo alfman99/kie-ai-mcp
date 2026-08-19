@@ -360,4 +360,42 @@ export class KieHttpClient {
     assertKieSuccess(response, payload);
     return payload;
   }
+
+  /**
+   * Forward an already-encoded multipart body straight to KIE's stream upload.
+   *
+   * Used by the hosted relay, which never has the caller's file on disk: it pipes the incoming
+   * request body through untouched, so a 100MB upload costs one socket and no buffer.
+   */
+  async uploadMultipartBody(args: {
+    body: BodyInit;
+    contentType: string;
+    signal?: AbortSignal;
+  }): Promise<unknown> {
+    const apiKey = requireApiKey(this.config);
+    const url = joinUrl(this.config.uploadBaseUrl, "/api/file-stream-upload");
+
+    await this.gate.acquire();
+    let response: Response;
+    try {
+      response = await this.fetchImpl(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          Accept: "application/json",
+          "content-type": args.contentType
+        },
+        body: args.body,
+        signal: args.signal,
+        // Node requires this whenever the body is a stream rather than a buffer.
+        duplex: "half"
+      } as RequestInit);
+    } finally {
+      this.gate.release();
+    }
+
+    const payload = await parseResponse(response);
+    assertKieSuccess(response, payload);
+    return payload;
+  }
 }

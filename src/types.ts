@@ -35,6 +35,12 @@ export type KieConfig = {
   prewarmConnection?: boolean;
   allowLocalFileUploads: boolean;
   localUploadRoot?: string;
+  /**
+   * Absolute URL of the hosted relay's own upload endpoint. Only set when running as the remote
+   * relay, where reading the caller's disk is impossible: tools use it to tell the agent where to
+   * POST its bytes instead. Left undefined for stdio, which uploads from disk directly.
+   */
+  uploadIngestUrl?: string;
   docsDataDir?: string;
 };
 
