@@ -50,8 +50,10 @@ appeared to hang, and of failures reported as flaky infrastructure.
   `recordInfo`. The fast initial ramp and the long-render ease are still implemented and still configurable
   via `KIE_POLL_FIRST_DELAY_MS` and `KIE_POLL_MAX_INTERVAL_MS`; they are simply inert at the new defaults.
 - Added a landing page at `/` on the hosted relay, so someone who opens the bare hostname gets a short
-  explanation, a copy-paste client configuration, a prompt they can hand to their IDE agent, and a link to
-  the source, instead of a JSON 404.
+  explanation, a copy-paste client configuration, a one-click-copy prompt they can hand to their IDE agent,
+  and a link to the source, instead of a JSON 404.
+- Cut the README roughly in half. It now leads with the agent prompt that does the setup, and sends readers to
+  the site for the rest rather than repeating it.
 - Documented throughout that this is an unofficial, community-built server with no affiliation to the
   KIE.ai team, and that the hosted instance is not run by them either.
 - Rewrote the README around the hosted server as the default path, with local stdio installation as the

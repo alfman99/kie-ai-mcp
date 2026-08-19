@@ -66,10 +66,16 @@ export function landingPage(mcpPath: string): string {
   .disclaimer b { color: var(--fg); font-weight: 600; }
   .paste { position: relative; }
   .paste textarea {
-    width: 100%; min-height: 8.5rem; resize: vertical; background: var(--card); color: var(--fg);
+    width: 100%; min-height: 9.5rem; resize: vertical; background: var(--card); color: var(--fg);
     border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .84rem; line-height: 1.6;
   }
+  .copy {
+    position: absolute; top: .55rem; right: .55rem; border: 1px solid var(--line);
+    background: var(--bg); color: var(--fg); border-radius: 6px; padding: .3rem .65rem;
+    font: inherit; font-size: .78rem; cursor: pointer;
+  }
+  .copy:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -106,7 +112,8 @@ export function landingPage(mcpPath: string): string {
   --header "Authorization: Bearer YOUR_KIE_API_KEY"</code></pre>
   <p>Or just paste this to the coding agent in your IDE and let it do the setup:</p>
   <div class="paste">
-    <textarea readonly onclick="this.select()">Add a remote MCP server to my editor's MCP configuration.
+    <button class="copy" type="button" data-copy>Copy</button>
+    <textarea id="agent-prompt" readonly onclick="this.select()">Add a remote MCP server to my editor's MCP configuration.
 
 Name: kie
 Transport: streamable HTTP (not stdio, not SSE)
@@ -159,6 +166,21 @@ whether I need to restart the editor.</textarea>
     MIT licensed
   </footer>
 </main>
+<script>
+  // Progressive enhancement: the textarea is already selectable and copyable without this.
+  document.querySelector("[data-copy]")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    const field = document.getElementById("agent-prompt");
+    try {
+      await navigator.clipboard.writeText(field.value);
+    } catch {
+      field.select();
+      document.execCommand("copy");
+    }
+    button.textContent = "Copied";
+    setTimeout(() => { button.textContent = "Copy"; }, 1600);
+  });
+</script>
 </body>
 </html>`;
 }
