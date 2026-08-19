@@ -8,9 +8,8 @@
 export const REPOSITORY_URL = "https://github.com/alfman99/kie-ai-mcp";
 export const HOSTED_URL = "https://kie-mcp.alfredomanresa.com";
 
-export function landingPage(mcpPath: string, uploadPath = "/upload"): string {
+export function landingPage(mcpPath: string): string {
   const endpoint = `${HOSTED_URL}${mcpPath}`;
-  const uploadEndpoint = `${HOSTED_URL}${uploadPath}`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -155,17 +154,18 @@ whether I need to restart the editor.</textarea>
 
   <h2>Using your own files</h2>
   <p>
-    A hosted server cannot reach your disk, so a reference image or audio clip has to be sent to it.
-    Upload it with your same API key and you get back a URL to pass to any create tool:
+    A hosted server cannot reach your disk, so a reference image or audio clip has to be sent to
+    KIE first. Your API key already works against KIE's own upload API, so one request does it:
   </p>
-  <pre><code>curl -X POST "${uploadEndpoint}?fileName=reference.png" \
-  -H "Authorization: Bearer YOUR_KIE_API_KEY" \
-  -F file=@/path/to/reference.png</code></pre>
+  <pre><code>curl -X POST "https://kieai.redpandaai.co/api/file-stream-upload" \\
+  -H "Authorization: Bearer YOUR_KIE_API_KEY" \\
+  -F file=@/path/to/reference.png \\
+  -F uploadPath=agent-uploads</code></pre>
   <p class="note">
-    Your agent is told about this endpoint automatically, so in practice you can just say
-    &ldquo;use this image&rdquo; and point at the file. Files go straight to KIE's own temporary
-    storage under your account &mdash; this relay stores nothing &mdash; and KIE deletes them after
-    3 days. Maximum 100MB per file.
+    Take <code>downloadUrl</code> from the response and pass it to any create tool. Your agent is
+    told this automatically when it connects, so in practice you can just say &ldquo;use this
+    image&rdquo; and point at the file. The upload goes straight to KIE under your own account
+    &mdash; it does not pass through this relay &mdash; and KIE deletes it after 3 days.
   </p>
 
   <h2>Run it yourself</h2>

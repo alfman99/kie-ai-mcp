@@ -26,7 +26,7 @@ type ToolResult = {
 };
 
 const JsonRecordSchema = z.record(z.string(), z.unknown());
-export const UploadPathSchema = z
+const UploadPathSchema = z
   .string()
   .min(1)
   .refine(
@@ -44,13 +44,13 @@ export const UploadPathSchema = z
  * message hands over the working command instead of an env var the caller cannot set.
  */
 function localFileUploadHelp(config: KieConfig): string {
-  if (config.uploadIngestUrl) {
+  if (config.remoteRelay) {
     // Worded so classifyError reads this as an input error: it is not retryable, and the caller
     // fixes it by using a different route, not by trying again.
     return [
-      'This remote server cannot read your disk, so it does not support sourceType "local_file".',
-      `Upload the bytes yourself instead: curl -X POST "${config.uploadIngestUrl}?fileName=media.png" -H "Authorization: Bearer $KIE_API_KEY" -F file=@/absolute/path/media.png`,
-      "That returns a KIE URL you can pass straight to a create tool.",
+      'This server is remote and cannot read your disk, so it does not support sourceType "local_file".',
+      `Send the file to KIE yourself with the same key you connect with: curl -X POST "${config.uploadBaseUrl}/api/file-stream-upload" -H "Authorization: Bearer $KIE_API_KEY" -F file=@/absolute/path/media.png -F uploadPath=agent-uploads`,
+      "The response carries a downloadUrl you can pass straight to a create tool.",
       "Do not fall back to base64 for anything but tiny files."
     ].join(" ");
   }
@@ -176,7 +176,7 @@ export function createKieMcpServer(
   const server = new McpServer(
     {
       name: "kie-ai-mcp",
-      version: "1.1.0"
+      version: "1.1.1"
     },
     {
       instructions: [
@@ -186,9 +186,9 @@ export function createKieMcpServer(
         "Videos take minutes, so kie_create_video returns task IDs immediately by default; collect them with kie_get_creation. Images and speech wait by default and usually return media URLs directly.",
         "For automated or retryable steps, pass idempotencyKey. Retrying with the same key returns the original task instead of paying for a second generation.",
         "Reference media must be a URL. Use kie_upload_media for local files or base64 data first.",
-        ...(config.uploadIngestUrl
+        ...(config.remoteRelay
           ? [
-              `This server is remote and cannot read your disk. To use a local file, POST it to ${config.uploadIngestUrl} with the same API key you connect with: \`curl -X POST "${config.uploadIngestUrl}?fileName=media.png" -H "Authorization: Bearer $KIE_API_KEY" -F file=@/path/to/media.png\`. It returns a KIE URL you can pass straight to a create tool. Never read a file and paste it as base64 into a tool call: a 1MB image costs roughly 350k tokens and will not fit.`
+              `This server is remote and cannot read your disk, so kie_upload_media has no local_file option here. Send the bytes to KIE directly with the same key you connect with: \`curl -X POST "${config.uploadBaseUrl}/api/file-stream-upload" -H "Authorization: Bearer $KIE_API_KEY" -F file=@/path/to/media.png -F uploadPath=agent-uploads\`. Take downloadUrl from the response and pass it to a create tool. Never read a file and paste it as base64 into a tool call: a 1MB image costs roughly 350k tokens and will not fit.`
             ]
           : []),
         "For a low-cost smoke test use model bytedance/seedance-2-mini at 480p, 4 seconds, with generateAudio false.",
@@ -290,9 +290,9 @@ export function createKieMcpServer(
           "Upload one local file, public URL, or base64 payload through KIE's native temporary File Upload API.",
           "No third-party storage service is used. Uploads are temporary: KIE deletes them after 3 days.",
           "Use base64 only for small files — anything over 10MB should go through a local file (stream) upload, and a URL upload must be publicly reachable within a 30 second download timeout and is capped around 100MB.",
-          ...(config.uploadIngestUrl
+          ...(config.remoteRelay
             ? [
-                `sourceType "local_file" is unavailable on this remote server, which has no access to your disk. Upload the bytes yourself with: curl -X POST "${config.uploadIngestUrl}?fileName=media.png" -H "Authorization: Bearer $KIE_API_KEY" -F file=@/absolute/path/media.png`
+                `sourceType "local_file" is unavailable on this remote server, which has no access to your disk. Send the file to KIE yourself: curl -X POST "${config.uploadBaseUrl}/api/file-stream-upload" -H "Authorization: Bearer $KIE_API_KEY" -F file=@/absolute/path/media.png -F uploadPath=agent-uploads`
               ]
             : [])
         ].join(" "),

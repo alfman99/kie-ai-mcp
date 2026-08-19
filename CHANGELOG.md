@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.1.1 - 2026-08-19
+
+Removes the `POST /upload` endpoint added in 1.1.0. It did not buy what its release notes claimed:
+the key a caller connects with is the same key KIE's own upload API accepts, so the endpoint proxied
+a request the agent could already make directly. 1.1.0 described this as making local files "work
+against the hosted relay", which was wrong — nothing was unlocked, only rerouted through an extra
+hop.
+
+- Removed `POST /upload`, along with `KIE_PUBLIC_URL` and `KIE_MAX_UPLOAD_BYTES`, which only existed
+  to serve it. It also authenticated nothing: it checked that a bearer token was present, not that
+  it was valid, leaving a deployment without `KIE_REMOTE_ACCESS_TOKEN` acting as an open 100MB
+  proxy to KIE for anyone.
+- Kept what actually changed agent behaviour, repointed at KIE. The server instructions, the
+  `kie_upload_media` description, and the error for a `local_file` attempt still carry an exact
+  working command; it now names `/api/file-stream-upload` on the configured KIE upload host instead
+  of this server. That error is still classified as an input error rather than unknown, so an agent
+  is not advised to retry a call that can never succeed.
+
+The MCP surface is unchanged in both releases: `allowLocalFileUploads` stays false on the relay and
+`sourceType: "local_file"` remains unavailable over MCP. What a remote agent gains is being told
+where to send the bytes, not a transfer through MCP.
+
 ## 1.1.0 - 2026-08-19
 
 Local files now work against the hosted relay. A remote server has no access to the caller's disk and
