@@ -128,14 +128,24 @@ function makeClient(config: KieConfig, fetchImpl?: typeof fetch): KieHttpClient 
   return new KieHttpClient(config, fetchImpl);
 }
 
-export function createKieMcpServer(config: KieConfig = loadConfig(), fetchImpl?: typeof fetch): McpServer {
+export function createKieMcpServer(
+  config: KieConfig = loadConfig(),
+  fetchImpl?: typeof fetch,
+  /**
+   * Reuse an existing task store. The remote transport builds one server per HTTP request, so the
+   * idempotency and result caches have to outlive the request that created them.
+   */
+  existingStore?: TaskStore
+): McpServer {
   const client = makeClient(config, fetchImpl);
   const advancedTools = config.toolProfile === "full";
-  const store = new TaskStore({
-    submissionTtlMs: config.submissionTtlMs ?? 30 * 60 * 1000,
-    resultTtlMs: config.resultCacheTtlMs ?? 30 * 60 * 1000,
-    maxEntries: 500
-  });
+  const store =
+    existingStore ??
+    new TaskStore({
+      submissionTtlMs: config.submissionTtlMs ?? 30 * 60 * 1000,
+      resultTtlMs: config.resultCacheTtlMs ?? 30 * 60 * 1000,
+      maxEntries: 500
+    });
   if (!fetchImpl && config.apiKey && config.prewarmConnection !== false) {
     // Open the TLS connection while the client is still negotiating, so the first real call does
     // not pay for DNS, TCP, and the handshake.

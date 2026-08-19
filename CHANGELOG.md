@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Added a remote Streamable HTTP transport so the server can be hosted at a URL and used without installing anything locally. `npm run start:http` serves `POST /mcp` plus a `/healthz` probe, and a root `Dockerfile` deploys it on any container host.
+- Made the hosted path a multi-tenant relay: every request carries its own KIE key in an `Authorization: Bearer` or `X-KIE-API-Key` header, so many people share one deployment without sharing credits. The relay keeps no key of its own, refuses keyless requests, and disables local file uploads. Optional `KIE_REMOTE_ACCESS_TOKEN` gates the deployment itself.
+
 ## 0.7.0 - 2026-08-18
 
 - Refreshed the official KIE documentation snapshot from 254 to 264 pages, 220 to 230 OpenAPI operations, and 128 to 135 Market models. No model or endpoint was removed.

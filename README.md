@@ -47,6 +47,8 @@ The agent selects the appropriate KIE tool, checks the model parameters, uploads
 
 ChatGPT in a web browser cannot launch a local MCP process. See the [compatibility explanation](docs/CLIENT_COMPATIBILITY.md#chatgpt-in-a-browser).
 
+Prefer not to install anything? Point your client at a [hosted server over HTTP](docs/REMOTE_SERVER.md) and send your KIE key as a header.
+
 ## Why creators use it
 
 - Work inside the AI conversation you already use.
@@ -74,6 +76,7 @@ Your API key stays in your AI client's protected configuration. Creation request
 - [Client compatibility](docs/CLIENT_COMPATIBILITY.md)
 - [Technical reference](docs/TECHNICAL_REFERENCE.md)
 - [How the local process works](docs/HOW_IT_RUNS.md)
+- [Hosting it as a remote HTTP server](docs/REMOTE_SERVER.md)
 - [Security policy](SECURITY.md)
 - [Contributing](CONTRIBUTING.md)
 - [Official KIE documentation](https://docs.kie.ai/)

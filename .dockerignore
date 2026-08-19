@@ -1,0 +1,12 @@
+node_modules
+dist
+release
+outputs
+.git
+.env
+.env.*
+!.env.example
+tests
+*.log
+*.tgz
+.DS_Store

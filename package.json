@@ -32,7 +32,8 @@
   ],
   "bin": {
     "kie-ai-mcp": "dist/src/index.js",
-    "kie-ai-docs": "dist/scripts/kie-docs.js"
+    "kie-ai-docs": "dist/scripts/kie-docs.js",
+    "kie-ai-mcp-http": "dist/src/http-entry.js"
   },
   "files": [
     "dist",
@@ -47,6 +48,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "start": "node dist/src/index.js",
+    "start:http": "node dist/src/http-entry.js",
+    "dev:http": "tsx src/http-entry.ts",
     "dev": "tsx src/index.ts",
     "smoke": "node dist/scripts/smoke.js",
     "smoke:dev": "tsx scripts/smoke.ts",
