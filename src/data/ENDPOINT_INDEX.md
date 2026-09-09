@@ -1,6 +1,6 @@
 # KIE.AI Documentation Endpoint Index
 
-Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages.
+Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages.
 
 ## `/api/4k-callback`
 
@@ -32,6 +32,7 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 - Mention: [Flux-2 - Pro Text to Image](<https://docs.kie.ai/market/flux2/pro-text-to-image.md>)
 - Mention: [Gemini Omni Video](<https://docs.kie.ai/market/gemini-omni-video.md>)
 - Mention: [Gemini 3.1 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-1-flash-tts.md>)
+- Mention: [Gemini Omni 1.1 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md>)
 - Mention: [Google - imagen4-fast](<https://docs.kie.ai/market/google/imagen4-fast.md>)
 - Mention: [Google - imagen4-ultra](<https://docs.kie.ai/market/google/imagen4-ultra.md>)
 - Mention: [Google - imagen4](<https://docs.kie.ai/market/google/imagen4.md>)
@@ -42,9 +43,14 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 - Mention: [Google - Nano Banana Pro](<https://docs.kie.ai/market/google/pro-image-to-image.md>)
 - Mention: [GPT Image-1.5 - Image to Image](<https://docs.kie.ai/market/gpt-image/1-5-image-to-image.md>)
 - Mention: [GPT Image-1.5 - Text to Image](<https://docs.kie.ai/market/gpt-image/1-5-text-to-image.md>)
+- Mention: [GPT Image 2.5 Flare - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-image-to-image.md>)
+- Mention: [GPT Image 2.5 Flare - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-text-to-image.md>)
+- Mention: [GPT Image 2.5 Sunburst - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-image-to-image.md>)
+- Mention: [GPT Image 2.5 Sunburst - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md>)
 - Mention: [GPT Image 2 - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md>)
 - Mention: [GPT Image-2 - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image.md>)
-- Mention: [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>)
+- Mention: [Grok Imagine Image 2.0 Segment Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>)
+- Mention: [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md>)
 - Mention: [Grok Imagine Image 2.0 Segment Map](<https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md>)
 - Mention: [Grok Imagine Image 2.0 Text To Image](<https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md>)
 - Mention: [Grok Imagine Video 1.5 Preview](<https://docs.kie.ai/market/grok-imagine/1-5-preview.md>)
@@ -139,6 +145,8 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 - Mention: [Wan 2.7 - Reference to Video](<https://docs.kie.ai/market/wan/2-7-r2v.md>)
 - Mention: [Wan 2.7 - Text to Video](<https://docs.kie.ai/market/wan/2-7-text-to-video.md>)
 - Mention: [Wan 2.7 - Video Edit](<https://docs.kie.ai/market/wan/2-7-videoedit.md>)
+- Mention: [Wan 3.0 - Video Prime](<https://docs.kie.ai/market/wan/3-0-video-prime.md>)
+- Mention: [Wan 3.0 - Video](<https://docs.kie.ai/market/wan/3-0-video.md>)
 - Mention: [Z-Image](<https://docs.kie.ai/market/z-image/z-image.md>)
 
 ## `/api/file-base64-upload`
@@ -178,6 +186,10 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 
 - Mention: [Common API Quickstart](<https://docs.kie.ai/common-api/quickstart.md>)
 - POST: [Get Download URL for Generated Files](<https://docs.kie.ai/common-api/download-url.md>)
+
+## `/api/v1/config/test`
+
+- Mention: [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md>)
 
 ## `/api/v1/flux/kontext`
 
@@ -294,6 +306,7 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 - POST: [Flux-2 - Pro Text to Image](<https://docs.kie.ai/market/flux2/pro-text-to-image.md>)
 - POST: [Gemini Omni Video](<https://docs.kie.ai/market/gemini-omni-video.md>)
 - POST: [Gemini 3.1 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-1-flash-tts.md>)
+- POST: [Gemini Omni 1.1 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md>)
 - POST: [Google - imagen4-fast](<https://docs.kie.ai/market/google/imagen4-fast.md>)
 - POST: [Google - imagen4-ultra](<https://docs.kie.ai/market/google/imagen4-ultra.md>)
 - POST: [Google - imagen4](<https://docs.kie.ai/market/google/imagen4.md>)
@@ -304,9 +317,14 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 - POST: [Google - Nano Banana Pro](<https://docs.kie.ai/market/google/pro-image-to-image.md>)
 - POST: [GPT Image-1.5 - Image to Image](<https://docs.kie.ai/market/gpt-image/1-5-image-to-image.md>)
 - POST: [GPT Image-1.5 - Text to Image](<https://docs.kie.ai/market/gpt-image/1-5-text-to-image.md>)
+- POST: [GPT Image 2.5 Flare - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-image-to-image.md>)
+- POST: [GPT Image 2.5 Flare - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-text-to-image.md>)
+- POST: [GPT Image 2.5 Sunburst - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-image-to-image.md>)
+- POST: [GPT Image 2.5 Sunburst - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md>)
 - POST: [GPT Image 2 - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md>)
 - POST: [GPT Image-2 - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image.md>)
-- POST: [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>)
+- POST: [Grok Imagine Image 2.0 Segment Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>)
+- POST: [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md>)
 - POST: [Grok Imagine Image 2.0 Segment Map](<https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md>)
 - POST: [Grok Imagine Image 2.0 Text To Image](<https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md>)
 - POST: [Grok Imagine Video 1.5 Preview](<https://docs.kie.ai/market/grok-imagine/1-5-preview.md>)
@@ -408,6 +426,8 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 - POST: [Wan 2.7 - Reference to Video](<https://docs.kie.ai/market/wan/2-7-r2v.md>)
 - POST: [Wan 2.7 - Text to Video](<https://docs.kie.ai/market/wan/2-7-text-to-video.md>)
 - POST: [Wan 2.7 - Video Edit](<https://docs.kie.ai/market/wan/2-7-videoedit.md>)
+- POST: [Wan 3.0 - Video Prime](<https://docs.kie.ai/market/wan/3-0-video-prime.md>)
+- POST: [Wan 3.0 - Video](<https://docs.kie.ai/market/wan/3-0-video.md>)
 - POST: [Z-Image](<https://docs.kie.ai/market/z-image/z-image.md>)
 
 ## `/api/v1/jobs/recordInfo`
@@ -486,6 +506,14 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 ## `/api/v1/suno/cover/record-info`
 
 - GET: [Get Cover Generation Details](<https://docs.kie.ai/suno-api/get-cover-suno-details.md>)
+
+## `/api/v1/suno/recovery`
+
+- POST: [Recovery Audio](<https://docs.kie.ai/suno-api/recovery-audio.md>)
+
+## `/api/v1/suno/recovery/record-info`
+
+- Mention: [Recovery Audio](<https://docs.kie.ai/suno-api/recovery-audio.md>)
 
 ## `/api/v1/veo/extend`
 
@@ -580,6 +608,7 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 - POST: [GPT 5.6 Luna](<https://docs.kie.ai/market/chat/gpt-5-6-luna.md>)
 - POST: [GPT 5.6 Sol](<https://docs.kie.ai/market/chat/gpt-5-6-sol.md>)
 - POST: [GPT 5.6 Terra](<https://docs.kie.ai/market/chat/gpt-5-6-terra.md>)
+- POST: [Gpt 6 Astra](<https://docs.kie.ai/market/chat/gpt-6-astra.md>)
 
 ## `/gemini-2.5-flash/v1/chat/completions`
 
@@ -601,6 +630,11 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 ## `/gemini-3-7-flash-openai/v1/chat/completions`
 
 - POST: [Gemini 3.7 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-7-flash-openai.md>)
+
+## `/gemini-3-8-flash-openai/v1/chat/completions`
+
+- POST: [Gemini 3.8 Flash (openai)](<https://docs.kie.ai/42969115e0.md>)
+- POST: [Gemini 3.8 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-8-flash-openai.md>)
 
 ## `/gemini-3-flash/v1/chat/completions`
 
@@ -626,6 +660,11 @@ Generated 2026-08-19T12:27:50.246Z exclusively from official `docs.kie.ai` pages
 ## `/gemini/v1/models/gemini-3-7-flash:streamGenerateContent`
 
 - POST: [Gemini 3.7 Flash](<https://docs.kie.ai/market/gemini/gemini-3-7-flash.md>)
+
+## `/gemini/v1/models/gemini-3-8-flash:streamGenerateContent`
+
+- POST: [Gemini 3.8 Flash](<https://docs.kie.ai/42969104e0.md>)
+- POST: [Gemini 3.8 Flash](<https://docs.kie.ai/market/gemini/gemini-3-8-flash.md>)
 
 ## `/gemini/v1/models/gemini-3-flash-v1betamodels:streamGenerateContent`
 

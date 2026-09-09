@@ -130,8 +130,8 @@ External catalogs are validated at startup and are not hot-loaded. Restart the M
 
 Every create tool is batch-shaped: it takes a `jobs` array and submits all entries in parallel. There is one tool per media type, so an agent never has to choose between a single and a batch variant, and never has a reason to loop.
 
-- `kie_create_image`: 1-16 images per call, waits for results by default.
-- `kie_create_video`: 1-16 Seedance 2.0, Fast, Mini, or 2.5 shots per call from text, frames, image references, video references, or audio references. Returns task IDs immediately by default because videos take minutes.
+- `kie_create_image`: 1-16 images per call with GPT Image 2 (default) or GPT Image 2.5 Flare/Sunburst, waits for results by default.
+- `kie_create_video`: 1-16 Seedance 2.0, Fast, Mini, 2.5, Wan 3.0, Wan 3.0 Prime, or Gemini Omni 1.1 Flash shots per call from text, frames, image references, video references, or audio references. Returns task IDs immediately by default because videos take minutes.
 - `kie_create_speech`: 1-16 ElevenLabs Turbo 2.5 lines per call, waits for results by default.
 - `kie_get_creation`: check or wait for up to 32 task IDs in parallel while preserving partial success. Finished tasks are served from memory.
 - `kie_upload_media`: upload one local file, public URL, or base64 source through KIE.

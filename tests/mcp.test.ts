@@ -208,6 +208,25 @@ describe("MCP server integration", () => {
     });
   });
 
+  it("maps friendly video fields to Wan 3.0 native names", async () => {
+    const fetchImpl = vi.fn().mockResolvedValueOnce(
+      new Response(JSON.stringify({ code: 200, msg: "success", data: { taskId: "task_wan" } }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      })
+    ) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+    await client.callTool({
+      name: "kie_create_video",
+      arguments: { jobs: [{ prompt: "Slow dolly across a desk", model: "wan/3-0-video", resolution: "1080p" }] }
+    });
+    const [, init] = vi.mocked(fetchImpl).mock.calls[0];
+    expect(JSON.parse(String(init?.body))).toEqual({
+      model: "wan/3-0-video",
+      input: { prompt: "Slow dolly across a desk", aspect_ratio: "16:9", resolution: "1080P", duration: 5, audio: true }
+    });
+  });
+
   it("returns a direct media link from a completed friendly creation", async () => {
     const fetchImpl = vi
       .fn()

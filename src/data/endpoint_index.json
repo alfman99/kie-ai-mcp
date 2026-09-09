@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-19T12:27:50.246Z",
+  "generated_at": "2026-09-09T12:44:36.837Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -180,6 +180,13 @@
     {
       "method": "",
       "path": "/api/callback",
+      "title": "Gemini Omni 1.1 Flash",
+      "url": "https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md",
+      "file": "/market/google/gemini-omni-flash-1-1.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
       "title": "Google - imagen4-fast",
       "url": "https://docs.kie.ai/market/google/imagen4-fast.md",
       "file": "/market/google/imagen4-fast.md"
@@ -250,6 +257,34 @@
     {
       "method": "",
       "path": "/api/callback",
+      "title": "GPT Image 2.5 Flare - Image To Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-image-to-image.md",
+      "file": "/market/gpt/gpt-image-2-5-flare-image-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "GPT Image 2.5 Flare - Text to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-text-to-image.md",
+      "file": "/market/gpt/gpt-image-2-5-flare-text-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "GPT Image 2.5 Sunburst - Image To Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-image-to-image.md",
+      "file": "/market/gpt/gpt-image-2-5-sunburst-image-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "GPT Image 2.5 Sunburst - Text to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md",
+      "file": "/market/gpt/gpt-image-2-5-sunburst-text-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
       "title": "GPT Image 2 - Image To Image",
       "url": "https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md",
       "file": "/market/gpt/gpt-image-2-image-to-image.md"
@@ -264,9 +299,16 @@
     {
       "method": "",
       "path": "/api/callback",
-      "title": "Grok Imagine Image 2.0 Image Edit",
+      "title": "Grok Imagine Image 2.0 Segment Edit",
       "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md",
       "file": "/market/grok-imagine-image-2-0/image-edit.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Grok Imagine Image 2.0 Image Edit",
+      "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md",
+      "file": "/market/grok-imagine-image-2-0/image-to-image.md"
     },
     {
       "method": "",
@@ -929,6 +971,20 @@
     {
       "method": "",
       "path": "/api/callback",
+      "title": "Wan 3.0 - Video Prime",
+      "url": "https://docs.kie.ai/market/wan/3-0-video-prime.md",
+      "file": "/market/wan/3-0-video-prime.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Wan 3.0 - Video",
+      "url": "https://docs.kie.ai/market/wan/3-0-video.md",
+      "file": "/market/wan/3-0-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
       "title": "Z-Image",
       "url": "https://docs.kie.ai/market/z-image/z-image.md",
       "file": "/market/z-image/z-image.md"
@@ -1030,6 +1086,13 @@
       "title": "Get Download URL for Generated Files",
       "url": "https://docs.kie.ai/common-api/download-url.md",
       "file": "/common-api/download-url.md"
+    },
+    {
+      "method": "",
+      "path": "/api/v1/config/test",
+      "title": "Grok Imagine Image 2.0 Image Edit",
+      "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md",
+      "file": "/market/grok-imagine-image-2-0/image-to-image.md"
     },
     {
       "method": "",
@@ -1426,6 +1489,13 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "Gemini Omni 1.1 Flash",
+      "url": "https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md",
+      "file": "/market/google/gemini-omni-flash-1-1.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "Google - imagen4-fast",
       "url": "https://docs.kie.ai/market/google/imagen4-fast.md",
       "file": "/market/google/imagen4-fast.md"
@@ -1496,6 +1566,34 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "GPT Image 2.5 Flare - Image To Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-image-to-image.md",
+      "file": "/market/gpt/gpt-image-2-5-flare-image-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "GPT Image 2.5 Flare - Text to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-text-to-image.md",
+      "file": "/market/gpt/gpt-image-2-5-flare-text-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "GPT Image 2.5 Sunburst - Image To Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-image-to-image.md",
+      "file": "/market/gpt/gpt-image-2-5-sunburst-image-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "GPT Image 2.5 Sunburst - Text to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md",
+      "file": "/market/gpt/gpt-image-2-5-sunburst-text-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "GPT Image 2 - Image To Image",
       "url": "https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md",
       "file": "/market/gpt/gpt-image-2-image-to-image.md"
@@ -1510,9 +1608,16 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
-      "title": "Grok Imagine Image 2.0 Image Edit",
+      "title": "Grok Imagine Image 2.0 Segment Edit",
       "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md",
       "file": "/market/grok-imagine-image-2-0/image-edit.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Grok Imagine Image 2.0 Image Edit",
+      "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md",
+      "file": "/market/grok-imagine-image-2-0/image-to-image.md"
     },
     {
       "method": "POST",
@@ -2224,6 +2329,20 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "Wan 3.0 - Video Prime",
+      "url": "https://docs.kie.ai/market/wan/3-0-video-prime.md",
+      "file": "/market/wan/3-0-video-prime.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Wan 3.0 - Video",
+      "url": "https://docs.kie.ai/market/wan/3-0-video.md",
+      "file": "/market/wan/3-0-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "Z-Image",
       "url": "https://docs.kie.ai/market/z-image/z-image.md",
       "file": "/market/z-image/z-image.md"
@@ -2388,6 +2507,20 @@
       "title": "Get Cover Generation Details",
       "url": "https://docs.kie.ai/suno-api/get-cover-suno-details.md",
       "file": "/suno-api/get-cover-suno-details.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/suno/recovery",
+      "title": "Recovery Audio",
+      "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
+      "file": "/suno-api/recovery-audio.md"
+    },
+    {
+      "method": "",
+      "path": "/api/v1/suno/recovery/record-info",
+      "title": "Recovery Audio",
+      "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
+      "file": "/suno-api/recovery-audio.md"
     },
     {
       "method": "POST",
@@ -2671,6 +2804,13 @@
     },
     {
       "method": "POST",
+      "path": "/codex/v1/responses",
+      "title": "Gpt 6 Astra",
+      "url": "https://docs.kie.ai/market/chat/gpt-6-astra.md",
+      "file": "/market/chat/gpt-6-astra.md"
+    },
+    {
+      "method": "POST",
       "path": "/gemini-2.5-flash/v1/chat/completions",
       "title": "Gemini 2.5 Flash (openai)",
       "url": "https://docs.kie.ai/market/gemini/gemini-2-5-flash.md",
@@ -2710,6 +2850,20 @@
       "title": "Gemini 3.7 Flash (openai)",
       "url": "https://docs.kie.ai/market/gemini/gemini-3-7-flash-openai.md",
       "file": "/market/gemini/gemini-3-7-flash-openai.md"
+    },
+    {
+      "method": "POST",
+      "path": "/gemini-3-8-flash-openai/v1/chat/completions",
+      "title": "Gemini 3.8 Flash (openai)",
+      "url": "https://docs.kie.ai/42969115e0.md",
+      "file": "/42969115e0.md"
+    },
+    {
+      "method": "POST",
+      "path": "/gemini-3-8-flash-openai/v1/chat/completions",
+      "title": "Gemini 3.8 Flash (openai)",
+      "url": "https://docs.kie.ai/market/gemini/gemini-3-8-flash-openai.md",
+      "file": "/market/gemini/gemini-3-8-flash-openai.md"
     },
     {
       "method": "POST",
@@ -2759,6 +2913,20 @@
       "title": "Gemini 3.7 Flash",
       "url": "https://docs.kie.ai/market/gemini/gemini-3-7-flash.md",
       "file": "/market/gemini/gemini-3-7-flash.md"
+    },
+    {
+      "method": "POST",
+      "path": "/gemini/v1/models/gemini-3-8-flash:streamGenerateContent",
+      "title": "Gemini 3.8 Flash",
+      "url": "https://docs.kie.ai/42969104e0.md",
+      "file": "/42969104e0.md"
+    },
+    {
+      "method": "POST",
+      "path": "/gemini/v1/models/gemini-3-8-flash:streamGenerateContent",
+      "title": "Gemini 3.8 Flash",
+      "url": "https://docs.kie.ai/market/gemini/gemini-3-8-flash.md",
+      "file": "/market/gemini/gemini-3-8-flash.md"
     },
     {
       "method": "POST",
@@ -2978,6 +3146,13 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "Gemini Omni 1.1 Flash",
+        "url": "https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md",
+        "file": "/market/google/gemini-omni-flash-1-1.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "Google - imagen4-fast",
         "url": "https://docs.kie.ai/market/google/imagen4-fast.md",
         "file": "/market/google/imagen4-fast.md"
@@ -3048,6 +3223,34 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "GPT Image 2.5 Flare - Image To Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-image-to-image.md",
+        "file": "/market/gpt/gpt-image-2-5-flare-image-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "GPT Image 2.5 Flare - Text to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-text-to-image.md",
+        "file": "/market/gpt/gpt-image-2-5-flare-text-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "GPT Image 2.5 Sunburst - Image To Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-image-to-image.md",
+        "file": "/market/gpt/gpt-image-2-5-sunburst-image-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "GPT Image 2.5 Sunburst - Text to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md",
+        "file": "/market/gpt/gpt-image-2-5-sunburst-text-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "GPT Image 2 - Image To Image",
         "url": "https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md",
         "file": "/market/gpt/gpt-image-2-image-to-image.md"
@@ -3062,9 +3265,16 @@
       {
         "method": "",
         "path": "/api/callback",
-        "title": "Grok Imagine Image 2.0 Image Edit",
+        "title": "Grok Imagine Image 2.0 Segment Edit",
         "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md",
         "file": "/market/grok-imagine-image-2-0/image-edit.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Grok Imagine Image 2.0 Image Edit",
+        "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md",
+        "file": "/market/grok-imagine-image-2-0/image-to-image.md"
       },
       {
         "method": "",
@@ -3727,6 +3937,20 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "Wan 3.0 - Video Prime",
+        "url": "https://docs.kie.ai/market/wan/3-0-video-prime.md",
+        "file": "/market/wan/3-0-video-prime.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Wan 3.0 - Video",
+        "url": "https://docs.kie.ai/market/wan/3-0-video.md",
+        "file": "/market/wan/3-0-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "Z-Image",
         "url": "https://docs.kie.ai/market/z-image/z-image.md",
         "file": "/market/z-image/z-image.md"
@@ -3844,6 +4068,15 @@
         "title": "Get Download URL for Generated Files",
         "url": "https://docs.kie.ai/common-api/download-url.md",
         "file": "/common-api/download-url.md"
+      }
+    ],
+    "/api/v1/config/test": [
+      {
+        "method": "",
+        "path": "/api/v1/config/test",
+        "title": "Grok Imagine Image 2.0 Image Edit",
+        "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md",
+        "file": "/market/grok-imagine-image-2-0/image-to-image.md"
       }
     ],
     "/api/v1/flux/kontext": [
@@ -4280,6 +4513,13 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "Gemini Omni 1.1 Flash",
+        "url": "https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md",
+        "file": "/market/google/gemini-omni-flash-1-1.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "Google - imagen4-fast",
         "url": "https://docs.kie.ai/market/google/imagen4-fast.md",
         "file": "/market/google/imagen4-fast.md"
@@ -4350,6 +4590,34 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "GPT Image 2.5 Flare - Image To Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-image-to-image.md",
+        "file": "/market/gpt/gpt-image-2-5-flare-image-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "GPT Image 2.5 Flare - Text to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-text-to-image.md",
+        "file": "/market/gpt/gpt-image-2-5-flare-text-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "GPT Image 2.5 Sunburst - Image To Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-image-to-image.md",
+        "file": "/market/gpt/gpt-image-2-5-sunburst-image-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "GPT Image 2.5 Sunburst - Text to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md",
+        "file": "/market/gpt/gpt-image-2-5-sunburst-text-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "GPT Image 2 - Image To Image",
         "url": "https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md",
         "file": "/market/gpt/gpt-image-2-image-to-image.md"
@@ -4364,9 +4632,16 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
-        "title": "Grok Imagine Image 2.0 Image Edit",
+        "title": "Grok Imagine Image 2.0 Segment Edit",
         "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md",
         "file": "/market/grok-imagine-image-2-0/image-edit.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Grok Imagine Image 2.0 Image Edit",
+        "url": "https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md",
+        "file": "/market/grok-imagine-image-2-0/image-to-image.md"
       },
       {
         "method": "POST",
@@ -5078,6 +5353,20 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "Wan 3.0 - Video Prime",
+        "url": "https://docs.kie.ai/market/wan/3-0-video-prime.md",
+        "file": "/market/wan/3-0-video-prime.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Wan 3.0 - Video",
+        "url": "https://docs.kie.ai/market/wan/3-0-video.md",
+        "file": "/market/wan/3-0-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "Z-Image",
         "url": "https://docs.kie.ai/market/z-image/z-image.md",
         "file": "/market/z-image/z-image.md"
@@ -5278,6 +5567,24 @@
         "title": "Get Cover Generation Details",
         "url": "https://docs.kie.ai/suno-api/get-cover-suno-details.md",
         "file": "/suno-api/get-cover-suno-details.md"
+      }
+    ],
+    "/api/v1/suno/recovery": [
+      {
+        "method": "POST",
+        "path": "/api/v1/suno/recovery",
+        "title": "Recovery Audio",
+        "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
+        "file": "/suno-api/recovery-audio.md"
+      }
+    ],
+    "/api/v1/suno/recovery/record-info": [
+      {
+        "method": "",
+        "path": "/api/v1/suno/recovery/record-info",
+        "title": "Recovery Audio",
+        "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
+        "file": "/suno-api/recovery-audio.md"
       }
     ],
     "/api/v1/veo/extend": [
@@ -5594,6 +5901,13 @@
         "title": "GPT 5.6 Terra",
         "url": "https://docs.kie.ai/market/chat/gpt-5-6-terra.md",
         "file": "/market/chat/gpt-5-6-terra.md"
+      },
+      {
+        "method": "POST",
+        "path": "/codex/v1/responses",
+        "title": "Gpt 6 Astra",
+        "url": "https://docs.kie.ai/market/chat/gpt-6-astra.md",
+        "file": "/market/chat/gpt-6-astra.md"
       }
     ],
     "/gemini-2.5-flash/v1/chat/completions": [
@@ -5646,6 +5960,22 @@
         "title": "Gemini 3.7 Flash (openai)",
         "url": "https://docs.kie.ai/market/gemini/gemini-3-7-flash-openai.md",
         "file": "/market/gemini/gemini-3-7-flash-openai.md"
+      }
+    ],
+    "/gemini-3-8-flash-openai/v1/chat/completions": [
+      {
+        "method": "POST",
+        "path": "/gemini-3-8-flash-openai/v1/chat/completions",
+        "title": "Gemini 3.8 Flash (openai)",
+        "url": "https://docs.kie.ai/42969115e0.md",
+        "file": "/42969115e0.md"
+      },
+      {
+        "method": "POST",
+        "path": "/gemini-3-8-flash-openai/v1/chat/completions",
+        "title": "Gemini 3.8 Flash (openai)",
+        "url": "https://docs.kie.ai/market/gemini/gemini-3-8-flash-openai.md",
+        "file": "/market/gemini/gemini-3-8-flash-openai.md"
       }
     ],
     "/gemini-3-flash/v1/chat/completions": [
@@ -5707,6 +6037,22 @@
         "title": "Gemini 3.7 Flash",
         "url": "https://docs.kie.ai/market/gemini/gemini-3-7-flash.md",
         "file": "/market/gemini/gemini-3-7-flash.md"
+      }
+    ],
+    "/gemini/v1/models/gemini-3-8-flash:streamGenerateContent": [
+      {
+        "method": "POST",
+        "path": "/gemini/v1/models/gemini-3-8-flash:streamGenerateContent",
+        "title": "Gemini 3.8 Flash",
+        "url": "https://docs.kie.ai/42969104e0.md",
+        "file": "/42969104e0.md"
+      },
+      {
+        "method": "POST",
+        "path": "/gemini/v1/models/gemini-3-8-flash:streamGenerateContent",
+        "title": "Gemini 3.8 Flash",
+        "url": "https://docs.kie.ai/market/gemini/gemini-3-8-flash.md",
+        "file": "/market/gemini/gemini-3-8-flash.md"
       }
     ],
     "/gemini/v1/models/gemini-3-flash-v1betamodels:streamGenerateContent": [

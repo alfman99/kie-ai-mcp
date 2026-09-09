@@ -19,12 +19,22 @@ import { getMarketTaskCached, waitForMarketTask, type MarketTaskProgress } from 
 import type { KieConfig, MarketModelRecord } from "./types.js";
 
 const JsonRecordSchema = z.record(z.string(), z.unknown());
-const GptImage2ModelSchema = z.enum(["gpt-image-2-text-to-image", "gpt-image-2-image-to-image"]);
-const SeedanceVideoModelSchema = z.enum([
+const GptImage2ModelSchema = z.enum([
+  "gpt-image-2-text-to-image",
+  "gpt-image-2-image-to-image",
+  "gpt-image-2-5-flare-text-to-image",
+  "gpt-image-2-5-flare-image-to-image",
+  "gpt-image-2-5-sunburst-text-to-image",
+  "gpt-image-2-5-sunburst-image-to-image"
+]);
+const VideoModelSchema = z.enum([
   "bytedance/seedance-2",
   "bytedance/seedance-2-fast",
   "bytedance/seedance-2-mini",
-  "bytedance/seedance-2-5"
+  "bytedance/seedance-2-5",
+  "wan/3-0-video",
+  "wan/3-0-video-prime",
+  "google/gemini-omni-flash-1-1"
 ]);
 const VideoInputSchema = z.object({
   prompt: z
@@ -35,8 +45,8 @@ const VideoInputSchema = z.object({
       "Plain-language description of the video, shot, motion, style, and subject. The per-model limit is enforced against the official catalog."
     ),
   aspectRatio: z.enum(["1:1", "4:3", "3:4", "16:9", "9:16", "21:9", "adaptive"]).default("16:9"),
-  resolution: z.enum(["480p", "720p", "1080p", "4k"]).default("720p"),
-  duration: z.union([z.literal(-1), z.number().int().min(4).max(30)]).default(5),
+  resolution: z.enum(["360p", "480p", "720p", "1080p", "4k"]).default("720p"),
+  duration: z.union([z.literal(-1), z.number().int().min(2).max(30)]).default(5),
   generateAudio: z.boolean().default(true),
   firstFrameUrl: z.string().url().optional(),
   lastFrameUrl: z.string().url().optional(),
@@ -44,7 +54,7 @@ const VideoInputSchema = z.object({
   referenceVideoUrls: z.array(z.string().url()).min(1).max(10).optional(),
   referenceAudioUrls: z.array(z.string().url()).min(1).max(10).optional(),
   outputFormat: z.enum(["mp4", "mov"]).optional(),
-  model: SeedanceVideoModelSchema.default("bytedance/seedance-2"),
+  model: VideoModelSchema.default("bytedance/seedance-2"),
   callBackUrl: z.string().url().optional(),
   additionalInput: JsonRecordSchema.default({})
 });
@@ -57,7 +67,10 @@ type VideoInput = z.infer<typeof VideoInputSchema>;
 const ImageInputSchema = z.object({
   prompt: z.string().min(1).max(20000),
   aspectRatio: z
-    .enum(["auto", "1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "3:1", "1:3", "21:9", "9:21"])
+    .enum([
+      "auto", "1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "3:1", "1:3", "21:9", "9:21",
+      "27:16", "16:27", "9:8", "8:9"
+    ])
     .default("1:1"),
   resolution: z.enum(["1K", "2K", "4K"]).default("1K"),
   inputUrls: z.array(z.string().url()).min(1).max(16).optional(),
@@ -123,11 +136,15 @@ function record(value: unknown): Record<string, unknown> | undefined {
 
 function validateGptImage2Combination(model: string, input: Record<string, unknown>): void {
   const inputUrls = Array.isArray(input.input_urls) ? input.input_urls : [];
-  if (model === "gpt-image-2-text-to-image" && inputUrls.length > 0) {
-    throw new Error("gpt-image-2-text-to-image does not accept inputUrls; use gpt-image-2-image-to-image.");
+  if (model.endsWith("-text-to-image") && inputUrls.length > 0) {
+    throw new Error(`${model} does not accept inputUrls; use ${model.replace(/-text-to-image$/, "-image-to-image")}.`);
   }
-  if (model === "gpt-image-2-image-to-image" && inputUrls.length === 0) {
-    throw new Error("gpt-image-2-image-to-image requires at least one inputUrls entry.");
+  if (model.endsWith("-image-to-image") && inputUrls.length === 0) {
+    throw new Error(`${model} requires at least one inputUrls entry.`);
+  }
+  // GPT Image 2.5 only documents the plain enums; its per-model aspect ratios are enforced by the registry validator.
+  if (model.startsWith("gpt-image-2-5-")) {
+    return;
   }
   if (input.resolution === "4K" && input.aspect_ratio === "1:1") {
     throw new Error("GPT Image 2 does not support 4K output at a 1:1 aspect ratio.");
@@ -151,7 +168,12 @@ function validateGptImage2Combination(model: string, input: Record<string, unkno
   }
 }
 
-function validateSeedanceCombination(model: string, input: Record<string, unknown>): void {
+function validateVideoCombination(model: string, input: Record<string, unknown>): void {
+  if (!model.startsWith("bytedance/seedance")) {
+    // Wan 3.0 and Gemini Omni cross-field rules are documented in prose only; per-field enums and
+    // array sizes are enforced from the catalog by validateMarketInput.
+    return;
+  }
   const label =
     model === "bytedance/seedance-2-5"
       ? "Seedance 2.5"
@@ -192,18 +214,49 @@ function validateSeedanceCombination(model: string, input: Record<string, unknow
   }
 }
 
-function seedanceInput(job: VideoInput): Record<string, unknown> {
+function videoInput(job: VideoInput): Record<string, unknown> {
+  const frames = {
+    ...(job.firstFrameUrl ? { first_frame_url: job.firstFrameUrl } : {}),
+    ...(job.lastFrameUrl ? { last_frame_url: job.lastFrameUrl } : {})
+  };
+  if (job.model === "google/gemini-omni-flash-1-1") {
+    // Gemini Omni: duration is a string enum, references are `image_urls`, no audio toggle.
+    return {
+      prompt: job.prompt,
+      duration: String(job.duration),
+      aspect_ratio: job.aspectRatio,
+      resolution: job.resolution,
+      ...frames,
+      ...(job.referenceImageUrls?.length ? { image_urls: job.referenceImageUrls } : {}),
+      ...job.additionalInput
+    };
+  }
+  const references = {
+    ...(job.referenceImageUrls?.length ? { reference_image_urls: job.referenceImageUrls } : {}),
+    ...(job.referenceVideoUrls?.length ? { reference_video_urls: job.referenceVideoUrls } : {}),
+    ...(job.referenceAudioUrls?.length ? { reference_audio_urls: job.referenceAudioUrls } : {})
+  };
+  if (job.model.startsWith("wan/")) {
+    // Wan 3.0: `audio` instead of `generate_audio`, uppercase resolution, no output_format.
+    return {
+      prompt: job.prompt,
+      aspect_ratio: job.aspectRatio,
+      resolution: job.resolution.toUpperCase(),
+      duration: job.duration,
+      audio: job.generateAudio,
+      ...frames,
+      ...references,
+      ...job.additionalInput
+    };
+  }
   return {
     prompt: job.prompt,
     aspect_ratio: job.aspectRatio,
     resolution: job.resolution,
     duration: job.duration,
     generate_audio: job.generateAudio,
-    ...(job.firstFrameUrl ? { first_frame_url: job.firstFrameUrl } : {}),
-    ...(job.lastFrameUrl ? { last_frame_url: job.lastFrameUrl } : {}),
-    ...(job.referenceImageUrls?.length ? { reference_image_urls: job.referenceImageUrls } : {}),
-    ...(job.referenceVideoUrls?.length ? { reference_video_urls: job.referenceVideoUrls } : {}),
-    ...(job.referenceAudioUrls?.length ? { reference_audio_urls: job.referenceAudioUrls } : {}),
+    ...frames,
+    ...references,
     ...(job.outputFormat ? { output_format: job.outputFormat } : {}),
     ...job.additionalInput
   };
@@ -433,7 +486,7 @@ export function registerFriendlyTools(args: {
     name: "kie_create_image",
     title: "Create KIE Images",
     description:
-      "Create or edit images. Put one entry in `jobs` per image you want; they are generated in parallel. Returns task IDs and direct image URLs.",
+      "Create or edit images with GPT Image 2 (default) or GPT Image 2.5 Flare/Sunburst. Put one entry in `jobs` per image you want; they are generated in parallel. Returns task IDs and direct image URLs.",
     jobSchema: ImageBatchJobSchema,
     maxJobs: 16,
     waitByDefault: true,
@@ -454,19 +507,19 @@ export function registerFriendlyTools(args: {
     name: "kie_create_video",
     title: "Create KIE Videos",
     description:
-      "Create Seedance videos. Put one entry in `jobs` per shot; they are submitted in parallel. Videos take minutes, so this defaults to returning task IDs immediately — collect the finished media with kie_get_creation. For a cheap smoke test use model bytedance/seedance-2-mini at 480p, 4 seconds, generateAudio false.",
+      "Create videos with Seedance 2 / 2.5 (default), Wan 3.0 / 3.0 Prime, or Gemini Omni 1.1 Flash. Put one entry in `jobs` per shot; they are submitted in parallel. Videos take minutes, so this defaults to returning task IDs immediately — collect the finished media with kie_get_creation. For a cheap smoke test use model bytedance/seedance-2-mini at 480p, 4 seconds, generateAudio false.",
     jobSchema: VideoBatchJobSchema,
     maxJobs: 16,
     waitByDefault: false,
     progressLabel: "video",
-    validate: validateSeedanceCombination,
+    validate: validateVideoCombination,
     plan: (jobs) => ({
       jobs,
       kind: "video",
       label: (job) => job.label,
       prompt: (job) => job.prompt,
       model: (job) => job.model,
-      buildInput: (job) => seedanceInput(job),
+      buildInput: (job) => videoInput(job),
       callBackUrl: (job) => job.callBackUrl
     })
   });

@@ -1,6 +1,6 @@
 # KIE.AI Market Model Registry
 
-Generated 2026-08-19T12:27:50.246Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
+Generated 2026-09-09T12:44:36.837Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
 
 | Model | Required input | Official source |
 | --- | --- | --- |
@@ -27,16 +27,22 @@ Generated 2026-08-19T12:27:50.246Z from official `docs.kie.ai` OpenAPI schemas f
 | `flux-2/pro-text-to-image` | `aspect_ratio`, `prompt`, `resolution` | [Flux-2 - Pro Text to Image](<https://docs.kie.ai/market/flux2/pro-text-to-image.md>) |
 | `gemini-omni-video` | `duration`, `prompt` | [Gemini Omni Video](<https://docs.kie.ai/market/gemini-omni-video.md>) |
 | `google/gemini-3-1-flash-tts` | `dialogue_turns`, `speakers` | [Gemini 3.1 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-1-flash-tts.md>) |
+| `google/gemini-omni-flash-1-1` | `duration`, `prompt` | [Gemini Omni 1.1 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md>) |
 | `google/imagen4` | `prompt` | [Google - imagen4](<https://docs.kie.ai/market/google/imagen4.md>) |
 | `google/imagen4-fast` | `prompt` | [Google - imagen4-fast](<https://docs.kie.ai/market/google/imagen4-fast.md>) |
 | `google/imagen4-ultra` | `prompt` | [Google - imagen4-ultra](<https://docs.kie.ai/market/google/imagen4-ultra.md>) |
 | `google/nano-banana` | `prompt` | [Google - Nano Banana](<https://docs.kie.ai/market/google/nano-banana.md>) |
 | `google/nano-banana-edit` | `image_urls`, `prompt` | [Google - Nano Banana Edit](<https://docs.kie.ai/market/google/nano-banana-edit.md>) |
+| `gpt-image-2-5-flare-image-to-image` | `input_urls`, `prompt` | [GPT Image 2.5 Flare - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-image-to-image.md>) |
+| `gpt-image-2-5-flare-text-to-image` | `prompt` | [GPT Image 2.5 Flare - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-text-to-image.md>) |
+| `gpt-image-2-5-sunburst-image-to-image` | `input_urls`, `prompt` | [GPT Image 2.5 Sunburst - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-image-to-image.md>) |
+| `gpt-image-2-5-sunburst-text-to-image` | `prompt` | [GPT Image 2.5 Sunburst - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md>) |
 | `gpt-image-2-image-to-image` | `input_urls`, `prompt` | [GPT Image 2 - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md>) |
 | `gpt-image-2-text-to-image` | `prompt` | [GPT Image-2 - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image.md>) |
 | `gpt-image/1.5-image-to-image` | `aspect_ratio`, `input_urls`, `prompt`, `quality` | [GPT Image-1.5 - Image to Image](<https://docs.kie.ai/market/gpt-image/1-5-image-to-image.md>) |
 | `gpt-image/1.5-text-to-image` | `aspect_ratio`, `prompt`, `quality` | [GPT Image-1.5 - Text to Image](<https://docs.kie.ai/market/gpt-image/1-5-text-to-image.md>) |
-| `grok-imagine-image-2-0/image-edit` | `prompt`, `task_id` | [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>) |
+| `grok-imagine-image-2-0/image-edit` | `aspect_ratio`, `image_urls` | [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md>) |
+| `grok-imagine-image-2-0/segment-edit` | `prompt`, `task_id` | [Grok Imagine Image 2.0 Segment Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>) |
 | `grok-imagine-image-2-0/segment-map` |  | [Grok Imagine Image 2.0 Segment Map](<https://docs.kie.ai/market/grok-imagine-image-2-0/segment-map.md>) |
 | `grok-imagine-image-2-0/text-to-image` | `aspect_ratio`, `prompt` | [Grok Imagine Image 2.0 Text To Image](<https://docs.kie.ai/market/grok-imagine-image-2-0/text-to-image.md>) |
 | `grok-imagine-video-1-5-preview` |  | [Grok Imagine Video 1.5 Preview](<https://docs.kie.ai/market/grok-imagine/1-5-preview.md>) |
@@ -138,4 +144,6 @@ Generated 2026-08-19T12:27:50.246Z from official `docs.kie.ai` OpenAPI schemas f
 | `wan/2-7-r2v` | `prompt` | [Wan 2.7 - Reference to Video](<https://docs.kie.ai/market/wan/2-7-r2v.md>) |
 | `wan/2-7-text-to-video` | `prompt` | [Wan 2.7 - Text to Video](<https://docs.kie.ai/market/wan/2-7-text-to-video.md>) |
 | `wan/2-7-videoedit` | `video_url` | [Wan 2.7 - Video Edit](<https://docs.kie.ai/market/wan/2-7-videoedit.md>) |
+| `wan/3-0-video` |  | [Wan 3.0 - Video](<https://docs.kie.ai/market/wan/3-0-video.md>) |
+| `wan/3-0-video-prime` |  | [Wan 3.0 - Video Prime](<https://docs.kie.ai/market/wan/3-0-video-prime.md>) |
 | `z-image` | `aspect_ratio`, `prompt` | [Z-Image](<https://docs.kie.ai/market/z-image/z-image.md>) |

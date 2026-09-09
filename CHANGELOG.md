@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.0 - 2026-09-09
+
+- Refreshed the official KIE documentation snapshot (2026-09-09): 143 market models, 244 OpenAPI
+  operations. New in the catalog: GPT Image 2.5 Flare and Sunburst (text-to-image and
+  image-to-image), Gemini Omni 1.1 Flash, Wan 3.0 Video and Video Prime, and Grok Imagine Image 2.0
+  segment edit. All are reachable through `kie_market_create_task`.
+- `kie_create_image` now accepts the four GPT Image 2.5 models via `model`; GPT Image 2 stays the
+  default. The 2.5 aspect ratios (27:16, 16:27, 9:8, 8:9) are accepted and per-model enums are
+  enforced from the catalog.
+- `kie_create_video` now accepts `wan/3-0-video`, `wan/3-0-video-prime`, and
+  `google/gemini-omni-flash-1-1` alongside Seedance. Friendly fields are mapped to each model's
+  native names (`audio`, uppercase Wan resolutions, Gemini `image_urls` and string durations).
+
 ## 1.1.1 - 2026-08-19
 
 Removes the `POST /upload` endpoint added in 1.1.0. It did not buy what its release notes claimed:

@@ -30,6 +30,15 @@ describe("market registry", () => {
     ).toThrow(/input_urls\[0\] must be an absolute HTTP\(S\) URL/);
   });
 
+  it("enforces GPT Image 2.5 aspect ratios from the refreshed catalog", () => {
+    expect(() =>
+      validateMarketInput("gpt-image-2-5-flare-text-to-image", { prompt: "Poster", aspect_ratio: "27:16" })
+    ).not.toThrow();
+    expect(() =>
+      validateMarketInput("gpt-image-2-5-flare-text-to-image", { prompt: "Poster", aspect_ratio: "5:4" })
+    ).toThrow(/aspect_ratio/);
+  });
+
   it("rejects undocumented fields for known models with a forward-compatibility escape-hatch message", () => {
     expect(() =>
       validateMarketInput("qwen2/text-to-image", {
