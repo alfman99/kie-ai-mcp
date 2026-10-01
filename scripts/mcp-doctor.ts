@@ -156,6 +156,12 @@ async function main(): Promise<void> {
     if (!snapshot || snapshot.failures !== 0) {
       throw new Error("MCP loaded an incomplete or invalid KIE documentation snapshot.");
     }
+    if (toolProfile === "full") {
+      const catalogs = textPayload(await client.callTool({ name: "kie_get_local_catalogs", arguments: {} }));
+      if (JSON.stringify(catalogs.snapshot) !== JSON.stringify(snapshot)) {
+        throw new Error("MCP catalog tool and manifest resource disagree.");
+      }
+    }
     if (configuration.apiBaseUrl !== "https://api.kie.ai") {
       throw new Error(`MCP is not using the native KIE API base URL: ${String(configuration.apiBaseUrl)}`);
     }

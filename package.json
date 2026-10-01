@@ -1,6 +1,6 @@
 {
   "name": "kie-ai-mcp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Higgsfield-style image, video, and voice creation in Claude, ChatGPT/Codex, Cursor, VS Code, and Windsurf using flexible KIE credits.",
   "type": "module",
   "license": "MIT",
@@ -72,6 +72,6 @@
     "@types/node": "^24.0.10",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "vitest": "^4.1.11"
   }
 }

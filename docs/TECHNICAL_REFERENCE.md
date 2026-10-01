@@ -180,7 +180,7 @@ KIE allows [up to 20 new generation requests per 10 seconds per account](https:/
 rejected requests **do not enter the queue** — an overrun destroys work rather than delaying it.
 
 - Task-creating requests take a slot from a sliding window (`KIE_GENERATION_RATE_LIMIT` per `KIE_GENERATION_RATE_WINDOW_MS`)
-  before they are sent. This covers `POST /api/v1/jobs/createTask` and the 23 product endpoints that create billable tasks.
+  before they are sent. This covers `POST /api/v1/jobs/createTask`, including product operations that create tasks.
 - Status reads, credit checks, uploads, and downloads are not metered against that budget.
 - A submission KIE still refuses with 429 is re-sent up to `KIE_GENERATION_MAX_RETRIES` times, honouring `Retry-After`.
   A 429 means the request was refused outright, so nothing was created and nothing was charged. **No other failure is ever
@@ -248,6 +248,12 @@ Supported product families:
 - `veo`
 
 Product query parameters and JSON bodies are validated against the bundled official OpenAPI snapshot.
+
+KIE now uses `POST /api/v1/jobs/createTask` for product creation and
+`GET /api/v1/jobs/recordInfo` for task status. Creation bodies use `{model, input, callBackUrl}`;
+the previous flat product bodies are no longer accepted. Read `kie_product_get_operation_schema`
+before calling an operation. Each operation selects its schema by its official source URL because
+many operations now share the same path. The Market tools also expose these unified product models.
 
 ### Webhooks
 

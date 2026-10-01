@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-09T12:44:36.837Z",
+  "generated_at": "2026-10-01T09:31:21.795Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -12,7 +12,7 @@
     {
       "method": "",
       "path": "/api/callback",
-      "title": "Seedream 5.0 Pro 图层分离",
+      "title": "Seedream5.0 Pro 图层分离",
       "url": "https://docs.kie.ai/41313512e0.md",
       "file": "/41313512e0.md"
     },
@@ -22,6 +22,13 @@
       "title": "PixVerse V6 Reference-to-video/参考图生成",
       "url": "https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md",
       "file": "/cnmarket/pixverse/reference-to-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Generate or Edit Image",
+      "url": "https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md",
+      "file": "/flux-kontext-api/generate-or-edit-image.md"
     },
     {
       "method": "",
@@ -176,6 +183,20 @@
       "title": "Gemini 3.1 Flash Text to speech",
       "url": "https://docs.kie.ai/market/google/gemini-3-1-flash-tts.md",
       "file": "/market/google/gemini-3-1-flash-tts.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Gemini 3.8 Flash Lite Text to speech",
+      "url": "https://docs.kie.ai/market/google/gemini-3-8-flash-lite-tts.md",
+      "file": "/market/google/gemini-3-8-flash-lite-tts.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Gemini 3.8 Flash Text to speech",
+      "url": "https://docs.kie.ai/market/google/gemini-3-8-flash-tts.md",
+      "file": "/market/google/gemini-3-8-flash-tts.md"
     },
     {
       "method": "",
@@ -698,6 +719,20 @@
     {
       "method": "",
       "path": "/api/callback",
+      "title": "Qwen 2.1 - Image to Image",
+      "url": "https://docs.kie.ai/market/qwen2-1/image-to-image.md",
+      "file": "/market/qwen2-1/image-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Qwen 2.1 - Text to Image",
+      "url": "https://docs.kie.ai/market/qwen2-1/text-to-image.md",
+      "file": "/market/qwen2-1/text-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
       "title": "Qwen2 - Image Edit",
       "url": "https://docs.kie.ai/market/qwen2/image-edit.md",
       "file": "/market/qwen2/image-edit.md"
@@ -775,6 +810,27 @@
     {
       "method": "",
       "path": "/api/callback",
+      "title": "Seedream5.0 Flash - Image to Image",
+      "url": "https://docs.kie.ai/market/seedream/5-flash-image-to-image.md",
+      "file": "/market/seedream/5-flash-image-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Seedream5.0 Flash -  Layer Decomposition",
+      "url": "https://docs.kie.ai/market/seedream/5-flash-layer-decomposition.md",
+      "file": "/market/seedream/5-flash-layer-decomposition.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Seedream5.0 Flash - Text to Image",
+      "url": "https://docs.kie.ai/market/seedream/5-flash-text-to-image.md",
+      "file": "/market/seedream/5-flash-text-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
       "title": "Seedream5.0 Lite - Text to Image",
       "url": "https://docs.kie.ai/market/seedream/5-lite-text-to-image.md",
       "file": "/market/seedream/5-lite-text-to-image.md"
@@ -789,7 +845,7 @@
     {
       "method": "",
       "path": "/api/callback",
-      "title": "Seedream 5.0 Pro -  Layer Decomposition",
+      "title": "Seedream5.0 Pro -  Layer Decomposition",
       "url": "https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md",
       "file": "/market/seedream/5-pro-layer-decomposition.md"
     },
@@ -991,6 +1047,13 @@
     },
     {
       "method": "",
+      "path": "/api/callback",
+      "title": "Extend Veo3.1 Video",
+      "url": "https://docs.kie.ai/veo3-api/extend-video.md",
+      "file": "/veo3-api/extend-video.md"
+    },
+    {
+      "method": "",
       "path": "/api/file-base64-upload",
       "title": "File Upload API Quickstart",
       "url": "https://docs.kie.ai/file-upload-api/quickstart.md",
@@ -1030,27 +1093,6 @@
       "title": "URL File Upload",
       "url": "https://docs.kie.ai/file-upload-api/upload-file-url.md",
       "file": "/file-upload-api/upload-file-url.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1",
-      "title": "Suno API Quickstart",
-      "url": "https://docs.kie.ai/suno-api/quickstart.md",
-      "file": "/suno-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/aleph/generate",
-      "title": "Generate Aleph Video",
-      "url": "https://docs.kie.ai/runway-api/generate-aleph-video.md",
-      "file": "/runway-api/generate-aleph-video.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/aleph/record-info",
-      "title": "Get Aleph Video Details",
-      "url": "https://docs.kie.ai/runway-api/get-aleph-video-details.md",
-      "file": "/runway-api/get-aleph-video-details.md"
     },
     {
       "method": "",
@@ -1096,87 +1138,10 @@
     },
     {
       "method": "",
-      "path": "/api/v1/flux/kontext",
-      "title": "Flux Kontext API Quickstart",
-      "url": "https://docs.kie.ai/flux-kontext-api/quickstart.md",
-      "file": "/flux-kontext-api/quickstart.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/flux/kontext/generate",
-      "title": "Flux Kontext API Quickstart",
-      "url": "https://docs.kie.ai/flux-kontext-api/quickstart.md",
-      "file": "/flux-kontext-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/flux/kontext/generate",
-      "title": "Generate or Edit Image",
-      "url": "https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md",
-      "file": "/flux-kontext-api/generate-or-edit-image.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/flux/kontext/record-info",
-      "title": "Flux Kontext API Quickstart",
-      "url": "https://docs.kie.ai/flux-kontext-api/quickstart.md",
-      "file": "/flux-kontext-api/quickstart.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/flux/kontext/record-info",
-      "title": "Get Image Details",
-      "url": "https://docs.kie.ai/flux-kontext-api/get-image-details.md",
-      "file": "/flux-kontext-api/get-image-details.md"
-    },
-    {
-      "method": "",
       "path": "/api/v1/generate",
       "title": "Generate Persona",
       "url": "https://docs.kie.ai/suno-api/generate-persona.md",
       "file": "/suno-api/generate-persona.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/generate",
-      "title": "Suno API Quickstart",
-      "url": "https://docs.kie.ai/suno-api/quickstart.md",
-      "file": "/suno-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate",
-      "title": "Generate Music",
-      "url": "https://docs.kie.ai/suno-api/generate-music.md",
-      "file": "/suno-api/generate-music.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/generate/add-instrumental",
-      "title": "Add Instrumental Callbacks",
-      "url": "https://docs.kie.ai/suno-api/add-instrumental-callbacks.md",
-      "file": "/suno-api/add-instrumental-callbacks.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate/add-instrumental",
-      "title": "Add Instrumental to Music",
-      "url": "https://docs.kie.ai/suno-api/add-instrumental.md",
-      "file": "/suno-api/add-instrumental.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/generate/add-vocals",
-      "title": "Add Vocals Callbacks",
-      "url": "https://docs.kie.ai/suno-api/add-vocals-callbacks.md",
-      "file": "/suno-api/add-vocals-callbacks.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate/add-vocals",
-      "title": "Add Vocals to Music",
-      "url": "https://docs.kie.ai/suno-api/add-vocals.md",
-      "file": "/suno-api/add-vocals.md"
     },
     {
       "method": "",
@@ -1184,118 +1149,6 @@
       "title": "Generate Persona",
       "url": "https://docs.kie.ai/suno-api/generate-persona.md",
       "file": "/suno-api/generate-persona.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate/extend",
-      "title": "Extend Music",
-      "url": "https://docs.kie.ai/suno-api/extend-music.md",
-      "file": "/suno-api/extend-music.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate/generate-persona",
-      "title": "Generate Persona",
-      "url": "https://docs.kie.ai/suno-api/generate-persona.md",
-      "file": "/suno-api/generate-persona.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate/get-timestamped-lyrics",
-      "title": "Get Timestamped Lyrics",
-      "url": "https://docs.kie.ai/suno-api/get-timestamped-lyrics.md",
-      "file": "/suno-api/get-timestamped-lyrics.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate/mashup",
-      "title": "Generate Mashup Music",
-      "url": "https://docs.kie.ai/suno-api/generate-mashup.md",
-      "file": "/suno-api/generate-mashup.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/generate/record-info",
-      "title": "Suno API Quickstart",
-      "url": "https://docs.kie.ai/suno-api/quickstart.md",
-      "file": "/suno-api/quickstart.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/generate/record-info",
-      "title": "Get Music Task Details",
-      "url": "https://docs.kie.ai/suno-api/get-music-details.md",
-      "file": "/suno-api/get-music-details.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate/replace-section",
-      "title": "Replace Music Section",
-      "url": "https://docs.kie.ai/suno-api/replace-section.md",
-      "file": "/suno-api/replace-section.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate/sounds",
-      "title": "Generate sounds",
-      "url": "https://docs.kie.ai/suno-api/generate-sounds.md",
-      "file": "/suno-api/generate-sounds.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate/upload-cover",
-      "title": "Upload And Cover Audio",
-      "url": "https://docs.kie.ai/suno-api/upload-and-cover-audio.md",
-      "file": "/suno-api/upload-and-cover-audio.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/generate/upload-extend",
-      "title": "Upload And Extend Audio",
-      "url": "https://docs.kie.ai/suno-api/upload-and-extend-audio.md",
-      "file": "/suno-api/upload-and-extend-audio.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/gpt4o-image",
-      "title": "4o Image API Quickstart",
-      "url": "https://docs.kie.ai/4o-image-api/quickstart.md",
-      "file": "/4o-image-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/gpt4o-image/download-url",
-      "title": "Get Direct Download URL",
-      "url": "https://docs.kie.ai/4o-image-api/get-4-o-image-download-url.md",
-      "file": "/4o-image-api/get-4-o-image-download-url.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/gpt4o-image/generate",
-      "title": "4o Image API Quickstart",
-      "url": "https://docs.kie.ai/4o-image-api/quickstart.md",
-      "file": "/4o-image-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/gpt4o-image/generate",
-      "title": "Generate 4o Image",
-      "url": "https://docs.kie.ai/4o-image-api/generate-4-o-image.md",
-      "file": "/4o-image-api/generate-4-o-image.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/gpt4o-image/record-info",
-      "title": "4o Image API Quickstart",
-      "url": "https://docs.kie.ai/4o-image-api/quickstart.md",
-      "file": "/4o-image-api/quickstart.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/gpt4o-image/record-info",
-      "title": "Get 4o Image Details",
-      "url": "https://docs.kie.ai/4o-image-api/get-4-o-image-details.md",
-      "file": "/4o-image-api/get-4-o-image-details.md"
     },
     {
       "method": "",
@@ -1328,9 +1181,16 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
-      "title": "Seedream 5.0 Pro 图层分离",
+      "title": "Seedream5.0 Pro 图层分离",
       "url": "https://docs.kie.ai/41313512e0.md",
       "file": "/41313512e0.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate 4o Image",
+      "url": "https://docs.kie.ai/4o-image-api/generate-4-o-image.md",
+      "file": "/4o-image-api/generate-4-o-image.md"
     },
     {
       "method": "POST",
@@ -1338,6 +1198,13 @@
       "title": "PixVerse V6 Reference-to-video/参考图生成",
       "url": "https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md",
       "file": "/cnmarket/pixverse/reference-to-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate or Edit Image",
+      "url": "https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md",
+      "file": "/flux-kontext-api/generate-or-edit-image.md"
     },
     {
       "method": "POST",
@@ -1485,6 +1352,20 @@
       "title": "Gemini 3.1 Flash Text to speech",
       "url": "https://docs.kie.ai/market/google/gemini-3-1-flash-tts.md",
       "file": "/market/google/gemini-3-1-flash-tts.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Gemini 3.8 Flash Lite Text to speech",
+      "url": "https://docs.kie.ai/market/google/gemini-3-8-flash-lite-tts.md",
+      "file": "/market/google/gemini-3-8-flash-lite-tts.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Gemini 3.8 Flash Text to speech",
+      "url": "https://docs.kie.ai/market/google/gemini-3-8-flash-tts.md",
+      "file": "/market/google/gemini-3-8-flash-tts.md"
     },
     {
       "method": "POST",
@@ -2056,6 +1937,20 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "Qwen 2.1 - Image to Image",
+      "url": "https://docs.kie.ai/market/qwen2-1/image-to-image.md",
+      "file": "/market/qwen2-1/image-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Qwen 2.1 - Text to Image",
+      "url": "https://docs.kie.ai/market/qwen2-1/text-to-image.md",
+      "file": "/market/qwen2-1/text-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "Qwen2 - Image Edit",
       "url": "https://docs.kie.ai/market/qwen2/image-edit.md",
       "file": "/market/qwen2/image-edit.md"
@@ -2133,6 +2028,27 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "Seedream5.0 Flash - Image to Image",
+      "url": "https://docs.kie.ai/market/seedream/5-flash-image-to-image.md",
+      "file": "/market/seedream/5-flash-image-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Seedream5.0 Flash -  Layer Decomposition",
+      "url": "https://docs.kie.ai/market/seedream/5-flash-layer-decomposition.md",
+      "file": "/market/seedream/5-flash-layer-decomposition.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Seedream5.0 Flash - Text to Image",
+      "url": "https://docs.kie.ai/market/seedream/5-flash-text-to-image.md",
+      "file": "/market/seedream/5-flash-text-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "Seedream5.0 Lite - Text to Image",
       "url": "https://docs.kie.ai/market/seedream/5-lite-text-to-image.md",
       "file": "/market/seedream/5-lite-text-to-image.md"
@@ -2147,7 +2063,7 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
-      "title": "Seedream 5.0 Pro -  Layer Decomposition",
+      "title": "Seedream5.0 Pro -  Layer Decomposition",
       "url": "https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md",
       "file": "/market/seedream/5-pro-layer-decomposition.md"
     },
@@ -2348,6 +2264,216 @@
       "file": "/market/z-image/z-image.md"
     },
     {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Extend AI Video",
+      "url": "https://docs.kie.ai/runway-api/extend-ai-video.md",
+      "file": "/runway-api/extend-ai-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate AI Video",
+      "url": "https://docs.kie.ai/runway-api/generate-ai-video.md",
+      "file": "/runway-api/generate-ai-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate Aleph Video",
+      "url": "https://docs.kie.ai/runway-api/generate-aleph-video.md",
+      "file": "/runway-api/generate-aleph-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Add Instrumental to Music",
+      "url": "https://docs.kie.ai/suno-api/add-instrumental.md",
+      "file": "/suno-api/add-instrumental.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Add Vocals to Music",
+      "url": "https://docs.kie.ai/suno-api/add-vocals.md",
+      "file": "/suno-api/add-vocals.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Boost Music Style",
+      "url": "https://docs.kie.ai/suno-api/boost-music-style.md",
+      "file": "/suno-api/boost-music-style.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Convert to WAV Format",
+      "url": "https://docs.kie.ai/suno-api/convert-to-wav.md",
+      "file": "/suno-api/convert-to-wav.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate Music Cover",
+      "url": "https://docs.kie.ai/suno-api/cover-suno.md",
+      "file": "/suno-api/cover-suno.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Create Music Video",
+      "url": "https://docs.kie.ai/suno-api/create-music-video.md",
+      "file": "/suno-api/create-music-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Extend Music",
+      "url": "https://docs.kie.ai/suno-api/extend-music.md",
+      "file": "/suno-api/extend-music.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate Lyrics",
+      "url": "https://docs.kie.ai/suno-api/generate-lyrics.md",
+      "file": "/suno-api/generate-lyrics.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate Mashup Music",
+      "url": "https://docs.kie.ai/suno-api/generate-mashup.md",
+      "file": "/suno-api/generate-mashup.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate MIDI from Audio",
+      "url": "https://docs.kie.ai/suno-api/generate-midi.md",
+      "file": "/suno-api/generate-midi.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate Music",
+      "url": "https://docs.kie.ai/suno-api/generate-music.md",
+      "file": "/suno-api/generate-music.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate Persona",
+      "url": "https://docs.kie.ai/suno-api/generate-persona.md",
+      "file": "/suno-api/generate-persona.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate sounds",
+      "url": "https://docs.kie.ai/suno-api/generate-sounds.md",
+      "file": "/suno-api/generate-sounds.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Get Timestamped Lyrics",
+      "url": "https://docs.kie.ai/suno-api/get-timestamped-lyrics.md",
+      "file": "/suno-api/get-timestamped-lyrics.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Recovery Audio",
+      "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
+      "file": "/suno-api/recovery-audio.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Replace Music Section",
+      "url": "https://docs.kie.ai/suno-api/replace-section.md",
+      "file": "/suno-api/replace-section.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Vocal & Instrument Stem Separation",
+      "url": "https://docs.kie.ai/suno-api/separate-vocals.md",
+      "file": "/suno-api/separate-vocals.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Suno Voice Check Availability API",
+      "url": "https://docs.kie.ai/suno-api/suno-voice-check-voice.md",
+      "file": "/suno-api/suno-voice-check-voice.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Suno Voice Create Custom Voice API",
+      "url": "https://docs.kie.ai/suno-api/suno-voice-generate.md",
+      "file": "/suno-api/suno-voice-generate.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Suno Voice Regenerate Verification Phrase",
+      "url": "https://docs.kie.ai/suno-api/suno-voice-regenerate.md",
+      "file": "/suno-api/suno-voice-regenerate.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Suno Voice Generate Verification Phrase API",
+      "url": "https://docs.kie.ai/suno-api/suno-voice-validate.md",
+      "file": "/suno-api/suno-voice-validate.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Upload And Cover Audio",
+      "url": "https://docs.kie.ai/suno-api/upload-and-cover-audio.md",
+      "file": "/suno-api/upload-and-cover-audio.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Upload And Extend Audio",
+      "url": "https://docs.kie.ai/suno-api/upload-and-extend-audio.md",
+      "file": "/suno-api/upload-and-extend-audio.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Extend Veo3.1 Video",
+      "url": "https://docs.kie.ai/veo3-api/extend-video.md",
+      "file": "/veo3-api/extend-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Generate Veo3.1 Video",
+      "url": "https://docs.kie.ai/veo3-api/generate-veo-3-video.md",
+      "file": "/veo3-api/generate-veo-3-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Get 1080P Video",
+      "url": "https://docs.kie.ai/veo3-api/get-veo-3-1080-p-video.md",
+      "file": "/veo3-api/get-veo-3-1080-p-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Get 4K Video",
+      "url": "https://docs.kie.ai/veo3-api/get-veo-3-4k-video.md",
+      "file": "/veo3-api/get-veo-3-4k-video.md"
+    },
+    {
       "method": "",
       "path": "/api/v1/jobs/recordInfo",
       "title": "Market",
@@ -2362,60 +2488,11 @@
       "file": "/market/common/get-task-detail.md"
     },
     {
-      "method": "POST",
-      "path": "/api/v1/lyrics",
-      "title": "Generate Lyrics",
-      "url": "https://docs.kie.ai/suno-api/generate-lyrics.md",
-      "file": "/suno-api/generate-lyrics.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/lyrics/record-info",
-      "title": "Get Lyrics Task Details",
-      "url": "https://docs.kie.ai/suno-api/get-lyrics-details.md",
-      "file": "/suno-api/get-lyrics-details.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/midi/generate",
-      "title": "Generate MIDI from Audio",
-      "url": "https://docs.kie.ai/suno-api/generate-midi.md",
-      "file": "/suno-api/generate-midi.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/midi/record-info",
-      "title": "Get MIDI Generation Details",
-      "url": "https://docs.kie.ai/suno-api/get-midi-details.md",
-      "file": "/suno-api/get-midi-details.md"
-    },
-    {
       "method": "",
       "path": "/api/v1/modify/test",
       "title": "Veo3.1 Video Generation Callbacks",
       "url": "https://docs.kie.ai/veo3-api/generate-veo-3-video-callbacks.md",
       "file": "/veo3-api/generate-veo-3-video-callbacks.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/mp4/generate",
-      "title": "Suno API Quickstart",
-      "url": "https://docs.kie.ai/suno-api/quickstart.md",
-      "file": "/suno-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/mp4/generate",
-      "title": "Create Music Video",
-      "url": "https://docs.kie.ai/suno-api/create-music-video.md",
-      "file": "/suno-api/create-music-video.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/mp4/record-info",
-      "title": "Get Music Video Details",
-      "url": "https://docs.kie.ai/suno-api/get-music-video-details.md",
-      "file": "/suno-api/get-music-video-details.md"
     },
     {
       "method": "POST",
@@ -2440,255 +2517,10 @@
     },
     {
       "method": "",
-      "path": "/api/v1/runway",
-      "title": "Runway API Quickstart",
-      "url": "https://docs.kie.ai/runway-api/quickstart.md",
-      "file": "/runway-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/runway/extend",
-      "title": "Extend AI Video",
-      "url": "https://docs.kie.ai/runway-api/extend-ai-video.md",
-      "file": "/runway-api/extend-ai-video.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/runway/generate",
-      "title": "Runway API Quickstart",
-      "url": "https://docs.kie.ai/runway-api/quickstart.md",
-      "file": "/runway-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/runway/generate",
-      "title": "Generate AI Video",
-      "url": "https://docs.kie.ai/runway-api/generate-ai-video.md",
-      "file": "/runway-api/generate-ai-video.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/runway/record-detail",
-      "title": "Runway API Quickstart",
-      "url": "https://docs.kie.ai/runway-api/quickstart.md",
-      "file": "/runway-api/quickstart.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/runway/record-detail",
-      "title": "Get AI Video Details",
-      "url": "https://docs.kie.ai/runway-api/get-ai-video-details.md",
-      "file": "/runway-api/get-ai-video-details.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/style/generate",
-      "title": "Suno API Quickstart",
-      "url": "https://docs.kie.ai/suno-api/quickstart.md",
-      "file": "/suno-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/style/generate",
-      "title": "Boost Music Style",
-      "url": "https://docs.kie.ai/suno-api/boost-music-style.md",
-      "file": "/suno-api/boost-music-style.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/suno/cover/generate",
-      "title": "Generate Music Cover",
-      "url": "https://docs.kie.ai/suno-api/cover-suno.md",
-      "file": "/suno-api/cover-suno.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/suno/cover/record-info",
-      "title": "Get Cover Generation Details",
-      "url": "https://docs.kie.ai/suno-api/get-cover-suno-details.md",
-      "file": "/suno-api/get-cover-suno-details.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/suno/recovery",
-      "title": "Recovery Audio",
-      "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
-      "file": "/suno-api/recovery-audio.md"
-    },
-    {
-      "method": "",
       "path": "/api/v1/suno/recovery/record-info",
       "title": "Recovery Audio",
       "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
       "file": "/suno-api/recovery-audio.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/veo/extend",
-      "title": "Extend Veo3.1 Video",
-      "url": "https://docs.kie.ai/veo3-api/extend-video.md",
-      "file": "/veo3-api/extend-video.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/veo/generate",
-      "title": "Veo3.1 API Quickstart",
-      "url": "https://docs.kie.ai/veo3-api/quickstart.md",
-      "file": "/veo3-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/veo/generate",
-      "title": "Generate Veo3.1 Video",
-      "url": "https://docs.kie.ai/veo3-api/generate-veo-3-video.md",
-      "file": "/veo3-api/generate-veo-3-video.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/veo/get-1080p-video",
-      "title": "Get 4K Video",
-      "url": "https://docs.kie.ai/veo3-api/get-veo-3-4k-video.md",
-      "file": "/veo3-api/get-veo-3-4k-video.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/veo/get-1080p-video",
-      "title": "Veo3.1 API Quickstart",
-      "url": "https://docs.kie.ai/veo3-api/quickstart.md",
-      "file": "/veo3-api/quickstart.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/veo/get-1080p-video",
-      "title": "Get 1080P Video",
-      "url": "https://docs.kie.ai/veo3-api/get-veo-3-1080-p-video.md",
-      "file": "/veo3-api/get-veo-3-1080-p-video.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/veo/get-4k-video",
-      "title": "Get 4K Video",
-      "url": "https://docs.kie.ai/veo3-api/get-veo-3-4k-video.md",
-      "file": "/veo3-api/get-veo-3-4k-video.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/veo/record-info",
-      "title": "Veo3.1 API Quickstart",
-      "url": "https://docs.kie.ai/veo3-api/quickstart.md",
-      "file": "/veo3-api/quickstart.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/veo/record-info",
-      "title": "Get Veo3.1 Video Details",
-      "url": "https://docs.kie.ai/veo3-api/get-veo-3-video-details.md",
-      "file": "/veo3-api/get-veo-3-video-details.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/vocal-removal/generate",
-      "title": "Suno API Quickstart",
-      "url": "https://docs.kie.ai/suno-api/quickstart.md",
-      "file": "/suno-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/vocal-removal/generate",
-      "title": "Vocal & Instrument Stem Separation",
-      "url": "https://docs.kie.ai/suno-api/separate-vocals.md",
-      "file": "/suno-api/separate-vocals.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/vocal-removal/record-info",
-      "title": "Get Vocal Separation Details",
-      "url": "https://docs.kie.ai/suno-api/get-vocal-separation-details.md",
-      "file": "/suno-api/get-vocal-separation-details.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/vocal-removal/test",
-      "title": "Get Vocal Separation Details",
-      "url": "https://docs.kie.ai/suno-api/get-vocal-separation-details.md",
-      "file": "/suno-api/get-vocal-separation-details.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/voice/check-voice",
-      "title": "Suno Voice Check Availability API",
-      "url": "https://docs.kie.ai/suno-api/suno-voice-check-voice.md",
-      "file": "/suno-api/suno-voice-check-voice.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/voice/generate",
-      "title": "Suno Voice Generation Callback",
-      "url": "https://docs.kie.ai/suno-api/suno-voice-generate-callback.md",
-      "file": "/suno-api/suno-voice-generate-callback.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/voice/generate",
-      "title": "Suno Voice Create Custom Voice API",
-      "url": "https://docs.kie.ai/suno-api/suno-voice-generate.md",
-      "file": "/suno-api/suno-voice-generate.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/voice/record-info",
-      "title": "Suno Voice Get Custom Voice Records",
-      "url": "https://docs.kie.ai/suno-api/suno-voice-record-info.md",
-      "file": "/suno-api/suno-voice-record-info.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/voice/regenerate",
-      "title": "Suno Voice Regenerate Verification Phrase",
-      "url": "https://docs.kie.ai/suno-api/suno-voice-regenerate.md",
-      "file": "/suno-api/suno-voice-regenerate.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/voice/validate",
-      "title": "Suno Voice Validation Phrase Callback",
-      "url": "https://docs.kie.ai/suno-api/suno-voice-validate-callback.md",
-      "file": "/suno-api/suno-voice-validate-callback.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/voice/validate",
-      "title": "Suno Voice Generate Verification Phrase API",
-      "url": "https://docs.kie.ai/suno-api/suno-voice-validate.md",
-      "file": "/suno-api/suno-voice-validate.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/voice/validate-info",
-      "title": "Suno Voice Get Verification Phrase API",
-      "url": "https://docs.kie.ai/suno-api/suno-voice-validate-info.md",
-      "file": "/suno-api/suno-voice-validate-info.md"
-    },
-    {
-      "method": "",
-      "path": "/api/v1/wav/generate",
-      "title": "Suno API Quickstart",
-      "url": "https://docs.kie.ai/suno-api/quickstart.md",
-      "file": "/suno-api/quickstart.md"
-    },
-    {
-      "method": "POST",
-      "path": "/api/v1/wav/generate",
-      "title": "Convert to WAV Format",
-      "url": "https://docs.kie.ai/suno-api/convert-to-wav.md",
-      "file": "/suno-api/convert-to-wav.md"
-    },
-    {
-      "method": "GET",
-      "path": "/api/v1/wav/record-info",
-      "title": "Get WAV Conversion Details",
-      "url": "https://docs.kie.ai/suno-api/get-wav-details.md",
-      "file": "/suno-api/get-wav-details.md"
     },
     {
       "method": "POST",
@@ -2735,6 +2567,13 @@
     {
       "method": "POST",
       "path": "/claude/v1/messages",
+      "title": "Claude Opus 5.5",
+      "url": "https://docs.kie.ai/market/claude/claude-opus-5-5.md",
+      "file": "/market/claude/claude-opus-5-5.md"
+    },
+    {
+      "method": "POST",
+      "path": "/claude/v1/messages",
       "title": "Claude Opus 5",
       "url": "https://docs.kie.ai/market/claude/claude-opus-5.md",
       "file": "/market/claude/claude-opus-5.md"
@@ -2759,6 +2598,13 @@
       "title": "Claude Fable 5",
       "url": "https://docs.kie.ai/market/claude/cluade-fable-5.md",
       "file": "/market/claude/cluade-fable-5.md"
+    },
+    {
+      "method": "POST",
+      "path": "/claude/v1/messages",
+      "title": "Claude Sonnet 5.5",
+      "url": "https://docs.kie.ai/market/claude/cluade-sonnet-5-5.md",
+      "file": "/market/claude/cluade-sonnet-5-5.md"
     },
     {
       "method": "POST",
@@ -2805,16 +2651,30 @@
     {
       "method": "POST",
       "path": "/codex/v1/responses",
+      "title": "GPT 6.1 Sol",
+      "url": "https://docs.kie.ai/market/chat/gpt-6-1-sol.md",
+      "file": "/market/chat/gpt-6-1-sol.md"
+    },
+    {
+      "method": "POST",
+      "path": "/codex/v1/responses",
       "title": "Gpt 6 Astra",
       "url": "https://docs.kie.ai/market/chat/gpt-6-astra.md",
       "file": "/market/chat/gpt-6-astra.md"
     },
     {
       "method": "POST",
-      "path": "/gemini-2.5-flash/v1/chat/completions",
-      "title": "Gemini 2.5 Flash (openai)",
-      "url": "https://docs.kie.ai/market/gemini/gemini-2-5-flash.md",
-      "file": "/market/gemini/gemini-2-5-flash.md"
+      "path": "/codex/v1/responses",
+      "title": "GPT 6 Luna",
+      "url": "https://docs.kie.ai/market/chat/gpt-6-luna.md",
+      "file": "/market/chat/gpt-6-luna.md"
+    },
+    {
+      "method": "POST",
+      "path": "/codex/v1/responses",
+      "title": "GPT 6 Sol",
+      "url": "https://docs.kie.ai/market/chat/gpt-6-sol.md",
+      "file": "/market/chat/gpt-6-sol.md"
     },
     {
       "method": "POST",
@@ -2864,13 +2724,6 @@
       "title": "Gemini 3.8 Flash (openai)",
       "url": "https://docs.kie.ai/market/gemini/gemini-3-8-flash-openai.md",
       "file": "/market/gemini/gemini-3-8-flash-openai.md"
-    },
-    {
-      "method": "POST",
-      "path": "/gemini-3-flash/v1/chat/completions",
-      "title": "Gemini 3 Flash (openai)",
-      "url": "https://docs.kie.ai/market/gemini/gemini-3-flash.md",
-      "file": "/market/gemini/gemini-3-flash.md"
     },
     {
       "method": "POST",
@@ -2930,13 +2783,6 @@
     },
     {
       "method": "POST",
-      "path": "/gemini/v1/models/gemini-3-flash-v1betamodels:streamGenerateContent",
-      "title": "Gemini 3 Flash",
-      "url": "https://docs.kie.ai/market/gemini/gemini-3-flash-v1beta.md",
-      "file": "/market/gemini/gemini-3-flash-v1beta.md"
-    },
-    {
-      "method": "POST",
       "path": "/gpt-5-2/v1/chat/completions",
       "title": "GPT 5.2",
       "url": "https://docs.kie.ai/market/chat/gpt-5-2.md",
@@ -2962,6 +2808,27 @@
       "title": "Grok 4.6",
       "url": "https://docs.kie.ai/market/grok/grok-4-6.md",
       "file": "/market/grok/grok-4-6.md"
+    },
+    {
+      "method": "POST",
+      "path": "/grok/v1/responses",
+      "title": "Grok 4.7",
+      "url": "https://docs.kie.ai/market/grok/grok-4-7.md",
+      "file": "/market/grok/grok-4-7.md"
+    },
+    {
+      "method": "POST",
+      "path": "/openai/v1/responses",
+      "title": "DeepSeek V4.1 Flash",
+      "url": "https://docs.kie.ai/market/deepseek-v4-1-flash.md",
+      "file": "/market/deepseek-v4-1-flash.md"
+    },
+    {
+      "method": "POST",
+      "path": "/openai/v1/responses",
+      "title": "Kimi K3",
+      "url": "https://docs.kie.ai/market/kimi/kimi-k3.md",
+      "file": "/market/kimi/kimi-k3.md"
     }
   ],
   "by_path": {
@@ -2978,7 +2845,7 @@
       {
         "method": "",
         "path": "/api/callback",
-        "title": "Seedream 5.0 Pro 图层分离",
+        "title": "Seedream5.0 Pro 图层分离",
         "url": "https://docs.kie.ai/41313512e0.md",
         "file": "/41313512e0.md"
       },
@@ -2988,6 +2855,13 @@
         "title": "PixVerse V6 Reference-to-video/参考图生成",
         "url": "https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md",
         "file": "/cnmarket/pixverse/reference-to-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Generate or Edit Image",
+        "url": "https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md",
+        "file": "/flux-kontext-api/generate-or-edit-image.md"
       },
       {
         "method": "",
@@ -3142,6 +3016,20 @@
         "title": "Gemini 3.1 Flash Text to speech",
         "url": "https://docs.kie.ai/market/google/gemini-3-1-flash-tts.md",
         "file": "/market/google/gemini-3-1-flash-tts.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Gemini 3.8 Flash Lite Text to speech",
+        "url": "https://docs.kie.ai/market/google/gemini-3-8-flash-lite-tts.md",
+        "file": "/market/google/gemini-3-8-flash-lite-tts.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Gemini 3.8 Flash Text to speech",
+        "url": "https://docs.kie.ai/market/google/gemini-3-8-flash-tts.md",
+        "file": "/market/google/gemini-3-8-flash-tts.md"
       },
       {
         "method": "",
@@ -3664,6 +3552,20 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "Qwen 2.1 - Image to Image",
+        "url": "https://docs.kie.ai/market/qwen2-1/image-to-image.md",
+        "file": "/market/qwen2-1/image-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Qwen 2.1 - Text to Image",
+        "url": "https://docs.kie.ai/market/qwen2-1/text-to-image.md",
+        "file": "/market/qwen2-1/text-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "Qwen2 - Image Edit",
         "url": "https://docs.kie.ai/market/qwen2/image-edit.md",
         "file": "/market/qwen2/image-edit.md"
@@ -3741,6 +3643,27 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "Seedream5.0 Flash - Image to Image",
+        "url": "https://docs.kie.ai/market/seedream/5-flash-image-to-image.md",
+        "file": "/market/seedream/5-flash-image-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Seedream5.0 Flash -  Layer Decomposition",
+        "url": "https://docs.kie.ai/market/seedream/5-flash-layer-decomposition.md",
+        "file": "/market/seedream/5-flash-layer-decomposition.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Seedream5.0 Flash - Text to Image",
+        "url": "https://docs.kie.ai/market/seedream/5-flash-text-to-image.md",
+        "file": "/market/seedream/5-flash-text-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "Seedream5.0 Lite - Text to Image",
         "url": "https://docs.kie.ai/market/seedream/5-lite-text-to-image.md",
         "file": "/market/seedream/5-lite-text-to-image.md"
@@ -3755,7 +3678,7 @@
       {
         "method": "",
         "path": "/api/callback",
-        "title": "Seedream 5.0 Pro -  Layer Decomposition",
+        "title": "Seedream5.0 Pro -  Layer Decomposition",
         "url": "https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md",
         "file": "/market/seedream/5-pro-layer-decomposition.md"
       },
@@ -3954,6 +3877,13 @@
         "title": "Z-Image",
         "url": "https://docs.kie.ai/market/z-image/z-image.md",
         "file": "/market/z-image/z-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Extend Veo3.1 Video",
+        "url": "https://docs.kie.ai/veo3-api/extend-video.md",
+        "file": "/veo3-api/extend-video.md"
       }
     ],
     "/api/file-base64-upload": [
@@ -4004,33 +3934,6 @@
         "file": "/file-upload-api/upload-file-url.md"
       }
     ],
-    "/api/v1": [
-      {
-        "method": "",
-        "path": "/api/v1",
-        "title": "Suno API Quickstart",
-        "url": "https://docs.kie.ai/suno-api/quickstart.md",
-        "file": "/suno-api/quickstart.md"
-      }
-    ],
-    "/api/v1/aleph/generate": [
-      {
-        "method": "POST",
-        "path": "/api/v1/aleph/generate",
-        "title": "Generate Aleph Video",
-        "url": "https://docs.kie.ai/runway-api/generate-aleph-video.md",
-        "file": "/runway-api/generate-aleph-video.md"
-      }
-    ],
-    "/api/v1/aleph/record-info": [
-      {
-        "method": "GET",
-        "path": "/api/v1/aleph/record-info",
-        "title": "Get Aleph Video Details",
-        "url": "https://docs.kie.ai/runway-api/get-aleph-video-details.md",
-        "file": "/runway-api/get-aleph-video-details.md"
-      }
-    ],
     "/api/v1/chat/credit": [
       {
         "method": "",
@@ -4079,47 +3982,6 @@
         "file": "/market/grok-imagine-image-2-0/image-to-image.md"
       }
     ],
-    "/api/v1/flux/kontext": [
-      {
-        "method": "",
-        "path": "/api/v1/flux/kontext",
-        "title": "Flux Kontext API Quickstart",
-        "url": "https://docs.kie.ai/flux-kontext-api/quickstart.md",
-        "file": "/flux-kontext-api/quickstart.md"
-      }
-    ],
-    "/api/v1/flux/kontext/generate": [
-      {
-        "method": "",
-        "path": "/api/v1/flux/kontext/generate",
-        "title": "Flux Kontext API Quickstart",
-        "url": "https://docs.kie.ai/flux-kontext-api/quickstart.md",
-        "file": "/flux-kontext-api/quickstart.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/flux/kontext/generate",
-        "title": "Generate or Edit Image",
-        "url": "https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md",
-        "file": "/flux-kontext-api/generate-or-edit-image.md"
-      }
-    ],
-    "/api/v1/flux/kontext/record-info": [
-      {
-        "method": "",
-        "path": "/api/v1/flux/kontext/record-info",
-        "title": "Flux Kontext API Quickstart",
-        "url": "https://docs.kie.ai/flux-kontext-api/quickstart.md",
-        "file": "/flux-kontext-api/quickstart.md"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/flux/kontext/record-info",
-        "title": "Get Image Details",
-        "url": "https://docs.kie.ai/flux-kontext-api/get-image-details.md",
-        "file": "/flux-kontext-api/get-image-details.md"
-      }
-    ],
     "/api/v1/generate": [
       {
         "method": "",
@@ -4127,52 +3989,6 @@
         "title": "Generate Persona",
         "url": "https://docs.kie.ai/suno-api/generate-persona.md",
         "file": "/suno-api/generate-persona.md"
-      },
-      {
-        "method": "",
-        "path": "/api/v1/generate",
-        "title": "Suno API Quickstart",
-        "url": "https://docs.kie.ai/suno-api/quickstart.md",
-        "file": "/suno-api/quickstart.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/generate",
-        "title": "Generate Music",
-        "url": "https://docs.kie.ai/suno-api/generate-music.md",
-        "file": "/suno-api/generate-music.md"
-      }
-    ],
-    "/api/v1/generate/add-instrumental": [
-      {
-        "method": "",
-        "path": "/api/v1/generate/add-instrumental",
-        "title": "Add Instrumental Callbacks",
-        "url": "https://docs.kie.ai/suno-api/add-instrumental-callbacks.md",
-        "file": "/suno-api/add-instrumental-callbacks.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/generate/add-instrumental",
-        "title": "Add Instrumental to Music",
-        "url": "https://docs.kie.ai/suno-api/add-instrumental.md",
-        "file": "/suno-api/add-instrumental.md"
-      }
-    ],
-    "/api/v1/generate/add-vocals": [
-      {
-        "method": "",
-        "path": "/api/v1/generate/add-vocals",
-        "title": "Add Vocals Callbacks",
-        "url": "https://docs.kie.ai/suno-api/add-vocals-callbacks.md",
-        "file": "/suno-api/add-vocals-callbacks.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/generate/add-vocals",
-        "title": "Add Vocals to Music",
-        "url": "https://docs.kie.ai/suno-api/add-vocals.md",
-        "file": "/suno-api/add-vocals.md"
       }
     ],
     "/api/v1/generate/extend": [
@@ -4182,142 +3998,6 @@
         "title": "Generate Persona",
         "url": "https://docs.kie.ai/suno-api/generate-persona.md",
         "file": "/suno-api/generate-persona.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/generate/extend",
-        "title": "Extend Music",
-        "url": "https://docs.kie.ai/suno-api/extend-music.md",
-        "file": "/suno-api/extend-music.md"
-      }
-    ],
-    "/api/v1/generate/generate-persona": [
-      {
-        "method": "POST",
-        "path": "/api/v1/generate/generate-persona",
-        "title": "Generate Persona",
-        "url": "https://docs.kie.ai/suno-api/generate-persona.md",
-        "file": "/suno-api/generate-persona.md"
-      }
-    ],
-    "/api/v1/generate/get-timestamped-lyrics": [
-      {
-        "method": "POST",
-        "path": "/api/v1/generate/get-timestamped-lyrics",
-        "title": "Get Timestamped Lyrics",
-        "url": "https://docs.kie.ai/suno-api/get-timestamped-lyrics.md",
-        "file": "/suno-api/get-timestamped-lyrics.md"
-      }
-    ],
-    "/api/v1/generate/mashup": [
-      {
-        "method": "POST",
-        "path": "/api/v1/generate/mashup",
-        "title": "Generate Mashup Music",
-        "url": "https://docs.kie.ai/suno-api/generate-mashup.md",
-        "file": "/suno-api/generate-mashup.md"
-      }
-    ],
-    "/api/v1/generate/record-info": [
-      {
-        "method": "",
-        "path": "/api/v1/generate/record-info",
-        "title": "Suno API Quickstart",
-        "url": "https://docs.kie.ai/suno-api/quickstart.md",
-        "file": "/suno-api/quickstart.md"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/generate/record-info",
-        "title": "Get Music Task Details",
-        "url": "https://docs.kie.ai/suno-api/get-music-details.md",
-        "file": "/suno-api/get-music-details.md"
-      }
-    ],
-    "/api/v1/generate/replace-section": [
-      {
-        "method": "POST",
-        "path": "/api/v1/generate/replace-section",
-        "title": "Replace Music Section",
-        "url": "https://docs.kie.ai/suno-api/replace-section.md",
-        "file": "/suno-api/replace-section.md"
-      }
-    ],
-    "/api/v1/generate/sounds": [
-      {
-        "method": "POST",
-        "path": "/api/v1/generate/sounds",
-        "title": "Generate sounds",
-        "url": "https://docs.kie.ai/suno-api/generate-sounds.md",
-        "file": "/suno-api/generate-sounds.md"
-      }
-    ],
-    "/api/v1/generate/upload-cover": [
-      {
-        "method": "POST",
-        "path": "/api/v1/generate/upload-cover",
-        "title": "Upload And Cover Audio",
-        "url": "https://docs.kie.ai/suno-api/upload-and-cover-audio.md",
-        "file": "/suno-api/upload-and-cover-audio.md"
-      }
-    ],
-    "/api/v1/generate/upload-extend": [
-      {
-        "method": "POST",
-        "path": "/api/v1/generate/upload-extend",
-        "title": "Upload And Extend Audio",
-        "url": "https://docs.kie.ai/suno-api/upload-and-extend-audio.md",
-        "file": "/suno-api/upload-and-extend-audio.md"
-      }
-    ],
-    "/api/v1/gpt4o-image": [
-      {
-        "method": "",
-        "path": "/api/v1/gpt4o-image",
-        "title": "4o Image API Quickstart",
-        "url": "https://docs.kie.ai/4o-image-api/quickstart.md",
-        "file": "/4o-image-api/quickstart.md"
-      }
-    ],
-    "/api/v1/gpt4o-image/download-url": [
-      {
-        "method": "POST",
-        "path": "/api/v1/gpt4o-image/download-url",
-        "title": "Get Direct Download URL",
-        "url": "https://docs.kie.ai/4o-image-api/get-4-o-image-download-url.md",
-        "file": "/4o-image-api/get-4-o-image-download-url.md"
-      }
-    ],
-    "/api/v1/gpt4o-image/generate": [
-      {
-        "method": "",
-        "path": "/api/v1/gpt4o-image/generate",
-        "title": "4o Image API Quickstart",
-        "url": "https://docs.kie.ai/4o-image-api/quickstart.md",
-        "file": "/4o-image-api/quickstart.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/gpt4o-image/generate",
-        "title": "Generate 4o Image",
-        "url": "https://docs.kie.ai/4o-image-api/generate-4-o-image.md",
-        "file": "/4o-image-api/generate-4-o-image.md"
-      }
-    ],
-    "/api/v1/gpt4o-image/record-info": [
-      {
-        "method": "",
-        "path": "/api/v1/gpt4o-image/record-info",
-        "title": "4o Image API Quickstart",
-        "url": "https://docs.kie.ai/4o-image-api/quickstart.md",
-        "file": "/4o-image-api/quickstart.md"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/gpt4o-image/record-info",
-        "title": "Get 4o Image Details",
-        "url": "https://docs.kie.ai/4o-image-api/get-4-o-image-details.md",
-        "file": "/4o-image-api/get-4-o-image-details.md"
       }
     ],
     "/api/v1/jobs/createTask": [
@@ -4352,9 +4032,16 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
-        "title": "Seedream 5.0 Pro 图层分离",
+        "title": "Seedream5.0 Pro 图层分离",
         "url": "https://docs.kie.ai/41313512e0.md",
         "file": "/41313512e0.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate 4o Image",
+        "url": "https://docs.kie.ai/4o-image-api/generate-4-o-image.md",
+        "file": "/4o-image-api/generate-4-o-image.md"
       },
       {
         "method": "POST",
@@ -4362,6 +4049,13 @@
         "title": "PixVerse V6 Reference-to-video/参考图生成",
         "url": "https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md",
         "file": "/cnmarket/pixverse/reference-to-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate or Edit Image",
+        "url": "https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md",
+        "file": "/flux-kontext-api/generate-or-edit-image.md"
       },
       {
         "method": "POST",
@@ -4509,6 +4203,20 @@
         "title": "Gemini 3.1 Flash Text to speech",
         "url": "https://docs.kie.ai/market/google/gemini-3-1-flash-tts.md",
         "file": "/market/google/gemini-3-1-flash-tts.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Gemini 3.8 Flash Lite Text to speech",
+        "url": "https://docs.kie.ai/market/google/gemini-3-8-flash-lite-tts.md",
+        "file": "/market/google/gemini-3-8-flash-lite-tts.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Gemini 3.8 Flash Text to speech",
+        "url": "https://docs.kie.ai/market/google/gemini-3-8-flash-tts.md",
+        "file": "/market/google/gemini-3-8-flash-tts.md"
       },
       {
         "method": "POST",
@@ -5080,6 +4788,20 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "Qwen 2.1 - Image to Image",
+        "url": "https://docs.kie.ai/market/qwen2-1/image-to-image.md",
+        "file": "/market/qwen2-1/image-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Qwen 2.1 - Text to Image",
+        "url": "https://docs.kie.ai/market/qwen2-1/text-to-image.md",
+        "file": "/market/qwen2-1/text-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "Qwen2 - Image Edit",
         "url": "https://docs.kie.ai/market/qwen2/image-edit.md",
         "file": "/market/qwen2/image-edit.md"
@@ -5157,6 +4879,27 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "Seedream5.0 Flash - Image to Image",
+        "url": "https://docs.kie.ai/market/seedream/5-flash-image-to-image.md",
+        "file": "/market/seedream/5-flash-image-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Seedream5.0 Flash -  Layer Decomposition",
+        "url": "https://docs.kie.ai/market/seedream/5-flash-layer-decomposition.md",
+        "file": "/market/seedream/5-flash-layer-decomposition.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Seedream5.0 Flash - Text to Image",
+        "url": "https://docs.kie.ai/market/seedream/5-flash-text-to-image.md",
+        "file": "/market/seedream/5-flash-text-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "Seedream5.0 Lite - Text to Image",
         "url": "https://docs.kie.ai/market/seedream/5-lite-text-to-image.md",
         "file": "/market/seedream/5-lite-text-to-image.md"
@@ -5171,7 +4914,7 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
-        "title": "Seedream 5.0 Pro -  Layer Decomposition",
+        "title": "Seedream5.0 Pro -  Layer Decomposition",
         "url": "https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md",
         "file": "/market/seedream/5-pro-layer-decomposition.md"
       },
@@ -5370,6 +5113,216 @@
         "title": "Z-Image",
         "url": "https://docs.kie.ai/market/z-image/z-image.md",
         "file": "/market/z-image/z-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Extend AI Video",
+        "url": "https://docs.kie.ai/runway-api/extend-ai-video.md",
+        "file": "/runway-api/extend-ai-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate AI Video",
+        "url": "https://docs.kie.ai/runway-api/generate-ai-video.md",
+        "file": "/runway-api/generate-ai-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate Aleph Video",
+        "url": "https://docs.kie.ai/runway-api/generate-aleph-video.md",
+        "file": "/runway-api/generate-aleph-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Add Instrumental to Music",
+        "url": "https://docs.kie.ai/suno-api/add-instrumental.md",
+        "file": "/suno-api/add-instrumental.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Add Vocals to Music",
+        "url": "https://docs.kie.ai/suno-api/add-vocals.md",
+        "file": "/suno-api/add-vocals.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Boost Music Style",
+        "url": "https://docs.kie.ai/suno-api/boost-music-style.md",
+        "file": "/suno-api/boost-music-style.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Convert to WAV Format",
+        "url": "https://docs.kie.ai/suno-api/convert-to-wav.md",
+        "file": "/suno-api/convert-to-wav.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate Music Cover",
+        "url": "https://docs.kie.ai/suno-api/cover-suno.md",
+        "file": "/suno-api/cover-suno.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Create Music Video",
+        "url": "https://docs.kie.ai/suno-api/create-music-video.md",
+        "file": "/suno-api/create-music-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Extend Music",
+        "url": "https://docs.kie.ai/suno-api/extend-music.md",
+        "file": "/suno-api/extend-music.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate Lyrics",
+        "url": "https://docs.kie.ai/suno-api/generate-lyrics.md",
+        "file": "/suno-api/generate-lyrics.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate Mashup Music",
+        "url": "https://docs.kie.ai/suno-api/generate-mashup.md",
+        "file": "/suno-api/generate-mashup.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate MIDI from Audio",
+        "url": "https://docs.kie.ai/suno-api/generate-midi.md",
+        "file": "/suno-api/generate-midi.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate Music",
+        "url": "https://docs.kie.ai/suno-api/generate-music.md",
+        "file": "/suno-api/generate-music.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate Persona",
+        "url": "https://docs.kie.ai/suno-api/generate-persona.md",
+        "file": "/suno-api/generate-persona.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate sounds",
+        "url": "https://docs.kie.ai/suno-api/generate-sounds.md",
+        "file": "/suno-api/generate-sounds.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Get Timestamped Lyrics",
+        "url": "https://docs.kie.ai/suno-api/get-timestamped-lyrics.md",
+        "file": "/suno-api/get-timestamped-lyrics.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Recovery Audio",
+        "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
+        "file": "/suno-api/recovery-audio.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Replace Music Section",
+        "url": "https://docs.kie.ai/suno-api/replace-section.md",
+        "file": "/suno-api/replace-section.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Vocal & Instrument Stem Separation",
+        "url": "https://docs.kie.ai/suno-api/separate-vocals.md",
+        "file": "/suno-api/separate-vocals.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Suno Voice Check Availability API",
+        "url": "https://docs.kie.ai/suno-api/suno-voice-check-voice.md",
+        "file": "/suno-api/suno-voice-check-voice.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Suno Voice Create Custom Voice API",
+        "url": "https://docs.kie.ai/suno-api/suno-voice-generate.md",
+        "file": "/suno-api/suno-voice-generate.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Suno Voice Regenerate Verification Phrase",
+        "url": "https://docs.kie.ai/suno-api/suno-voice-regenerate.md",
+        "file": "/suno-api/suno-voice-regenerate.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Suno Voice Generate Verification Phrase API",
+        "url": "https://docs.kie.ai/suno-api/suno-voice-validate.md",
+        "file": "/suno-api/suno-voice-validate.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Upload And Cover Audio",
+        "url": "https://docs.kie.ai/suno-api/upload-and-cover-audio.md",
+        "file": "/suno-api/upload-and-cover-audio.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Upload And Extend Audio",
+        "url": "https://docs.kie.ai/suno-api/upload-and-extend-audio.md",
+        "file": "/suno-api/upload-and-extend-audio.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Extend Veo3.1 Video",
+        "url": "https://docs.kie.ai/veo3-api/extend-video.md",
+        "file": "/veo3-api/extend-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Generate Veo3.1 Video",
+        "url": "https://docs.kie.ai/veo3-api/generate-veo-3-video.md",
+        "file": "/veo3-api/generate-veo-3-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Get 1080P Video",
+        "url": "https://docs.kie.ai/veo3-api/get-veo-3-1080-p-video.md",
+        "file": "/veo3-api/get-veo-3-1080-p-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Get 4K Video",
+        "url": "https://docs.kie.ai/veo3-api/get-veo-3-4k-video.md",
+        "file": "/veo3-api/get-veo-3-4k-video.md"
       }
     ],
     "/api/v1/jobs/recordInfo": [
@@ -5388,42 +5341,6 @@
         "file": "/market/common/get-task-detail.md"
       }
     ],
-    "/api/v1/lyrics": [
-      {
-        "method": "POST",
-        "path": "/api/v1/lyrics",
-        "title": "Generate Lyrics",
-        "url": "https://docs.kie.ai/suno-api/generate-lyrics.md",
-        "file": "/suno-api/generate-lyrics.md"
-      }
-    ],
-    "/api/v1/lyrics/record-info": [
-      {
-        "method": "GET",
-        "path": "/api/v1/lyrics/record-info",
-        "title": "Get Lyrics Task Details",
-        "url": "https://docs.kie.ai/suno-api/get-lyrics-details.md",
-        "file": "/suno-api/get-lyrics-details.md"
-      }
-    ],
-    "/api/v1/midi/generate": [
-      {
-        "method": "POST",
-        "path": "/api/v1/midi/generate",
-        "title": "Generate MIDI from Audio",
-        "url": "https://docs.kie.ai/suno-api/generate-midi.md",
-        "file": "/suno-api/generate-midi.md"
-      }
-    ],
-    "/api/v1/midi/record-info": [
-      {
-        "method": "GET",
-        "path": "/api/v1/midi/record-info",
-        "title": "Get MIDI Generation Details",
-        "url": "https://docs.kie.ai/suno-api/get-midi-details.md",
-        "file": "/suno-api/get-midi-details.md"
-      }
-    ],
     "/api/v1/modify/test": [
       {
         "method": "",
@@ -5431,31 +5348,6 @@
         "title": "Veo3.1 Video Generation Callbacks",
         "url": "https://docs.kie.ai/veo3-api/generate-veo-3-video-callbacks.md",
         "file": "/veo3-api/generate-veo-3-video-callbacks.md"
-      }
-    ],
-    "/api/v1/mp4/generate": [
-      {
-        "method": "",
-        "path": "/api/v1/mp4/generate",
-        "title": "Suno API Quickstart",
-        "url": "https://docs.kie.ai/suno-api/quickstart.md",
-        "file": "/suno-api/quickstart.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/mp4/generate",
-        "title": "Create Music Video",
-        "url": "https://docs.kie.ai/suno-api/create-music-video.md",
-        "file": "/suno-api/create-music-video.md"
-      }
-    ],
-    "/api/v1/mp4/record-info": [
-      {
-        "method": "GET",
-        "path": "/api/v1/mp4/record-info",
-        "title": "Get Music Video Details",
-        "url": "https://docs.kie.ai/suno-api/get-music-video-details.md",
-        "file": "/suno-api/get-music-video-details.md"
       }
     ],
     "/api/v1/omni/audio/create": [
@@ -5485,99 +5377,6 @@
         "file": "/market/codex/gpt-codex.md"
       }
     ],
-    "/api/v1/runway": [
-      {
-        "method": "",
-        "path": "/api/v1/runway",
-        "title": "Runway API Quickstart",
-        "url": "https://docs.kie.ai/runway-api/quickstart.md",
-        "file": "/runway-api/quickstart.md"
-      }
-    ],
-    "/api/v1/runway/extend": [
-      {
-        "method": "POST",
-        "path": "/api/v1/runway/extend",
-        "title": "Extend AI Video",
-        "url": "https://docs.kie.ai/runway-api/extend-ai-video.md",
-        "file": "/runway-api/extend-ai-video.md"
-      }
-    ],
-    "/api/v1/runway/generate": [
-      {
-        "method": "",
-        "path": "/api/v1/runway/generate",
-        "title": "Runway API Quickstart",
-        "url": "https://docs.kie.ai/runway-api/quickstart.md",
-        "file": "/runway-api/quickstart.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/runway/generate",
-        "title": "Generate AI Video",
-        "url": "https://docs.kie.ai/runway-api/generate-ai-video.md",
-        "file": "/runway-api/generate-ai-video.md"
-      }
-    ],
-    "/api/v1/runway/record-detail": [
-      {
-        "method": "",
-        "path": "/api/v1/runway/record-detail",
-        "title": "Runway API Quickstart",
-        "url": "https://docs.kie.ai/runway-api/quickstart.md",
-        "file": "/runway-api/quickstart.md"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/runway/record-detail",
-        "title": "Get AI Video Details",
-        "url": "https://docs.kie.ai/runway-api/get-ai-video-details.md",
-        "file": "/runway-api/get-ai-video-details.md"
-      }
-    ],
-    "/api/v1/style/generate": [
-      {
-        "method": "",
-        "path": "/api/v1/style/generate",
-        "title": "Suno API Quickstart",
-        "url": "https://docs.kie.ai/suno-api/quickstart.md",
-        "file": "/suno-api/quickstart.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/style/generate",
-        "title": "Boost Music Style",
-        "url": "https://docs.kie.ai/suno-api/boost-music-style.md",
-        "file": "/suno-api/boost-music-style.md"
-      }
-    ],
-    "/api/v1/suno/cover/generate": [
-      {
-        "method": "POST",
-        "path": "/api/v1/suno/cover/generate",
-        "title": "Generate Music Cover",
-        "url": "https://docs.kie.ai/suno-api/cover-suno.md",
-        "file": "/suno-api/cover-suno.md"
-      }
-    ],
-    "/api/v1/suno/cover/record-info": [
-      {
-        "method": "GET",
-        "path": "/api/v1/suno/cover/record-info",
-        "title": "Get Cover Generation Details",
-        "url": "https://docs.kie.ai/suno-api/get-cover-suno-details.md",
-        "file": "/suno-api/get-cover-suno-details.md"
-      }
-    ],
-    "/api/v1/suno/recovery": [
-      {
-        "method": "POST",
-        "path": "/api/v1/suno/recovery",
-        "title": "Recovery Audio",
-        "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
-        "file": "/suno-api/recovery-audio.md"
-      }
-    ],
     "/api/v1/suno/recovery/record-info": [
       {
         "method": "",
@@ -5585,206 +5384,6 @@
         "title": "Recovery Audio",
         "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
         "file": "/suno-api/recovery-audio.md"
-      }
-    ],
-    "/api/v1/veo/extend": [
-      {
-        "method": "POST",
-        "path": "/api/v1/veo/extend",
-        "title": "Extend Veo3.1 Video",
-        "url": "https://docs.kie.ai/veo3-api/extend-video.md",
-        "file": "/veo3-api/extend-video.md"
-      }
-    ],
-    "/api/v1/veo/generate": [
-      {
-        "method": "",
-        "path": "/api/v1/veo/generate",
-        "title": "Veo3.1 API Quickstart",
-        "url": "https://docs.kie.ai/veo3-api/quickstart.md",
-        "file": "/veo3-api/quickstart.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/veo/generate",
-        "title": "Generate Veo3.1 Video",
-        "url": "https://docs.kie.ai/veo3-api/generate-veo-3-video.md",
-        "file": "/veo3-api/generate-veo-3-video.md"
-      }
-    ],
-    "/api/v1/veo/get-1080p-video": [
-      {
-        "method": "",
-        "path": "/api/v1/veo/get-1080p-video",
-        "title": "Get 4K Video",
-        "url": "https://docs.kie.ai/veo3-api/get-veo-3-4k-video.md",
-        "file": "/veo3-api/get-veo-3-4k-video.md"
-      },
-      {
-        "method": "",
-        "path": "/api/v1/veo/get-1080p-video",
-        "title": "Veo3.1 API Quickstart",
-        "url": "https://docs.kie.ai/veo3-api/quickstart.md",
-        "file": "/veo3-api/quickstart.md"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/veo/get-1080p-video",
-        "title": "Get 1080P Video",
-        "url": "https://docs.kie.ai/veo3-api/get-veo-3-1080-p-video.md",
-        "file": "/veo3-api/get-veo-3-1080-p-video.md"
-      }
-    ],
-    "/api/v1/veo/get-4k-video": [
-      {
-        "method": "POST",
-        "path": "/api/v1/veo/get-4k-video",
-        "title": "Get 4K Video",
-        "url": "https://docs.kie.ai/veo3-api/get-veo-3-4k-video.md",
-        "file": "/veo3-api/get-veo-3-4k-video.md"
-      }
-    ],
-    "/api/v1/veo/record-info": [
-      {
-        "method": "",
-        "path": "/api/v1/veo/record-info",
-        "title": "Veo3.1 API Quickstart",
-        "url": "https://docs.kie.ai/veo3-api/quickstart.md",
-        "file": "/veo3-api/quickstart.md"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/veo/record-info",
-        "title": "Get Veo3.1 Video Details",
-        "url": "https://docs.kie.ai/veo3-api/get-veo-3-video-details.md",
-        "file": "/veo3-api/get-veo-3-video-details.md"
-      }
-    ],
-    "/api/v1/vocal-removal/generate": [
-      {
-        "method": "",
-        "path": "/api/v1/vocal-removal/generate",
-        "title": "Suno API Quickstart",
-        "url": "https://docs.kie.ai/suno-api/quickstart.md",
-        "file": "/suno-api/quickstart.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vocal-removal/generate",
-        "title": "Vocal & Instrument Stem Separation",
-        "url": "https://docs.kie.ai/suno-api/separate-vocals.md",
-        "file": "/suno-api/separate-vocals.md"
-      }
-    ],
-    "/api/v1/vocal-removal/record-info": [
-      {
-        "method": "GET",
-        "path": "/api/v1/vocal-removal/record-info",
-        "title": "Get Vocal Separation Details",
-        "url": "https://docs.kie.ai/suno-api/get-vocal-separation-details.md",
-        "file": "/suno-api/get-vocal-separation-details.md"
-      }
-    ],
-    "/api/v1/vocal-removal/test": [
-      {
-        "method": "",
-        "path": "/api/v1/vocal-removal/test",
-        "title": "Get Vocal Separation Details",
-        "url": "https://docs.kie.ai/suno-api/get-vocal-separation-details.md",
-        "file": "/suno-api/get-vocal-separation-details.md"
-      }
-    ],
-    "/api/v1/voice/check-voice": [
-      {
-        "method": "POST",
-        "path": "/api/v1/voice/check-voice",
-        "title": "Suno Voice Check Availability API",
-        "url": "https://docs.kie.ai/suno-api/suno-voice-check-voice.md",
-        "file": "/suno-api/suno-voice-check-voice.md"
-      }
-    ],
-    "/api/v1/voice/generate": [
-      {
-        "method": "",
-        "path": "/api/v1/voice/generate",
-        "title": "Suno Voice Generation Callback",
-        "url": "https://docs.kie.ai/suno-api/suno-voice-generate-callback.md",
-        "file": "/suno-api/suno-voice-generate-callback.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/voice/generate",
-        "title": "Suno Voice Create Custom Voice API",
-        "url": "https://docs.kie.ai/suno-api/suno-voice-generate.md",
-        "file": "/suno-api/suno-voice-generate.md"
-      }
-    ],
-    "/api/v1/voice/record-info": [
-      {
-        "method": "GET",
-        "path": "/api/v1/voice/record-info",
-        "title": "Suno Voice Get Custom Voice Records",
-        "url": "https://docs.kie.ai/suno-api/suno-voice-record-info.md",
-        "file": "/suno-api/suno-voice-record-info.md"
-      }
-    ],
-    "/api/v1/voice/regenerate": [
-      {
-        "method": "POST",
-        "path": "/api/v1/voice/regenerate",
-        "title": "Suno Voice Regenerate Verification Phrase",
-        "url": "https://docs.kie.ai/suno-api/suno-voice-regenerate.md",
-        "file": "/suno-api/suno-voice-regenerate.md"
-      }
-    ],
-    "/api/v1/voice/validate": [
-      {
-        "method": "",
-        "path": "/api/v1/voice/validate",
-        "title": "Suno Voice Validation Phrase Callback",
-        "url": "https://docs.kie.ai/suno-api/suno-voice-validate-callback.md",
-        "file": "/suno-api/suno-voice-validate-callback.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/voice/validate",
-        "title": "Suno Voice Generate Verification Phrase API",
-        "url": "https://docs.kie.ai/suno-api/suno-voice-validate.md",
-        "file": "/suno-api/suno-voice-validate.md"
-      }
-    ],
-    "/api/v1/voice/validate-info": [
-      {
-        "method": "GET",
-        "path": "/api/v1/voice/validate-info",
-        "title": "Suno Voice Get Verification Phrase API",
-        "url": "https://docs.kie.ai/suno-api/suno-voice-validate-info.md",
-        "file": "/suno-api/suno-voice-validate-info.md"
-      }
-    ],
-    "/api/v1/wav/generate": [
-      {
-        "method": "",
-        "path": "/api/v1/wav/generate",
-        "title": "Suno API Quickstart",
-        "url": "https://docs.kie.ai/suno-api/quickstart.md",
-        "file": "/suno-api/quickstart.md"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/wav/generate",
-        "title": "Convert to WAV Format",
-        "url": "https://docs.kie.ai/suno-api/convert-to-wav.md",
-        "file": "/suno-api/convert-to-wav.md"
-      }
-    ],
-    "/api/v1/wav/record-info": [
-      {
-        "method": "GET",
-        "path": "/api/v1/wav/record-info",
-        "title": "Get WAV Conversion Details",
-        "url": "https://docs.kie.ai/suno-api/get-wav-details.md",
-        "file": "/suno-api/get-wav-details.md"
       }
     ],
     "/claude/v1/messages": [
@@ -5833,6 +5432,13 @@
       {
         "method": "POST",
         "path": "/claude/v1/messages",
+        "title": "Claude Opus 5.5",
+        "url": "https://docs.kie.ai/market/claude/claude-opus-5-5.md",
+        "file": "/market/claude/claude-opus-5-5.md"
+      },
+      {
+        "method": "POST",
+        "path": "/claude/v1/messages",
         "title": "Claude Opus 5",
         "url": "https://docs.kie.ai/market/claude/claude-opus-5.md",
         "file": "/market/claude/claude-opus-5.md"
@@ -5857,6 +5463,13 @@
         "title": "Claude Fable 5",
         "url": "https://docs.kie.ai/market/claude/cluade-fable-5.md",
         "file": "/market/claude/cluade-fable-5.md"
+      },
+      {
+        "method": "POST",
+        "path": "/claude/v1/messages",
+        "title": "Claude Sonnet 5.5",
+        "url": "https://docs.kie.ai/market/claude/cluade-sonnet-5-5.md",
+        "file": "/market/claude/cluade-sonnet-5-5.md"
       },
       {
         "method": "POST",
@@ -5905,18 +5518,30 @@
       {
         "method": "POST",
         "path": "/codex/v1/responses",
+        "title": "GPT 6.1 Sol",
+        "url": "https://docs.kie.ai/market/chat/gpt-6-1-sol.md",
+        "file": "/market/chat/gpt-6-1-sol.md"
+      },
+      {
+        "method": "POST",
+        "path": "/codex/v1/responses",
         "title": "Gpt 6 Astra",
         "url": "https://docs.kie.ai/market/chat/gpt-6-astra.md",
         "file": "/market/chat/gpt-6-astra.md"
-      }
-    ],
-    "/gemini-2.5-flash/v1/chat/completions": [
+      },
       {
         "method": "POST",
-        "path": "/gemini-2.5-flash/v1/chat/completions",
-        "title": "Gemini 2.5 Flash (openai)",
-        "url": "https://docs.kie.ai/market/gemini/gemini-2-5-flash.md",
-        "file": "/market/gemini/gemini-2-5-flash.md"
+        "path": "/codex/v1/responses",
+        "title": "GPT 6 Luna",
+        "url": "https://docs.kie.ai/market/chat/gpt-6-luna.md",
+        "file": "/market/chat/gpt-6-luna.md"
+      },
+      {
+        "method": "POST",
+        "path": "/codex/v1/responses",
+        "title": "GPT 6 Sol",
+        "url": "https://docs.kie.ai/market/chat/gpt-6-sol.md",
+        "file": "/market/chat/gpt-6-sol.md"
       }
     ],
     "/gemini-2.5-pro/v1/chat/completions": [
@@ -5976,15 +5601,6 @@
         "title": "Gemini 3.8 Flash (openai)",
         "url": "https://docs.kie.ai/market/gemini/gemini-3-8-flash-openai.md",
         "file": "/market/gemini/gemini-3-8-flash-openai.md"
-      }
-    ],
-    "/gemini-3-flash/v1/chat/completions": [
-      {
-        "method": "POST",
-        "path": "/gemini-3-flash/v1/chat/completions",
-        "title": "Gemini 3 Flash (openai)",
-        "url": "https://docs.kie.ai/market/gemini/gemini-3-flash.md",
-        "file": "/market/gemini/gemini-3-flash.md"
       }
     ],
     "/gemini-3-pro/v1/chat/completions": [
@@ -6055,15 +5671,6 @@
         "file": "/market/gemini/gemini-3-8-flash.md"
       }
     ],
-    "/gemini/v1/models/gemini-3-flash-v1betamodels:streamGenerateContent": [
-      {
-        "method": "POST",
-        "path": "/gemini/v1/models/gemini-3-flash-v1betamodels:streamGenerateContent",
-        "title": "Gemini 3 Flash",
-        "url": "https://docs.kie.ai/market/gemini/gemini-3-flash-v1beta.md",
-        "file": "/market/gemini/gemini-3-flash-v1beta.md"
-      }
-    ],
     "/gpt-5-2/v1/chat/completions": [
       {
         "method": "POST",
@@ -6094,6 +5701,29 @@
         "title": "Grok 4.6",
         "url": "https://docs.kie.ai/market/grok/grok-4-6.md",
         "file": "/market/grok/grok-4-6.md"
+      },
+      {
+        "method": "POST",
+        "path": "/grok/v1/responses",
+        "title": "Grok 4.7",
+        "url": "https://docs.kie.ai/market/grok/grok-4-7.md",
+        "file": "/market/grok/grok-4-7.md"
+      }
+    ],
+    "/openai/v1/responses": [
+      {
+        "method": "POST",
+        "path": "/openai/v1/responses",
+        "title": "DeepSeek V4.1 Flash",
+        "url": "https://docs.kie.ai/market/deepseek-v4-1-flash.md",
+        "file": "/market/deepseek-v4-1-flash.md"
+      },
+      {
+        "method": "POST",
+        "path": "/openai/v1/responses",
+        "title": "Kimi K3",
+        "url": "https://docs.kie.ai/market/kimi/kimi-k3.md",
+        "file": "/market/kimi/kimi-k3.md"
       }
     ]
   }

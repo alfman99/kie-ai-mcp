@@ -2,6 +2,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createKieMcpServer } from "../src/server.js";
+import packageJson from "../package.json" with { type: "json" };
 
 function firstTextContent(result: unknown): string {
   const resultObject = result && typeof result === "object" ? (result as { content?: unknown }) : {};
@@ -43,6 +44,7 @@ describe("MCP server integration", () => {
 
   it("exposes the required tools and docs resources without KIE_API_KEY", async () => {
     const client = await connect();
+    expect(client.getServerVersion()).toEqual({ name: "kie-ai-mcp", version: packageJson.version });
     expect(client.getInstructions()).toContain("each take a `jobs` array");
     expect(client.getInstructions()).toContain("pass every pending task ID in one call");
     expect(client.getInstructions()).toContain("pass idempotencyKey");
@@ -218,13 +220,46 @@ describe("MCP server integration", () => {
     const client = await connect(fetchImpl);
     await client.callTool({
       name: "kie_create_video",
-      arguments: { jobs: [{ prompt: "Slow dolly across a desk", model: "wan/3-0-video", resolution: "1080p" }] }
+      arguments: { jobs: [{ prompt: "Slow dolly across a desk", model: "wan/3-0-video", resolution: "1080p", referenceImageUrls: ["https://example.com/ref.png"] }] }
     });
     const [, init] = vi.mocked(fetchImpl).mock.calls[0];
     expect(JSON.parse(String(init?.body))).toEqual({
       model: "wan/3-0-video",
-      input: { prompt: "Slow dolly across a desk", aspect_ratio: "16:9", resolution: "1080P", duration: 5, audio: true }
+      input: { prompt: "Slow dolly across a desk", aspect_ratio: "16:9", resolution: "1080P", duration: 5, audio: true, reference_image_urls: ["https://example.com/ref.png"] }
     });
+  });
+
+  it("uses a supported default duration for Gemini Omni", async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(JSON.stringify({ code: 200, data: { taskId: "task_omni" } }), {
+      headers: { "Content-Type": "application/json" }
+    })) as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+    const result = await client.callTool({
+      name: "kie_create_video",
+      arguments: { jobs: [{ model: "google/gemini-omni-flash-1-1", prompt: "Slow dolly across a desk" }] }
+    });
+    expect(result.isError).not.toBe(true);
+    expect(JSON.parse(String(vi.mocked(fetchImpl).mock.calls[0][1]?.body)).input.duration).toBe("6");
+  });
+
+  it("rejects invalid frame and reference combinations before submission", async () => {
+    const fetchImpl = vi.fn() as unknown as typeof fetch;
+    const client = await connect(fetchImpl);
+    for (const model of ["wan/3-0-video", "google/gemini-omni-flash-1-1"]) {
+      const result = await client.callTool({
+        name: "kie_create_video",
+        arguments: { jobs: [{ model, prompt: "Slow dolly across a desk", firstFrameUrl: "https://example.com/frame.png", referenceImageUrls: ["https://example.com/ref.png"] }] }
+      });
+      expect(result.isError).toBe(true);
+      expect(firstTextContent(result)).toContain("mutually exclusive");
+    }
+    const unsupported = await client.callTool({
+      name: "kie_create_video",
+      arguments: { jobs: [{ model: "google/gemini-omni-flash-1-1", prompt: "Slow dolly across a desk", referenceVideoUrls: ["https://example.com/ref.mp4"] }] }
+    });
+    expect(unsupported.isError).toBe(true);
+    expect(firstTextContent(unsupported)).toContain("additionalInput.video_list");
+    expect(fetchImpl).not.toHaveBeenCalled();
   });
 
   it("returns a direct media link from a completed friendly creation", async () => {
@@ -642,13 +677,13 @@ describe("MCP server integration", () => {
         family: "veo",
         operation: "generate",
         body: {
-          prompt: "A calm ocean",
-          model: "invented-model"
+          model: "veo-3-1",
+          input: { prompt: "A calm ocean", generation_type: "NOT_REAL" }
         }
       }
     });
     expect(invalidResult.isError).toBe(true);
-    expect(firstTextContent(invalidResult)).toContain("body.model must be one of");
+    expect(firstTextContent(invalidResult)).toContain("body.input.generation_type must be one of");
     expect(fetchImpl).not.toHaveBeenCalled();
   });
 

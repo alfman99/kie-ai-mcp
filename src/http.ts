@@ -302,9 +302,9 @@ export class KieHttpClient {
       try {
         // The concurrency slot and the per-request deadline are held only for the round trip
         // itself, never across a retry backoff, so a waiting request never blocks a working one.
+        await this.gate.acquire(options.signal);
         const deadline = requestSignal(options.signal, options.timeoutMs);
         init.signal = deadline.signal;
-        await this.gate.acquire(options.signal);
         try {
           const response = await this.fetchImpl(url, init);
           const payload = await parseResponse(response);

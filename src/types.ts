@@ -145,6 +145,7 @@ export type DocsManifestRecord = {
 };
 
 export type ProductOperation = {
+  sourceUrl: string;
   family: string;
   operation: string;
   method: "GET" | "POST";

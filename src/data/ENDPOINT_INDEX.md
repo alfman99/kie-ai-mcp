@@ -1,6 +1,6 @@
 # KIE.AI Documentation Endpoint Index
 
-Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages.
+Generated 2026-10-01T09:31:21.795Z exclusively from official `docs.kie.ai` pages.
 
 ## `/api/4k-callback`
 
@@ -8,8 +8,9 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 
 ## `/api/callback`
 
-- Mention: [Seedream 5.0 Pro 图层分离](<https://docs.kie.ai/41313512e0.md>)
+- Mention: [Seedream5.0 Pro 图层分离](<https://docs.kie.ai/41313512e0.md>)
 - Mention: [PixVerse V6 Reference-to-video/参考图生成](<https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md>)
+- Mention: [Generate or Edit Image](<https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md>)
 - Mention: [Gemini 2.5 Pro Text to Speech](<https://docs.kie.ai/google/gemini-2-5-pro-tts.md>)
 - Mention: [Bytedance Seedance 1.5 Pro](<https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md>)
 - Mention: [Bytedance Seedance 2.5](<https://docs.kie.ai/market/bytedance/seedance-2-5.md>)
@@ -32,6 +33,8 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - Mention: [Flux-2 - Pro Text to Image](<https://docs.kie.ai/market/flux2/pro-text-to-image.md>)
 - Mention: [Gemini Omni Video](<https://docs.kie.ai/market/gemini-omni-video.md>)
 - Mention: [Gemini 3.1 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-1-flash-tts.md>)
+- Mention: [Gemini 3.8 Flash Lite Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-lite-tts.md>)
+- Mention: [Gemini 3.8 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-tts.md>)
 - Mention: [Gemini Omni 1.1 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md>)
 - Mention: [Google - imagen4-fast](<https://docs.kie.ai/market/google/imagen4-fast.md>)
 - Mention: [Google - imagen4-ultra](<https://docs.kie.ai/market/google/imagen4-ultra.md>)
@@ -106,6 +109,8 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - Mention: [Qwen - Image Edit](<https://docs.kie.ai/market/qwen/image-edit.md>)
 - Mention: [Qwen - Image to Image](<https://docs.kie.ai/market/qwen/image-to-image.md>)
 - Mention: [Qwen - Text to Image](<https://docs.kie.ai/market/qwen/text-to-image.md>)
+- Mention: [Qwen 2.1 - Image to Image](<https://docs.kie.ai/market/qwen2-1/image-to-image.md>)
+- Mention: [Qwen 2.1 - Text to Image](<https://docs.kie.ai/market/qwen2-1/text-to-image.md>)
 - Mention: [Qwen2 - Image Edit](<https://docs.kie.ai/market/qwen2/image-edit.md>)
 - Mention: [Qwen2 - Text To Image](<https://docs.kie.ai/market/qwen2/text-to-image.md>)
 - Mention: [Qwen3 Pro Image to Image](<https://docs.kie.ai/market/qwen3-pro/image-to-image.md>)
@@ -117,9 +122,12 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - Mention: [Seedream5.0 Lite - Image to Image](<https://docs.kie.ai/market/seedream-5-lite-image-to-image.md>)
 - Mention: [Seedream4.5 - Edit](<https://docs.kie.ai/market/seedream/4-5-edit.md>)
 - Mention: [Seedream4.5 - Text to Image](<https://docs.kie.ai/market/seedream/4-5-text-to-image.md>)
+- Mention: [Seedream5.0 Flash - Image to Image](<https://docs.kie.ai/market/seedream/5-flash-image-to-image.md>)
+- Mention: [Seedream5.0 Flash -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-flash-layer-decomposition.md>)
+- Mention: [Seedream5.0 Flash - Text to Image](<https://docs.kie.ai/market/seedream/5-flash-text-to-image.md>)
 - Mention: [Seedream5.0 Lite - Text to Image](<https://docs.kie.ai/market/seedream/5-lite-text-to-image.md>)
 - Mention: [Seedream5.0 Pro - Image to Image](<https://docs.kie.ai/market/seedream/5-pro-image-to-image.md>)
-- Mention: [Seedream 5.0 Pro -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md>)
+- Mention: [Seedream5.0 Pro -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md>)
 - Mention: [Seedream5.0 Pro - Text to Image](<https://docs.kie.ai/market/seedream/5-pro-text-to-image.md>)
 - Mention: [Seedream4.0 - Edit](<https://docs.kie.ai/market/seedream/seedream-v4-edit.md>)
 - Mention: [Seedream4.0 - Text to Image](<https://docs.kie.ai/market/seedream/seedream-v4-text-to-image.md>)
@@ -148,6 +156,7 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - Mention: [Wan 3.0 - Video Prime](<https://docs.kie.ai/market/wan/3-0-video-prime.md>)
 - Mention: [Wan 3.0 - Video](<https://docs.kie.ai/market/wan/3-0-video.md>)
 - Mention: [Z-Image](<https://docs.kie.ai/market/z-image/z-image.md>)
+- Mention: [Extend Veo3.1 Video](<https://docs.kie.ai/veo3-api/extend-video.md>)
 
 ## `/api/file-base64-upload`
 
@@ -164,18 +173,6 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - Mention: [File Upload API Quickstart](<https://docs.kie.ai/file-upload-api/quickstart.md>)
 - POST: [URL File Upload](<https://docs.kie.ai/file-upload-api/upload-file-url.md>)
 
-## `/api/v1`
-
-- Mention: [Suno API Quickstart](<https://docs.kie.ai/suno-api/quickstart.md>)
-
-## `/api/v1/aleph/generate`
-
-- POST: [Generate Aleph Video](<https://docs.kie.ai/runway-api/generate-aleph-video.md>)
-
-## `/api/v1/aleph/record-info`
-
-- GET: [Get Aleph Video Details](<https://docs.kie.ai/runway-api/get-aleph-video-details.md>)
-
 ## `/api/v1/chat/credit`
 
 - Mention: [Common API Quickstart](<https://docs.kie.ai/common-api/quickstart.md>)
@@ -191,91 +188,13 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 
 - Mention: [Grok Imagine Image 2.0 Image Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-to-image.md>)
 
-## `/api/v1/flux/kontext`
-
-- Mention: [Flux Kontext API Quickstart](<https://docs.kie.ai/flux-kontext-api/quickstart.md>)
-
-## `/api/v1/flux/kontext/generate`
-
-- Mention: [Flux Kontext API Quickstart](<https://docs.kie.ai/flux-kontext-api/quickstart.md>)
-- POST: [Generate or Edit Image](<https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md>)
-
-## `/api/v1/flux/kontext/record-info`
-
-- Mention: [Flux Kontext API Quickstart](<https://docs.kie.ai/flux-kontext-api/quickstart.md>)
-- GET: [Get Image Details](<https://docs.kie.ai/flux-kontext-api/get-image-details.md>)
-
 ## `/api/v1/generate`
 
 - Mention: [Generate Persona](<https://docs.kie.ai/suno-api/generate-persona.md>)
-- Mention: [Suno API Quickstart](<https://docs.kie.ai/suno-api/quickstart.md>)
-- POST: [Generate Music](<https://docs.kie.ai/suno-api/generate-music.md>)
-
-## `/api/v1/generate/add-instrumental`
-
-- Mention: [Add Instrumental Callbacks](<https://docs.kie.ai/suno-api/add-instrumental-callbacks.md>)
-- POST: [Add Instrumental to Music](<https://docs.kie.ai/suno-api/add-instrumental.md>)
-
-## `/api/v1/generate/add-vocals`
-
-- Mention: [Add Vocals Callbacks](<https://docs.kie.ai/suno-api/add-vocals-callbacks.md>)
-- POST: [Add Vocals to Music](<https://docs.kie.ai/suno-api/add-vocals.md>)
 
 ## `/api/v1/generate/extend`
 
 - Mention: [Generate Persona](<https://docs.kie.ai/suno-api/generate-persona.md>)
-- POST: [Extend Music](<https://docs.kie.ai/suno-api/extend-music.md>)
-
-## `/api/v1/generate/generate-persona`
-
-- POST: [Generate Persona](<https://docs.kie.ai/suno-api/generate-persona.md>)
-
-## `/api/v1/generate/get-timestamped-lyrics`
-
-- POST: [Get Timestamped Lyrics](<https://docs.kie.ai/suno-api/get-timestamped-lyrics.md>)
-
-## `/api/v1/generate/mashup`
-
-- POST: [Generate Mashup Music](<https://docs.kie.ai/suno-api/generate-mashup.md>)
-
-## `/api/v1/generate/record-info`
-
-- Mention: [Suno API Quickstart](<https://docs.kie.ai/suno-api/quickstart.md>)
-- GET: [Get Music Task Details](<https://docs.kie.ai/suno-api/get-music-details.md>)
-
-## `/api/v1/generate/replace-section`
-
-- POST: [Replace Music Section](<https://docs.kie.ai/suno-api/replace-section.md>)
-
-## `/api/v1/generate/sounds`
-
-- POST: [Generate sounds](<https://docs.kie.ai/suno-api/generate-sounds.md>)
-
-## `/api/v1/generate/upload-cover`
-
-- POST: [Upload And Cover Audio](<https://docs.kie.ai/suno-api/upload-and-cover-audio.md>)
-
-## `/api/v1/generate/upload-extend`
-
-- POST: [Upload And Extend Audio](<https://docs.kie.ai/suno-api/upload-and-extend-audio.md>)
-
-## `/api/v1/gpt4o-image`
-
-- Mention: [4o Image API Quickstart](<https://docs.kie.ai/4o-image-api/quickstart.md>)
-
-## `/api/v1/gpt4o-image/download-url`
-
-- POST: [Get Direct Download URL](<https://docs.kie.ai/4o-image-api/get-4-o-image-download-url.md>)
-
-## `/api/v1/gpt4o-image/generate`
-
-- Mention: [4o Image API Quickstart](<https://docs.kie.ai/4o-image-api/quickstart.md>)
-- POST: [Generate 4o Image](<https://docs.kie.ai/4o-image-api/generate-4-o-image.md>)
-
-## `/api/v1/gpt4o-image/record-info`
-
-- Mention: [4o Image API Quickstart](<https://docs.kie.ai/4o-image-api/quickstart.md>)
-- GET: [Get 4o Image Details](<https://docs.kie.ai/4o-image-api/get-4-o-image-details.md>)
 
 ## `/api/v1/jobs/createTask`
 
@@ -283,8 +202,10 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - POST: [HappyHorse 1.1 图生视频](<https://docs.kie.ai/38308980e0.md>)
 - POST: [HappyHorse 1.1 文生视频](<https://docs.kie.ai/38309290e0.md>)
 - POST: [HappyHorse 1.1 参考图生成视频](<https://docs.kie.ai/38309489e0.md>)
-- POST: [Seedream 5.0 Pro 图层分离](<https://docs.kie.ai/41313512e0.md>)
+- POST: [Seedream5.0 Pro 图层分离](<https://docs.kie.ai/41313512e0.md>)
+- POST: [Generate 4o Image](<https://docs.kie.ai/4o-image-api/generate-4-o-image.md>)
 - POST: [PixVerse V6 Reference-to-video/参考图生成](<https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md>)
+- POST: [Generate or Edit Image](<https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md>)
 - POST: [Gemini 2.5 Pro Text to Speech](<https://docs.kie.ai/google/gemini-2-5-pro-tts.md>)
 - POST: [Bytedance Seedance 1.5 Pro](<https://docs.kie.ai/market/bytedance/seedance-1-5-pro.md>)
 - POST: [Bytedance Seedance 2.5](<https://docs.kie.ai/market/bytedance/seedance-2-5.md>)
@@ -306,6 +227,8 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - POST: [Flux-2 - Pro Text to Image](<https://docs.kie.ai/market/flux2/pro-text-to-image.md>)
 - POST: [Gemini Omni Video](<https://docs.kie.ai/market/gemini-omni-video.md>)
 - POST: [Gemini 3.1 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-1-flash-tts.md>)
+- POST: [Gemini 3.8 Flash Lite Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-lite-tts.md>)
+- POST: [Gemini 3.8 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-tts.md>)
 - POST: [Gemini Omni 1.1 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md>)
 - POST: [Google - imagen4-fast](<https://docs.kie.ai/market/google/imagen4-fast.md>)
 - POST: [Google - imagen4-ultra](<https://docs.kie.ai/market/google/imagen4-ultra.md>)
@@ -387,6 +310,8 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - POST: [Qwen - Image Edit](<https://docs.kie.ai/market/qwen/image-edit.md>)
 - POST: [Qwen - Image to Image](<https://docs.kie.ai/market/qwen/image-to-image.md>)
 - POST: [Qwen - Text to Image](<https://docs.kie.ai/market/qwen/text-to-image.md>)
+- POST: [Qwen 2.1 - Image to Image](<https://docs.kie.ai/market/qwen2-1/image-to-image.md>)
+- POST: [Qwen 2.1 - Text to Image](<https://docs.kie.ai/market/qwen2-1/text-to-image.md>)
 - POST: [Qwen2 - Image Edit](<https://docs.kie.ai/market/qwen2/image-edit.md>)
 - POST: [Qwen2 - Text To Image](<https://docs.kie.ai/market/qwen2/text-to-image.md>)
 - POST: [Qwen3 Pro Image to Image](<https://docs.kie.ai/market/qwen3-pro/image-to-image.md>)
@@ -398,9 +323,12 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - POST: [Seedream5.0 Lite - Image to Image](<https://docs.kie.ai/market/seedream-5-lite-image-to-image.md>)
 - POST: [Seedream4.5 - Edit](<https://docs.kie.ai/market/seedream/4-5-edit.md>)
 - POST: [Seedream4.5 - Text to Image](<https://docs.kie.ai/market/seedream/4-5-text-to-image.md>)
+- POST: [Seedream5.0 Flash - Image to Image](<https://docs.kie.ai/market/seedream/5-flash-image-to-image.md>)
+- POST: [Seedream5.0 Flash -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-flash-layer-decomposition.md>)
+- POST: [Seedream5.0 Flash - Text to Image](<https://docs.kie.ai/market/seedream/5-flash-text-to-image.md>)
 - POST: [Seedream5.0 Lite - Text to Image](<https://docs.kie.ai/market/seedream/5-lite-text-to-image.md>)
 - POST: [Seedream5.0 Pro - Image to Image](<https://docs.kie.ai/market/seedream/5-pro-image-to-image.md>)
-- POST: [Seedream 5.0 Pro -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md>)
+- POST: [Seedream5.0 Pro -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md>)
 - POST: [Seedream5.0 Pro - Text to Image](<https://docs.kie.ai/market/seedream/5-pro-text-to-image.md>)
 - POST: [Seedream4.0 - Edit](<https://docs.kie.ai/market/seedream/seedream-v4-edit.md>)
 - POST: [Seedream4.0 - Text to Image](<https://docs.kie.ai/market/seedream/seedream-v4-text-to-image.md>)
@@ -429,40 +357,45 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - POST: [Wan 3.0 - Video Prime](<https://docs.kie.ai/market/wan/3-0-video-prime.md>)
 - POST: [Wan 3.0 - Video](<https://docs.kie.ai/market/wan/3-0-video.md>)
 - POST: [Z-Image](<https://docs.kie.ai/market/z-image/z-image.md>)
+- POST: [Extend AI Video](<https://docs.kie.ai/runway-api/extend-ai-video.md>)
+- POST: [Generate AI Video](<https://docs.kie.ai/runway-api/generate-ai-video.md>)
+- POST: [Generate Aleph Video](<https://docs.kie.ai/runway-api/generate-aleph-video.md>)
+- POST: [Add Instrumental to Music](<https://docs.kie.ai/suno-api/add-instrumental.md>)
+- POST: [Add Vocals to Music](<https://docs.kie.ai/suno-api/add-vocals.md>)
+- POST: [Boost Music Style](<https://docs.kie.ai/suno-api/boost-music-style.md>)
+- POST: [Convert to WAV Format](<https://docs.kie.ai/suno-api/convert-to-wav.md>)
+- POST: [Generate Music Cover](<https://docs.kie.ai/suno-api/cover-suno.md>)
+- POST: [Create Music Video](<https://docs.kie.ai/suno-api/create-music-video.md>)
+- POST: [Extend Music](<https://docs.kie.ai/suno-api/extend-music.md>)
+- POST: [Generate Lyrics](<https://docs.kie.ai/suno-api/generate-lyrics.md>)
+- POST: [Generate Mashup Music](<https://docs.kie.ai/suno-api/generate-mashup.md>)
+- POST: [Generate MIDI from Audio](<https://docs.kie.ai/suno-api/generate-midi.md>)
+- POST: [Generate Music](<https://docs.kie.ai/suno-api/generate-music.md>)
+- POST: [Generate Persona](<https://docs.kie.ai/suno-api/generate-persona.md>)
+- POST: [Generate sounds](<https://docs.kie.ai/suno-api/generate-sounds.md>)
+- POST: [Get Timestamped Lyrics](<https://docs.kie.ai/suno-api/get-timestamped-lyrics.md>)
+- POST: [Recovery Audio](<https://docs.kie.ai/suno-api/recovery-audio.md>)
+- POST: [Replace Music Section](<https://docs.kie.ai/suno-api/replace-section.md>)
+- POST: [Vocal & Instrument Stem Separation](<https://docs.kie.ai/suno-api/separate-vocals.md>)
+- POST: [Suno Voice Check Availability API](<https://docs.kie.ai/suno-api/suno-voice-check-voice.md>)
+- POST: [Suno Voice Create Custom Voice API](<https://docs.kie.ai/suno-api/suno-voice-generate.md>)
+- POST: [Suno Voice Regenerate Verification Phrase](<https://docs.kie.ai/suno-api/suno-voice-regenerate.md>)
+- POST: [Suno Voice Generate Verification Phrase API](<https://docs.kie.ai/suno-api/suno-voice-validate.md>)
+- POST: [Upload And Cover Audio](<https://docs.kie.ai/suno-api/upload-and-cover-audio.md>)
+- POST: [Upload And Extend Audio](<https://docs.kie.ai/suno-api/upload-and-extend-audio.md>)
+- POST: [Extend Veo3.1 Video](<https://docs.kie.ai/veo3-api/extend-video.md>)
+- POST: [Generate Veo3.1 Video](<https://docs.kie.ai/veo3-api/generate-veo-3-video.md>)
+- POST: [Get 1080P Video](<https://docs.kie.ai/veo3-api/get-veo-3-1080-p-video.md>)
+- POST: [Get 4K Video](<https://docs.kie.ai/veo3-api/get-veo-3-4k-video.md>)
 
 ## `/api/v1/jobs/recordInfo`
 
 - Mention: [Market](<https://docs.kie.ai/market/quickstart.md>)
 - GET: [Get Task Details](<https://docs.kie.ai/market/common/get-task-detail.md>)
 
-## `/api/v1/lyrics`
-
-- POST: [Generate Lyrics](<https://docs.kie.ai/suno-api/generate-lyrics.md>)
-
-## `/api/v1/lyrics/record-info`
-
-- GET: [Get Lyrics Task Details](<https://docs.kie.ai/suno-api/get-lyrics-details.md>)
-
-## `/api/v1/midi/generate`
-
-- POST: [Generate MIDI from Audio](<https://docs.kie.ai/suno-api/generate-midi.md>)
-
-## `/api/v1/midi/record-info`
-
-- GET: [Get MIDI Generation Details](<https://docs.kie.ai/suno-api/get-midi-details.md>)
-
 ## `/api/v1/modify/test`
 
 - Mention: [Veo3.1 Video Generation Callbacks](<https://docs.kie.ai/veo3-api/generate-veo-3-video-callbacks.md>)
-
-## `/api/v1/mp4/generate`
-
-- Mention: [Suno API Quickstart](<https://docs.kie.ai/suno-api/quickstart.md>)
-- POST: [Create Music Video](<https://docs.kie.ai/suno-api/create-music-video.md>)
-
-## `/api/v1/mp4/record-info`
-
-- GET: [Get Music Video Details](<https://docs.kie.ai/suno-api/get-music-video-details.md>)
 
 ## `/api/v1/omni/audio/create`
 
@@ -476,116 +409,9 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 
 - POST: [GPT Codex](<https://docs.kie.ai/market/codex/gpt-codex.md>)
 
-## `/api/v1/runway`
-
-- Mention: [Runway API Quickstart](<https://docs.kie.ai/runway-api/quickstart.md>)
-
-## `/api/v1/runway/extend`
-
-- POST: [Extend AI Video](<https://docs.kie.ai/runway-api/extend-ai-video.md>)
-
-## `/api/v1/runway/generate`
-
-- Mention: [Runway API Quickstart](<https://docs.kie.ai/runway-api/quickstart.md>)
-- POST: [Generate AI Video](<https://docs.kie.ai/runway-api/generate-ai-video.md>)
-
-## `/api/v1/runway/record-detail`
-
-- Mention: [Runway API Quickstart](<https://docs.kie.ai/runway-api/quickstart.md>)
-- GET: [Get AI Video Details](<https://docs.kie.ai/runway-api/get-ai-video-details.md>)
-
-## `/api/v1/style/generate`
-
-- Mention: [Suno API Quickstart](<https://docs.kie.ai/suno-api/quickstart.md>)
-- POST: [Boost Music Style](<https://docs.kie.ai/suno-api/boost-music-style.md>)
-
-## `/api/v1/suno/cover/generate`
-
-- POST: [Generate Music Cover](<https://docs.kie.ai/suno-api/cover-suno.md>)
-
-## `/api/v1/suno/cover/record-info`
-
-- GET: [Get Cover Generation Details](<https://docs.kie.ai/suno-api/get-cover-suno-details.md>)
-
-## `/api/v1/suno/recovery`
-
-- POST: [Recovery Audio](<https://docs.kie.ai/suno-api/recovery-audio.md>)
-
 ## `/api/v1/suno/recovery/record-info`
 
 - Mention: [Recovery Audio](<https://docs.kie.ai/suno-api/recovery-audio.md>)
-
-## `/api/v1/veo/extend`
-
-- POST: [Extend Veo3.1 Video](<https://docs.kie.ai/veo3-api/extend-video.md>)
-
-## `/api/v1/veo/generate`
-
-- Mention: [Veo3.1 API Quickstart](<https://docs.kie.ai/veo3-api/quickstart.md>)
-- POST: [Generate Veo3.1 Video](<https://docs.kie.ai/veo3-api/generate-veo-3-video.md>)
-
-## `/api/v1/veo/get-1080p-video`
-
-- Mention: [Get 4K Video](<https://docs.kie.ai/veo3-api/get-veo-3-4k-video.md>)
-- Mention: [Veo3.1 API Quickstart](<https://docs.kie.ai/veo3-api/quickstart.md>)
-- GET: [Get 1080P Video](<https://docs.kie.ai/veo3-api/get-veo-3-1080-p-video.md>)
-
-## `/api/v1/veo/get-4k-video`
-
-- POST: [Get 4K Video](<https://docs.kie.ai/veo3-api/get-veo-3-4k-video.md>)
-
-## `/api/v1/veo/record-info`
-
-- Mention: [Veo3.1 API Quickstart](<https://docs.kie.ai/veo3-api/quickstart.md>)
-- GET: [Get Veo3.1 Video Details](<https://docs.kie.ai/veo3-api/get-veo-3-video-details.md>)
-
-## `/api/v1/vocal-removal/generate`
-
-- Mention: [Suno API Quickstart](<https://docs.kie.ai/suno-api/quickstart.md>)
-- POST: [Vocal & Instrument Stem Separation](<https://docs.kie.ai/suno-api/separate-vocals.md>)
-
-## `/api/v1/vocal-removal/record-info`
-
-- GET: [Get Vocal Separation Details](<https://docs.kie.ai/suno-api/get-vocal-separation-details.md>)
-
-## `/api/v1/vocal-removal/test`
-
-- Mention: [Get Vocal Separation Details](<https://docs.kie.ai/suno-api/get-vocal-separation-details.md>)
-
-## `/api/v1/voice/check-voice`
-
-- POST: [Suno Voice Check Availability API](<https://docs.kie.ai/suno-api/suno-voice-check-voice.md>)
-
-## `/api/v1/voice/generate`
-
-- Mention: [Suno Voice Generation Callback](<https://docs.kie.ai/suno-api/suno-voice-generate-callback.md>)
-- POST: [Suno Voice Create Custom Voice API](<https://docs.kie.ai/suno-api/suno-voice-generate.md>)
-
-## `/api/v1/voice/record-info`
-
-- GET: [Suno Voice Get Custom Voice Records](<https://docs.kie.ai/suno-api/suno-voice-record-info.md>)
-
-## `/api/v1/voice/regenerate`
-
-- POST: [Suno Voice Regenerate Verification Phrase](<https://docs.kie.ai/suno-api/suno-voice-regenerate.md>)
-
-## `/api/v1/voice/validate`
-
-- Mention: [Suno Voice Validation Phrase Callback](<https://docs.kie.ai/suno-api/suno-voice-validate-callback.md>)
-- POST: [Suno Voice Generate Verification Phrase API](<https://docs.kie.ai/suno-api/suno-voice-validate.md>)
-
-## `/api/v1/voice/validate-info`
-
-- GET: [Suno Voice Get Verification Phrase API](<https://docs.kie.ai/suno-api/suno-voice-validate-info.md>)
-
-## `/api/v1/wav/generate`
-
-- Mention: [Suno API Quickstart](<https://docs.kie.ai/suno-api/quickstart.md>)
-- POST: [Convert to WAV Format](<https://docs.kie.ai/suno-api/convert-to-wav.md>)
-
-## `/api/v1/wav/record-info`
-
-- GET: [Get WAV Conversion Details](<https://docs.kie.ai/suno-api/get-wav-details.md>)
 
 ## `/claude/v1/messages`
 
@@ -595,10 +421,12 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - POST: [Claude Opus 4.6](<https://docs.kie.ai/market/claude/claude-opus-4-6.md>)
 - POST: [Claude Opus 4.7](<https://docs.kie.ai/market/claude/claude-opus-4-7.md>)
 - POST: [Claude Opus 4.8](<https://docs.kie.ai/market/claude/claude-opus-4-8.md>)
+- POST: [Claude Opus 5.5](<https://docs.kie.ai/market/claude/claude-opus-5-5.md>)
 - POST: [Claude Opus 5](<https://docs.kie.ai/market/claude/claude-opus-5.md>)
 - POST: [Claude Sonnet 4.5](<https://docs.kie.ai/market/claude/claude-sonnet-4-5.md>)
 - POST: [Claude Sonnet 4.6](<https://docs.kie.ai/market/claude/claude-sonnet-4-6.md>)
 - POST: [Claude Fable 5](<https://docs.kie.ai/market/claude/cluade-fable-5.md>)
+- POST: [Claude Sonnet 5.5](<https://docs.kie.ai/market/claude/cluade-sonnet-5-5.md>)
 - POST: [Claude Sonnet 5](<https://docs.kie.ai/market/claude/cluade-sonnet-5.md>)
 
 ## `/codex/v1/responses`
@@ -608,11 +436,10 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - POST: [GPT 5.6 Luna](<https://docs.kie.ai/market/chat/gpt-5-6-luna.md>)
 - POST: [GPT 5.6 Sol](<https://docs.kie.ai/market/chat/gpt-5-6-sol.md>)
 - POST: [GPT 5.6 Terra](<https://docs.kie.ai/market/chat/gpt-5-6-terra.md>)
+- POST: [GPT 6.1 Sol](<https://docs.kie.ai/market/chat/gpt-6-1-sol.md>)
 - POST: [Gpt 6 Astra](<https://docs.kie.ai/market/chat/gpt-6-astra.md>)
-
-## `/gemini-2.5-flash/v1/chat/completions`
-
-- POST: [Gemini 2.5 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-2-5-flash.md>)
+- POST: [GPT 6 Luna](<https://docs.kie.ai/market/chat/gpt-6-luna.md>)
+- POST: [GPT 6 Sol](<https://docs.kie.ai/market/chat/gpt-6-sol.md>)
 
 ## `/gemini-2.5-pro/v1/chat/completions`
 
@@ -635,10 +462,6 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 
 - POST: [Gemini 3.8 Flash (openai)](<https://docs.kie.ai/42969115e0.md>)
 - POST: [Gemini 3.8 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-8-flash-openai.md>)
-
-## `/gemini-3-flash/v1/chat/completions`
-
-- POST: [Gemini 3 Flash (openai)](<https://docs.kie.ai/market/gemini/gemini-3-flash.md>)
 
 ## `/gemini-3-pro/v1/chat/completions`
 
@@ -666,10 +489,6 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - POST: [Gemini 3.8 Flash](<https://docs.kie.ai/42969104e0.md>)
 - POST: [Gemini 3.8 Flash](<https://docs.kie.ai/market/gemini/gemini-3-8-flash.md>)
 
-## `/gemini/v1/models/gemini-3-flash-v1betamodels:streamGenerateContent`
-
-- POST: [Gemini 3 Flash](<https://docs.kie.ai/market/gemini/gemini-3-flash-v1beta.md>)
-
 ## `/gpt-5-2/v1/chat/completions`
 
 - POST: [GPT 5.2](<https://docs.kie.ai/market/chat/gpt-5-2.md>)
@@ -679,3 +498,9 @@ Generated 2026-09-09T12:44:36.837Z exclusively from official `docs.kie.ai` pages
 - POST: [Grok 4.3](<https://docs.kie.ai/market/grok/grok-4-3.md>)
 - POST: [Grok 4.5](<https://docs.kie.ai/market/grok/grok-4-5.md>)
 - POST: [Grok 4.6](<https://docs.kie.ai/market/grok/grok-4-6.md>)
+- POST: [Grok 4.7](<https://docs.kie.ai/market/grok/grok-4-7.md>)
+
+## `/openai/v1/responses`
+
+- POST: [DeepSeek V4.1 Flash](<https://docs.kie.ai/market/deepseek-v4-1-flash.md>)
+- POST: [Kimi K3](<https://docs.kie.ai/market/kimi/kimi-k3.md>)

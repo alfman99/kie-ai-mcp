@@ -66,6 +66,22 @@ describe("KieHttpClient", () => {
     });
   });
 
+  it("starts the request timeout after a queued request gets a slot", async () => {
+    let release: (() => void) | undefined;
+    const fetchImpl = vi.fn(async (_url: unknown, init?: RequestInit) => {
+      if (!release) await new Promise<void>((resolve) => { release = resolve; });
+      expect(init?.signal?.aborted).not.toBe(true);
+      return jsonResponse({ code: 200 });
+    }) as unknown as typeof fetch;
+    const client = new KieHttpClient({ ...config, maxConcurrentRequests: 1 }, fetchImpl);
+    const first = client.requestJson({ path: "/first" });
+    await vi.waitFor(() => expect(release).toBeTypeOf("function"));
+    const second = client.requestJson({ path: "/second", timeoutMs: 5 });
+    await new Promise((resolve) => setTimeout(resolve, 15));
+    release?.();
+    await expect(Promise.all([first, second])).resolves.toHaveLength(2);
+  });
+
   it("fails clearly when a live API tool needs a missing API key", async () => {
     const client = new KieHttpClient({ ...config, apiKey: undefined }, vi.fn() as unknown as typeof fetch);
 

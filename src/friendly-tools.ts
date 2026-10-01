@@ -46,7 +46,7 @@ const VideoInputSchema = z.object({
     ),
   aspectRatio: z.enum(["1:1", "4:3", "3:4", "16:9", "9:16", "21:9", "adaptive"]).default("16:9"),
   resolution: z.enum(["360p", "480p", "720p", "1080p", "4k"]).default("720p"),
-  duration: z.union([z.literal(-1), z.number().int().min(2).max(30)]).default(5),
+  duration: z.union([z.literal(-1), z.number().int().min(2).max(30)]).optional(),
   generateAudio: z.boolean().default(true),
   firstFrameUrl: z.string().url().optional(),
   lastFrameUrl: z.string().url().optional(),
@@ -169,9 +169,23 @@ function validateGptImage2Combination(model: string, input: Record<string, unkno
 }
 
 function validateVideoCombination(model: string, input: Record<string, unknown>): void {
+  if (input.last_frame_url && !input.first_frame_url) {
+    throw new Error(`${model} lastFrameUrl requires firstFrameUrl.`);
+  }
+  if (model === "google/gemini-omni-flash-1-1") {
+    if (input.first_frame_url && ["image_urls", "audio_ids", "video_list", "character_ids"].some(
+      (field) => Array.isArray(input[field]) && input[field].length > 0
+    )) {
+      throw new Error("Gemini Omni firstFrameUrl and reference media are mutually exclusive.");
+    }
+    return;
+  }
+  if (model.startsWith("wan/") && (input.first_frame_url || input.last_frame_url) && Object.entries(input).some(
+    ([field, value]) => field.startsWith("reference_") && Array.isArray(value) && value.length > 0
+  )) {
+    throw new Error("Wan first/last frames and reference media are mutually exclusive.");
+  }
   if (!model.startsWith("bytedance/seedance")) {
-    // Wan 3.0 and Gemini Omni cross-field rules are documented in prose only; per-field enums and
-    // array sizes are enforced from the catalog by validateMarketInput.
     return;
   }
   const label =
@@ -191,9 +205,6 @@ function validateVideoCombination(model: string, input: Record<string, unknown>)
   const hasReferences = ["reference_image_urls", "reference_video_urls", "reference_audio_urls"].some(
     (field) => Array.isArray(input[field]) && input[field].length > 0
   );
-  if (input.last_frame_url && !input.first_frame_url) {
-    throw new Error(`${label} lastFrameUrl requires firstFrameUrl.`);
-  }
   if (hasFrames && hasReferences) {
     throw new Error(
       `${label} frame-based and multimodal-reference modes are mutually exclusive; use first/last frames or reference media, not both.`
@@ -220,10 +231,13 @@ function videoInput(job: VideoInput): Record<string, unknown> {
     ...(job.lastFrameUrl ? { last_frame_url: job.lastFrameUrl } : {})
   };
   if (job.model === "google/gemini-omni-flash-1-1") {
+    if (job.referenceVideoUrls?.length || job.referenceAudioUrls?.length) {
+      throw new Error("Gemini Omni requires additionalInput.video_list for video clips and additionalInput.audio_ids for audio references.");
+    }
     // Gemini Omni: duration is a string enum, references are `image_urls`, no audio toggle.
     return {
       prompt: job.prompt,
-      duration: String(job.duration),
+      duration: String(job.duration ?? 6),
       aspect_ratio: job.aspectRatio,
       resolution: job.resolution,
       ...frames,
@@ -242,7 +256,7 @@ function videoInput(job: VideoInput): Record<string, unknown> {
       prompt: job.prompt,
       aspect_ratio: job.aspectRatio,
       resolution: job.resolution.toUpperCase(),
-      duration: job.duration,
+      duration: job.duration ?? 5,
       audio: job.generateAudio,
       ...frames,
       ...references,
@@ -253,7 +267,7 @@ function videoInput(job: VideoInput): Record<string, unknown> {
     prompt: job.prompt,
     aspect_ratio: job.aspectRatio,
     resolution: job.resolution,
-    duration: job.duration,
+    duration: job.duration ?? 5,
     generate_audio: job.generateAudio,
     ...frames,
     ...references,
@@ -507,7 +521,7 @@ export function registerFriendlyTools(args: {
     name: "kie_create_video",
     title: "Create KIE Videos",
     description:
-      "Create videos with Seedance 2 / 2.5 (default), Wan 3.0 / 3.0 Prime, or Gemini Omni 1.1 Flash. Put one entry in `jobs` per shot; they are submitted in parallel. Videos take minutes, so this defaults to returning task IDs immediately — collect the finished media with kie_get_creation. For a cheap smoke test use model bytedance/seedance-2-mini at 480p, 4 seconds, generateAudio false.",
+      "Create videos with Seedance 2 (default), Seedance 2.5, Wan 3.0 / 3.0 Prime, or Gemini Omni 1.1 Flash. Put one entry in `jobs` per shot; they are submitted in parallel. Videos take minutes, so this defaults to returning task IDs immediately — collect the finished media with kie_get_creation. For a cheap smoke test use model bytedance/seedance-2-mini at 480p, 4 seconds, generateAudio false.",
     jobSchema: VideoBatchJobSchema,
     maxJobs: 16,
     waitByDefault: false,

@@ -471,13 +471,20 @@ function normalizeMarketModel(
   const inputSchema = asRecord(resolveLocalRef(page.spec, requestProperties.input));
   const schemaModelValues = collectModelValues(modelSchema);
   const exampleModelValue = requestExampleModel(operation);
-  const modelValues = exampleModelValue ? [exampleModelValue] : schemaModelValues;
+  const modelValues = exampleModelValue && !schemaModelValues.includes(exampleModelValue)
+    ? [exampleModelValue]
+    : schemaModelValues.length > 0 ? schemaModelValues : exampleModelValue ? [exampleModelValue] : [];
   if (modelValues.length === 0) {
     return {};
   }
 
   const inputProperties = asRecord(inputSchema.properties);
   const inputRequired = new Set(asStringArray(inputSchema.required));
+  const media = requestJsonMedia(operation);
+  const exampleInputs = [media.example, ...Object.values(asRecord(media.examples)).map((example) => asRecord(example).value)]
+    .filter(isRecord)
+    .map((example) => asRecord(example.input));
+  const correctedUrlFields: string[] = [];
   const fieldsByName = new Map<string, MarketModelField>();
   for (const [rawName, rawField] of Object.entries(inputProperties)) {
     const name = rawName.trim();
@@ -489,11 +496,18 @@ function normalizeMarketModel(
     }
       const field = asRecord(resolveLocalRef(page.spec!, rawField));
       const items = asRecord(resolveLocalRef(page.spec!, field.items));
+      const urlSchema = field.type === "array" ? items : field;
+      const exampleValues = exampleInputs.flatMap((input) => input[name] === undefined ? [] : [input[name]])
+        .flatMap((value) => Array.isArray(value) ? value : [value]);
+      const correctUrl = /_urls?$/.test(name) && urlSchema.type === "object" &&
+        Object.keys(asRecord(urlSchema.properties)).length === 0 && exampleValues.length > 0 &&
+        exampleValues.every((value) => typeof value === "string" && /^https?:\/\//.test(value));
+      if (correctUrl) correctedUrlFields.push(name);
       fieldsByName.set(name, {
         name,
         required: inputRequired.has(rawName) || inputRequired.has(name),
-        type: asString(field.type) ?? null,
-        format: asString(field.format) ?? null,
+        type: correctUrl && field.type !== "array" ? "string" : asString(field.type) ?? null,
+        format: correctUrl && field.type !== "array" ? "uri" : asString(field.format) ?? null,
         enum: Array.isArray(field.enum) ? field.enum : null,
         default: field.default ?? null,
         description: asString(field.description) ?? null,
@@ -507,8 +521,8 @@ function normalizeMarketModel(
         minItems: asFiniteNumber(field.minItems) ?? null,
         maxItems: asFiniteNumber(field.maxItems) ?? null,
         uniqueItems: asBoolean(field.uniqueItems) ?? null,
-        itemType: asString(items.type) ?? null,
-        itemFormat: asString(items.format) ?? null,
+        itemType: correctUrl && field.type === "array" ? "string" : asString(items.type) ?? null,
+        itemFormat: correctUrl && field.type === "array" ? "uri" : asString(items.format) ?? null,
         itemEnum: Array.isArray(items.enum) ? items.enum : null
       });
   }
@@ -527,12 +541,14 @@ function normalizeMarketModel(
       source_file: new URL(page.url).pathname
     },
     correction:
-      exampleModelValue && schemaModelValues.length > 0 && !schemaModelValues.includes(exampleModelValue)
+      correctedUrlFields.length > 0 || (exampleModelValue && schemaModelValues.length > 0 && !schemaModelValues.includes(exampleModelValue))
         ? {
             sourceUrl: page.url,
             schemaModelValues,
-            exampleModelValue,
-            reason: "The official request example conflicts with the model schema; the executable request example takes precedence."
+            exampleModelValue: exampleModelValue ?? modelValues[0],
+            reason: correctedUrlFields.length > 0
+              ? `Official request examples use URL strings where the schema declares empty objects: ${correctedUrlFields.join(", ")}. The executable examples take precedence.`
+              : "The official request example conflicts with the model schema; the executable request example takes precedence."
           }
         : undefined
   };
@@ -547,7 +563,7 @@ function extractMarketModels(pages: ParsedPage[]): { models: MarketModelRecord[]
     if (!page.spec) {
       continue;
     }
-    if (!new URL(page.url).pathname.startsWith("/market/")) {
+    if (!/^\/(market|4o-image-api|flux-kontext-api|runway-api|veo3-api|suno-api|google)\//.test(new URL(page.url).pathname)) {
       continue;
     }
     const pathItem = asRecord(asRecord(page.spec.paths)["/api/v1/jobs/createTask"]);
@@ -835,11 +851,13 @@ export async function fetchOfficialText(fetchImpl: typeof fetch, url: string): P
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 20_000);
     try {
-      const response = await fetchImpl(url, {
+      const fetchUrl = new URL(url);
+      if (attempt > 1) fetchUrl.searchParams.set("_kie_retry", `${Date.now()}-${attempt}`);
+      const response = await fetchImpl(fetchUrl.href, {
         redirect: "follow",
         signal: controller.signal,
         headers: {
-          Accept: "text/markdown, text/plain;q=0.9",
+          Accept: "text/markdown",
           "User-Agent": "kie-ai-mcp-docs-sync/0.1 (+https://github.com/alfman99/kie-ai-mcp)"
         }
       });

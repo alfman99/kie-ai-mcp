@@ -1,20 +1,20 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-09-09T12:44:36.837Z",
+  "generatedAt": "2026-10-01T09:31:21.795Z",
   "sourceIndex": "https://docs.kie.ai/llms.txt",
   "sourceHost": "docs.kie.ai",
-  "indexSha256": "7b6a9dde9494076d2797c99e18bbead465e48fd4002ab0e55c3ff7f5815ad3a8",
-  "contentSha256": "f75b74867fa8fac9aa99579439386c7c752ba4c7aeadd4a07f4c542a7f15e79a",
-  "pageCount": 278,
-  "openapiPageCount": 244,
-  "operationCount": 244,
-  "endpointPathCount": 85,
-  "marketModelCount": 143,
+  "indexSha256": "9cb8720fce9a740079249ff1ae377f3f6696b2e6dd4fc27898dfb32e62fa71b2",
+  "contentSha256": "5fd6b7f890ed7dc064651872ac7a8e5a4b3a27defc56f56ea8d2067d25b200dd",
+  "pageCount": 279,
+  "openapiPageCount": 241,
+  "operationCount": 241,
+  "endpointPathCount": 33,
+  "marketModelCount": 183,
   "failures": 0,
   "artifactSha256": {
-    "openapi_endpoint_catalog": "2fd0974dfdb31b8b6ed79d756d1cb53cfc0f0cbf596e2c463471273207705197",
-    "market_model_registry": "946ba4827bf2605d3b22317834f366e1fe2a6cf4cfbd6e84fa41b11c31d3793f",
-    "endpoint_index": "5eaf8b20d7ab3440cc11c21d876450499548247a9dd4e2e15f475b12ebcfe55d"
+    "openapi_endpoint_catalog": "5d48d19a040ceda283afa662077f576431028e0e48c40c25b4be295078401a57",
+    "market_model_registry": "da6798d3c575a8513e39286c5110f2b1b04c82441753f2b96154c61443a262f1",
+    "endpoint_index": "d85310c99bfd24c07555eb1eb6915c631797cf0044fa708441dcbb8a04729aa9"
   },
   "schemaCorrections": [
     {
@@ -32,6 +32,22 @@
       ],
       "exampleModelValue": "kling/v2-5-turbo-image-to-video-pro",
       "reason": "The official request example conflicts with the model schema; the executable request example takes precedence."
+    },
+    {
+      "sourceUrl": "https://docs.kie.ai/market/wan/3-0-video.md",
+      "schemaModelValues": [
+        "wan/3-0-video"
+      ],
+      "exampleModelValue": "wan/3-0-video",
+      "reason": "Official request examples use URL strings where the schema declares empty objects: first_frame_url, last_frame_url, reference_image_urls, reference_video_urls, reference_audio_urls, reference_file_urls, reference_link_urls. The executable examples take precedence."
+    },
+    {
+      "sourceUrl": "https://docs.kie.ai/market/wan/3-0-video-prime.md",
+      "schemaModelValues": [
+        "wan/3-0-video-prime"
+      ],
+      "exampleModelValue": "wan/3-0-video-prime",
+      "reason": "Official request examples use URL strings where the schema declares empty objects: first_frame_url, last_frame_url, reference_image_urls, reference_video_urls, reference_audio_urls, reference_file_urls, reference_link_urls. The executable examples take precedence."
     }
   ],
   "endpointCorrections": [

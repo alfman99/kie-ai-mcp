@@ -14,11 +14,11 @@ describe("product operation registry", () => {
     expect(families).toEqual(expect.arrayContaining(["4o_image", "flux_kontext", "runway", "aleph", "suno", "veo"]));
     expect(findProductOperation("veo", "generate")).toMatchObject({
       method: "POST",
-      path: "/api/v1/veo/generate"
+      path: "/api/v1/jobs/createTask"
     });
     expect(findProductOperation("suno", "voice_check")).toMatchObject({
       method: "POST",
-      path: "/api/v1/voice/check-voice"
+      path: "/api/v1/jobs/createTask"
     });
   });
 
@@ -28,6 +28,9 @@ describe("product operation registry", () => {
     );
 
     expect(productOperations.filter((operation) => !documented.has(`${operation.method} ${operation.path}`))).toEqual([]);
+    for (const operation of productOperations) {
+      expect(getProductOperationSchema(operation, openapiCatalog).source_url).toBe(operation.sourceUrl);
+    }
   });
 
   it("returns and validates the exact official schema for curated operations", () => {
@@ -59,9 +62,9 @@ describe("product operation registry", () => {
       validateProductOperationInput({
         productOperation: generateVeo!,
         query: {},
-        body: { prompt: "A calm ocean", generationType: "NOT_REAL" },
+        body: { model: "veo-3-1", input: { prompt: "A calm ocean", generation_type: "NOT_REAL" } },
         catalog: openapiCatalog
       })
-    ).toThrow(/body.generationType must be one of/);
+    ).toThrow(/body.input.generation_type must be one of/);
   });
 });

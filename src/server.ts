@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import packageJson from "../package.json" with { type: "json" };
 import { loadConfig, pollPlanFromConfig, requireApiKey } from "./config.js";
 import { normalizeError } from "./errors.js";
 import { registerFriendlyTools } from "./friendly-tools.js";
@@ -176,7 +177,7 @@ export function createKieMcpServer(
   const server = new McpServer(
     {
       name: "kie-ai-mcp",
-      version: "1.1.1"
+      version: packageJson.version
     },
     {
       instructions: [

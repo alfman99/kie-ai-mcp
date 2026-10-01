@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.2.1 - 2026-10-01
+
+- Refreshed 279 official documentation pages: 183 model schemas and 241 OpenAPI operations.
+  Added 40 model identifiers, including Seedream 5.0 Flash, Qwen 2.1, Gemini 3.8 speech,
+  and the unified Veo, Suno, Runway, Flux Kontext, and 4o operations. No model identifiers were removed.
+- Updated dependencies and removed all reported npm security vulnerabilities.
+- Migrated product operations to KIE's unified task endpoints. Product creation now uses
+  `{model, input, callBackUrl}`. Each operation validates against its own official source schema.
+- Included unified product models and all documented model variants in the Market registry.
+- Corrected empty object schemas for media URLs when official request examples use URL strings.
+  The manifest records each correction. Documentation retries bypass cached invalid responses.
+- Fixed Gemini Omni's default duration, frame/reference validation, and unsupported reference errors.
+- Started request timeouts after a connection slot becomes available. The MCP server reports the
+  package version.
+
 ## 1.2.0 - 2026-09-09
 
 - Refreshed the official KIE documentation snapshot (2026-09-09): 143 market models, 244 OpenAPI

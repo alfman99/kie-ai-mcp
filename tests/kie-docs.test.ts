@@ -183,6 +183,36 @@ describe("KIE documentation updater", () => {
     ]);
   });
 
+  it("uses official URL examples to correct empty object schemas", () => {
+    const body = SAMPLE_PAGE
+      .replace('" image_url ":\n                      type: string\n                      format: uri', 'first_frame_url:\n                      type: object\n                      properties: {}')
+      .replace('type: string\n                        format: uri', 'type: object\n                        properties: {}')
+      .replace('references:', 'reference_image_urls:')
+      .replace('prompt: hello', 'prompt: hello\n                first_frame_url: https://example.com/frame.png\n                reference_image_urls: [https://example.com/ref.png]');
+    const artifacts = buildDocsArtifacts({
+      indexBody: "[Example](https://docs.kie.ai/market/example.md)",
+      pages: [{ title: "Example", url: "https://docs.kie.ai/market/example.md", body }],
+      generatedAt: "2026-10-01T00:00:00.000Z"
+    });
+    const fields = JSON.parse(artifacts.files["market_model_registry.json"]).models[0].input_fields;
+    expect(fields).toEqual(expect.arrayContaining([
+      expect.objectContaining({ name: "first_frame_url", type: "string", format: "uri" }),
+      expect.objectContaining({ name: "reference_image_urls", itemType: "string", itemFormat: "uri", maxItems: 3 })
+    ]));
+    expect(artifacts.manifest.schemaCorrections[0].reason).toContain("first_frame_url, reference_image_urls");
+  });
+
+  it("includes unified product models and every documented model variant", () => {
+    const artifacts = buildDocsArtifacts({
+      indexBody: "[Example](https://docs.kie.ai/veo3-api/example.md)",
+      pages: [{ title: "Example", url: "https://docs.kie.ai/veo3-api/example.md", body: SAMPLE_PAGE.replace("[stale/model]", "[example/image, example/image-fast]") }],
+      generatedAt: "2026-10-01T00:00:00.000Z"
+    });
+    const models = JSON.parse(artifacts.files["market_model_registry.json"]).models;
+    expect(models).toHaveLength(1);
+    expect(models[0].model_values).toEqual(["example/image", "example/image-fast"]);
+  });
+
   it("rejects redirects away from the official KIE documentation host", async () => {
     const fetchImpl = vi.fn(async () => ({
       ok: true,
@@ -195,6 +225,18 @@ describe("KIE documentation updater", () => {
     await expect(fetchOfficialText(fetchImpl, "https://docs.kie.ai/market/example.md")).rejects.toThrow(
       /redirected outside docs\.kie\.ai/
     );
+  });
+
+  it("bypasses a cached invalid page on retry", async () => {
+    const fetchImpl = vi.fn()
+      .mockResolvedValueOnce(new Response("<html>Upstream error</html>"))
+      .mockResolvedValueOnce(new Response("# Official documentation"));
+    await expect(fetchOfficialText(fetchImpl as unknown as typeof fetch, "https://docs.kie.ai/market/example.md"))
+      .resolves.toBe("# Official documentation");
+    expect(fetchImpl.mock.calls[0][0]).toBe("https://docs.kie.ai/market/example.md");
+    const retried = new URL(fetchImpl.mock.calls[1][0]);
+    expect(retried.origin + retried.pathname).toBe("https://docs.kie.ai/market/example.md");
+    expect(retried.searchParams.has("_kie_retry")).toBe(true);
   });
 
   it("loads a complete external snapshot and rejects duplicate model identifiers", async () => {
