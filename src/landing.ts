@@ -15,8 +15,15 @@ export function landingPage(mcpPath: string): string {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KIE MCP</title>
-<meta name="description" content="Hosted MCP server for image, video, and speech generation through KIE.ai. Connect any MCP client with your own KIE API key.">
+<title>KIE.AI MCP: AI Image, Video and Voice Generation</title>
+<meta name="description" content="Connect Claude Code, Codex, Cursor or VS Code to KIE.ai for AI image, video and voice generation. Open-source MCP server using your own KIE credits.">
+<link rel="canonical" href="${HOSTED_URL}/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KIE.AI MCP">
+<meta property="og:title" content="KIE.AI MCP: AI Image, Video and Voice Generation">
+<meta property="og:description" content="Create images, videos and voiceovers with KIE.ai from your AI app. Connect to the hosted MCP server or run it locally.">
+<meta property="og:url" content="${HOSTED_URL}/">
+<meta name="twitter:card" content="summary">
 <style>
   :root {
     color-scheme: light dark;
@@ -80,25 +87,24 @@ export function landingPage(mcpPath: string): string {
 </head>
 <body>
 <main>
-  <h1>KIE MCP</h1>
+  <h1>KIE.AI MCP</h1>
   <p class="lede">
-    A hosted <a href="https://modelcontextprotocol.io">Model Context Protocol</a> server that lets any
-    MCP client generate images, video, and speech through <a href="https://kie.ai">KIE.ai</a>.
-    Nothing to install &mdash; point your client at the URL below and bring your own KIE API key.
+    Create AI images, videos, and voiceovers with <a href="https://kie.ai">KIE.ai</a> from
+    Claude Code, Codex, Cursor, or VS Code. This open-source
+    <a href="https://modelcontextprotocol.io">Model Context Protocol</a> server uses your own KIE credits.
   </p>
 
   <p class="disclaimer">
-    <b>Unofficial project.</b> This is an independent, community-built MCP server that talks to KIE.ai's
-    public API. It is not affiliated with, endorsed by, or operated by the KIE.ai team, and this site is
-    not run by them. For anything about your KIE account, billing, or the models themselves, go to
-    <a href="https://kie.ai">kie.ai</a>.
+    <b>Unofficial project.</b> This server is maintained independently of KIE.ai.
+    For account or billing questions, contact <a href="https://kie.ai">KIE</a>.
   </p>
 
-  <h2>Connect</h2>
-  <p>Add this to your client's MCP configuration:</p>
+  <h2>Connect your AI app</h2>
+  <p>Get a key at <a href="https://kie.ai/api-key">kie.ai/api-key</a>.
+    For Cursor or a client with the same configuration format, add:</p>
   <pre><code>{
   "mcpServers": {
-    "kie": {
+    "kie-ai": {
       "type": "http",
       "url": "${endpoint}",
       "headers": {
@@ -108,36 +114,32 @@ export function landingPage(mcpPath: string): string {
   }
 }</code></pre>
   <p>Or, with the Claude Code CLI:</p>
-  <pre><code>claude mcp add --transport http kie ${endpoint} \\
+  <pre><code>claude mcp add --transport http kie-ai ${endpoint} \\
   --header "Authorization: Bearer YOUR_KIE_API_KEY"</code></pre>
   <p>Or just paste this to the coding agent in your IDE and let it do the setup:</p>
   <div class="paste">
     <button class="copy" type="button" data-copy>Copy</button>
-    <textarea id="agent-prompt" readonly onclick="this.select()">Add a remote MCP server to my editor's MCP configuration.
-
-Name: kie
-Transport: streamable HTTP (not stdio, not SSE)
-URL: ${endpoint}
-Auth: send the header  Authorization: Bearer YOUR_KIE_API_KEY
-
-Write it in whatever config file and JSON shape this editor expects (Cursor, VS Code,
-Windsurf, Claude Code and Codex each use a slightly different one). Leave a clear
-YOUR_KIE_API_KEY placeholder for me to fill in rather than inventing a key, and do
-not commit the key to git. When you are done, tell me which file you changed and
-whether I need to restart the editor.</textarea>
+    <textarea id="agent-prompt" aria-label="MCP setup instructions" readonly onclick="this.select()">Add a remote MCP server named kie-ai to this app.
+Use Streamable HTTP at ${endpoint}.
+Send Authorization: Bearer YOUR_KIE_API_KEY.
+Leave the key as a placeholder and tell me where to enter it privately.
+Tell me whether I need to restart the app.</textarea>
   </div>
 
   <p class="note">
-    Get a key at <a href="https://kie.ai/api-key">kie.ai/api-key</a>. Your key is used only to serve
-    your own requests and is never stored &mdash; this relay keeps no key of its own, so every
-    generation is billed to your account, not someone else's.
+    The hosted server receives your key on each request and forwards it to KIE.
+    Keep the key in private client configuration. Use the
+    <a href="${REPOSITORY_URL}/blob/main/docs/INSTALL_OTHER_APPS.md#choose-your-app">app-by-app setup guide</a>
+    for Codex and VS Code. See <a href="${REPOSITORY_URL}/blob/main/docs/CLIENT_COMPATIBILITY.md">client compatibility</a>
+    for web chat limitations.
   </p>
 
-  <h2>Use</h2>
-  <p>Once connected, just ask. The tools are designed so a single call does a whole batch in parallel:</p>
+  <h2>Create an image, video, or voiceover</h2>
+  <p>Start a new chat after connecting, then describe the result you want:</p>
   <ul>
-    <li>&ldquo;Generate four product shots of a ceramic mug on a linen background.&rdquo;</li>
-    <li>&ldquo;Make a 5 second clip of rain on a window, then narrate this line over it.&rdquo;</li>
+    <li>&ldquo;Use Seedream 5.0 Pro to create a square photo of a red ceramic mug on a wooden table in morning light.&rdquo;</li>
+    <li>&ldquo;Use Seedance 2.5 to make a five-second video of waves reaching a sandy beach, at 720p in 16:9.&rdquo;</li>
+    <li>&ldquo;Read this in a calm voice: Your order is ready for collection.&rdquo;</li>
   </ul>
   <ul class="tools">
     <li><b>kie_create_image</b><span>Create or edit images</span></li>
@@ -163,9 +165,8 @@ whether I need to restart the editor.</textarea>
   -F uploadPath=agent-uploads</code></pre>
   <p class="note">
     Take <code>downloadUrl</code> from the response and pass it to any create tool. Your agent is
-    told this automatically when it connects, so in practice you can just say &ldquo;use this
-    image&rdquo; and point at the file. The upload goes straight to KIE under your own account
-    &mdash; it does not pass through this relay &mdash; and KIE deletes it after 3 days.
+    given the upload instructions when it connects. The upload goes directly to KIE under your own
+    account. KIE upload URLs are temporary; download files you want to keep.
   </p>
 
   <h2>Run it yourself</h2>
@@ -173,11 +174,14 @@ whether I need to restart the editor.</textarea>
     The server also runs locally over stdio, and the whole thing is open source. Setup for every
     supported client, the environment variables, and the full tool reference are in the repository.
   </p>
-  <pre><code>npx kie-ai-mcp</code></pre>
+  <p>
+    <a href="${REPOSITORY_URL}/blob/main/docs/INSTALL_OTHER_APPS.md#claude">Install the Claude Desktop extension</a>
+    or <a href="${REPOSITORY_URL}/blob/main/docs/INSTALL_OTHER_APPS.md#one-time-source-setup">build the local server from source</a>.
+  </p>
 
   <footer>
     <a href="${REPOSITORY_URL}">Source on GitHub</a> &middot;
-    <a href="${REPOSITORY_URL}#readme">Documentation</a> &middot;
+    <a href="${REPOSITORY_URL}/blob/main/docs/README.md">Documentation</a> &middot;
     <a href="/healthz">Health</a> &middot;
     MIT licensed
   </footer>

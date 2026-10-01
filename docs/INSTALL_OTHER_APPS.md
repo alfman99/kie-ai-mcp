@@ -1,4 +1,4 @@
-# Install KIE.AI MCP
+# KIE.AI MCP setup for Claude, Codex, Cursor, and VS Code
 
 Get a key from [kie.ai/api-key](https://kie.ai/api-key). Choose a hosted connection or a local
 installation. Both use your own KIE credits.
@@ -8,13 +8,15 @@ installation. Both use your own KIE credits.
 | App | What to use |
 |---|---|
 | Claude Desktop | [Install the local extension](#claude) |
-| Claude Code | [Remote setup](#remote-setup) or [local setup](#claude-code) |
-| Codex desktop / CLI | [Remote setup](#remote-setup) or [local setup](#codex-desktop-and-cli) |
-| Cursor | [Remote setup](#remote-setup) or [local setup](#cursor) |
-| VS Code / Copilot | [Remote setup](#remote-setup) or [local setup](#vs-code-and-github-copilot) |
+| Claude Code | [Remote setup](#claude-code-remote) or [local setup](#claude-code) |
+| Codex desktop / CLI | [Remote setup](#codex-remote) or [local setup](#codex-desktop-and-cli) |
+| Cursor | [Remote setup](#cursor-remote) or [local setup](#cursor) |
+| VS Code / Copilot | [Remote setup](#vs-code-remote) or [local setup](#vs-code-and-github-copilot) |
 | Windsurf legacy Cascade | [Local setup](#windsurf) |
 | ChatGPT website | See [authentication limits](CLIENT_COMPATIBILITY.md#authentication-limits) |
 
+For remote setup, you need your app and a KIE key. For a local extension, use Claude Desktop.
+For a local source installation, you also need Node.js 20 or newer.
 Load your [key](#load-your-key) before using the terminal registration commands below.
 
 ## Remote setup
@@ -360,10 +362,12 @@ ZIP users can download the newest ZIP and repeat the three `npm` commands. Resta
 | `node` is not found | Install Node.js 20+, restart the app, or use the absolute Node executable path. |
 | `dist/src/index.js` is missing | Run `npm run build`. |
 | Remote server returns `401` | Check the key and `Authorization` header. The base URL must end in `/mcp`. |
+| Remote server returns `405` in a browser | `/mcp` accepts MCP `POST` requests. Add it in your app; the browser page is not a connection test. |
 | KIE is not ready | Re-enter `KIE_API_KEY` and restart the MCP server. |
 | A reference file is blocked | Put it inside the exact `KIE_LOCAL_UPLOAD_ROOT`; do not use a symlink outside it. |
 | No KIE tools appear | Enable the server and tools, restart them, and start a fresh chat. |
 | Windows paths fail | Use forward slashes, such as `C:/Users/Alex/KIE Media`. |
+| A generation wait times out | Keep the task ID and call `kie_get_creation`. Do not submit the generation again. |
 
 Never share logs or configuration containing your KIE key. Revoke exposed keys at [kie.ai/api-key](https://kie.ai/api-key).
 
@@ -377,3 +381,5 @@ Your AI app → local KIE.AI MCP → official KIE API
 Local stdio runs without a public port or Docker. The hosted option uses a relay; see
 [remote hosting](REMOTE_SERVER.md). Both use KIE's official API and native upload service.
 Model parameters come from [KIE's official documentation](https://docs.kie.ai/).
+
+[Documentation index](README.md)

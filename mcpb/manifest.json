@@ -4,8 +4,8 @@
   "name": "kie-ai-mcp",
   "display_name": "KIE.AI MCP",
   "version": "1.2.1",
-  "description": "Create images, videos, edits, and voiceovers in Claude using flexible pay-as-you-go KIE credits.",
-  "long_description": "A lower-cost, Higgsfield-style creative workflow inside Claude. Describe what you want, attach reference media when needed, and let Claude create with KIE's image, video, and speech models.",
+  "description": "Create AI images, videos, and voiceovers in Claude Desktop with your own KIE.ai credits.",
+  "long_description": "Add KIE.ai image, video, and speech tools to Claude Desktop. Describe a result, provide reference media when needed, and collect the generated files in your chat. This independent MCP extension uses your own KIE account and limits local file uploads to the media folder you select.",
   "author": {
     "name": "alfman99",
     "url": "https://github.com/alfman99"
@@ -27,7 +27,9 @@
     "video generation",
     "voiceover",
     "KIE AI",
-    "Higgsfield alternative"
+    "MCP server",
+    "Seedream",
+    "Seedance"
   ],
   "license": "MIT",
   "compatibility": {

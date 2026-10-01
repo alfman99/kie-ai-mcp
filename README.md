@@ -1,6 +1,8 @@
-# KIE.AI MCP
+# KIE.AI MCP: image, video, and voice generation
 
-Create images, videos, and voiceovers from your AI chat with [KIE.ai](https://kie.ai).
+An open-source [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server for
+Claude Code, Codex, Cursor, and VS Code. Create images, videos, and voiceovers with your
+[KIE.ai](https://kie.ai) account.
 Use models such as Seedream, GPT Image, Seedance, Wan, Veo, and ElevenLabs.
 
 The software is free and open source. You pay KIE for generations through your own account.
@@ -54,6 +56,7 @@ Check [client compatibility](docs/CLIENT_COMPATIBILITY.md) before connecting a w
 
 ## More help
 
+- [Documentation index](docs/README.md): choose a guide for your task.
 - [Setup and troubleshooting](docs/INSTALL_OTHER_APPS.md#troubleshooting)
 - [Technical reference](docs/TECHNICAL_REFERENCE.md) and [local process](docs/HOW_IT_RUNS.md)
 - [Host your own server](docs/REMOTE_SERVER.md)

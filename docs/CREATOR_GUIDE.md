@@ -1,4 +1,4 @@
-# Creator guide
+# Create AI images, videos, and voiceovers with KIE.AI MCP
 
 KIE.AI MCP adds image, video, and voice tools to your AI chat. Connect with the
 [setup guide](INSTALL_OTHER_APPS.md), then describe what you want to make.
@@ -19,6 +19,18 @@ agent use its default.
 Models support different sizes, durations, and reference inputs. Ask the agent to check the model's
 schema before submitting a request. The [model catalog](../src/data/MARKET_MODEL_REGISTRY.md)
 lists the documented models. The Market tools give access to models beyond the default creation tools.
+
+## Choose a model
+
+| Task | Models to ask for |
+| --- | --- |
+| Generate or edit an image | GPT Image 2, GPT Image 2.5, Seedream 5.0 Pro, Seedream 5.0 Flash |
+| Generate a video | Seedance 2.5, Wan 3.0, Gemini Omni 1.1 Flash, Veo 3.1 |
+| Generate a voiceover | ElevenLabs Turbo 2.5 or Gemini text-to-speech |
+| Generate music | Suno through the Market tools |
+
+Ask for the model by name. The agent should check its parameters, then choose a creation or Market
+tool. The default image tool uses GPT Image 2; choosing Seedream requires the Market tool.
 
 ## Use reference media
 
@@ -69,3 +81,27 @@ for connection and file-access errors.
 
 For local updates, see [Update](INSTALL_OTHER_APPS.md#update). The hosted server receives updates
 from its operator. Check [client compatibility](CLIENT_COMPATIBILITY.md) for web chat limitations.
+
+## Common questions
+
+### Is the MCP server free?
+
+The software has an MIT license and no subscription fee. KIE charges your account for generations.
+Your AI app may also require its own plan.
+
+### Can I use it on ChatGPT's website?
+
+This relay requires a KIE key header that ChatGPT's website cannot supply. Use Codex desktop or
+CLI, or another supported coding client. See [client compatibility](CLIENT_COMPATIBILITY.md).
+
+### Do I need to download anything?
+
+A supported app can connect to the hosted server by URL. Claude Desktop uses the local extension.
+Local source installations need Node.js and a build of this repository.
+
+### Can I use my own photos?
+
+Yes. Use a public image URL or upload the photo to KIE. A local installation can read files from
+your selected media folder. A hosted connection cannot read your disk.
+
+[Documentation index](README.md)

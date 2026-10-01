@@ -1,4 +1,4 @@
-# How the local server runs
+# How the local KIE.AI MCP server runs
 
 In local stdio mode, your MCP client starts KIE.AI MCP as a child process and communicates over
 standard input and output. That process does not listen on a public port. For the separate HTTP
@@ -151,3 +151,5 @@ An empty result confirms no matching MCP child remains. Do not terminate unrelat
 - Enable local file uploads only for trusted agents.
 - Restrict local uploads to a dedicated `KIE_LOCAL_UPLOAD_ROOT`; never point it at a home directory, repository root, or drive root.
 - KIE generation is asynchronous. Preserve task IDs until the final result is retrieved.
+
+[Documentation index](README.md)

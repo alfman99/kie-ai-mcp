@@ -1,6 +1,9 @@
-# Contributing
+# Contribute to KIE.AI MCP
 
 Thanks for improving this KIE.AI MCP server.
+
+For setup help, use the [documentation index](docs/README.md). For a code change, build the
+repository and run the checks below. Describe the problem and how your change fixes it in the pull request.
 
 ## Development
 

@@ -1,7 +1,7 @@
 {
   "name": "kie-ai-mcp",
   "version": "1.2.1",
-  "description": "Higgsfield-style image, video, and voice creation in Claude, ChatGPT/Codex, Cursor, VS Code, and Windsurf using flexible KIE credits.",
+  "description": "Open-source KIE.ai MCP server for AI image, video, and voice generation in Claude Code, Codex, Cursor, and VS Code.",
   "type": "module",
   "license": "MIT",
   "author": "alfman99",
@@ -23,7 +23,8 @@
     "text-to-speech",
     "ai-media",
     "claude",
-    "chatgpt",
+    "seedream",
+    "seedance",
     "cursor",
     "codex",
     "vscode",

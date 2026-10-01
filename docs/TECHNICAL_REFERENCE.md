@@ -1,4 +1,4 @@
-# Technical Reference
+# KIE.AI MCP technical reference
 
 This document is for maintainers and users connecting KIE.AI MCP to a client other than Claude Desktop. The beginner installation belongs in the main [README](../README.md).
 
@@ -337,3 +337,5 @@ Without a key, the smoke command exits successfully after reporting that the liv
 ## Bundled catalogs
 
 The generated artifacts in `src/data/` are built exclusively from official [KIE documentation](https://docs.kie.ai/). Call `kie_get_local_catalogs` or read `kie://docs/manifest` for the exact generation timestamp, source index, hashes, failure count, and current operation/model totals.
+
+[Documentation index](README.md)

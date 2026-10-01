@@ -1,4 +1,4 @@
-# Security
+# KIE.AI MCP security and API key handling
 
 ## Secrets
 
@@ -31,3 +31,5 @@ memory. Remote callers cannot read the server's disk or upload files from their 
 
 Both connections use KIE's official API and native upload endpoints. Read
 [remote hosting](docs/REMOTE_SERVER.md) before operating a public relay.
+
+[Documentation index](docs/README.md)

@@ -1,4 +1,4 @@
-# Client compatibility
+# KIE.AI MCP client compatibility
 
 KIE.AI MCP supports two connections:
 
@@ -64,3 +64,5 @@ The server retries temporary status errors with backoff. It retries creation onl
 - [Cursor MCP](https://cursor.com/docs/mcp)
 - [VS Code MCP](https://code.visualstudio.com/docs/agent-customization/mcp-servers)
 - [Windsurf / Cascade MCP](https://docs.devin.ai/desktop/cascade/mcp)
+
+[Documentation index](README.md)

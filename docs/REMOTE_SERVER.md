@@ -1,4 +1,4 @@
-# Host the remote server
+# Host a KIE.AI MCP server with Docker and Coolify
 
 KIE.AI MCP can run as a Streamable HTTP relay. Clients connect to a URL and send their own KIE key
 with every request. The relay forwards requests to KIE and charges the caller's account.
@@ -104,3 +104,5 @@ is bounded and expires after an hour of inactivity. Restarting the relay clears 
 accepted tasks still run at KIE and can be checked by task ID.
 
 The relay does not store media or allow remote callers to read its disk.
+
+[Documentation index](README.md)
