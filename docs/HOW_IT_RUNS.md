@@ -1,13 +1,15 @@
-# How This MCP Server Runs
+# How the local server runs
 
-This project is a local KIE.AI MCP server. It does not listen on a port or keep a background daemon alive. An MCP client starts it as a child process and communicates over standard input and standard output.
+In local stdio mode, your MCP client starts KIE.AI MCP as a child process and communicates over
+standard input and output. That process does not listen on a public port. For the separate HTTP
+mode, see [remote hosting](REMOTE_SERVER.md).
 
 ## Direct Node Lifecycle
 
 Build once:
 
 ```bash
-npm install
+npm ci
 npm run build
 ```
 
@@ -41,9 +43,9 @@ Node process exits
 
 The server stores no media. It uses KIE's native upload endpoints and returns KIE's temporary upload URLs.
 
-## What Codex Is Configured To Do
+## Check a local Codex registration
 
-This machine has a global Codex MCP entry named `kie-ai`. Inspect it with:
+If you registered the local server as `kie-ai`, inspect it with:
 
 ```bash
 codex mcp get kie-ai
@@ -75,7 +77,7 @@ The doctor:
 1. Spawns the built server over stdio.
 2. Completes MCP initialization.
 3. Lists required tools and resources.
-4. Calls configuration and local-catalog tools.
+4. Checks configuration and the manifest resource. The full profile also checks the catalog tool.
 5. Closes the client and stdin transport.
 6. Confirms the child process exited.
 7. Fails on unexpected stderr or an orphan process.
@@ -83,10 +85,11 @@ The doctor:
 Verify the configured API key without generating media:
 
 ```bash
-KIE_API_KEY="your-kie-api-key" npm run mcp:doctor:live
+npm run mcp:doctor:live
 ```
 
-The live doctor calls only KIE's credit endpoint. It does not consume generation credits.
+Load `KIE_API_KEY` into the environment first. The live doctor calls only KIE's credit endpoint.
+It does not consume generation credits.
 
 ## Native Media Uploads
 

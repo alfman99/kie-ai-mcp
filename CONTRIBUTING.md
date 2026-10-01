@@ -5,7 +5,7 @@ Thanks for improving this KIE.AI MCP server.
 ## Development
 
 ```bash
-npm install
+npm ci
 npm run typecheck
 npm test
 npm run build

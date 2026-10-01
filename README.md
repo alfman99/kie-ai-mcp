@@ -1,79 +1,66 @@
 # KIE.AI MCP
 
-Generate images, video, and voiceovers from Claude, Codex, Cursor, VS Code, or Windsurf using your own
-pay-as-you-go [KIE.ai](https://kie.ai) credits. Free and open source — you pay KIE for generations, nothing else.
+Create images, videos, and voiceovers from your AI chat with [KIE.ai](https://kie.ai).
+Use models such as Seedream, GPT Image, Seedance, Wan, Veo, and ElevenLabs.
 
-**→ [kie-mcp.alfredomanresa.com](https://kie-mcp.alfredomanresa.com)** — what it is, how to connect, what it can do.
+The software is free and open source. You pay KIE for generations through your own account.
+This is an independent project, not an official KIE.ai product.
 
-> **Unofficial project.** This is an independent, community-built MCP server that talks to KIE.ai's public API.
-> It is not affiliated with, endorsed by, or operated by the KIE.ai team, and neither is the hosted instance at
-> `kie-mcp.alfredomanresa.com`. For anything about your KIE account, billing, or the models themselves, go to
-> [kie.ai](https://kie.ai). Bugs in *this* server belong in
-> [its issue tracker](https://github.com/alfman99/kie-ai-mcp/issues), not KIE's support channels.
+## Connect to the hosted server
 
-## Connect in one step
+Get your key at [kie.ai/api-key](https://kie.ai/api-key), then add a remote MCP server in your app:
 
-Paste this to the coding agent in your IDE — it knows which config file its own editor uses:
+| Setting | Value |
+| --- | --- |
+| Name | `kie-ai` |
+| Transport | Streamable HTTP |
+| URL | `https://kie-mcp.alfredomanresa.com/mcp` |
+| `Authorization` | `Bearer YOUR_KIE_API_KEY` |
 
-```text
-Add a remote MCP server to my editor's MCP configuration.
+Use the app's key field or private configuration. Keep your key out of chats and Git.
 
-Name: kie
-Transport: streamable HTTP (not stdio, not SSE)
-URL: https://kie-mcp.alfredomanresa.com/mcp
-Auth: send the header  Authorization: Bearer YOUR_KIE_API_KEY
+[App-by-app setup](docs/INSTALL_OTHER_APPS.md#remote-setup) covers Claude Code, Codex, Cursor,
+and VS Code. The [connection page](https://kie-mcp.alfredomanresa.com) also has setup examples.
 
-Write it in whatever config file and JSON shape this editor expects. Leave a clear
-YOUR_KIE_API_KEY placeholder for me to fill in rather than inventing a key, and do
-not commit the key to git. When you are done, tell me which file you changed and
-whether I need to restart the editor.
-```
+The hosted server forwards your key and requests to KIE. Use a local installation if you want
+requests to go directly from your computer to KIE.
 
-Prefer to do it by hand? The configuration block, the `claude mcp add` one-liner, and the tool list are all on
-[the site](https://kie-mcp.alfredomanresa.com). Get a key at [kie.ai/api-key](https://kie.ai/api-key).
+## Make your first image
 
-The hosted relay holds no key of its own and refuses keyless requests, so it only ever spends the credits of
-whoever is calling it.
+Start a new chat after connecting and ask:
 
-## Run it locally instead
+> Use Seedream 5.0 Pro to create a square photo of a red ceramic mug on a wooden table in morning light.
 
-Choose this if you want to upload reference media straight from your disk, or would rather nothing left your
-machine but the API calls themselves. Same code, same tools.
+The agent submits the request and returns an image link. This uses your KIE credits.
 
-- **Claude Desktop** — install [`kie-ai-mcp.mcpb`](https://github.com/alfman99/kie-ai-mcp/releases/latest/download/kie-ai-mcp.mcpb),
-  no Node.js or config file required. [Step by step](docs/INSTALL_OTHER_APPS.md#claude)
-- **Everything else** — `npx kie-ai-mcp` over stdio with `KIE_API_KEY` set.
-  [Per-app setup](docs/INSTALL_OTHER_APPS.md)
+You can also ask for a video or voiceover:
 
-## How to use it
+> Use Seedance 2.5 to create a five-second video of waves reaching a sandy beach, at 720p in 16:9.
 
-Talk to your AI normally. Describe what you want and, when useful, name the model, resolution, aspect ratio,
-duration, style, or reference media.
+> Read this in a calm voice: “Your order is ready for collection.”
 
-> Create an image of a hairless Sphynx cat looking to the right. Use GPT Image 2 at 4K in 9:16, soft studio
-> lighting, plain warm-gray background.
+For edits, provide a reference image URL and describe the change. Videos can take several minutes.
+Keep the task ID and ask the agent to check it again rather than submit the same request twice.
+See the [creator guide](docs/CREATOR_GUIDE.md) for models, references, and costs.
 
-> Use Seedance 2.5 to turn this first frame into a five-second vertical ad. Slowly rotate the product on black
-> glass and add subtle mist.
+## Run it locally
 
-The agent picks the right tool, checks the model's parameters against the official KIE catalog, uploads any
-references, submits the task, and returns the task ID and a direct media link. Independent jobs in one call run
-in parallel, and one failure never discards the others. Videos take minutes, so they return a task ID
-immediately and are collected when ready.
+- Claude Desktop: [download the extension](https://github.com/alfman99/kie-ai-mcp/releases/latest/download/kie-ai-mcp.mcpb)
+  and follow the [installation steps](docs/INSTALL_OTHER_APPS.md#claude).
+- Other apps: [build from source](docs/INSTALL_OTHER_APPS.md#one-time-source-setup) with Node.js 20 or newer.
 
-## Documentation
+Local installations can upload files from a folder you select. The hosted server cannot read your disk.
+Check [client compatibility](docs/CLIENT_COMPATIBILITY.md) before connecting a web chat app.
 
-- [Install in the top five AI apps](docs/INSTALL_OTHER_APPS.md) · [Client compatibility](docs/CLIENT_COMPATIBILITY.md)
-- [Creator guide: pricing, privacy, FAQ](docs/CREATOR_GUIDE.md)
-- [Technical reference](docs/TECHNICAL_REFERENCE.md) · [How the local process works](docs/HOW_IT_RUNS.md)
-- [Host the remote server yourself](docs/REMOTE_SERVER.md)
-- [Security policy](SECURITY.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
-- [Official KIE documentation](https://docs.kie.ai/) — this server's model catalog is generated from it
+## More help
 
-## Support
+- [Setup and troubleshooting](docs/INSTALL_OTHER_APPS.md#troubleshooting)
+- [Technical reference](docs/TECHNICAL_REFERENCE.md) and [local process](docs/HOW_IT_RUNS.md)
+- [Host your own server](docs/REMOTE_SERVER.md)
+- [Contribute](CONTRIBUTING.md), [security](SECURITY.md), and [changes](CHANGELOG.md)
+- [Model catalog](src/data/MARKET_MODEL_REGISTRY.md) and [official KIE documentation](https://docs.kie.ai/)
 
-Check your KIE key, your credit balance, and whether the app was restarted after installation. Then see the
-[troubleshooting guide](docs/INSTALL_OTHER_APPS.md#troubleshooting) or
-[open an issue](https://github.com/alfman99/kie-ai-mcp/issues) — without including keys or private media.
+For server bugs, [open an issue](https://github.com/alfman99/kie-ai-mcp/issues).
+For account or billing questions, contact KIE. Keep keys and private media out of public reports.
 
-MIT licensed. Higgsfield is a trademark of its respective owner.
+[MIT license](LICENSE).

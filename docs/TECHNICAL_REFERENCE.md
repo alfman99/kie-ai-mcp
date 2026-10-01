@@ -4,9 +4,12 @@ This document is for maintainers and users connecting KIE.AI MCP to a client oth
 
 ## Runtime model
 
-KIE.AI MCP is a local stdio server. The MCP client starts it as a child process, communicates over stdin/stdout, and closes it when the session ends.
+In local stdio mode, the MCP client starts KIE.AI MCP as a child process, communicates over
+stdin/stdout, and closes it when the session ends. It sends requests directly to KIE over HTTPS.
 
-It does not expose a listening port, run a daemon, host user media, or require a container. Live tools call KIE directly over HTTPS.
+In HTTP mode, the server listens for remote MCP requests and forwards them with each caller's KIE
+key. Local file uploads are disabled. See [remote hosting](REMOTE_SERVER.md) for this mode.
+Neither mode stores media.
 
 ## Source installation
 
@@ -98,17 +101,21 @@ The bundle is validated and inspected with the official MCPB tool before the bui
 
 ## Configuration
 
+The table lists runtime defaults. `.env.example` includes optional overrides; copying that file
+does not load environment variables into the MCP process. HTTP authentication settings are in
+[remote hosting](REMOTE_SERVER.md#authentication).
+
 | Variable | Required | Default | Purpose |
 |---|---:|---|---|
-| `KIE_API_KEY` | Live tools | — | KIE bearer token |
+| `KIE_API_KEY` | Live tools | Not set | KIE bearer token |
 | `KIE_API_BASE_URL` | No | `https://api.kie.ai` | Official KIE API base |
 | `KIE_UPLOAD_BASE_URL` | No | `https://kieai.redpandaai.co` | Official KIE upload base |
 | `KIE_ALLOW_LOCAL_FILE_UPLOADS` | No | `false` | Enable reads from the restricted local media folder |
-| `KIE_LOCAL_UPLOAD_ROOT` | With local uploads | — | Restrict local reads to one absolute media folder |
-| `KIE_POLL_INTERVAL_MS` | No | `2500` | Steady async-task polling cadence |
+| `KIE_LOCAL_UPLOAD_ROOT` | With local uploads | Not set | Restrict local reads to one absolute media folder |
+| `KIE_POLL_INTERVAL_MS` | No | `3000` | Steady async-task polling cadence |
 | `KIE_POLL_TIMEOUT_MS` | No | `600000` | Async-task polling timeout |
-| `KIE_POLL_FIRST_DELAY_MS` | No | `600` | Delay before the first status re-check |
-| `KIE_POLL_MAX_INTERVAL_MS` | No | `8000` | Cadence ceiling for long-running renders |
+| `KIE_POLL_FIRST_DELAY_MS` | No | `3000` | Delay before the first status re-check |
+| `KIE_POLL_MAX_INTERVAL_MS` | No | `3000` | Cadence ceiling for long-running renders |
 | `KIE_POLL_EASE_AFTER_MS` | No | `90000` | Elapsed wait before easing toward the ceiling |
 | `KIE_REQUEST_TIMEOUT_MS` | No | `20000` | Per-request deadline |
 | `KIE_MAX_CONCURRENT_REQUESTS` | No | `8` | Ceiling on simultaneous in-flight KIE requests |
@@ -119,7 +126,7 @@ The bundle is validated and inspected with the official MCPB tool before the bui
 | `KIE_SUBMISSION_TTL_MS` | No | `1800000` | How long an `idempotencyKey` replays its original submission |
 | `KIE_RESULT_CACHE_TTL_MS` | No | `1800000` | How long a finished task is served from memory |
 | `KIE_PREWARM_CONNECTION` | No | `true` | Open the API connection at startup |
-| `KIE_WEBHOOK_HMAC_KEY` | No | — | Default webhook verification key |
+| `KIE_WEBHOOK_HMAC_KEY` | No | Not set | Default webhook verification key |
 | `KIE_DOCS_DATA_DIR` | No | bundled snapshot | External reviewed catalog snapshot |
 
 Catalog and supplied-key webhook tools work without `KIE_API_KEY`. Live KIE tools return a clear configuration error when it is absent.
@@ -140,13 +147,20 @@ All create and status tools return the same structured result shape with `taskId
 
 ### Tool profiles
 
-`KIE_TOOL_PROFILE=standard` (the default) exposes 11 tools. It omits the three transport-specific upload tools, the two advanced Market status tools, the three product-API tools, the webhook verifier, and the local-catalog dump, all of which duplicate something in the curated set or are rarely needed. `KIE_TOOL_PROFILE=full` restores all 21. The standard profile costs roughly 4,000 tokens of tool schema per model request against roughly 5,300 for `full`.
+`KIE_TOOL_PROFILE=standard` exposes 11 tools. `KIE_TOOL_PROFILE=full` exposes all 21, adding separate
+upload transports, raw Market status, product APIs, webhook verification, and the catalog summary tool.
+Both profiles expose the model-list, model-schema, and Market creation tools.
 
 ### Automation and idempotency
 
-Every create tool accepts an optional `idempotencyKey`. Reusing the key replays the original submission for `KIE_SUBMISSION_TTL_MS` instead of paying for a second generation, and a duplicate that arrives while the first is still in flight joins that request rather than racing it. Within one call the key is scoped per job position, so two deliberately identical jobs in the same batch still produce two tasks.
+The friendly create tools accept an optional `idempotencyKey`. Reusing the key replays the original
+submission for `KIE_SUBMISSION_TTL_MS` instead of paying for a second generation. Concurrent calls
+with the same key share the pending request. Within a batch, the key is scoped per job position.
+The raw `kie_market_create_task` tool does not accept an idempotency key.
 
-Creation requests are never retried automatically, because a duplicate request can spend credits twice. When a wait times out, the accepted task ID is preserved so the work can be collected with `kie_get_creation` rather than resubmitted.
+Creation requests retry only after KIE refuses them with 429. Other submission failures do not
+retry automatically. When a wait times out, the accepted task ID is preserved so the work can be
+collected with `kie_get_creation` rather than resubmitted.
 
 ### Error shape
 
@@ -165,19 +179,20 @@ Every error carries `category`, `retryable`, and `nextStep` alongside the messag
 
 ## Status polling
 
-Polling is tuned for the shortest gap between "finished at KIE" and "returned here":
+The default polling interval is three seconds, with jitter to spread concurrent checks:
 
-- The first checks ramp quickly (about 0.6s, 1.2s, 2.4s) so a short image or voice job is returned almost immediately.
-- The cadence then stays flat at `KIE_POLL_INTERVAL_MS`. It is not increased while a task is still running, because a growing interval only adds dead time after the result is already available.
-- Only after `KIE_POLL_EASE_AFTER_MS` of a clearly long render does the cadence drift toward `KIE_POLL_MAX_INTERVAL_MS`, trading a few seconds of worst-case lag for far fewer requests.
+- `KIE_POLL_FIRST_DELAY_MS`, `KIE_POLL_INTERVAL_MS`, and `KIE_POLL_MAX_INTERVAL_MS` are all `3000` by default.
+- Configure a smaller first delay to ramp up to the steady interval. Configure a larger maximum
+  interval to ease toward it after `KIE_POLL_EASE_AFTER_MS`.
 - Exponential backoff applies to failures only, and a `Retry-After` header is honoured when KIE sends one.
 - Each poll carries `KIE_REQUEST_TIMEOUT_MS` of its own, so a stalled socket is retried instead of consuming the whole wait budget.
-- Every sleep is jittered, and `KIE_MAX_CONCURRENT_REQUESTS` caps in-flight requests, so a 16-job batch does not arrive at KIE in one synchronized burst.
+- `KIE_MAX_CONCURRENT_REQUESTS` caps in-flight requests within each KIE client. A remote MCP request
+  creates its own client, so this limit does not combine traffic from separate HTTP requests.
 
 ## Task creation rate limit
 
 KIE allows [up to 20 new generation requests per 10 seconds per account](https://docs.kie.ai/1973359m0.md), and states that
-rejected requests **do not enter the queue** — an overrun destroys work rather than delaying it.
+rejected requests do not enter the queue. Requests above that limit are refused.
 
 - Task-creating requests take a slot from a sliding window (`KIE_GENERATION_RATE_LIMIT` per `KIE_GENERATION_RATE_WINDOW_MS`)
   before they are sent. This covers `POST /api/v1/jobs/createTask`, including product operations that create tasks.
@@ -186,6 +201,10 @@ rejected requests **do not enter the queue** — an overrun destroys work rather
   A 429 means the request was refused outright, so nothing was created and nothing was charged. **No other failure is ever
   retried automatically**, because a create request that may have landed must not be sent twice.
 - Neither the rate-limit wait nor the retry backoff holds a concurrency slot, so a waiting submission never blocks a working one.
+
+The generation window applies per KIE client instance. HTTP requests create separate clients, so
+the relay does not enforce one shared generation window across remote requests. KIE's account
+limit still applies.
 
 ## Native media upload
 
@@ -230,7 +249,10 @@ For verified client-specific setup, see [Client Compatibility](CLIENT_COMPATIBIL
 
 Known models are checked against fields, types, enums, limits, item counts, and URL formats extracted from the official documentation. Undocumented fields are rejected by default. Set `validateKnownModel` to `false` only as an explicit forward-compatibility escape hatch. Unknown models remain pass-through.
 
-The bundled catalog is the single source of truth for per-field limits. The friendly tools deliberately do not restate them: they only enforce cross-field rules that no JSON schema can express, such as "lastFrameUrl requires firstFrameUrl", the frame-versus-reference exclusivity, and the duration bounds KIE documents in prose. Anything a model schema already states — resolution and format enums, prompt length, reference-array sizes, fields a model does not accept — is validated straight from the catalog, so `npm run docs:update` is all that is needed to track an upstream change. A handful of models publish no input fields upstream; those stay pass-through rather than being blocked.
+The bundled catalog supplies per-field limits. The friendly tools also enforce rules that KIE
+documents in prose, such as `lastFrameUrl` requiring `firstFrameUrl` and incompatible frame/reference
+inputs. After a catalog update, review those rules against the current documentation. Models with
+no documented input fields remain pass-through.
 
 ### Product APIs
 
@@ -298,15 +320,16 @@ Tests use mocked HTTP and do not call KIE.
 To verify a real key without generating media:
 
 ```bash
-KIE_API_KEY="your-kie-api-key" npm run mcp:doctor:live
+npm run mcp:doctor:live
 ```
 
-The live doctor calls the credit endpoint only. It does not consume generation credits.
+Load `KIE_API_KEY` into the environment first. The live doctor calls the credit endpoint only.
+It does not consume generation credits.
 
 An optional live smoke check is also available:
 
 ```bash
-KIE_API_KEY="your-kie-api-key" npm run smoke
+npm run smoke
 ```
 
 Without a key, the smoke command exits successfully after reporting that the live call was skipped.
