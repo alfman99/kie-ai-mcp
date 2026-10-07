@@ -3,7 +3,7 @@
   "manifest_version": "0.4",
   "name": "kie-ai-mcp",
   "display_name": "KIE.AI MCP",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Create AI images, videos, and voiceovers in Claude Desktop with your own KIE.ai credits.",
   "long_description": "Add KIE.ai image, video, and speech tools to Claude Desktop. Describe a result, provide reference media when needed, and collect the generated files in your chat. This independent MCP extension uses your own KIE account and limits local file uploads to the media folder you select.",
   "author": {

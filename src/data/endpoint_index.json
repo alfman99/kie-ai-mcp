@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T09:31:21.795Z",
+  "generated_at": "2026-10-07T08:11:13.190Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -15,6 +15,13 @@
       "title": "Seedream5.0 Pro 图层分离",
       "url": "https://docs.kie.ai/41313512e0.md",
       "file": "/41313512e0.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Generate 4o Image",
+      "url": "https://docs.kie.ai/4o-image-api/generate-4-o-image.md",
+      "file": "/4o-image-api/generate-4-o-image.md"
     },
     {
       "method": "",
@@ -246,6 +253,13 @@
       "title": "Google - Nano Banana",
       "url": "https://docs.kie.ai/market/google/nano-banana.md",
       "file": "/market/google/nano-banana.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Google - Nano Banana 2.1",
+      "url": "https://docs.kie.ai/market/google/nanobanana-2-1.md",
+      "file": "/market/google/nanobanana-2-1.md"
     },
     {
       "method": "",
@@ -1048,6 +1062,48 @@
     {
       "method": "",
       "path": "/api/callback",
+      "title": "AI Video Extension Callbacks",
+      "url": "https://docs.kie.ai/runway-api/extend-ai-video-callbacks.md",
+      "file": "/runway-api/extend-ai-video-callbacks.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Extend AI Video",
+      "url": "https://docs.kie.ai/runway-api/extend-ai-video.md",
+      "file": "/runway-api/extend-ai-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "AI Video Generation Callbacks",
+      "url": "https://docs.kie.ai/runway-api/generate-ai-video-callbacks.md",
+      "file": "/runway-api/generate-ai-video-callbacks.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Generate AI Video",
+      "url": "https://docs.kie.ai/runway-api/generate-ai-video.md",
+      "file": "/runway-api/generate-ai-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Aleph Video Generation Callbacks",
+      "url": "https://docs.kie.ai/runway-api/generate-aleph-video-callbacks.md",
+      "file": "/runway-api/generate-aleph-video-callbacks.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Generate Aleph Video",
+      "url": "https://docs.kie.ai/runway-api/generate-aleph-video.md",
+      "file": "/runway-api/generate-aleph-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
       "title": "Extend Veo3.1 Video",
       "url": "https://docs.kie.ai/veo3-api/extend-video.md",
       "file": "/veo3-api/extend-video.md"
@@ -1415,6 +1471,13 @@
       "title": "Google - Nano Banana",
       "url": "https://docs.kie.ai/market/google/nano-banana.md",
       "file": "/market/google/nano-banana.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Google - Nano Banana 2.1",
+      "url": "https://docs.kie.ai/market/google/nanobanana-2-1.md",
+      "file": "/market/google/nanobanana-2-1.md"
     },
     {
       "method": "POST",
@@ -2476,6 +2539,13 @@
     {
       "method": "",
       "path": "/api/v1/jobs/recordInfo",
+      "title": "Getting Started with KIE API (Important)",
+      "url": "https://docs.kie.ai/1973359m0.md",
+      "file": "/1973359m0.md"
+    },
+    {
+      "method": "",
+      "path": "/api/v1/jobs/recordInfo",
       "title": "Market",
       "url": "https://docs.kie.ai/market/quickstart.md",
       "file": "/market/quickstart.md"
@@ -2486,6 +2556,13 @@
       "title": "Get Task Details",
       "url": "https://docs.kie.ai/market/common/get-task-detail.md",
       "file": "/market/common/get-task-detail.md"
+    },
+    {
+      "method": "",
+      "path": "/api/v1/midi/record-info",
+      "title": "Generate MIDI from Audio",
+      "url": "https://docs.kie.ai/suno-api/generate-midi.md",
+      "file": "/suno-api/generate-midi.md"
     },
     {
       "method": "",
@@ -2509,11 +2586,11 @@
       "file": "/market/gemini-omni-character.md"
     },
     {
-      "method": "POST",
-      "path": "/api/v1/responses",
-      "title": "GPT Codex",
-      "url": "https://docs.kie.ai/market/codex/gpt-codex.md",
-      "file": "/market/codex/gpt-codex.md"
+      "method": "",
+      "path": "/api/v1/suno/recovery",
+      "title": "Recovery Audio",
+      "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
+      "file": "/suno-api/recovery-audio.md"
     },
     {
       "method": "",
@@ -2612,13 +2689,6 @@
       "title": "Claude Sonnet 5",
       "url": "https://docs.kie.ai/market/claude/cluade-sonnet-5.md",
       "file": "/market/claude/cluade-sonnet-5.md"
-    },
-    {
-      "method": "POST",
-      "path": "/codex/v1/responses",
-      "title": "GPT 5.4 (response)",
-      "url": "https://docs.kie.ai/market/chat/gpt-5-4.md",
-      "file": "/market/chat/gpt-5-4.md"
     },
     {
       "method": "POST",
@@ -2852,6 +2922,13 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "Generate 4o Image",
+        "url": "https://docs.kie.ai/4o-image-api/generate-4-o-image.md",
+        "file": "/4o-image-api/generate-4-o-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "PixVerse V6 Reference-to-video/参考图生成",
         "url": "https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md",
         "file": "/cnmarket/pixverse/reference-to-video.md"
@@ -3079,6 +3156,13 @@
         "title": "Google - Nano Banana",
         "url": "https://docs.kie.ai/market/google/nano-banana.md",
         "file": "/market/google/nano-banana.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Google - Nano Banana 2.1",
+        "url": "https://docs.kie.ai/market/google/nanobanana-2-1.md",
+        "file": "/market/google/nanobanana-2-1.md"
       },
       {
         "method": "",
@@ -3881,6 +3965,48 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "AI Video Extension Callbacks",
+        "url": "https://docs.kie.ai/runway-api/extend-ai-video-callbacks.md",
+        "file": "/runway-api/extend-ai-video-callbacks.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Extend AI Video",
+        "url": "https://docs.kie.ai/runway-api/extend-ai-video.md",
+        "file": "/runway-api/extend-ai-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "AI Video Generation Callbacks",
+        "url": "https://docs.kie.ai/runway-api/generate-ai-video-callbacks.md",
+        "file": "/runway-api/generate-ai-video-callbacks.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Generate AI Video",
+        "url": "https://docs.kie.ai/runway-api/generate-ai-video.md",
+        "file": "/runway-api/generate-ai-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Aleph Video Generation Callbacks",
+        "url": "https://docs.kie.ai/runway-api/generate-aleph-video-callbacks.md",
+        "file": "/runway-api/generate-aleph-video-callbacks.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Generate Aleph Video",
+        "url": "https://docs.kie.ai/runway-api/generate-aleph-video.md",
+        "file": "/runway-api/generate-aleph-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "Extend Veo3.1 Video",
         "url": "https://docs.kie.ai/veo3-api/extend-video.md",
         "file": "/veo3-api/extend-video.md"
@@ -4266,6 +4392,13 @@
         "title": "Google - Nano Banana",
         "url": "https://docs.kie.ai/market/google/nano-banana.md",
         "file": "/market/google/nano-banana.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Google - Nano Banana 2.1",
+        "url": "https://docs.kie.ai/market/google/nanobanana-2-1.md",
+        "file": "/market/google/nanobanana-2-1.md"
       },
       {
         "method": "POST",
@@ -5329,6 +5462,13 @@
       {
         "method": "",
         "path": "/api/v1/jobs/recordInfo",
+        "title": "Getting Started with KIE API (Important)",
+        "url": "https://docs.kie.ai/1973359m0.md",
+        "file": "/1973359m0.md"
+      },
+      {
+        "method": "",
+        "path": "/api/v1/jobs/recordInfo",
         "title": "Market",
         "url": "https://docs.kie.ai/market/quickstart.md",
         "file": "/market/quickstart.md"
@@ -5339,6 +5479,15 @@
         "title": "Get Task Details",
         "url": "https://docs.kie.ai/market/common/get-task-detail.md",
         "file": "/market/common/get-task-detail.md"
+      }
+    ],
+    "/api/v1/midi/record-info": [
+      {
+        "method": "",
+        "path": "/api/v1/midi/record-info",
+        "title": "Generate MIDI from Audio",
+        "url": "https://docs.kie.ai/suno-api/generate-midi.md",
+        "file": "/suno-api/generate-midi.md"
       }
     ],
     "/api/v1/modify/test": [
@@ -5368,13 +5517,13 @@
         "file": "/market/gemini-omni-character.md"
       }
     ],
-    "/api/v1/responses": [
+    "/api/v1/suno/recovery": [
       {
-        "method": "POST",
-        "path": "/api/v1/responses",
-        "title": "GPT Codex",
-        "url": "https://docs.kie.ai/market/codex/gpt-codex.md",
-        "file": "/market/codex/gpt-codex.md"
+        "method": "",
+        "path": "/api/v1/suno/recovery",
+        "title": "Recovery Audio",
+        "url": "https://docs.kie.ai/suno-api/recovery-audio.md",
+        "file": "/suno-api/recovery-audio.md"
       }
     ],
     "/api/v1/suno/recovery/record-info": [
@@ -5480,13 +5629,6 @@
       }
     ],
     "/codex/v1/responses": [
-      {
-        "method": "POST",
-        "path": "/codex/v1/responses",
-        "title": "GPT 5.4 (response)",
-        "url": "https://docs.kie.ai/market/chat/gpt-5-4.md",
-        "file": "/market/chat/gpt-5-4.md"
-      },
       {
         "method": "POST",
         "path": "/codex/v1/responses",

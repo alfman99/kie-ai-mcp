@@ -1,6 +1,6 @@
 # KIE.AI Market Model Registry
 
-Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
+Generated 2026-10-07T08:11:13.190Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
 
 | Model | Required input | Official source |
 | --- | --- | --- |
@@ -56,9 +56,9 @@ Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` OpenAPI schemas f
 | `google/gemini-3-8-flash-lite-tts` | `dialogue_turns`, `speakers` | [Gemini 3.8 Flash Lite Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-lite-tts.md>) |
 | `google/gemini-3-8-flash-tts` | `dialogue_turns`, `speakers` | [Gemini 3.8 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-tts.md>) |
 | `google/gemini-omni-flash-1-1` | `duration`, `prompt` | [Gemini Omni 1.1 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md>) |
-| `google/imagen4` | `prompt` | [Google - imagen4](<https://docs.kie.ai/market/google/imagen4.md>) |
-| `google/imagen4-fast` | `prompt` | [Google - imagen4-fast](<https://docs.kie.ai/market/google/imagen4-fast.md>) |
-| `google/imagen4-ultra` | `prompt` | [Google - imagen4-ultra](<https://docs.kie.ai/market/google/imagen4-ultra.md>) |
+| `google/imagen4` | `aspect_ratio`, `prompt` | [Google - imagen4](<https://docs.kie.ai/market/google/imagen4.md>) |
+| `google/imagen4-fast` | `aspect_ratio`, `prompt` | [Google - imagen4-fast](<https://docs.kie.ai/market/google/imagen4-fast.md>) |
+| `google/imagen4-ultra` | `aspect_ratio`, `prompt` | [Google - imagen4-ultra](<https://docs.kie.ai/market/google/imagen4-ultra.md>) |
 | `google/nano-banana` | `prompt` | [Google - Nano Banana](<https://docs.kie.ai/market/google/nano-banana.md>) |
 | `google/nano-banana-edit` | `image_urls`, `prompt` | [Google - Nano Banana Edit](<https://docs.kie.ai/market/google/nano-banana-edit.md>) |
 | `gpt-image-2-5-flare-image-to-image` | `input_urls`, `prompt` | [GPT Image 2.5 Flare - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-image-to-image.md>) |
@@ -77,15 +77,15 @@ Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` OpenAPI schemas f
 | `grok-imagine/extend` | `extend_at`, `extend_times`, `prompt`, `task_id` | [Grok Imagine - Video Extend](<https://docs.kie.ai/market/grok-imagine/extend.md>) |
 | `grok-imagine/image-to-image` | `image_urls` | [Grok Imagine - image to image](<https://docs.kie.ai/market/grok-imagine/image-to-image.md>) |
 | `grok-imagine/image-to-video` |  | [Grok Imagine Image to Video](<https://docs.kie.ai/market/grok-imagine/image-to-video.md>) |
-| `grok-imagine/text-to-image` | `prompt` | [Grok Imagine - Text to Image](<https://docs.kie.ai/market/grok-imagine/text-to-image.md>) |
+| `grok-imagine/text-to-image` | `aspect_ratio`, `prompt` | [Grok Imagine - Text to Image](<https://docs.kie.ai/market/grok-imagine/text-to-image.md>) |
 | `grok-imagine/text-to-video` | `prompt` | [Grok Imagine Text to Video](<https://docs.kie.ai/market/grok-imagine/text-to-video.md>) |
 | `grok-imagine/upscale` | `task_id` | [Grok Imagine - Video Upscale](<https://docs.kie.ai/market/grok-imagine/upscale.md>) |
 | `hailuo/02-image-to-video-pro` | `image_url`, `prompt` | [Hailuo Pro Image to Video](<https://docs.kie.ai/market/hailuo/02-image-to-video-pro.md>) |
-| `hailuo/02-image-to-video-standard` | `image_url`, `prompt` | [Hailuo Standard Image to Video](<https://docs.kie.ai/market/hailuo/02-image-to-video-standard.md>) |
+| `hailuo/02-image-to-video-standard` | `duration`, `image_url`, `prompt`, `resolution` | [Hailuo Standard Image to Video](<https://docs.kie.ai/market/hailuo/02-image-to-video-standard.md>) |
 | `hailuo/02-text-to-video-pro` | `prompt` | [Hailuo Pro Text to Video](<https://docs.kie.ai/market/hailuo/02-text-to-video-pro.md>) |
-| `hailuo/02-text-to-video-standard` | `prompt` | [Hailuo Standard Text to Video](<https://docs.kie.ai/market/hailuo/02-text-to-video-standard.md>) |
-| `hailuo/2-3-image-to-video-pro` | `image_url`, `prompt` | [Hailuo 2.3 Pro Image to Video](<https://docs.kie.ai/market/hailuo/2-3-image-to-video-pro.md>) |
-| `hailuo/2-3-image-to-video-standard` | `image_url`, `prompt` | [Hailuo 2.3 Standard Image to Video](<https://docs.kie.ai/market/hailuo/2-3-image-to-video-standard.md>) |
+| `hailuo/02-text-to-video-standard` | `duration`, `prompt` | [Hailuo Standard Text to Video](<https://docs.kie.ai/market/hailuo/02-text-to-video-standard.md>) |
+| `hailuo/2-3-image-to-video-pro` | `duration`, `image_url`, `prompt`, `resolution` | [Hailuo 2.3 Pro Image to Video](<https://docs.kie.ai/market/hailuo/2-3-image-to-video-pro.md>) |
+| `hailuo/2-3-image-to-video-standard` | `duration`, `image_url`, `prompt`, `resolution` | [Hailuo 2.3 Standard Image to Video](<https://docs.kie.ai/market/hailuo/2-3-image-to-video-standard.md>) |
 | `happyhorse-1-1/image-to-video` | `image_urls` | [HappyHorse-1-1 image-to-video](<https://docs.kie.ai/market/happyhorse-1-1/image-to-video.md>) |
 | `happyhorse-1-1/reference-to-video` | `prompt`, `reference_image` | [HappyHorse-1-1 reference-to-video](<https://docs.kie.ai/market/happyhorse-1-1/reference-to-video.md>) |
 | `happyhorse-1-1/text-to-video` | `prompt` | [HappyHorse-1-1 text-to-video](<https://docs.kie.ai/market/happyhorse-1-1/text-to-video.md>) |
@@ -111,18 +111,19 @@ Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` OpenAPI schemas f
 | `kling-3.0/video` | `aspect_ratio`, `duration`, `mode`, `multi_prompt`, `multi_shots`, `prompt`, `sound` | [Kling 3.0](<https://docs.kie.ai/market/kling/kling-3-0.md>) |
 | `kling/ai-avatar-pro` | `audio_url`, `image_url`, `prompt` | [Kling AI Avatar Pro](<https://docs.kie.ai/market/kling/ai-avatar-pro.md>) |
 | `kling/ai-avatar-standard` | `audio_url`, `image_url`, `prompt` | [Kling AI Avatar Standard](<https://docs.kie.ai/market/kling/ai-avatar-standard.md>) |
-| `kling/v2-1-master-image-to-video` | `image_url`, `prompt` | [Kling V2.1 Master Image to Video](<https://docs.kie.ai/market/kling/v2-1-master-image-to-video.md>) |
-| `kling/v2-1-master-text-to-video` | `prompt` | [Kling V2.1 Master Text to Video](<https://docs.kie.ai/market/kling/v2-1-master-text-to-video.md>) |
-| `kling/v2-1-pro` | `image_url`, `prompt` | [Kling V2.1 Pro](<https://docs.kie.ai/market/kling/v2-1-pro.md>) |
-| `kling/v2-1-standard` | `image_url`, `prompt` | [Kling V2.1 Standard](<https://docs.kie.ai/market/kling/v2-1-standard.md>) |
-| `kling/v2-5-turbo-image-to-video-pro` | `image_url`, `prompt` | [Kling - V2.5 Turbo Image to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-image-to-video-pro.md>) |
-| `kling/v2-5-turbo-text-to-video-pro` | `prompt` | [Kling - V2.5 Turbo Text to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-text-to-video-pro.md>) |
+| `kling/v2-1-master-image-to-video` | `duration`, `image_url`, `prompt` | [Kling V2.1 Master Image to Video](<https://docs.kie.ai/market/kling/v2-1-master-image-to-video.md>) |
+| `kling/v2-1-master-text-to-video` | `duration`, `prompt` | [Kling V2.1 Master Text to Video](<https://docs.kie.ai/market/kling/v2-1-master-text-to-video.md>) |
+| `kling/v2-1-pro` | `duration`, `image_url`, `prompt` | [Kling V2.1 Pro](<https://docs.kie.ai/market/kling/v2-1-pro.md>) |
+| `kling/v2-1-standard` | `duration`, `image_url`, `prompt` | [Kling V2.1 Standard](<https://docs.kie.ai/market/kling/v2-1-standard.md>) |
+| `kling/v2-5-turbo-image-to-video-pro` | `duration`, `image_url`, `prompt` | [Kling - V2.5 Turbo Image to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-image-to-video-pro.md>) |
+| `kling/v2-5-turbo-text-to-video-pro` | `duration`, `prompt` | [Kling - V2.5 Turbo Text to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-text-to-video-pro.md>) |
 | `kling/v3-turbo-image-to-video` | `duration`, `image_urls`, `prompt`, `resolution` | [Kling - V3 Turbo Image to Video](<https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md>) |
 | `kling/v3-turbo-text-to-video` | `aspect_ratio`, `duration`, `prompt`, `resolution` | [Kling - V3 Turbo Text to Video](<https://docs.kie.ai/market/kling/v3-turbo-text-to-video.md>) |
 | `minimax-h3/image-to-video` | `duration`, `prompt` | [MiniMax H3 Image-to-Video](<https://docs.kie.ai/market/minimax-h3/image-to-video.md>) |
 | `minimax-h3/reference-to-video` | `duration`, `prompt` | [MiniMax H3 Reference-to-Video](<https://docs.kie.ai/market/minimax-h3/reference-to-video.md>) |
 | `minimax-h3/text-to-video` | `aspect_ratio`, `duration`, `prompt` | [MiniMax H3 Text-to-Video](<https://docs.kie.ai/market/minimax-h3/text-to-video.md>) |
 | `nano-banana-2` | `prompt` | [Google - Nano Banana 2](<https://docs.kie.ai/market/google/nanobanana2.md>) |
+| `nano-banana-2-1` | `prompt` | [Google - Nano Banana 2.1](<https://docs.kie.ai/market/google/nanobanana-2-1.md>) |
 | `nano-banana-2-lite` | `aspect_ratio`, `prompt` | [Google - Nano Banana 2 Lite](<https://docs.kie.ai/market/google/nano-banana-2-lite.md>) |
 | `nano-banana-pro` | `prompt` | [Google - Nano Banana Pro](<https://docs.kie.ai/market/google/pro-image-to-image.md>) |
 | `omnihuman-1-5` | `audio_url`, `image_url` | [Omnihuman 1.5](<https://docs.kie.ai/market/omnihuman-1-5.md>) |
@@ -157,7 +158,7 @@ Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` OpenAPI schemas f
 | `seedream/5-lite-image-to-image` | `aspect_ratio`, `image_urls`, `prompt`, `quality` | [Seedream5.0 Lite - Image to Image](<https://docs.kie.ai/market/seedream-5-lite-image-to-image.md>) |
 | `seedream/5-lite-text-to-image` | `aspect_ratio`, `prompt`, `quality` | [Seedream5.0 Lite - Text to Image](<https://docs.kie.ai/market/seedream/5-lite-text-to-image.md>) |
 | `seedream/5-pro-image-to-image` | `aspect_ratio`, `image_urls`, `prompt`, `quality` | [Seedream5.0 Pro - Image to Image](<https://docs.kie.ai/market/seedream/5-pro-image-to-image.md>) |
-| `seedream/5-pro-layer-decomposition` | `image_url` | [Seedream5.0 Pro -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md>) |
+| `seedream/5-pro-layer-decomposition` | `image_url`, `size` | [Seedream5.0 Pro -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-pro-layer-decomposition.md>) |
 | `seedream/5-pro-text-to-image` | `aspect_ratio`, `prompt`, `quality` | [Seedream5.0 Pro - Text to Image](<https://docs.kie.ai/market/seedream/5-pro-text-to-image.md>) |
 | `topaz/image-upscale` | `image_url`, `upscale_factor` | [Topaz - Image Upscale](<https://docs.kie.ai/market/topaz/image-upscale.md>) |
 | `topaz/video-upscale` | `video_url` | [Topaz - Video Upscale](<https://docs.kie.ai/market/topaz/video-upscale.md>) |
@@ -171,8 +172,8 @@ Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` OpenAPI schemas f
 | `wan/2-2-a14b-text-to-video-turbo` | `prompt` | [Wan - 2.2 A14B Text to Video Turbo](<https://docs.kie.ai/market/wan/2-2-a14b-text-to-video-turbo.md>) |
 | `wan/2-2-animate-move` | `image_url`, `video_url` | [Wan - Animate Move](<https://docs.kie.ai/market/wan/2-2-animate-move.md>) |
 | `wan/2-2-animate-replace` | `image_url`, `video_url` | [Wan - Animate Replace](<https://docs.kie.ai/market/wan/2-2-animate-replace.md>) |
-| `wan/2-5-image-to-video` | `duration`, `image_url`, `prompt` | [Wan 2.5 - Image to Video](<https://docs.kie.ai/market/wan/2-5-image-to-video.md>) |
-| `wan/2-5-text-to-video` | `duration`, `prompt` | [Wan 2.5 - Text to Video](<https://docs.kie.ai/market/wan/2-5-text-to-video.md>) |
+| `wan/2-5-image-to-video` | `duration`, `image_url`, `prompt`, `resolution` | [Wan 2.5 - Image to Video](<https://docs.kie.ai/market/wan/2-5-image-to-video.md>) |
+| `wan/2-5-text-to-video` | `duration`, `prompt`, `resolution` | [Wan 2.5 - Text to Video](<https://docs.kie.ai/market/wan/2-5-text-to-video.md>) |
 | `wan/2-6-flash-image-to-video` | `audio`, `image_urls`, `prompt` | [Wan - 2.6-flash-image-to-video](<https://docs.kie.ai/market/wan/2-6-flash-image-to-video.md>) |
 | `wan/2-6-flash-video-to-video` | `prompt`, `video_urls` | [Wan - 2-6-flash-video-to-video](<https://docs.kie.ai/market/wan/2-6-flash-video-to-video.md>) |
 | `wan/2-6-image-to-video` | `image_urls`, `prompt` | [Wan 2.6 - Image to Video](<https://docs.kie.ai/market/wan/2-6-image-to-video.md>) |

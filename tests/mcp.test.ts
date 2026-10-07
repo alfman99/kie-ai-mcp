@@ -903,11 +903,11 @@ describe("MCP server integration", () => {
     ) as unknown as typeof fetch;
     const client = await connect(fetchImpl);
 
-    // KIE widened Seedance 2.5 to 1080p and to a 30000 character prompt. Both must be accepted.
+    // Seedance 2.5 allows 1080p and a 20480 character prompt, slightly above the 20000 of the other models.
     const accepted = await client.callTool({
       name: "kie_create_video",
       arguments: {
-        jobs: [{ model: "bytedance/seedance-2-5", prompt: "A".repeat(25_000), resolution: "1080p" }],
+        jobs: [{ model: "bytedance/seedance-2-5", prompt: "A".repeat(20_400), resolution: "1080p" }],
         waitForResult: false
       }
     });
@@ -921,7 +921,7 @@ describe("MCP server integration", () => {
     const rejected = await client.callTool({
       name: "kie_create_video",
       arguments: {
-        jobs: [{ model: "bytedance/seedance-2", prompt: "A".repeat(25_000) }],
+        jobs: [{ model: "bytedance/seedance-2", prompt: "A".repeat(20_400) }],
         waitForResult: false
       }
     });

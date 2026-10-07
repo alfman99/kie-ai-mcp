@@ -1,6 +1,6 @@
 {
   "name": "kie-ai-mcp",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Open-source KIE.ai MCP server for AI image, video, and voice generation in Claude Code, Codex, Cursor, and VS Code.",
   "type": "module",
   "license": "MIT",

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.2 - 2026-10-07
+
+- Refreshed the official KIE documentation snapshot (2026-10-07): 184 market models, 240 OpenAPI
+  operations. Added Nano Banana 2.1 (`nano-banana-2-1`), reachable through `kie_market_create_task`.
+  Several Imagen 4, Grok Imagine, Hailuo, Kling, and Wan 2.5 schemas now document `aspect_ratio`,
+  `duration`, or `resolution`. The Wan 3.0 schema corrections are no longer needed.
+- Seedance 2.5's documented prompt limit is now 20480 characters (was 30000); validation follows the catalog.
+
 ## 1.2.1 - 2026-10-01
 
 - Refreshed 279 official documentation pages: 183 model schemas and 241 OpenAPI operations.

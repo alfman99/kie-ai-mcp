@@ -1,6 +1,6 @@
 # KIE.AI Documentation Endpoint Index
 
-Generated 2026-10-01T09:31:21.795Z exclusively from official `docs.kie.ai` pages.
+Generated 2026-10-07T08:11:13.190Z exclusively from official `docs.kie.ai` pages.
 
 ## `/api/4k-callback`
 
@@ -9,6 +9,7 @@ Generated 2026-10-01T09:31:21.795Z exclusively from official `docs.kie.ai` pages
 ## `/api/callback`
 
 - Mention: [Seedream5.0 Pro 图层分离](<https://docs.kie.ai/41313512e0.md>)
+- Mention: [Generate 4o Image](<https://docs.kie.ai/4o-image-api/generate-4-o-image.md>)
 - Mention: [PixVerse V6 Reference-to-video/参考图生成](<https://docs.kie.ai/cnmarket/pixverse/reference-to-video.md>)
 - Mention: [Generate or Edit Image](<https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md>)
 - Mention: [Gemini 2.5 Pro Text to Speech](<https://docs.kie.ai/google/gemini-2-5-pro-tts.md>)
@@ -42,6 +43,7 @@ Generated 2026-10-01T09:31:21.795Z exclusively from official `docs.kie.ai` pages
 - Mention: [Google - Nano Banana 2 Lite](<https://docs.kie.ai/market/google/nano-banana-2-lite.md>)
 - Mention: [Google - Nano Banana Edit](<https://docs.kie.ai/market/google/nano-banana-edit.md>)
 - Mention: [Google - Nano Banana](<https://docs.kie.ai/market/google/nano-banana.md>)
+- Mention: [Google - Nano Banana 2.1](<https://docs.kie.ai/market/google/nanobanana-2-1.md>)
 - Mention: [Google - Nano Banana 2](<https://docs.kie.ai/market/google/nanobanana2.md>)
 - Mention: [Google - Nano Banana Pro](<https://docs.kie.ai/market/google/pro-image-to-image.md>)
 - Mention: [GPT Image-1.5 - Image to Image](<https://docs.kie.ai/market/gpt-image/1-5-image-to-image.md>)
@@ -156,6 +158,12 @@ Generated 2026-10-01T09:31:21.795Z exclusively from official `docs.kie.ai` pages
 - Mention: [Wan 3.0 - Video Prime](<https://docs.kie.ai/market/wan/3-0-video-prime.md>)
 - Mention: [Wan 3.0 - Video](<https://docs.kie.ai/market/wan/3-0-video.md>)
 - Mention: [Z-Image](<https://docs.kie.ai/market/z-image/z-image.md>)
+- Mention: [AI Video Extension Callbacks](<https://docs.kie.ai/runway-api/extend-ai-video-callbacks.md>)
+- Mention: [Extend AI Video](<https://docs.kie.ai/runway-api/extend-ai-video.md>)
+- Mention: [AI Video Generation Callbacks](<https://docs.kie.ai/runway-api/generate-ai-video-callbacks.md>)
+- Mention: [Generate AI Video](<https://docs.kie.ai/runway-api/generate-ai-video.md>)
+- Mention: [Aleph Video Generation Callbacks](<https://docs.kie.ai/runway-api/generate-aleph-video-callbacks.md>)
+- Mention: [Generate Aleph Video](<https://docs.kie.ai/runway-api/generate-aleph-video.md>)
 - Mention: [Extend Veo3.1 Video](<https://docs.kie.ai/veo3-api/extend-video.md>)
 
 ## `/api/file-base64-upload`
@@ -236,6 +244,7 @@ Generated 2026-10-01T09:31:21.795Z exclusively from official `docs.kie.ai` pages
 - POST: [Google - Nano Banana 2 Lite](<https://docs.kie.ai/market/google/nano-banana-2-lite.md>)
 - POST: [Google - Nano Banana Edit](<https://docs.kie.ai/market/google/nano-banana-edit.md>)
 - POST: [Google - Nano Banana](<https://docs.kie.ai/market/google/nano-banana.md>)
+- POST: [Google - Nano Banana 2.1](<https://docs.kie.ai/market/google/nanobanana-2-1.md>)
 - POST: [Google - Nano Banana 2](<https://docs.kie.ai/market/google/nanobanana2.md>)
 - POST: [Google - Nano Banana Pro](<https://docs.kie.ai/market/google/pro-image-to-image.md>)
 - POST: [GPT Image-1.5 - Image to Image](<https://docs.kie.ai/market/gpt-image/1-5-image-to-image.md>)
@@ -390,8 +399,13 @@ Generated 2026-10-01T09:31:21.795Z exclusively from official `docs.kie.ai` pages
 
 ## `/api/v1/jobs/recordInfo`
 
+- Mention: [Getting Started with KIE API (Important)](<https://docs.kie.ai/1973359m0.md>)
 - Mention: [Market](<https://docs.kie.ai/market/quickstart.md>)
 - GET: [Get Task Details](<https://docs.kie.ai/market/common/get-task-detail.md>)
+
+## `/api/v1/midi/record-info`
+
+- Mention: [Generate MIDI from Audio](<https://docs.kie.ai/suno-api/generate-midi.md>)
 
 ## `/api/v1/modify/test`
 
@@ -405,9 +419,9 @@ Generated 2026-10-01T09:31:21.795Z exclusively from official `docs.kie.ai` pages
 
 - POST: [Gemini Omni Character](<https://docs.kie.ai/market/gemini-omni-character.md>)
 
-## `/api/v1/responses`
+## `/api/v1/suno/recovery`
 
-- POST: [GPT Codex](<https://docs.kie.ai/market/codex/gpt-codex.md>)
+- Mention: [Recovery Audio](<https://docs.kie.ai/suno-api/recovery-audio.md>)
 
 ## `/api/v1/suno/recovery/record-info`
 
@@ -431,7 +445,6 @@ Generated 2026-10-01T09:31:21.795Z exclusively from official `docs.kie.ai` pages
 
 ## `/codex/v1/responses`
 
-- POST: [GPT 5.4 (response)](<https://docs.kie.ai/market/chat/gpt-5-4.md>)
 - POST: [GPT 5.5 (response)](<https://docs.kie.ai/market/chat/gpt-5-5.md>)
 - POST: [GPT 5.6 Luna](<https://docs.kie.ai/market/chat/gpt-5-6-luna.md>)
 - POST: [GPT 5.6 Sol](<https://docs.kie.ai/market/chat/gpt-5-6-sol.md>)

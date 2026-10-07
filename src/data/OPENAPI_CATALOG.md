@@ -1,6 +1,6 @@
 # KIE.AI OpenAPI Catalog
 
-Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` Markdown pages.
+Generated 2026-10-07T08:11:13.190Z from official `docs.kie.ai` Markdown pages.
 
 | Method | Path | Operation ID | Official source |
 | --- | --- | --- | --- |
@@ -46,6 +46,7 @@ Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | nano-banana-2-lite | [Google - Nano Banana 2 Lite](<https://docs.kie.ai/market/google/nano-banana-2-lite.md>) |
 | POST | `/api/v1/jobs/createTask` | google-nano-banana-edit | [Google - Nano Banana Edit](<https://docs.kie.ai/market/google/nano-banana-edit.md>) |
 | POST | `/api/v1/jobs/createTask` | google-nano-banana | [Google - Nano Banana](<https://docs.kie.ai/market/google/nano-banana.md>) |
+| POST | `/api/v1/jobs/createTask` |  | [Google - Nano Banana 2.1](<https://docs.kie.ai/market/google/nanobanana-2-1.md>) |
 | POST | `/api/v1/jobs/createTask` |  | [Google - Nano Banana 2](<https://docs.kie.ai/market/google/nanobanana2.md>) |
 | POST | `/api/v1/jobs/createTask` | nano-banana-pro | [Google - Nano Banana Pro](<https://docs.kie.ai/market/google/pro-image-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | gpt-image-1-5-image-to-image | [GPT Image-1.5 - Image to Image](<https://docs.kie.ai/market/gpt-image/1-5-image-to-image.md>) |
@@ -98,7 +99,7 @@ Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | kling-v2-1-master-text-to-video | [Kling V2.1 Master Text to Video](<https://docs.kie.ai/market/kling/v2-1-master-text-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v2-1-pro | [Kling V2.1 Pro](<https://docs.kie.ai/market/kling/v2-1-pro.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v2-1-standard | [Kling V2.1 Standard](<https://docs.kie.ai/market/kling/v2-1-standard.md>) |
-| POST | `/api/v1/jobs/createTask` | kling-v2-1-master-image-to-video | [Kling - V2.5 Turbo Image to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-image-to-video-pro.md>) |
+| POST | `/api/v1/jobs/createTask` | kling-v2-5-turbo-image-to-video-pro | [Kling - V2.5 Turbo Image to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-image-to-video-pro.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v2-5-turbo-text-to-video-pro | [Kling - V2.5 Turbo Text to Video Pro](<https://docs.kie.ai/market/kling/v25-turbo-text-to-video-pro.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-3.0-omni-image-to-video | [Kling 3.0 Omni  Image To Video](<https://docs.kie.ai/market/kling/v3-omni-image-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-3.0-omni-reference-to-video | [Kling 3.0 Omni Reference To Video](<https://docs.kie.ai/market/kling/v3-omni-reference-to-video.md>) |
@@ -200,7 +201,6 @@ Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` Markdown pages.
 | GET | `/api/v1/jobs/recordInfo` | get-task-details | [Get Task Details](<https://docs.kie.ai/market/common/get-task-detail.md>) |
 | POST | `/api/v1/omni/audio/create` | gemini-omni-audio | [Gemini Omni Audio](<https://docs.kie.ai/market/gemini-omni-audio.md>) |
 | POST | `/api/v1/omni/character/create` | gemini-omni-character | [Gemini Omni Character](<https://docs.kie.ai/market/gemini-omni-character.md>) |
-| POST | `/api/v1/responses` | gpt-codex-responses | [GPT Codex](<https://docs.kie.ai/market/codex/gpt-codex.md>) |
 | POST | `/claude/v1/messages` | claude_sonnnet_5 | [Claude Sonnet 5](<https://docs.kie.ai/39041537e0.md>) |
 | POST | `/claude/v1/messages` | claude_haiku_4_5 | [Claude Haiku 4.5](<https://docs.kie.ai/market/claude/claude-haiku-4-5.md>) |
 | POST | `/claude/v1/messages` | claude_opus_4_5 | [Claude Opus 4.5](<https://docs.kie.ai/market/claude/claude-opus-4-5.md>) |
@@ -214,7 +214,6 @@ Generated 2026-10-01T09:31:21.795Z from official `docs.kie.ai` Markdown pages.
 | POST | `/claude/v1/messages` | claude_fable_5 | [Claude Fable 5](<https://docs.kie.ai/market/claude/cluade-fable-5.md>) |
 | POST | `/claude/v1/messages` | claude_sonnet_5_5 | [Claude Sonnet 5.5](<https://docs.kie.ai/market/claude/cluade-sonnet-5-5.md>) |
 | POST | `/claude/v1/messages` | claude_sonnet_4_8 | [Claude Sonnet 5](<https://docs.kie.ai/market/claude/cluade-sonnet-5.md>) |
-| POST | `/codex/v1/responses` | gpt-5-4-chat-completions | [GPT 5.4 (response)](<https://docs.kie.ai/market/chat/gpt-5-4.md>) |
 | POST | `/codex/v1/responses` | gpt-5-5-chat-completions | [GPT 5.5 (response)](<https://docs.kie.ai/market/chat/gpt-5-5.md>) |
 | POST | `/codex/v1/responses` | gpt-5-6-luna-completions | [GPT 5.6 Luna](<https://docs.kie.ai/market/chat/gpt-5-6-luna.md>) |
 | POST | `/codex/v1/responses` | gpt-5-6-sol-completions | [GPT 5.6 Sol](<https://docs.kie.ai/market/chat/gpt-5-6-sol.md>) |

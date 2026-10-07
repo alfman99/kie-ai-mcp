@@ -4,14 +4,14 @@ This bundle was generated exclusively from the official KIE documentation index 
 
 ## Snapshot
 
-- Generated: 2026-10-01T09:31:21.795Z
-- Official English pages fetched: 279
-- Pages with OpenAPI specifications: 241
-- OpenAPI operations: 241
-- Unique documented API paths: 33
-- Unified Market model schemas: 183
+- Generated: 2026-10-07T08:11:13.190Z
+- Official English pages fetched: 278
+- Pages with OpenAPI specifications: 240
+- OpenAPI operations: 240
+- Unique documented API paths: 34
+- Unified Market model schemas: 184
 - Fetch or parse failures: 0
-- Official schema/example conflicts resolved transparently: 4
+- Official schema/example conflicts resolved transparently: 0
 - Official endpoint/server conflicts resolved transparently: 3
 
 ## Trust Boundary
