@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T08:11:13.190Z",
+  "generated_at": "2026-10-07T08:38:29.670Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -1708,18 +1708,7 @@
                   "safety_tolerance",
                   "watermark"
                 ],
-                "x--orders": [
-                  "prompt",
-                  "enable_translation",
-                  "upload_cn",
-                  "input_image",
-                  "aspect_ratio",
-                  "output_format",
-                  "prompt_upsampling",
-                  "safety_tolerance",
-                  "watermark"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": []
               }
             },
             "required": [
@@ -1744,12 +1733,7 @@
                 }
               }
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "flux1-kontext",
@@ -18460,18 +18444,7 @@
                   "seed",
                   "negative_prompt"
                 ],
-                "x--orders": [
-                  "prompt",
-                  "reference_image_urls",
-                  "rendering_speed",
-                  "style",
-                  "expand_prompt",
-                  "num_images",
-                  "image_size",
-                  "seed",
-                  "negative_prompt"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -18479,12 +18452,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "ideogram/character",
@@ -23611,7 +23579,13 @@
                             "element_input_urls",
                             "element_input_audio_urls"
                           ],
-                          "x-apidog-ignore-properties": []
+                          "x--orders": [
+                            "name",
+                            "description",
+                            "element_input_urls",
+                            "element_input_audio_urls"
+                          ],
+                          "x--ignore-properties": []
                         },
                         "description": "List of one-time subject assets. The default is an empty array.\nWhen using only multi-image subjects, up to 7 subjects can be uploaded.\nWhen using only video character subjects, the number of video character subjects must not exceed 3.\nWhen using both video character and multi-image subjects, the number of video character subjects must not exceed 3, and the number of multi-image subjects must not exceed 4.",
                         "default": []
@@ -23626,7 +23600,15 @@
                       "audio",
                       "elements"
                     ],
-                    "x-apidog-ignore-properties": []
+                    "x--orders": [
+                      "prompt",
+                      "video_urls",
+                      "resolution",
+                      "aspect_ratio",
+                      "audio",
+                      "elements"
+                    ],
+                    "x--ignore-properties": []
                   },
                   {
                     "title": "Video with Images",
@@ -23784,7 +23766,13 @@
                             "element_input_urls",
                             "element_input_audio_urls"
                           ],
-                          "x-apidog-ignore-properties": []
+                          "x--orders": [
+                            "name",
+                            "description",
+                            "element_input_urls",
+                            "element_input_audio_urls"
+                          ],
+                          "x--ignore-properties": []
                         },
                         "description": "List of one-time subject assets. The default is an empty array.\nWhen using only multi-image subjects, up to 7 subjects can be uploaded.\nWhen using only video character subjects, the number of video character subjects must not exceed 3.\nWhen using both video character and multi-image subjects, the number of video character subjects must not exceed 3, and the number of multi-image subjects must not exceed 4.",
                         "default": []
@@ -23801,7 +23789,17 @@
                       "audio",
                       "elements"
                     ],
-                    "x-apidog-ignore-properties": []
+                    "x--orders": [
+                      "prompt",
+                      "image_urls",
+                      "video_urls",
+                      "duration",
+                      "resolution",
+                      "aspect_ratio",
+                      "audio",
+                      "elements"
+                    ],
+                    "x--ignore-properties": []
                   }
                 ],
                 "x-apidog-orders": [
@@ -23963,13 +23961,29 @@
                         "element_input_urls",
                         "element_input_audio_urls"
                       ],
-                      "x-apidog-ignore-properties": []
+                      "x--orders": [
+                        "name",
+                        "description",
+                        "element_input_urls",
+                        "element_input_audio_urls"
+                      ],
+                      "x--ignore-properties": []
                     },
                     "description": "List of one-time subject assets. The default is an empty array.\nWhen using only multi-image subjects, up to 7 subjects can be uploaded.\nWhen using only video character subjects, the number of video character subjects must not exceed 3.\nWhen using both video character and multi-image subjects, the number of video character subjects must not exceed 3, and the number of multi-image subjects must not exceed 4.",
                     "default": []
                   }
                 },
-                "x-apidog-ignore-properties": []
+                "x--orders": [
+                  "prompt",
+                  "video_urls",
+                  "image_urls",
+                  "duration",
+                  "resolution",
+                  "aspect_ratio",
+                  "audio",
+                  "elements"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -24009,7 +24023,12 @@
                 }
               }
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": null,
           "examples": {}
@@ -28517,6 +28536,10 @@
                     "examples": [
                       "png"
                     ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -28536,14 +28559,9 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x--orders": [
-                  "prompt",
-                  "image_url",
-                  "image_size",
-                  "seed",
-                  "output_format"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": [
+                  "nsfw_checker"
+                ]
               }
             },
             "x-apidog-orders": [
@@ -28551,12 +28569,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "qwen2/image-edit",
@@ -29748,10 +29761,7 @@
                 "x-apidog-orders": [
                   "image"
                 ],
-                "x--orders": [
-                  "image"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -29759,12 +29769,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": {
             "model": "recraft/crisp-upscale",
@@ -31112,6 +31117,30 @@
                       }
                     ]
                   },
+                  "output_format": {
+                    "type": "string",
+                    "enum": [
+                      "png",
+                      "jpeg"
+                    ],
+                    "x-apidog-enum": [
+                      {
+                        "value": "png",
+                        "name": "",
+                        "description": ""
+                      },
+                      {
+                        "value": "jpeg",
+                        "name": "",
+                        "description": ""
+                      }
+                    ],
+                    "default": "png",
+                    "examples": [
+                      "png"
+                    ],
+                    "description": "Format of the output image"
+                  },
                   "size": {
                     "type": "string",
                     "description": "Resolution level of the output image. ",
@@ -31141,34 +31170,6 @@
                     "examples": [
                       "1K"
                     ]
-                  },
-                  "output_format": {
-                    "type": "string",
-                    "enum": [
-                      "png",
-                      "jpeg"
-                    ],
-                    "x-apidog-enum": [
-                      {
-                        "value": "png",
-                        "name": "",
-                        "description": ""
-                      },
-                      {
-                        "value": "jpeg",
-                        "name": "",
-                        "description": ""
-                      }
-                    ],
-                    "default": "png",
-                    "examples": [
-                      "png"
-                    ],
-                    "description": "Format of the output image"
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -31187,9 +31188,13 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "aspect_ratio",
+                  "output_format",
+                  "size"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -31197,7 +31202,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "seedream/5-flash-text-to-image",
@@ -31353,10 +31363,6 @@
                     "examples": [
                       "png"
                     ]
-                  },
-                  "nsfw_checker": {
-                    "type": "boolean",
-                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -31376,9 +31382,13 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x-apidog-ignore-properties": [
-                  "nsfw_checker"
-                ]
+                "x--orders": [
+                  "prompt",
+                  "aspect_ratio",
+                  "quality",
+                  "output_format"
+                ],
+                "x--ignore-properties": []
               }
             },
             "x-apidog-orders": [
@@ -31386,7 +31396,12 @@
               "callBackUrl",
               "input"
             ],
-            "x-apidog-ignore-properties": []
+            "x--orders": [
+              "model",
+              "callBackUrl",
+              "input"
+            ],
+            "x--ignore-properties": []
           },
           "example": {
             "model": "seedream/5-lite-text-to-image",
@@ -35522,11 +35537,7 @@
                         "hex",
                         "ratio"
                       ],
-                      "x--orders": [
-                        "hex",
-                        "ratio"
-                      ],
-                      "x--ignore-properties": []
+                      "x-apidog-ignore-properties": []
                     }
                   },
                   "bbox_list": {
@@ -35567,6 +35578,10 @@
                     "examples": [
                       0
                     ]
+                  },
+                  "nsfw_checker": {
+                    "type": "boolean",
+                    "description": "Defaults to false. You can set it to false based on your needs. If set to false, our content filtering will be disabled, and all results will be returned directly by the model itself.\nNote: There is no guarantee that everything can be filtered out; if you are not satisfied with the results, you will need to make your own arrangements."
                   }
                 },
                 "required": [
@@ -35608,20 +35623,9 @@
                     "$ref": "#/components/schemas/nsfw_checker"
                   }
                 },
-                "x--orders": [
-                  "prompt",
-                  "input_urls",
-                  "aspect_ratio",
-                  "enable_sequential",
-                  "n",
-                  "resolution",
-                  "thinking_mode",
-                  "color_palette",
-                  "bbox_list",
-                  "watermark",
-                  "seed"
-                ],
-                "x--ignore-properties": []
+                "x-apidog-ignore-properties": [
+                  "nsfw_checker"
+                ]
               }
             },
             "x-apidog-orders": [
@@ -35629,12 +35633,7 @@
               "callBackUrl",
               "input"
             ],
-            "x--orders": [
-              "model",
-              "callBackUrl",
-              "input"
-            ],
-            "x--ignore-properties": []
+            "x-apidog-ignore-properties": []
           },
           "example": null,
           "examples": {}

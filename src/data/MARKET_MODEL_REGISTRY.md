@@ -1,6 +1,6 @@
 # KIE.AI Market Model Registry
 
-Generated 2026-10-07T08:11:13.190Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
+Generated 2026-10-07T08:38:29.670Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
 
 | Model | Required input | Official source |
 | --- | --- | --- |
