@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.3 - 2026-10-22
+
+- Refreshed the official KIE documentation snapshot (2026-10-22): 190 market models, 240 OpenAPI
+  operations. Added FLUX 3 Klein (`flux-3/klein-text-to-image`, `flux-3/klein-edit-image`),
+  Kling 4.0 (`kling-4.0/keyframe-to-video`, `kling-4.0/reference-to-video`), Vidu Q4
+  (`vidu-q4/image-to-video`, `vidu-q4/reference-to-video`), and Seedance 2.5 Draft
+  (`bytedance/seedance-2-5-draft`, which renders a Seedance 2.5 `draft: true` preview at 1080p). All are
+  reachable through `kie_market_create_task`. KIE no longer documents `bytedance/seedance-1.5-pro`.
+- The catalog now lists the Gemini 4 Argon chat endpoints and drops the legacy Suno `/api/v1/generate`
+  paths, which the server did not use.
+- `kie_create_image` follows GPT Image 2's updated resolution rules: 2K rejects 5:4, 4:5, 3:1, 1:3,
+  and 9:21; 4K rejects 3:1, 1:3, and 9:21. 1:1 at 4K and `auto` above 1K are no longer blocked.
+
 ## 1.2.2 - 2026-10-07
 
 - Refreshed the official KIE documentation snapshot (2026-10-07): 184 market models, 240 OpenAPI

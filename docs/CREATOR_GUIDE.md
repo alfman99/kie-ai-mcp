@@ -24,8 +24,8 @@ lists the documented models. The Market tools give access to models beyond the d
 
 | Task | Models to ask for |
 | --- | --- |
-| Generate or edit an image | GPT Image 2, GPT Image 2.5, Seedream 5.0 Pro, Seedream 5.0 Flash |
-| Generate a video | Seedance 2.5, Wan 3.0, Gemini Omni 1.1 Flash, Veo 3.1 |
+| Generate or edit an image | GPT Image 2, GPT Image 2.5, Seedream 5.0 Pro, Seedream 5.0 Flash, FLUX 3 Klein |
+| Generate a video | Seedance 2.5, Wan 3.0, Gemini Omni 1.1 Flash, Veo 3.1, Kling 4.0, Vidu Q4 |
 | Generate a voiceover | ElevenLabs Turbo 2.5 or Gemini text-to-speech |
 | Generate music | Suno through the Market tools |
 

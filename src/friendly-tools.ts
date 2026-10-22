@@ -146,25 +146,12 @@ function validateGptImage2Combination(model: string, input: Record<string, unkno
   if (model.startsWith("gpt-image-2-5-")) {
     return;
   }
-  if (input.resolution === "4K" && input.aspect_ratio === "1:1") {
-    throw new Error("GPT Image 2 does not support 4K output at a 1:1 aspect ratio.");
-  }
-  if (input.resolution !== "1K" && input.aspect_ratio === "auto") {
-    throw new Error('GPT Image 2 only supports resolution "1K" when aspectRatio is "auto".');
-  }
-  if (
-    model === "gpt-image-2-text-to-image" &&
-    input.resolution !== "1K" &&
-    ["5:4", "4:5", "3:1", "1:3", "9:21"].includes(String(input.aspect_ratio))
-  ) {
-    throw new Error(`GPT Image 2 text-to-image does not support ${String(input.aspect_ratio)} at ${String(input.resolution)}.`);
-  }
-  if (
-    model === "gpt-image-2-image-to-image" &&
-    input.resolution !== "1K" &&
-    ["5:4", "4:5"].includes(String(input.aspect_ratio))
-  ) {
-    throw new Error(`GPT Image 2 image-to-image only supports ${String(input.aspect_ratio)} at 1K.`);
+  const unsupported: Record<string, string[]> = {
+    "2K": ["5:4", "4:5", "3:1", "1:3", "9:21"],
+    "4K": ["3:1", "1:3", "9:21"]
+  };
+  if (unsupported[String(input.resolution)]?.includes(String(input.aspect_ratio))) {
+    throw new Error(`GPT Image 2 does not support ${String(input.aspect_ratio)} at ${String(input.resolution)}.`);
   }
 }
 

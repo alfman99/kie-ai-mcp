@@ -314,10 +314,10 @@ describe("MCP server integration", () => {
 
     const imageResult = await client.callTool({
       name: "kie_create_image",
-      arguments: { jobs: [{ prompt: "A studio portrait", aspectRatio: "1:1", resolution: "4K" }], waitForResult: false }
+      arguments: { jobs: [{ prompt: "A studio portrait", aspectRatio: "9:21", resolution: "4K" }], waitForResult: false }
     });
     expect(imageResult.isError).toBe(true);
-    expect(firstTextContent(imageResult)).toContain("does not support 4K output at a 1:1");
+    expect(firstTextContent(imageResult)).toContain("does not support 9:21 at 4K");
 
     const videoResult = await client.callTool({
       name: "kie_create_video",
