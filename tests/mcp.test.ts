@@ -45,8 +45,8 @@ describe("MCP server integration", () => {
   it("exposes the required tools and docs resources without KIE_API_KEY", async () => {
     const client = await connect();
     expect(client.getServerVersion()).toEqual({ name: "kie-ai-mcp", version: packageJson.version });
-    expect(client.getInstructions()).toContain("each take a `jobs` array");
-    expect(client.getInstructions()).toContain("pass every pending task ID in one call");
+    expect(client.getInstructions()).toContain("each create tool takes a `jobs` array");
+    expect(client.getInstructions()).toContain("Pass every pending task ID to kie_get_creation in one call");
     expect(client.getInstructions()).toContain("pass idempotencyKey");
     const tools = await client.listTools();
     const toolNames = tools.tools.map((tool) => tool.name);
