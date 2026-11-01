@@ -181,21 +181,21 @@ export function createKieMcpServer(
     },
     {
       instructions: [
-        "KIE media creation. Three create tools and one collect tool cover almost every request.",
-        "kie_create_image, kie_create_video, and kie_create_speech each take a `jobs` array. Put every independent asset in ONE call so they run in parallel. Never call a create tool repeatedly in a loop for independent assets.",
-        "kie_get_creation collects results: pass every pending task ID in one call, not one call per ID. Finished tasks are cached, so re-checking is free.",
-        "Videos take minutes, so kie_create_video returns task IDs immediately by default; collect them with kie_get_creation. Images and speech wait by default and usually return media URLs directly.",
-        "For automated or retryable steps, pass idempotencyKey. Retrying with the same key returns the original task instead of paying for a second generation.",
-        "Reference media must be a URL. Use kie_upload_media for local files or base64 data first.",
+        "KIE media generation. Most requests need four tools: kie_create_image, kie_create_video and kie_create_speech to submit, kie_get_creation to collect.",
+        "Batch: each create tool takes a `jobs` array. Put every independent asset in ONE call so they run in parallel; never call a create tool once per asset. Pass every pending task ID to kie_get_creation in one call too. Finished tasks are cached, so checking again is free.",
+        "Wait: videos take minutes, so kie_create_video returns task IDs right away; collect them with kie_get_creation. Images and speech wait by default and usually return media URLs in the same call.",
+        "Errors carry category, retryable and nextStep. Branch on those, not on the message, and retry only when retryable is true. A timeout means the task is still running: collect it with kie_get_creation, never submit it again.",
+        "For automated or retried steps pass idempotencyKey; the same key returns the original task instead of paying for a second generation.",
+        "Reference media must be a URL. Use kie_upload_media to turn a local file or base64 data into one.",
         ...(config.remoteRelay
           ? [
-              `This server is remote and cannot read your disk, so kie_upload_media has no local_file option here. Send the bytes to KIE directly with the same key you connect with: \`curl -X POST "${config.uploadBaseUrl}/api/file-stream-upload" -H "Authorization: Bearer $KIE_API_KEY" -F file=@/path/to/media.png -F uploadPath=agent-uploads\`. Take downloadUrl from the response and pass it to a create tool. Never read a file and paste it as base64 into a tool call: a 1MB image costs roughly 350k tokens and will not fit.`
+              `This server is remote and cannot read your disk, so kie_upload_media has no local_file option here. Upload the file to KIE yourself with the same key you connect with: \`curl -X POST "${config.uploadBaseUrl}/api/file-stream-upload" -H "Authorization: Bearer $KIE_API_KEY" -F file=@/path/to/media.png -F uploadPath=agent-uploads\`, then pass downloadUrl from the response to a create tool. Never read a file and paste it as base64 into a tool call: a 1MB image costs roughly 350k tokens and will not fit.`
             ]
           : []),
-        "For a low-cost smoke test use model bytedance/seedance-2-mini at 480p, 4 seconds, with generateAudio false.",
-        "Errors carry category, retryable, and nextStep fields. Branch on those instead of parsing messages: retry only when retryable is true, and never resubmit a create call after a timeout because the task is still running.",
-        "Market and product tools are advanced escape hatches for models the create tools do not cover. Return concise status, task IDs, and direct media links."
-      ].join(" ")
+        "Cheapest smoke test: model bytedance/seedance-2-mini, 480p, 4 seconds, generateAudio false.",
+        "For a model the create tools do not offer, such as Seedream, find it with kie_market_list_models, read its inputs with kie_market_get_model_schema, submit with kie_market_create_task and collect with kie_get_creation.",
+        "Reply with a short status, the task IDs and direct media links."
+      ].join("\n")
     }
   );
 
@@ -288,12 +288,12 @@ export function createKieMcpServer(
       title: "Upload Media With KIE",
       description:
         [
-          "Upload one local file, public URL, or base64 payload through KIE's native temporary File Upload API.",
-          "No third-party storage service is used. Uploads are temporary: KIE deletes them after 3 days.",
-          "Use base64 only for small files — anything over 10MB should go through a local file (stream) upload, and a URL upload must be publicly reachable within a 30 second download timeout and is capped around 100MB.",
+          "Upload a local file, public URL or base64 data to KIE's own temporary file storage and get back a URL to pass to a create tool.",
+          "No third-party storage is used. KIE deletes uploads after 3 days.",
+          "Use base64 only for small files; upload anything over 10MB as a file. A URL source must be publicly reachable, download within 30 seconds, and stay under about 100MB.",
           ...(config.remoteRelay
             ? [
-                `sourceType "local_file" is unavailable on this remote server, which has no access to your disk. Send the file to KIE yourself: curl -X POST "${config.uploadBaseUrl}/api/file-stream-upload" -H "Authorization: Bearer $KIE_API_KEY" -F file=@/absolute/path/media.png -F uploadPath=agent-uploads`
+                `sourceType "local_file" is unavailable on this remote server, which cannot read your disk. Upload the file to KIE yourself: curl -X POST "${config.uploadBaseUrl}/api/file-stream-upload" -H "Authorization: Bearer $KIE_API_KEY" -F file=@/absolute/path/media.png -F uploadPath=agent-uploads`
               ]
             : [])
         ].join(" "),
@@ -462,7 +462,8 @@ export function createKieMcpServer(
     "kie_market_create_task",
     {
       title: "Create KIE Market Task",
-      description: "Create an asynchronous unified Market task using POST /api/v1/jobs/createTask.",
+      description:
+        "Submit a task for any KIE Market model, including models the create tools do not offer. Find the model with kie_market_list_models and its inputs with kie_market_get_model_schema first. Returns a task ID; collect it with kie_get_creation.",
       inputSchema: {
         model: z.string().min(1),
         input: JsonRecordSchema.default({}),

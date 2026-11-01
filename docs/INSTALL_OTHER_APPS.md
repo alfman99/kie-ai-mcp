@@ -31,11 +31,17 @@ examples below assume you have [loaded your key](#load-your-key). Start a new ch
 If your coding agent can edit its app's configuration, paste this instead:
 
 ```text
-Add a remote MCP server named kie-ai to this app.
-Use Streamable HTTP at https://kie-mcp.alfredomanresa.com/mcp.
-Send Authorization: Bearer YOUR_KIE_API_KEY.
-Leave the key as a placeholder and tell me where to enter it privately.
-Tell me whether I need to restart the app.
+Add the KIE.AI MCP server to the app you are running in.
+
+Name: kie-ai
+Transport: Streamable HTTP
+URL: https://kie-mcp.alfredomanresa.com/mcp
+Header: Authorization: Bearer YOUR_KIE_API_KEY
+
+Add it for my user, not only this project, and keep any servers already configured.
+Do not ask me to paste my key here. Use the app's secret input or an environment variable if it has one; otherwise leave YOUR_KIE_API_KEY as a placeholder and tell me exactly where to replace it.
+App-specific steps: https://github.com/alfman99/kie-ai-mcp/blob/main/docs/INSTALL_OTHER_APPS.md#remote-setup
+Then tell me whether to restart the app.
 ```
 
 ### Claude Code remote

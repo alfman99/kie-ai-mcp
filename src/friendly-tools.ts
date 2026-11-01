@@ -439,7 +439,7 @@ export function registerFriendlyTools(args: {
             .min(1)
             .max(bits.maxJobs)
             .describe(
-              `One entry per asset, ${1}-${bits.maxJobs} per call. All entries are submitted in parallel in a single call; never call this tool repeatedly for independent assets.`
+              `One entry per asset, up to ${bits.maxJobs}. All entries are submitted in parallel; never call this tool once per asset.`
             ),
           ...BatchControlSchema,
           waitForResult: BatchControlSchema.waitForResult.default(bits.waitByDefault)
@@ -487,7 +487,7 @@ export function registerFriendlyTools(args: {
     name: "kie_create_image",
     title: "Create KIE Images",
     description:
-      "Create or edit images with GPT Image 2 (default) or GPT Image 2.5 Flare/Sunburst. Put one entry in `jobs` per image you want; they are generated in parallel. Returns task IDs and direct image URLs.",
+      "Create or edit images with GPT Image 2 (default) or GPT Image 2.5 Flare/Sunburst. One `jobs` entry per image; all run in parallel. To edit, pass reference image URLs in inputUrls. Waits by default and returns task IDs and direct image URLs.",
     jobSchema: ImageBatchJobSchema,
     maxJobs: 16,
     waitByDefault: true,
@@ -508,7 +508,7 @@ export function registerFriendlyTools(args: {
     name: "kie_create_video",
     title: "Create KIE Videos",
     description:
-      "Create videos with Seedance 2 (default), Seedance 2.5, Wan 3.0 / 3.0 Prime, or Gemini Omni 1.1 Flash. Put one entry in `jobs` per shot; they are submitted in parallel. Videos take minutes, so this defaults to returning task IDs immediately — collect the finished media with kie_get_creation. For a cheap smoke test use model bytedance/seedance-2-mini at 480p, 4 seconds, generateAudio false.",
+      "Create videos with Seedance 2 (default), Seedance 2.5, Wan 3.0 / 3.0 Prime, or Gemini Omni 1.1 Flash. One `jobs` entry per shot; all are submitted in parallel. Videos take minutes, so this returns task IDs right away by default: collect the media with kie_get_creation. Cheapest smoke test: model bytedance/seedance-2-mini, 480p, 4 seconds, generateAudio false.",
     jobSchema: VideoBatchJobSchema,
     maxJobs: 16,
     waitByDefault: false,
@@ -529,7 +529,7 @@ export function registerFriendlyTools(args: {
     name: "kie_create_speech",
     title: "Create KIE Speech",
     description:
-      "Create voiceover or narration with ElevenLabs Turbo 2.5. Put one entry in `jobs` per line of a script; they are generated in parallel. Returns task IDs and direct audio URLs.",
+      "Create voiceover or narration with ElevenLabs Turbo 2.5. One `jobs` entry per line of a script; all run in parallel. Waits by default and returns task IDs and direct audio URLs.",
     jobSchema: SpeechBatchJobSchema,
     maxJobs: 16,
     waitByDefault: true,
@@ -550,7 +550,7 @@ export function registerFriendlyTools(args: {
     {
       title: "Get KIE Creations",
       description:
-        "Check or wait for submitted KIE tasks and return their finished media URLs. Pass every task ID you are waiting on in one call; they are polled in parallel and a failure on one never hides the others. Finished tasks are served from memory, so re-checking is free. Read `outcome` on each row, not `status`: \"success\" means the asset is ready, \"failed\" means it will never be (`error`/`errorCode` say why, and checking again cannot change it), and \"pending\" is the only outcome worth another call. Download anything worth keeping promptly: KIE documents result URLs as expiring in as little as 24 hours, and deletes generated media after 14 days.",
+        "Check or wait for submitted KIE tasks, including kie_market_create_task tasks, and return their media URLs. Pass every task ID you are waiting on in one call; they are polled in parallel and one failure never hides the others. Finished tasks are cached, so checking again is free. Read `outcome` on each row, not `status`: \"success\" means ready, \"failed\" is final (`error`/`errorCode` say why), and \"pending\" is the only outcome worth another call. Download anything worth keeping: KIE documents result URLs as expiring in as little as 24 hours and deletes generated media after 14 days.",
       inputSchema: {
         taskIds: z
           .array(z.string().min(1))
