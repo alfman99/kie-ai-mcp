@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-22T17:06:17.531Z",
+  "generated_at": "2026-11-08T18:03:35.437Z",
   "source_index": "https://docs.kie.ai/llms.txt",
   "endpoints": [
     {
@@ -309,6 +309,48 @@
       "title": "GPT Image 2.5 Sunburst - Text to Image",
       "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md",
       "file": "/market/gpt/gpt-image-2-5-sunburst-text-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "GPT Image 2.6 Economy - Image to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-image-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-economy-image-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "GPT Image 2.6 Economy - Text to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-text-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-economy-text-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "GPT Image 2.6 Flare - Image to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-image-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-flare-image-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "GPT Image 2.6 Flare - Text to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-text-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-flare-text-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "GPT Image 2.6 Sunburst - Image to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-image-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-sunburst-image-to-image.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "GPT Image 2.6 Sunburst - Text to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-text-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-sunburst-text-to-image.md"
     },
     {
       "method": "",
@@ -677,6 +719,20 @@
     {
       "method": "",
       "path": "/api/callback",
+      "title": "Kling 4.0 Flash Keyframe To Video",
+      "url": "https://docs.kie.ai/market/kling/v4-flash-keyframe-to-video.md",
+      "file": "/market/kling/v4-flash-keyframe-to-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Kling 4.0 Flash Reference To Video",
+      "url": "https://docs.kie.ai/market/kling/v4-flash-reference-to-video.md",
+      "file": "/market/kling/v4-flash-reference-to-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
       "title": "Kling 4.0 Keyframe To Video",
       "url": "https://docs.kie.ai/market/kling/v4-keyframe-to-video.md",
       "file": "/market/kling/v4-keyframe-to-video.md"
@@ -687,6 +743,13 @@
       "title": "Kling 4.0 Reference To Video",
       "url": "https://docs.kie.ai/market/kling/v4-reference-to-video.md",
       "file": "/market/kling/v4-reference-to-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Nemotron 3.5 Transcribe",
+      "url": "https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe.md",
+      "file": "/market/nvidia/nemotron-3-5-transcribe.md"
     },
     {
       "method": "",
@@ -708,6 +771,13 @@
       "title": "OmniHuman 1.5 Subject Detection",
       "url": "https://docs.kie.ai/market/omnihuman-1-5/subject-detection.md",
       "file": "/market/omnihuman-1-5/subject-detection.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "Omnihuman 2.0",
+      "url": "https://docs.kie.ai/market/omnihuman-2-0.md",
+      "file": "/market/omnihuman-2-0.md"
     },
     {
       "method": "",
@@ -736,6 +806,20 @@
       "title": "PixVerse V6 First & Last Frame Transition",
       "url": "https://docs.kie.ai/market/pixverse/transition.md",
       "file": "/market/pixverse/transition.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "PixVerse V6 Max Image-to-Video",
+      "url": "https://docs.kie.ai/market/pixverse/v6-max-image-to-video.md",
+      "file": "/market/pixverse/v6-max-image-to-video.md"
+    },
+    {
+      "method": "",
+      "path": "/api/callback",
+      "title": "PixVerse V6 Max Text-to-Video",
+      "url": "https://docs.kie.ai/market/pixverse/v6-max-text-to-video.md",
+      "file": "/market/pixverse/v6-max-text-to-video.md"
     },
     {
       "method": "",
@@ -1580,6 +1664,48 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "GPT Image 2.6 Economy - Image to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-image-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-economy-image-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "GPT Image 2.6 Economy - Text to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-text-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-economy-text-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "GPT Image 2.6 Flare - Image to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-image-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-flare-image-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "GPT Image 2.6 Flare - Text to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-text-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-flare-text-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "GPT Image 2.6 Sunburst - Image to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-image-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-sunburst-image-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "GPT Image 2.6 Sunburst - Text to Image",
+      "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-text-to-image.md",
+      "file": "/market/gpt/gpt-image-2-6-sunburst-text-to-image.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "GPT Image 2 - Image To Image",
       "url": "https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md",
       "file": "/market/gpt/gpt-image-2-image-to-image.md"
@@ -1944,6 +2070,20 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "Kling 4.0 Flash Keyframe To Video",
+      "url": "https://docs.kie.ai/market/kling/v4-flash-keyframe-to-video.md",
+      "file": "/market/kling/v4-flash-keyframe-to-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Kling 4.0 Flash Reference To Video",
+      "url": "https://docs.kie.ai/market/kling/v4-flash-reference-to-video.md",
+      "file": "/market/kling/v4-flash-reference-to-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "Kling 4.0 Keyframe To Video",
       "url": "https://docs.kie.ai/market/kling/v4-keyframe-to-video.md",
       "file": "/market/kling/v4-keyframe-to-video.md"
@@ -1979,6 +2119,13 @@
     {
       "method": "POST",
       "path": "/api/v1/jobs/createTask",
+      "title": "Nemotron 3.5 Transcribe",
+      "url": "https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe.md",
+      "file": "/market/nvidia/nemotron-3-5-transcribe.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
       "title": "Omnihuman 1.5",
       "url": "https://docs.kie.ai/market/omnihuman-1-5.md",
       "file": "/market/omnihuman-1-5.md"
@@ -1996,6 +2143,13 @@
       "title": "OmniHuman 1.5 Subject Detection",
       "url": "https://docs.kie.ai/market/omnihuman-1-5/subject-detection.md",
       "file": "/market/omnihuman-1-5/subject-detection.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "Omnihuman 2.0",
+      "url": "https://docs.kie.ai/market/omnihuman-2-0.md",
+      "file": "/market/omnihuman-2-0.md"
     },
     {
       "method": "POST",
@@ -2031,6 +2185,20 @@
       "title": "PixVerse V6 First & Last Frame Transition",
       "url": "https://docs.kie.ai/market/pixverse/transition.md",
       "file": "/market/pixverse/transition.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "PixVerse V6 Max Image-to-Video",
+      "url": "https://docs.kie.ai/market/pixverse/v6-max-image-to-video.md",
+      "file": "/market/pixverse/v6-max-image-to-video.md"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/jobs/createTask",
+      "title": "PixVerse V6 Max Text-to-Video",
+      "url": "https://docs.kie.ai/market/pixverse/v6-max-text-to-video.md",
+      "file": "/market/pixverse/v6-max-text-to-video.md"
     },
     {
       "method": "POST",
@@ -2931,6 +3099,13 @@
     {
       "method": "POST",
       "path": "/codex/v1/responses",
+      "title": "GPT 6.1 Terra",
+      "url": "https://docs.kie.ai/market/chat/gpt-6-1-terra.md",
+      "file": "/market/chat/gpt-6-1-terra.md"
+    },
+    {
+      "method": "POST",
+      "path": "/codex/v1/responses",
       "title": "Gpt 6 Astra",
       "url": "https://docs.kie.ai/market/chat/gpt-6-astra.md",
       "file": "/market/chat/gpt-6-astra.md"
@@ -3088,6 +3263,13 @@
       "title": "DeepSeek V4.1 Flash",
       "url": "https://docs.kie.ai/market/deepseek-v4-1-flash.md",
       "file": "/market/deepseek-v4-1-flash.md"
+    },
+    {
+      "method": "POST",
+      "path": "/openai/v1/responses",
+      "title": "Kimi K3.1 Pro",
+      "url": "https://docs.kie.ai/market/kimi/kimi-k3-1-pro.md",
+      "file": "/market/kimi/kimi-k3-1-pro.md"
     },
     {
       "method": "POST",
@@ -3406,6 +3588,48 @@
         "title": "GPT Image 2.5 Sunburst - Text to Image",
         "url": "https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md",
         "file": "/market/gpt/gpt-image-2-5-sunburst-text-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "GPT Image 2.6 Economy - Image to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-image-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-economy-image-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "GPT Image 2.6 Economy - Text to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-text-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-economy-text-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "GPT Image 2.6 Flare - Image to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-image-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-flare-image-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "GPT Image 2.6 Flare - Text to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-text-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-flare-text-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "GPT Image 2.6 Sunburst - Image to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-image-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-sunburst-image-to-image.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "GPT Image 2.6 Sunburst - Text to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-text-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-sunburst-text-to-image.md"
       },
       {
         "method": "",
@@ -3774,6 +3998,20 @@
       {
         "method": "",
         "path": "/api/callback",
+        "title": "Kling 4.0 Flash Keyframe To Video",
+        "url": "https://docs.kie.ai/market/kling/v4-flash-keyframe-to-video.md",
+        "file": "/market/kling/v4-flash-keyframe-to-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Kling 4.0 Flash Reference To Video",
+        "url": "https://docs.kie.ai/market/kling/v4-flash-reference-to-video.md",
+        "file": "/market/kling/v4-flash-reference-to-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
         "title": "Kling 4.0 Keyframe To Video",
         "url": "https://docs.kie.ai/market/kling/v4-keyframe-to-video.md",
         "file": "/market/kling/v4-keyframe-to-video.md"
@@ -3784,6 +4022,13 @@
         "title": "Kling 4.0 Reference To Video",
         "url": "https://docs.kie.ai/market/kling/v4-reference-to-video.md",
         "file": "/market/kling/v4-reference-to-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Nemotron 3.5 Transcribe",
+        "url": "https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe.md",
+        "file": "/market/nvidia/nemotron-3-5-transcribe.md"
       },
       {
         "method": "",
@@ -3805,6 +4050,13 @@
         "title": "OmniHuman 1.5 Subject Detection",
         "url": "https://docs.kie.ai/market/omnihuman-1-5/subject-detection.md",
         "file": "/market/omnihuman-1-5/subject-detection.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "Omnihuman 2.0",
+        "url": "https://docs.kie.ai/market/omnihuman-2-0.md",
+        "file": "/market/omnihuman-2-0.md"
       },
       {
         "method": "",
@@ -3833,6 +4085,20 @@
         "title": "PixVerse V6 First & Last Frame Transition",
         "url": "https://docs.kie.ai/market/pixverse/transition.md",
         "file": "/market/pixverse/transition.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "PixVerse V6 Max Image-to-Video",
+        "url": "https://docs.kie.ai/market/pixverse/v6-max-image-to-video.md",
+        "file": "/market/pixverse/v6-max-image-to-video.md"
+      },
+      {
+        "method": "",
+        "path": "/api/callback",
+        "title": "PixVerse V6 Max Text-to-Video",
+        "url": "https://docs.kie.ai/market/pixverse/v6-max-text-to-video.md",
+        "file": "/market/pixverse/v6-max-text-to-video.md"
       },
       {
         "method": "",
@@ -4693,6 +4959,48 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "GPT Image 2.6 Economy - Image to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-image-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-economy-image-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "GPT Image 2.6 Economy - Text to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-text-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-economy-text-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "GPT Image 2.6 Flare - Image to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-image-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-flare-image-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "GPT Image 2.6 Flare - Text to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-text-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-flare-text-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "GPT Image 2.6 Sunburst - Image to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-image-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-sunburst-image-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "GPT Image 2.6 Sunburst - Text to Image",
+        "url": "https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-text-to-image.md",
+        "file": "/market/gpt/gpt-image-2-6-sunburst-text-to-image.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "GPT Image 2 - Image To Image",
         "url": "https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md",
         "file": "/market/gpt/gpt-image-2-image-to-image.md"
@@ -5057,6 +5365,20 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "Kling 4.0 Flash Keyframe To Video",
+        "url": "https://docs.kie.ai/market/kling/v4-flash-keyframe-to-video.md",
+        "file": "/market/kling/v4-flash-keyframe-to-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Kling 4.0 Flash Reference To Video",
+        "url": "https://docs.kie.ai/market/kling/v4-flash-reference-to-video.md",
+        "file": "/market/kling/v4-flash-reference-to-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "Kling 4.0 Keyframe To Video",
         "url": "https://docs.kie.ai/market/kling/v4-keyframe-to-video.md",
         "file": "/market/kling/v4-keyframe-to-video.md"
@@ -5092,6 +5414,13 @@
       {
         "method": "POST",
         "path": "/api/v1/jobs/createTask",
+        "title": "Nemotron 3.5 Transcribe",
+        "url": "https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe.md",
+        "file": "/market/nvidia/nemotron-3-5-transcribe.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
         "title": "Omnihuman 1.5",
         "url": "https://docs.kie.ai/market/omnihuman-1-5.md",
         "file": "/market/omnihuman-1-5.md"
@@ -5109,6 +5438,13 @@
         "title": "OmniHuman 1.5 Subject Detection",
         "url": "https://docs.kie.ai/market/omnihuman-1-5/subject-detection.md",
         "file": "/market/omnihuman-1-5/subject-detection.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "Omnihuman 2.0",
+        "url": "https://docs.kie.ai/market/omnihuman-2-0.md",
+        "file": "/market/omnihuman-2-0.md"
       },
       {
         "method": "POST",
@@ -5144,6 +5480,20 @@
         "title": "PixVerse V6 First & Last Frame Transition",
         "url": "https://docs.kie.ai/market/pixverse/transition.md",
         "file": "/market/pixverse/transition.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "PixVerse V6 Max Image-to-Video",
+        "url": "https://docs.kie.ai/market/pixverse/v6-max-image-to-video.md",
+        "file": "/market/pixverse/v6-max-image-to-video.md"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/createTask",
+        "title": "PixVerse V6 Max Text-to-Video",
+        "url": "https://docs.kie.ai/market/pixverse/v6-max-text-to-video.md",
+        "file": "/market/pixverse/v6-max-text-to-video.md"
       },
       {
         "method": "POST",
@@ -6060,6 +6410,13 @@
       {
         "method": "POST",
         "path": "/codex/v1/responses",
+        "title": "GPT 6.1 Terra",
+        "url": "https://docs.kie.ai/market/chat/gpt-6-1-terra.md",
+        "file": "/market/chat/gpt-6-1-terra.md"
+      },
+      {
+        "method": "POST",
+        "path": "/codex/v1/responses",
         "title": "Gpt 6 Astra",
         "url": "https://docs.kie.ai/market/chat/gpt-6-astra.md",
         "file": "/market/chat/gpt-6-astra.md"
@@ -6249,6 +6606,13 @@
         "title": "DeepSeek V4.1 Flash",
         "url": "https://docs.kie.ai/market/deepseek-v4-1-flash.md",
         "file": "/market/deepseek-v4-1-flash.md"
+      },
+      {
+        "method": "POST",
+        "path": "/openai/v1/responses",
+        "title": "Kimi K3.1 Pro",
+        "url": "https://docs.kie.ai/market/kimi/kimi-k3-1-pro.md",
+        "file": "/market/kimi/kimi-k3-1-pro.md"
       },
       {
         "method": "POST",

@@ -4,12 +4,12 @@ This bundle was generated exclusively from the official KIE documentation index 
 
 ## Snapshot
 
-- Generated: 2026-10-22T17:06:17.531Z
-- Official English pages fetched: 277
-- Pages with OpenAPI specifications: 240
-- OpenAPI operations: 240
+- Generated: 2026-11-08T18:03:35.437Z
+- Official English pages fetched: 291
+- Pages with OpenAPI specifications: 254
+- OpenAPI operations: 254
 - Unique documented API paths: 33
-- Unified Market model schemas: 190
+- Unified Market model schemas: 202
 - Fetch or parse failures: 0
 - Official schema/example conflicts resolved transparently: 0
 - Official endpoint/server conflicts resolved transparently: 3
