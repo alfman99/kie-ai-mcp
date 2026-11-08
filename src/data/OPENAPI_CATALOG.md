@@ -1,6 +1,6 @@
 # KIE.AI OpenAPI Catalog
 
-Generated 2026-10-22T17:06:17.531Z from official `docs.kie.ai` Markdown pages.
+Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` Markdown pages.
 
 | Method | Path | Operation ID | Official source |
 | --- | --- | --- | --- |
@@ -52,6 +52,12 @@ Generated 2026-10-22T17:06:17.531Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | gpt-image-2-5-flare-text-to-image | [GPT Image 2.5 Flare - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | gpt-image-2-5-sunburst-image-to-image | [GPT Image 2.5 Sunburst - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-image-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | gpt-image-2-5-sunburst-text-to-image | [GPT Image 2.5 Sunburst - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | gpt-image-2-6-economy-image-to-image | [GPT Image 2.6 Economy - Image to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-image-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | gpt-image-2-6-economy-text-to-image | [GPT Image 2.6 Economy - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-text-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | gpt-image-2-6-flare-image-to-image | [GPT Image 2.6 Flare - Image to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-image-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | gpt-image-2-6-flare-text-to-image | [GPT Image 2.6 Flare - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-text-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | gpt-image-2-6-sunburst-image-to-image | [GPT Image 2.6 Sunburst - Image to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-image-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | gpt-image-2-6-sunburst-text-to-image | [GPT Image 2.6 Sunburst - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | gpt-image-2-image-to-image | [GPT Image 2 - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | gpt-image-2-text-to-image | [GPT Image-2 - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | grok-imagine-image-2-0-segment-edit | [Grok Imagine Image 2.0 Segment Edit](<https://docs.kie.ai/market/grok-imagine-image-2-0/image-edit.md>) |
@@ -104,19 +110,25 @@ Generated 2026-10-22T17:06:17.531Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | kling-3.0-omni-transformation | [Kling 3.0 Omni Transformation](<https://docs.kie.ai/market/kling/v3-omni-transformation.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v3-turbo-image-to-video | [Kling - V3 Turbo Image to Video](<https://docs.kie.ai/market/kling/v3-turbo-image-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-v3-turbo-text-to-video | [Kling - V3 Turbo Text to Video](<https://docs.kie.ai/market/kling/v3-turbo-text-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | kling-4.0-flash-keyframe-to-video | [Kling 4.0 Flash Keyframe To Video](<https://docs.kie.ai/market/kling/v4-flash-keyframe-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | kling-4.0-flash-reference-to-video | [Kling 4.0 Flash Reference To Video](<https://docs.kie.ai/market/kling/v4-flash-reference-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-4.0-keyframe-to-video | [Kling 4.0 Keyframe To Video](<https://docs.kie.ai/market/kling/v4-keyframe-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-4.0-reference-to-video | [Kling 4.0 Reference To Video](<https://docs.kie.ai/market/kling/v4-reference-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | minimax-h3-image-to-video | [MiniMax H3 Image-to-Video](<https://docs.kie.ai/market/minimax-h3/image-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | minimax-h3-reference-to-video | [MiniMax H3 Reference-to-Video](<https://docs.kie.ai/market/minimax-h3/reference-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | minimax-h3-text-to-video | [MiniMax H3 Text-to-Video](<https://docs.kie.ai/market/minimax-h3/text-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | playground_385 | [Nemotron 3.5 Transcribe](<https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe.md>) |
 | POST | `/api/v1/jobs/createTask` | omnihuman-1-5 | [Omnihuman 1.5](<https://docs.kie.ai/market/omnihuman-1-5.md>) |
 | POST | `/api/v1/jobs/createTask` | omnihuman-1-5-human-identification | [Omnihuman 1.5 Human Identification](<https://docs.kie.ai/market/omnihuman-1-5/human-identification.md>) |
 | POST | `/api/v1/jobs/createTask` | omnihuman-1-5-subject-detection | [OmniHuman 1.5 Subject Detection](<https://docs.kie.ai/market/omnihuman-1-5/subject-detection.md>) |
+| POST | `/api/v1/jobs/createTask` | omnihuman-2-0 | [Omnihuman 2.0](<https://docs.kie.ai/market/omnihuman-2-0.md>) |
 | POST | `/api/v1/jobs/createTask` | pixverse-v6-video-extension | [PixVerse V6 Video Extension](<https://docs.kie.ai/market/pixverse/extend.md>) |
 | POST | `/api/v1/jobs/createTask` | pixverse-v6-image-to-video | [PixVerse V6 Image-to-Video](<https://docs.kie.ai/market/pixverse/image-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | pixverse-v6-fusion-reference-to-video | [PixVerse V6 Fusion / Reference-to-Video](<https://docs.kie.ai/market/pixverse/reference-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | pixverse-v6-text-to-video | [PixVerse V6 Text-to-Video](<https://docs.kie.ai/market/pixverse/text-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | pixverse-v6-first-last-frame-transition | [PixVerse V6 First & Last Frame Transition](<https://docs.kie.ai/market/pixverse/transition.md>) |
+| POST | `/api/v1/jobs/createTask` | pixverse-v6-max-image-to-video | [PixVerse V6 Max Image-to-Video](<https://docs.kie.ai/market/pixverse/v6-max-image-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | pixverse-v6-max-text-to-video | [PixVerse V6 Max Text-to-Video](<https://docs.kie.ai/market/pixverse/v6-max-text-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | qwen-image-edit | [Qwen - Image Edit](<https://docs.kie.ai/market/qwen/image-edit.md>) |
 | POST | `/api/v1/jobs/createTask` | qwen-image-to-image | [Qwen - Image to Image](<https://docs.kie.ai/market/qwen/image-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | qwen-text-to-image | [Qwen - Text to Image](<https://docs.kie.ai/market/qwen/text-to-image.md>) |
@@ -220,6 +232,7 @@ Generated 2026-10-22T17:06:17.531Z from official `docs.kie.ai` Markdown pages.
 | POST | `/codex/v1/responses` | gpt-5-6-sol-completions | [GPT 5.6 Sol](<https://docs.kie.ai/market/chat/gpt-5-6-sol.md>) |
 | POST | `/codex/v1/responses` | gpt-5-6-terra-completions | [GPT 5.6 Terra](<https://docs.kie.ai/market/chat/gpt-5-6-terra.md>) |
 | POST | `/codex/v1/responses` | gpt-6-1-sol-completions | [GPT 6.1 Sol](<https://docs.kie.ai/market/chat/gpt-6-1-sol.md>) |
+| POST | `/codex/v1/responses` | gpt-6-1-terra-completions | [GPT 6.1 Terra](<https://docs.kie.ai/market/chat/gpt-6-1-terra.md>) |
 | POST | `/codex/v1/responses` | gpt-6-astra-completions | [Gpt 6 Astra](<https://docs.kie.ai/market/chat/gpt-6-astra.md>) |
 | POST | `/codex/v1/responses` | gpt-6-luna-completions | [GPT 6 Luna](<https://docs.kie.ai/market/chat/gpt-6-luna.md>) |
 | POST | `/codex/v1/responses` | gpt-6-sol-completions | [GPT 6 Sol](<https://docs.kie.ai/market/chat/gpt-6-sol.md>) |
@@ -243,4 +256,5 @@ Generated 2026-10-22T17:06:17.531Z from official `docs.kie.ai` Markdown pages.
 | POST | `/grok/v1/responses` | grok/v1/responses | [Grok 4.6](<https://docs.kie.ai/market/grok/grok-4-6.md>) |
 | POST | `/grok/v1/responses` | grok/v1/responses | [Grok 4.7](<https://docs.kie.ai/market/grok/grok-4-7.md>) |
 | POST | `/openai/v1/responses` | openai/v1/responses | [DeepSeek V4.1 Flash](<https://docs.kie.ai/market/deepseek-v4-1-flash.md>) |
+| POST | `/openai/v1/responses` | create-kimi-k3.1-pro | [Kimi K3.1 Pro](<https://docs.kie.ai/market/kimi/kimi-k3-1-pro.md>) |
 | POST | `/openai/v1/responses` | create-kimi-k3 | [Kimi K3](<https://docs.kie.ai/market/kimi/kimi-k3.md>) |

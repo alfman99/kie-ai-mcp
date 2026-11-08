@@ -1,6 +1,6 @@
 # KIE.AI Market Model Registry
 
-Generated 2026-10-22T17:06:17.531Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
+Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` OpenAPI schemas for `POST /api/v1/jobs/createTask`.
 
 | Model | Required input | Official source |
 | --- | --- | --- |
@@ -67,6 +67,12 @@ Generated 2026-10-22T17:06:17.531Z from official `docs.kie.ai` OpenAPI schemas f
 | `gpt-image-2-5-flare-text-to-image` | `prompt` | [GPT Image 2.5 Flare - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-flare-text-to-image.md>) |
 | `gpt-image-2-5-sunburst-image-to-image` | `prompt` | [GPT Image 2.5 Sunburst - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-image-to-image.md>) |
 | `gpt-image-2-5-sunburst-text-to-image` | `prompt` | [GPT Image 2.5 Sunburst - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-5-sunburst-text-to-image.md>) |
+| `gpt-image-2-6/economy-image-to-image` | `prompt` | [GPT Image 2.6 Economy - Image to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-image-to-image.md>) |
+| `gpt-image-2-6/economy-text-to-image` | `prompt` | [GPT Image 2.6 Economy - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-economy-text-to-image.md>) |
+| `gpt-image-2-6/flare-image-to-image` | `input_urls`, `prompt` | [GPT Image 2.6 Flare - Image to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-image-to-image.md>) |
+| `gpt-image-2-6/flare-text-to-image` | `prompt` | [GPT Image 2.6 Flare - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-flare-text-to-image.md>) |
+| `gpt-image-2-6/sunburst-image-to-image` | `input_urls`, `prompt` | [GPT Image 2.6 Sunburst - Image to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-image-to-image.md>) |
+| `gpt-image-2-6/sunburst-text-to-image` | `prompt` | [GPT Image 2.6 Sunburst - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-6-sunburst-text-to-image.md>) |
 | `gpt-image-2-image-to-image` | `prompt` | [GPT Image 2 - Image To Image](<https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image.md>) |
 | `gpt-image-2-text-to-image` | `prompt` | [GPT Image-2 - Text to Image](<https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image.md>) |
 | `gpt-image/1.5-image-to-image` | `aspect_ratio`, `input_urls`, `prompt`, `quality` | [GPT Image-1.5 - Image to Image](<https://docs.kie.ai/market/gpt-image/1-5-image-to-image.md>) |
@@ -111,6 +117,8 @@ Generated 2026-10-22T17:06:17.531Z from official `docs.kie.ai` OpenAPI schemas f
 | `kling-3.0-omni/transformation` |  | [Kling 3.0 Omni Transformation](<https://docs.kie.ai/market/kling/v3-omni-transformation.md>) |
 | `kling-3.0/motion-control` | `input_urls`, `video_urls` | [Kling-3.0 motion-control](<https://docs.kie.ai/market/kling/motion-control-v3.md>) |
 | `kling-3.0/video` | `duration`, `mode`, `multi_shots`, `sound` | [Kling 3.0](<https://docs.kie.ai/market/kling/kling-3-0.md>) |
+| `kling-4.0/flash-keyframe-to-video` | `prompt` | [Kling 4.0 Flash Keyframe To Video](<https://docs.kie.ai/market/kling/v4-flash-keyframe-to-video.md>) |
+| `kling-4.0/flash-reference-to-video` | `prompt` | [Kling 4.0 Flash Reference To Video](<https://docs.kie.ai/market/kling/v4-flash-reference-to-video.md>) |
 | `kling-4.0/keyframe-to-video` | `prompt` | [Kling 4.0 Keyframe To Video](<https://docs.kie.ai/market/kling/v4-keyframe-to-video.md>) |
 | `kling-4.0/reference-to-video` | `prompt` | [Kling 4.0 Reference To Video](<https://docs.kie.ai/market/kling/v4-reference-to-video.md>) |
 | `kling/ai-avatar-pro` | `audio_url`, `image_url`, `prompt` | [Kling AI Avatar Pro](<https://docs.kie.ai/market/kling/ai-avatar-pro.md>) |
@@ -130,9 +138,13 @@ Generated 2026-10-22T17:06:17.531Z from official `docs.kie.ai` OpenAPI schemas f
 | `nano-banana-2-1` | `prompt` | [Google - Nano Banana 2.1](<https://docs.kie.ai/market/google/nanobanana-2-1.md>) |
 | `nano-banana-2-lite` | `aspect_ratio`, `prompt` | [Google - Nano Banana 2 Lite](<https://docs.kie.ai/market/google/nano-banana-2-lite.md>) |
 | `nano-banana-pro` | `prompt` | [Google - Nano Banana Pro](<https://docs.kie.ai/market/google/pro-image-to-image.md>) |
+| `nvidia/nemotron-3-5-transcribe` | `audio_url` | [Nemotron 3.5 Transcribe](<https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe.md>) |
 | `omnihuman-1-5` | `audio_url`, `image_url` | [Omnihuman 1.5](<https://docs.kie.ai/market/omnihuman-1-5.md>) |
 | `omnihuman-1-5/human-identification` | `image_url` | [Omnihuman 1.5 Human Identification](<https://docs.kie.ai/market/omnihuman-1-5/human-identification.md>) |
 | `omnihuman-1-5/subject-detection` | `image_url` | [OmniHuman 1.5 Subject Detection](<https://docs.kie.ai/market/omnihuman-1-5/subject-detection.md>) |
+| `omnihuman-2-0` | `audio_url`, `image_urls` | [Omnihuman 2.0](<https://docs.kie.ai/market/omnihuman-2-0.md>) |
+| `pixverse-v6-max/image-to-video` | `duration`, `image_urls`, `prompt`, `quality` | [PixVerse V6 Max Image-to-Video](<https://docs.kie.ai/market/pixverse/v6-max-image-to-video.md>) |
+| `pixverse-v6-max/text-to-video` | `aspect_ratio`, `duration`, `prompt`, `quality` | [PixVerse V6 Max Text-to-Video](<https://docs.kie.ai/market/pixverse/v6-max-text-to-video.md>) |
 | `pixverse-v6/extend` |  | [PixVerse V6 Video Extension](<https://docs.kie.ai/market/pixverse/extend.md>) |
 | `pixverse-v6/image-to-video` | `duration`, `image_urls`, `prompt`, `quality` | [PixVerse V6 Image-to-Video](<https://docs.kie.ai/market/pixverse/image-to-video.md>) |
 | `pixverse-v6/reference-to-video` | `aspect_ratio`, `duration`, `image_references`, `prompt`, `quality` | [PixVerse V6 Fusion / Reference-to-Video](<https://docs.kie.ai/market/pixverse/reference-to-video.md>) |

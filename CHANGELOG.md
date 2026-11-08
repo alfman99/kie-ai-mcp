@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.4 - 2026-11-08
+
+- Refresh the KIE catalog: 202 Market models, up from 190.
+- New: GPT Image 2.6 (Economy, Flare and Sunburst, text-to-image and image-to-image), Kling 4.0 Flash keyframe and reference to video, PixVerse V6 Max text and image to video, OmniHuman 2.0 and Nemotron 3.5 Transcribe. Use them through the Market tools; `kie_create_image` still covers GPT Image 2 and 2.5.
+
 ## 1.2.3 - 2026-10-22
 
 - Refreshed the official KIE documentation snapshot (2026-10-22): 190 market models, 240 OpenAPI
