@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.5 - 2026-11-08
+
+- Rebuild the Claude Desktop extension so it includes the setup-first landing page and agent guidance (#16). The 1.2.4 extension was built without them; the model catalog is the same as 1.2.4.
+
 ## 1.2.4 - 2026-11-08
 
 - Refresh the KIE catalog: 202 Market models, up from 190.
