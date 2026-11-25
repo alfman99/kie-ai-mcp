@@ -328,10 +328,10 @@ describe("MCP server integration", () => {
 
     const seedance25Result = await client.callTool({
       name: "kie_create_video",
-      arguments: { jobs: [{ model: "bytedance/seedance-2-5", prompt: "A bird takes flight", resolution: "4k" }], waitForResult: false }
+      arguments: { jobs: [{ model: "bytedance/seedance-2-5-flash", prompt: "A bird takes flight", resolution: "1080p" }], waitForResult: false }
     });
     expect(seedance25Result.isError).toBe(true);
-    expect(firstTextContent(seedance25Result)).toContain('resolution must be one of "480p", "720p", "1080p"');
+    expect(firstTextContent(seedance25Result)).toContain('resolution must be one of "480p", "720p"');
 
     const speechResult = await client.callTool({
       name: "kie_create_speech",
@@ -358,7 +358,7 @@ describe("MCP server integration", () => {
 
     const speechResult = await client.callTool({
       name: "kie_create_speech",
-      arguments: { jobs: [{ text: "Read this sentence.", languageCode: "en", speed: 0.9, additionalInput: { stability: 0.6, timestamps: true } }], waitForResult: false }
+      arguments: { jobs: [{ text: "Read this sentence.", languageCode: "en", speed: 0.9, additionalInput: { stability: 0.6, similarity_boost: 0.7 } }], waitForResult: false }
     });
     expect(speechResult.isError).not.toBe(true);
 
@@ -379,11 +379,11 @@ describe("MCP server integration", () => {
       model: "elevenlabs/text-to-speech-turbo-2-5",
       input: {
         text: "Read this sentence.",
-        voice: "EkK5I93UQWFDigLMpZcX",
+        voice: "pNInz6obpgDQGcFmaJgB",
         speed: 0.9,
         language_code: "en",
         stability: 0.6,
-        timestamps: true
+        similarity_boost: 0.7
       }
     });
   });

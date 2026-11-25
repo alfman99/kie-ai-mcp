@@ -32,6 +32,7 @@ const VideoModelSchema = z.enum([
   "bytedance/seedance-2-fast",
   "bytedance/seedance-2-mini",
   "bytedance/seedance-2-5",
+  "bytedance/seedance-2-5-flash",
   "wan/3-0-video",
   "wan/3-0-video-prime",
   "google/gemini-omni-flash-1-1"
@@ -86,7 +87,7 @@ type ImageInput = z.infer<typeof ImageInputSchema>;
 
 const SpeechInputSchema = z.object({
   text: z.string().min(1).max(5000),
-  voice: z.string().default("EkK5I93UQWFDigLMpZcX"),
+  voice: z.string().default("pNInz6obpgDQGcFmaJgB"),
   model: z.literal("elevenlabs/text-to-speech-turbo-2-5").default("elevenlabs/text-to-speech-turbo-2-5"),
   languageCode: z.string().regex(/^[a-z]{2}$/).optional(),
   speed: z.number().min(0.7).max(1.2).default(1),
@@ -176,8 +177,8 @@ function validateVideoCombination(model: string, input: Record<string, unknown>)
     return;
   }
   const label =
-    model === "bytedance/seedance-2-5"
-      ? "Seedance 2.5"
+    model === "bytedance/seedance-2-5" || model === "bytedance/seedance-2-5-flash"
+      ? model === "bytedance/seedance-2-5" ? "Seedance 2.5" : "Seedance 2.5 Flash"
       : model === "bytedance/seedance-2-fast"
         ? "Seedance 2 Fast"
         : model === "bytedance/seedance-2-mini"
@@ -201,9 +202,9 @@ function validateVideoCombination(model: string, input: Record<string, unknown>)
   // Duration bounds are documented in prose rather than in the model schema, so they have no
   // catalog counterpart and must be checked here.
   const duration = Number(input.duration);
-  if (model === "bytedance/seedance-2-5") {
+  if (model === "bytedance/seedance-2-5" || model === "bytedance/seedance-2-5-flash") {
     if (duration !== -1 && (duration < 4 || duration > 30)) {
-      throw new Error("Seedance 2.5 duration must be -1 or between 4 and 30 seconds.");
+      throw new Error(`${label} duration must be -1 or between 4 and 30 seconds.`);
     }
     return;
   }

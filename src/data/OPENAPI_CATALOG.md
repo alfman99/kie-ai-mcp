@@ -1,6 +1,6 @@
 # KIE.AI OpenAPI Catalog
 
-Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` Markdown pages.
+Generated 2026-11-25T20:37:23.926Z from official `docs.kie.ai` Markdown pages.
 
 | Method | Path | Operation ID | Official source |
 | --- | --- | --- | --- |
@@ -9,9 +9,12 @@ Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/file-url-upload` | upload-file-url | [URL File Upload](<https://docs.kie.ai/file-upload-api/upload-file-url.md>) |
 | GET | `/api/v1/chat/credit` | get-account-credits | [Get Remaining Credits](<https://docs.kie.ai/common-api/get-account-credits.md>) |
 | POST | `/api/v1/common/download-url` | download-url | [Get Download URL for Generated Files](<https://docs.kie.ai/common-api/download-url.md>) |
+| POST | `/api/v1/jobs/createTask` | seedream-5-5-text-to-image | [Seedream5.5 文生图](<https://docs.kie.ai/46827055e0.md>) |
+| POST | `/api/v1/jobs/createTask` | seedream-5-5-layer-decomposition | [Seedream5.5 图层分离](<https://docs.kie.ai/46827286e0.md>) |
 | POST | `/api/v1/jobs/createTask` | generate-4o-image | [Generate 4o Image](<https://docs.kie.ai/4o-image-api/generate-4-o-image.md>) |
 | POST | `/api/v1/jobs/createTask` | generate-or-edit-image | [Generate or Edit Image](<https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md>) |
 | POST | `/api/v1/jobs/createTask` | bytedance-seedance-2-5-draft | [Bytedance Seedance 2.5 Draft](<https://docs.kie.ai/market/bytedance/seedance-2-5-draft.md>) |
+| POST | `/api/v1/jobs/createTask` | bytedance-seedance-2-5-flash | [Bytedance Seedance 2.5 Flash](<https://docs.kie.ai/market/bytedance/seedance-2-5-flash.md>) |
 | POST | `/api/v1/jobs/createTask` | bytedance-seedance-2-5 | [Bytedance Seedance 2.5](<https://docs.kie.ai/market/bytedance/seedance-2-5.md>) |
 | POST | `/api/v1/jobs/createTask` | bytedance-seedance-2-fast | [Bytedance Seedance 2.0 Fast](<https://docs.kie.ai/market/bytedance/seedance-2-fast.md>) |
 | POST | `/api/v1/jobs/createTask` | bytedance-seedance-2-mini | [Bytedance Seedance 2.0 Mini](<https://docs.kie.ai/market/bytedance/seedance-2-mini.md>) |
@@ -37,6 +40,8 @@ Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | gemini-3-8-flash-lite-tts | [Gemini 3.8 Flash Lite Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-lite-tts.md>) |
 | POST | `/api/v1/jobs/createTask` | gemini-3-8-flash-tts | [Gemini 3.8 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-tts.md>) |
 | POST | `/api/v1/jobs/createTask` | gemini-omni-1.1-flash | [Gemini Omni 1.1 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md>) |
+| POST | `/api/v1/jobs/createTask` | gemini-omni-flash-1-2-extend | [Gemini Omni Flash 1.2 Extend](<https://docs.kie.ai/market/google/gemini-omni-flash-1-2-extend.md>) |
+| POST | `/api/v1/jobs/createTask` | gemini-omni-1.2-flash | [Gemini Omni 1.2 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-2.md>) |
 | POST | `/api/v1/jobs/createTask` | google-imagen4-fast | [Google - imagen4-fast](<https://docs.kie.ai/market/google/imagen4-fast.md>) |
 | POST | `/api/v1/jobs/createTask` | google-imagen4-ultra | [Google - imagen4-ultra](<https://docs.kie.ai/market/google/imagen4-ultra.md>) |
 | POST | `/api/v1/jobs/createTask` | google-imagen4 | [Google - imagen4](<https://docs.kie.ai/market/google/imagen4.md>) |
@@ -91,6 +96,11 @@ Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | ideogram-v3-remix | [Ideogram V3 Remix](<https://docs.kie.ai/market/ideogram/v3-remix.md>) |
 | POST | `/api/v1/jobs/createTask` | ideogram-v3-text-to-image | [Ideogram V3 Text to Image](<https://docs.kie.ai/market/ideogram/v3-text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | infinitalk-from-audio | [Infinitalk - From Audio](<https://docs.kie.ai/market/infinitalk/from-audio.md>) |
+| POST | `/api/v1/jobs/createTask` | kie-image-upscale | [Kie - Image Upscale](<https://docs.kie.ai/market/kie/image-upscale.md>) |
+| POST | `/api/v1/jobs/createTask` | kie-nsfw-moderation | [KIE NSFW Moderation](<https://docs.kie.ai/market/kie/nsfw-moderation.md>) |
+| POST | `/api/v1/jobs/createTask` | kie-video-upscale | [Kie - Video Upscale](<https://docs.kie.ai/market/kie/video-upscale.md>) |
+| POST | `/api/v1/jobs/createTask` | kling-4-0-image | [Kling 4.0 Image](<https://docs.kie.ai/market/kling-4-0/image.md>) |
+| POST | `/api/v1/jobs/createTask` | kling-4-0-long-image | [Kling 4.0 Long Image](<https://docs.kie.ai/market/kling-4-0/long-image.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-ai-avatar-pro | [Kling AI Avatar Pro](<https://docs.kie.ai/market/kling/ai-avatar-pro.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-ai-avatar-standard | [Kling AI Avatar Standard](<https://docs.kie.ai/market/kling/ai-avatar-standard.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-2-6-image-to-video | [Kling 2.6 Image to Video](<https://docs.kie.ai/market/kling/image-to-video.md>) |
@@ -114,8 +124,18 @@ Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | kling-4.0-flash-reference-to-video | [Kling 4.0 Flash Reference To Video](<https://docs.kie.ai/market/kling/v4-flash-reference-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-4.0-keyframe-to-video | [Kling 4.0 Keyframe To Video](<https://docs.kie.ai/market/kling/v4-keyframe-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | kling-4.0-reference-to-video | [Kling 4.0 Reference To Video](<https://docs.kie.ai/market/kling/v4-reference-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | ltx-2-5-fast-audio-to-video | [LTX 2.5 Fast Audio-to-Video](<https://docs.kie.ai/market/ltx/2-5-fast-audio-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | ltx-2-5-fast-image-to-video | [LTX 2.5 Fast Image-to-Video](<https://docs.kie.ai/market/ltx/2-5-fast-image-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | ltx-2-5-fast-text-to-video | [LTX 2.5 Fast Text-to-Video](<https://docs.kie.ai/market/ltx/2-5-fast-text-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | ltx-2-5-pro-image-to-video | [LTX 2.5 Pro Image-to-Video](<https://docs.kie.ai/market/ltx/2-5-pro-image-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | ltx-2-5-pro-text-to-video | [LTX 2.5 Pro Text-to-Video](<https://docs.kie.ai/market/ltx/2-5-pro-text-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | magi-2-image-to-video | [MAGI-2 Image-to-Video](<https://docs.kie.ai/market/magi-2/image-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | magi-2-reference-to-video | [MAGI-2 Reference-to-Video](<https://docs.kie.ai/market/magi-2/reference-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | magi-2-text-to-video | [MAGI-2 Text-to-Video](<https://docs.kie.ai/market/magi-2/text-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | minimax-h3-image-edit | [MiniMax H3 Image Editing](<https://docs.kie.ai/market/minimax-h3/image-edit.md>) |
 | POST | `/api/v1/jobs/createTask` | minimax-h3-image-to-video | [MiniMax H3 Image-to-Video](<https://docs.kie.ai/market/minimax-h3/image-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | minimax-h3-reference-to-video | [MiniMax H3 Reference-to-Video](<https://docs.kie.ai/market/minimax-h3/reference-to-video.md>) |
+| POST | `/api/v1/jobs/createTask` | minimax-h3-text-to-image | [MiniMax H3 Text-to-Image](<https://docs.kie.ai/market/minimax-h3/text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | minimax-h3-text-to-video | [MiniMax H3 Text-to-Video](<https://docs.kie.ai/market/minimax-h3/text-to-video.md>) |
 | POST | `/api/v1/jobs/createTask` | playground_385 | [Nemotron 3.5 Transcribe](<https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe.md>) |
 | POST | `/api/v1/jobs/createTask` | omnihuman-1-5 | [Omnihuman 1.5](<https://docs.kie.ai/market/omnihuman-1-5.md>) |
@@ -145,6 +165,9 @@ Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | seedream-5-lite-image-to-image | [Seedream5.0 Lite - Image to Image](<https://docs.kie.ai/market/seedream-5-lite-image-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | seedream-4-5-edit | [Seedream4.5 - Edit](<https://docs.kie.ai/market/seedream/4-5-edit.md>) |
 | POST | `/api/v1/jobs/createTask` | seedream-4-5-text-to-image | [Seedream4.5 - Text to Image](<https://docs.kie.ai/market/seedream/4-5-text-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | seedream-5-5-image-to-image | [Seedream5.5 - Image to Image](<https://docs.kie.ai/market/seedream/5-5-image-to-image.md>) |
+| POST | `/api/v1/jobs/createTask` | seedream-5-5-layer-decomposition | [Seedream5.5 - Layer Decomposition](<https://docs.kie.ai/market/seedream/5-5-layer-decomposition.md>) |
+| POST | `/api/v1/jobs/createTask` | seedream-5-5-text-to-image | [Seedream5.5 - Text to Image](<https://docs.kie.ai/market/seedream/5-5-text-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | seedream-5-flash-image-to-image | [Seedream5.0 Flash - Image to Image](<https://docs.kie.ai/market/seedream/5-flash-image-to-image.md>) |
 | POST | `/api/v1/jobs/createTask` | seedream-5-flash-layer-decomposition | [Seedream5.0 Flash -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-flash-layer-decomposition.md>) |
 | POST | `/api/v1/jobs/createTask` | seedream-5-flash-text-to-image | [Seedream5.0 Flash - Text to Image](<https://docs.kie.ai/market/seedream/5-flash-text-to-image.md>) |
@@ -197,6 +220,7 @@ Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` Markdown pages.
 | POST | `/api/v1/jobs/createTask` | generate-music | [Generate Music](<https://docs.kie.ai/suno-api/generate-music.md>) |
 | POST | `/api/v1/jobs/createTask` | generate-persona | [Generate Persona](<https://docs.kie.ai/suno-api/generate-persona.md>) |
 | POST | `/api/v1/jobs/createTask` | generate-sounds | [Generate sounds](<https://docs.kie.ai/suno-api/generate-sounds.md>) |
+| POST | `/api/v1/jobs/createTask` | generate-speech | [Generate Speech](<https://docs.kie.ai/suno-api/generate-speech.md>) |
 | POST | `/api/v1/jobs/createTask` | get-timestamped-lyrics | [Get Timestamped Lyrics](<https://docs.kie.ai/suno-api/get-timestamped-lyrics.md>) |
 | POST | `/api/v1/jobs/createTask` | recoveryAudio | [Recovery Audio](<https://docs.kie.ai/suno-api/recovery-audio.md>) |
 | POST | `/api/v1/jobs/createTask` | replace-section | [Replace Music Section](<https://docs.kie.ai/suno-api/replace-section.md>) |
@@ -233,6 +257,8 @@ Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` Markdown pages.
 | POST | `/codex/v1/responses` | gpt-5-6-terra-completions | [GPT 5.6 Terra](<https://docs.kie.ai/market/chat/gpt-5-6-terra.md>) |
 | POST | `/codex/v1/responses` | gpt-6-1-sol-completions | [GPT 6.1 Sol](<https://docs.kie.ai/market/chat/gpt-6-1-sol.md>) |
 | POST | `/codex/v1/responses` | gpt-6-1-terra-completions | [GPT 6.1 Terra](<https://docs.kie.ai/market/chat/gpt-6-1-terra.md>) |
+| POST | `/codex/v1/responses` | gpt-6-2-astra-completions | [GPT 6.2 Astra](<https://docs.kie.ai/market/chat/gpt-6-2-astra.md>) |
+| POST | `/codex/v1/responses` | gpt-6-2-sol-completions | [GPT 6.2 Sol](<https://docs.kie.ai/market/chat/gpt-6-2-sol.md>) |
 | POST | `/codex/v1/responses` | gpt-6-astra-completions | [Gpt 6 Astra](<https://docs.kie.ai/market/chat/gpt-6-astra.md>) |
 | POST | `/codex/v1/responses` | gpt-6-luna-completions | [GPT 6 Luna](<https://docs.kie.ai/market/chat/gpt-6-luna.md>) |
 | POST | `/codex/v1/responses` | gpt-6-sol-completions | [GPT 6 Sol](<https://docs.kie.ai/market/chat/gpt-6-sol.md>) |
@@ -245,11 +271,17 @@ Generated 2026-11-08T18:03:35.437Z from official `docs.kie.ai` Markdown pages.
 | POST | `/gemini-3-pro/v1/chat/completions` | gemini-3-pro-chat-completions | [Gemini 3 Pro (openai)](<https://docs.kie.ai/market/gemini/gemini-3-pro.md>) |
 | POST | `/gemini-3.1-pro/v1/chat/completions` | gemini-3.1-pro-chat-completions | [Gemini 3.1 Pro (openai)](<https://docs.kie.ai/market/gemini/gemini-3-1-pro.md>) |
 | POST | `/gemini-4-argon-openai/v1/chat/completions` | gemini-4-argon-chat-completions | [Gemini 4 Argon (openai)](<https://docs.kie.ai/market/gemini/gemini-4-argon-openai.md>) |
+| POST | `/gemini-4-carbon-openai/v1/chat/completions` | gemini-4-carbon-chat-completions | [Gemini 4 Carbon (openai)](<https://docs.kie.ai/market/gemini/gemini-4-carbon-openai.md>) |
+| POST | `/gemini-4-hydrogen-openai/v1/chat/completions` | gemini-4-hydrogen-chat-completions | [Gemini 4 Hydrogen (openai)](<https://docs.kie.ai/market/gemini/gemini-4-hydrogen-openai.md>) |
+| POST | `/gemini-4-neon-openai/v1/chat/completions` | gemini-4-neon-chat-completions | [Gemini 4 Neon (openai)](<https://docs.kie.ai/market/gemini/gemini-4-neon-openai.md>) |
 | POST | `/gemini/v1/models/gemini-3-5-flash:streamGenerateContent` | gemini_3.5_flash | [Gemini 3.5 Flash](<https://docs.kie.ai/market/gemini/gemini-3-5-flash.md>) |
 | POST | `/gemini/v1/models/gemini-3-6-flash:streamGenerateContent` | gemini_3.6_flash | [Gemini 3.6 Flash](<https://docs.kie.ai/market/gemini/gemini-3-6-flash.md>) |
 | POST | `/gemini/v1/models/gemini-3-7-flash:streamGenerateContent` | gemini_3_7_flash | [Gemini 3.7 Flash](<https://docs.kie.ai/market/gemini/gemini-3-7-flash.md>) |
 | POST | `/gemini/v1/models/gemini-3-8-flash:streamGenerateContent` | gemini_3_8_flash | [Gemini 3.8 Flash](<https://docs.kie.ai/market/gemini/gemini-3-8-flash.md>) |
 | POST | `/gemini/v1/models/gemini-4-argon:streamGenerateContent` | gemini_4_argon | [Gemini 4 Argon](<https://docs.kie.ai/market/gemini/gemini-4-argon.md>) |
+| POST | `/gemini/v1/models/gemini-4-carbon:streamGenerateContent` | gemini-4-carbon | [Gemini 4 Carbon](<https://docs.kie.ai/market/gemini/gemini-4-carbon.md>) |
+| POST | `/gemini/v1/models/gemini-4-hydrogen:streamGenerateContent` | gemini-4-hydrogen | [Gemini 4 Hydrogen](<https://docs.kie.ai/market/gemini/gemini-4-hydrogen.md>) |
+| POST | `/gemini/v1/models/gemini-4-neon:streamGenerateContent` | gemini-4-neon | [Gemini 4 Neon](<https://docs.kie.ai/market/gemini/gemini-4-neon.md>) |
 | POST | `/gpt-5-2/v1/chat/completions` | gpt-5-2-chat-completions | [GPT 5.2](<https://docs.kie.ai/market/chat/gpt-5-2.md>) |
 | POST | `/grok/v1/responses` | grok/v1/responses | [Grok 4.3](<https://docs.kie.ai/market/grok/grok-4-3.md>) |
 | POST | `/grok/v1/responses` | grok/v1/responses | [Grok 4.5](<https://docs.kie.ai/market/grok/grok-4-5.md>) |

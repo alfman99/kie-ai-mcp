@@ -1,12 +1,15 @@
 # KIE.AI Documentation Endpoint Index
 
-Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages.
+Generated 2026-11-25T20:37:23.926Z exclusively from official `docs.kie.ai` pages.
 
 ## `/api/callback`
 
+- Mention: [Seedream5.5 文生图](<https://docs.kie.ai/46827055e0.md>)
+- Mention: [Seedream5.5 图层分离](<https://docs.kie.ai/46827286e0.md>)
 - Mention: [Generate 4o Image](<https://docs.kie.ai/4o-image-api/generate-4-o-image.md>)
 - Mention: [Generate or Edit Image](<https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md>)
 - Mention: [Bytedance Seedance 2.5 Draft](<https://docs.kie.ai/market/bytedance/seedance-2-5-draft.md>)
+- Mention: [Bytedance Seedance 2.5 Flash](<https://docs.kie.ai/market/bytedance/seedance-2-5-flash.md>)
 - Mention: [Bytedance Seedance 2.5](<https://docs.kie.ai/market/bytedance/seedance-2-5.md>)
 - Mention: [Bytedance Seedance 2.0 Fast](<https://docs.kie.ai/market/bytedance/seedance-2-fast.md>)
 - Mention: [Bytedance Seedance 2.0 Mini](<https://docs.kie.ai/market/bytedance/seedance-2-mini.md>)
@@ -33,6 +36,8 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - Mention: [Gemini 3.8 Flash Lite Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-lite-tts.md>)
 - Mention: [Gemini 3.8 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-tts.md>)
 - Mention: [Gemini Omni 1.1 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md>)
+- Mention: [Gemini Omni Flash 1.2 Extend](<https://docs.kie.ai/market/google/gemini-omni-flash-1-2-extend.md>)
+- Mention: [Gemini Omni 1.2 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-2.md>)
 - Mention: [Google - imagen4-fast](<https://docs.kie.ai/market/google/imagen4-fast.md>)
 - Mention: [Google - imagen4-ultra](<https://docs.kie.ai/market/google/imagen4-ultra.md>)
 - Mention: [Google - imagen4](<https://docs.kie.ai/market/google/imagen4.md>)
@@ -87,6 +92,11 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - Mention: [Ideogram V3 Remix](<https://docs.kie.ai/market/ideogram/v3-remix.md>)
 - Mention: [Ideogram V3 Text to Image](<https://docs.kie.ai/market/ideogram/v3-text-to-image.md>)
 - Mention: [Infinitalk - From Audio](<https://docs.kie.ai/market/infinitalk/from-audio.md>)
+- Mention: [Kie - Image Upscale](<https://docs.kie.ai/market/kie/image-upscale.md>)
+- Mention: [KIE NSFW Moderation](<https://docs.kie.ai/market/kie/nsfw-moderation.md>)
+- Mention: [Kie - Video Upscale](<https://docs.kie.ai/market/kie/video-upscale.md>)
+- Mention: [Kling 4.0 Image](<https://docs.kie.ai/market/kling-4-0/image.md>)
+- Mention: [Kling 4.0 Long Image](<https://docs.kie.ai/market/kling-4-0/long-image.md>)
 - Mention: [Kling AI Avatar Pro](<https://docs.kie.ai/market/kling/ai-avatar-pro.md>)
 - Mention: [Kling AI Avatar Standard](<https://docs.kie.ai/market/kling/ai-avatar-standard.md>)
 - Mention: [Kling 2.6 Image to Video](<https://docs.kie.ai/market/kling/image-to-video.md>)
@@ -110,6 +120,8 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - Mention: [Kling 4.0 Flash Reference To Video](<https://docs.kie.ai/market/kling/v4-flash-reference-to-video.md>)
 - Mention: [Kling 4.0 Keyframe To Video](<https://docs.kie.ai/market/kling/v4-keyframe-to-video.md>)
 - Mention: [Kling 4.0 Reference To Video](<https://docs.kie.ai/market/kling/v4-reference-to-video.md>)
+- Mention: [MiniMax H3 Image Editing](<https://docs.kie.ai/market/minimax-h3/image-edit.md>)
+- Mention: [MiniMax H3 Text-to-Image](<https://docs.kie.ai/market/minimax-h3/text-to-image.md>)
 - Mention: [Nemotron 3.5 Transcribe](<https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe.md>)
 - Mention: [Omnihuman 1.5](<https://docs.kie.ai/market/omnihuman-1-5.md>)
 - Mention: [Omnihuman 1.5 Human Identification](<https://docs.kie.ai/market/omnihuman-1-5/human-identification.md>)
@@ -137,6 +149,9 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - Mention: [Seedream5.0 Lite - Image to Image](<https://docs.kie.ai/market/seedream-5-lite-image-to-image.md>)
 - Mention: [Seedream4.5 - Edit](<https://docs.kie.ai/market/seedream/4-5-edit.md>)
 - Mention: [Seedream4.5 - Text to Image](<https://docs.kie.ai/market/seedream/4-5-text-to-image.md>)
+- Mention: [Seedream5.5 - Image to Image](<https://docs.kie.ai/market/seedream/5-5-image-to-image.md>)
+- Mention: [Seedream5.5 - Layer Decomposition](<https://docs.kie.ai/market/seedream/5-5-layer-decomposition.md>)
+- Mention: [Seedream5.5 - Text to Image](<https://docs.kie.ai/market/seedream/5-5-text-to-image.md>)
 - Mention: [Seedream5.0 Flash - Image to Image](<https://docs.kie.ai/market/seedream/5-flash-image-to-image.md>)
 - Mention: [Seedream5.0 Flash -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-flash-layer-decomposition.md>)
 - Mention: [Seedream5.0 Flash - Text to Image](<https://docs.kie.ai/market/seedream/5-flash-text-to-image.md>)
@@ -222,9 +237,12 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 
 - Mention: [Get Task Details](<https://docs.kie.ai/market/common/get-task-detail.md>)
 - Mention: [Market](<https://docs.kie.ai/market/quickstart.md>)
+- POST: [Seedream5.5 文生图](<https://docs.kie.ai/46827055e0.md>)
+- POST: [Seedream5.5 图层分离](<https://docs.kie.ai/46827286e0.md>)
 - POST: [Generate 4o Image](<https://docs.kie.ai/4o-image-api/generate-4-o-image.md>)
 - POST: [Generate or Edit Image](<https://docs.kie.ai/flux-kontext-api/generate-or-edit-image.md>)
 - POST: [Bytedance Seedance 2.5 Draft](<https://docs.kie.ai/market/bytedance/seedance-2-5-draft.md>)
+- POST: [Bytedance Seedance 2.5 Flash](<https://docs.kie.ai/market/bytedance/seedance-2-5-flash.md>)
 - POST: [Bytedance Seedance 2.5](<https://docs.kie.ai/market/bytedance/seedance-2-5.md>)
 - POST: [Bytedance Seedance 2.0 Fast](<https://docs.kie.ai/market/bytedance/seedance-2-fast.md>)
 - POST: [Bytedance Seedance 2.0 Mini](<https://docs.kie.ai/market/bytedance/seedance-2-mini.md>)
@@ -250,6 +268,8 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - POST: [Gemini 3.8 Flash Lite Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-lite-tts.md>)
 - POST: [Gemini 3.8 Flash Text to speech](<https://docs.kie.ai/market/google/gemini-3-8-flash-tts.md>)
 - POST: [Gemini Omni 1.1 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-1.md>)
+- POST: [Gemini Omni Flash 1.2 Extend](<https://docs.kie.ai/market/google/gemini-omni-flash-1-2-extend.md>)
+- POST: [Gemini Omni 1.2 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-2.md>)
 - POST: [Google - imagen4-fast](<https://docs.kie.ai/market/google/imagen4-fast.md>)
 - POST: [Google - imagen4-ultra](<https://docs.kie.ai/market/google/imagen4-ultra.md>)
 - POST: [Google - imagen4](<https://docs.kie.ai/market/google/imagen4.md>)
@@ -304,6 +324,11 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - POST: [Ideogram V3 Remix](<https://docs.kie.ai/market/ideogram/v3-remix.md>)
 - POST: [Ideogram V3 Text to Image](<https://docs.kie.ai/market/ideogram/v3-text-to-image.md>)
 - POST: [Infinitalk - From Audio](<https://docs.kie.ai/market/infinitalk/from-audio.md>)
+- POST: [Kie - Image Upscale](<https://docs.kie.ai/market/kie/image-upscale.md>)
+- POST: [KIE NSFW Moderation](<https://docs.kie.ai/market/kie/nsfw-moderation.md>)
+- POST: [Kie - Video Upscale](<https://docs.kie.ai/market/kie/video-upscale.md>)
+- POST: [Kling 4.0 Image](<https://docs.kie.ai/market/kling-4-0/image.md>)
+- POST: [Kling 4.0 Long Image](<https://docs.kie.ai/market/kling-4-0/long-image.md>)
 - POST: [Kling AI Avatar Pro](<https://docs.kie.ai/market/kling/ai-avatar-pro.md>)
 - POST: [Kling AI Avatar Standard](<https://docs.kie.ai/market/kling/ai-avatar-standard.md>)
 - POST: [Kling 2.6 Image to Video](<https://docs.kie.ai/market/kling/image-to-video.md>)
@@ -327,8 +352,18 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - POST: [Kling 4.0 Flash Reference To Video](<https://docs.kie.ai/market/kling/v4-flash-reference-to-video.md>)
 - POST: [Kling 4.0 Keyframe To Video](<https://docs.kie.ai/market/kling/v4-keyframe-to-video.md>)
 - POST: [Kling 4.0 Reference To Video](<https://docs.kie.ai/market/kling/v4-reference-to-video.md>)
+- POST: [LTX 2.5 Fast Audio-to-Video](<https://docs.kie.ai/market/ltx/2-5-fast-audio-to-video.md>)
+- POST: [LTX 2.5 Fast Image-to-Video](<https://docs.kie.ai/market/ltx/2-5-fast-image-to-video.md>)
+- POST: [LTX 2.5 Fast Text-to-Video](<https://docs.kie.ai/market/ltx/2-5-fast-text-to-video.md>)
+- POST: [LTX 2.5 Pro Image-to-Video](<https://docs.kie.ai/market/ltx/2-5-pro-image-to-video.md>)
+- POST: [LTX 2.5 Pro Text-to-Video](<https://docs.kie.ai/market/ltx/2-5-pro-text-to-video.md>)
+- POST: [MAGI-2 Image-to-Video](<https://docs.kie.ai/market/magi-2/image-to-video.md>)
+- POST: [MAGI-2 Reference-to-Video](<https://docs.kie.ai/market/magi-2/reference-to-video.md>)
+- POST: [MAGI-2 Text-to-Video](<https://docs.kie.ai/market/magi-2/text-to-video.md>)
+- POST: [MiniMax H3 Image Editing](<https://docs.kie.ai/market/minimax-h3/image-edit.md>)
 - POST: [MiniMax H3 Image-to-Video](<https://docs.kie.ai/market/minimax-h3/image-to-video.md>)
 - POST: [MiniMax H3 Reference-to-Video](<https://docs.kie.ai/market/minimax-h3/reference-to-video.md>)
+- POST: [MiniMax H3 Text-to-Image](<https://docs.kie.ai/market/minimax-h3/text-to-image.md>)
 - POST: [MiniMax H3 Text-to-Video](<https://docs.kie.ai/market/minimax-h3/text-to-video.md>)
 - POST: [Nemotron 3.5 Transcribe](<https://docs.kie.ai/market/nvidia/nemotron-3-5-transcribe.md>)
 - POST: [Omnihuman 1.5](<https://docs.kie.ai/market/omnihuman-1-5.md>)
@@ -358,6 +393,9 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - POST: [Seedream5.0 Lite - Image to Image](<https://docs.kie.ai/market/seedream-5-lite-image-to-image.md>)
 - POST: [Seedream4.5 - Edit](<https://docs.kie.ai/market/seedream/4-5-edit.md>)
 - POST: [Seedream4.5 - Text to Image](<https://docs.kie.ai/market/seedream/4-5-text-to-image.md>)
+- POST: [Seedream5.5 - Image to Image](<https://docs.kie.ai/market/seedream/5-5-image-to-image.md>)
+- POST: [Seedream5.5 - Layer Decomposition](<https://docs.kie.ai/market/seedream/5-5-layer-decomposition.md>)
+- POST: [Seedream5.5 - Text to Image](<https://docs.kie.ai/market/seedream/5-5-text-to-image.md>)
 - POST: [Seedream5.0 Flash - Image to Image](<https://docs.kie.ai/market/seedream/5-flash-image-to-image.md>)
 - POST: [Seedream5.0 Flash -  Layer Decomposition](<https://docs.kie.ai/market/seedream/5-flash-layer-decomposition.md>)
 - POST: [Seedream5.0 Flash - Text to Image](<https://docs.kie.ai/market/seedream/5-flash-text-to-image.md>)
@@ -410,6 +448,7 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - POST: [Generate Music](<https://docs.kie.ai/suno-api/generate-music.md>)
 - POST: [Generate Persona](<https://docs.kie.ai/suno-api/generate-persona.md>)
 - POST: [Generate sounds](<https://docs.kie.ai/suno-api/generate-sounds.md>)
+- POST: [Generate Speech](<https://docs.kie.ai/suno-api/generate-speech.md>)
 - POST: [Get Timestamped Lyrics](<https://docs.kie.ai/suno-api/get-timestamped-lyrics.md>)
 - POST: [Recovery Audio](<https://docs.kie.ai/suno-api/recovery-audio.md>)
 - POST: [Replace Music Section](<https://docs.kie.ai/suno-api/replace-section.md>)
@@ -444,6 +483,7 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - Mention: [Generate Music](<https://docs.kie.ai/suno-api/generate-music.md>)
 - Mention: [Generate Persona](<https://docs.kie.ai/suno-api/generate-persona.md>)
 - Mention: [Generate sounds](<https://docs.kie.ai/suno-api/generate-sounds.md>)
+- Mention: [Generate Speech](<https://docs.kie.ai/suno-api/generate-speech.md>)
 - Mention: [Get Timestamped Lyrics](<https://docs.kie.ai/suno-api/get-timestamped-lyrics.md>)
 - Mention: [Replace Music Section](<https://docs.kie.ai/suno-api/replace-section.md>)
 - Mention: [Vocal & Instrument Stem Separation](<https://docs.kie.ai/suno-api/separate-vocals.md>)
@@ -461,6 +501,7 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 
 ## `/api/v1/omni/character/create`
 
+- Mention: [Gemini Omni 1.2 Flash](<https://docs.kie.ai/market/google/gemini-omni-flash-1-2.md>)
 - POST: [Gemini Omni Character](<https://docs.kie.ai/market/gemini-omni-character.md>)
 
 ## `/api/v1/suno/recovery`
@@ -495,6 +536,8 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 - POST: [GPT 5.6 Terra](<https://docs.kie.ai/market/chat/gpt-5-6-terra.md>)
 - POST: [GPT 6.1 Sol](<https://docs.kie.ai/market/chat/gpt-6-1-sol.md>)
 - POST: [GPT 6.1 Terra](<https://docs.kie.ai/market/chat/gpt-6-1-terra.md>)
+- POST: [GPT 6.2 Astra](<https://docs.kie.ai/market/chat/gpt-6-2-astra.md>)
+- POST: [GPT 6.2 Sol](<https://docs.kie.ai/market/chat/gpt-6-2-sol.md>)
 - POST: [Gpt 6 Astra](<https://docs.kie.ai/market/chat/gpt-6-astra.md>)
 - POST: [GPT 6 Luna](<https://docs.kie.ai/market/chat/gpt-6-luna.md>)
 - POST: [GPT 6 Sol](<https://docs.kie.ai/market/chat/gpt-6-sol.md>)
@@ -532,6 +575,18 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 
 - POST: [Gemini 4 Argon (openai)](<https://docs.kie.ai/market/gemini/gemini-4-argon-openai.md>)
 
+## `/gemini-4-carbon-openai/v1/chat/completions`
+
+- POST: [Gemini 4 Carbon (openai)](<https://docs.kie.ai/market/gemini/gemini-4-carbon-openai.md>)
+
+## `/gemini-4-hydrogen-openai/v1/chat/completions`
+
+- POST: [Gemini 4 Hydrogen (openai)](<https://docs.kie.ai/market/gemini/gemini-4-hydrogen-openai.md>)
+
+## `/gemini-4-neon-openai/v1/chat/completions`
+
+- POST: [Gemini 4 Neon (openai)](<https://docs.kie.ai/market/gemini/gemini-4-neon-openai.md>)
+
 ## `/gemini/v1/models/gemini-3-5-flash:streamGenerateContent`
 
 - POST: [Gemini 3.5 Flash](<https://docs.kie.ai/market/gemini/gemini-3-5-flash.md>)
@@ -551,6 +606,18 @@ Generated 2026-11-08T18:03:35.437Z exclusively from official `docs.kie.ai` pages
 ## `/gemini/v1/models/gemini-4-argon:streamGenerateContent`
 
 - POST: [Gemini 4 Argon](<https://docs.kie.ai/market/gemini/gemini-4-argon.md>)
+
+## `/gemini/v1/models/gemini-4-carbon:streamGenerateContent`
+
+- POST: [Gemini 4 Carbon](<https://docs.kie.ai/market/gemini/gemini-4-carbon.md>)
+
+## `/gemini/v1/models/gemini-4-hydrogen:streamGenerateContent`
+
+- POST: [Gemini 4 Hydrogen](<https://docs.kie.ai/market/gemini/gemini-4-hydrogen.md>)
+
+## `/gemini/v1/models/gemini-4-neon:streamGenerateContent`
+
+- POST: [Gemini 4 Neon](<https://docs.kie.ai/market/gemini/gemini-4-neon.md>)
 
 ## `/gpt-5-2/v1/chat/completions`
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.6 - 2026-11-25
+
+- Refresh the KIE catalog: 224 Market models, up from 202.
+- New: Seedance 2.5 Flash (`kie_create_video` model `bytedance/seedance-2-5-flash`, 480p or 720p), Seedream 5.5 (text-to-image, image-to-image, layer decomposition), Kling 4.0 image and long image, LTX 2.5 Fast and Pro, Magi 2, MiniMax H3 text-to-image and image edit, Gemini Omni Flash 1.2, image and video upscale, NSFW moderation and Generate Speech (`ai-music-api/speech`). Models outside the friendly tools are available through the Market tools.
+- Fix: the speech default voice is now one the official catalog lists. `additionalInput.timestamps` was removed upstream and is no longer sent by the friendly speech tool.
+
 ## 1.2.5 - 2026-11-08
 
 - Rebuild the Claude Desktop extension so it includes the setup-first landing page and agent guidance (#16). The 1.2.4 extension was built without them; the model catalog is the same as 1.2.4.
